@@ -1,0 +1,222 @@
+openapi: 3.0.1
+info:
+  title: MyPay4 App-Admin
+  description: Sistema di gestione dei pagamenti
+  version: '0.0'
+servers:
+  - url: http://mypay.regione.veneto.it/mypay4/apicittadino
+    description: Generated server url
+security:
+  - myPay4Security: []
+tags:
+  - name: Applicazione
+    description: Gestione generale dell'applicazione
+  - name: Enti
+    description: Gestione degli enti beneficiari
+paths:
+  /appadmin/fs:
+    get:
+      tags:
+        - Applicazione
+      operationId: fsGet
+      parameters:
+        - name: path
+          in: query
+          required: false
+          schema:
+            type: string
+            default: .
+      responses:
+        '200':
+          description: OK
+          content:
+            text/html:
+              schema:
+                type: object
+            application/octet-stream:
+              schema:
+                type: object
+      security: []
+  /appadmin/env/log:
+    get:
+      tags:
+        - Applicazione
+      summary: Log environment
+      description: Metodo per scrivere sui log le configurazioni applicative
+      operationId: logEnv
+      responses:
+        default:
+          description: L'elenco dei nomi delle cache svuotate
+          content:
+            '*/*':
+              schema:
+                type: string
+      security: []
+  /appadmin/db/{dbName}/locks:
+    get:
+      tags:
+        - Applicazione
+      operationId: getDbLocks
+      parameters:
+        - name: dbName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+      security: []
+  /appadmin/checklogoenti:
+    get:
+      tags:
+        - Enti
+      operationId: checkLogoEnti
+      parameters:
+        - name: delete
+          in: query
+          required: false
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+  /appadmin/cache/get:
+    get:
+      tags:
+        - Applicazione
+      summary: CacheGet all cache
+      description: Metodo per ottenere la cache applicativa
+      operationId: cacheGet
+      responses:
+        default:
+          description: OK o msg di errore
+          content:
+            '*/*':
+              schema:
+                type: string
+      security: []
+  /appadmin/cache/get/{cacheName}:
+    get:
+      tags:
+        - Applicazione
+      summary: CacheGet specific cache
+      description: Metodo per ottenere la cache applicativa passando il nome cache
+      operationId: cacheGet_1
+      parameters:
+        - name: cacheName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        default:
+          description: OK o msg di errore
+          content:
+            '*/*':
+              schema:
+                type: string
+      security: []
+  /appadmin/cache/get/{cacheName}/{cacheKey}:
+    get:
+      tags:
+        - Applicazione
+      summary: CacheGet specific key on cache
+      description: Metodo per ottenere la cache applicativa passando il nome cache e la chiave
+      operationId: cacheGet_2
+      parameters:
+        - name: cacheName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: cacheKey
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        default:
+          description: OK o msg di errore
+          content:
+            '*/*':
+              schema:
+                type: string
+      security: []
+  /appadmin/cache/flush:
+    get:
+      tags:
+        - Applicazione
+      summary: CacheFlush
+      description: Metodo per svuotare la cache applicativa
+      operationId: cacheFlush
+      responses:
+        default:
+          description: L'elenco dei nomi delle cache svuotate
+          content:
+            '*/*':
+              schema:
+                type: string
+      security: []
+  /appadmin/cache/flush/{cacheName}:
+    get:
+      tags:
+        - Applicazione
+      summary: CacheFlush specific cache
+      description: Metodo per svuotare la cache applicativa passando il nome cache
+      operationId: cacheFlush_1
+      parameters:
+        - name: cacheName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        default:
+          description: OK o msg di errore
+          content:
+            '*/*':
+              schema:
+                type: string
+      security: []
+  /appadmin/cache/flush/{cacheName}/{cacheKey}:
+    get:
+      tags:
+        - Applicazione
+      summary: CacheFlush specific key on cache
+      description: Metodo per svuotare la cache applicativa passando il nome cache e la chiave
+      operationId: cacheFlush_2
+      parameters:
+        - name: cacheName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: cacheKey
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        default:
+          description: OK o msg di errore
+          content:
+            '*/*':
+              schema:
+                type: string
+      security: []
+  securitySchemes:
+    myPay4Security:
+      type: apiKey
+      name: jwtToken
+      in: cookie
+      scheme: bearer
+      bearerFormat: JWT
