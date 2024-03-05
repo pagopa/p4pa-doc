@@ -1,0 +1,5764 @@
+{
+	"openapi": "3.0.1",
+	"info": {
+		"title": "MyPivot4",
+		"description": "Sistema di gestione delle riconciliazioni contabili dei pagamenti",
+		"version": "0.0"
+	},
+	"servers": [
+		{
+			"url": "https://mypivot.collaudo.regione.veneto.it/mypivot4/api",
+			"description": "Generated server url"
+		}
+	],
+	"security": [
+		{
+			"myPay4Security": []
+		}
+	],
+	"tags": [
+		{
+			"name": "Autenticazione",
+			"description": "Gestione dell'autenticazione"
+		},
+		{
+			"name": "Statistiche",
+			"description": "Totali Ripartiti"
+		},
+		{
+			"name": "Applicazione",
+			"description": "Gestione generale dell'applicazione"
+		},
+		{
+			"name": "Rendicontazione",
+			"description": "Rendicontazione PagoPA"
+		},
+		{
+			"name": "Enti",
+			"description": "Gestione degli enti beneficiari"
+		},
+		{
+			"name": "Flussi",
+			"description": "Gestione dei flussi di pagamento e di rendicontazione"
+		},
+		{
+			"name": "MyBox",
+			"description": "Gestione di upload e download dei file"
+		},
+		{
+			"name": "Accertamenti",
+			"description": "Accertamenti"
+		},
+		{
+			"name": "Tesoreria",
+			"description": "Giornale di Cassa"
+		},
+		{
+			"name": "Riconciliazione",
+			"description": "Ricerca e visualizzazione dei record riconciliati"
+		},
+		{
+			"name": "RicevuteTelematiche",
+			"description": "Ricevute Telematiche"
+		},
+		{
+			"name": "Gestione tipi dovuto esterni",
+			"description": "Backoffice - gestione dei Tipi dovuto esterni"
+		},
+		{
+			"name": "Storage temporaneo",
+			"description": "Gestione dello storage temporaneo di file sul server"
+		},
+		{
+			"name": "Segnalazione",
+			"description": "Ricerca, visualizzazione e inserimento segnalazioni"
+		}
+	],
+	"paths": {
+		"/accertamenti/update/{mygovEnteId}": {
+			"put": {
+				"tags": [
+					"Accertamenti"
+				],
+				"operationId": "update",
+				"parameters": [
+					{
+						"name": "mygovEnteId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "from",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"format": "date"
+						}
+					},
+					{
+						"name": "to",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"format": "date"
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/AccertamentoTo"
+							}
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/AccertamentoTo"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/accertamenti/list/{mygovEnteId}/{accertamentoId}/dettaglioRT": {
+			"get": {
+				"tags": [
+					"Accertamenti"
+				],
+				"operationId": "getAccertamentiPagamentiInseriti",
+				"parameters": [
+					{
+						"name": "mygovEnteId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "accertamentoId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "dtEsitoFrom",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"format": "date"
+						}
+					},
+					{
+						"name": "dtEsitoTo",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"format": "date"
+						}
+					},
+					{
+						"name": "dtUltimoAggFrom",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"format": "date"
+						}
+					},
+					{
+						"name": "dtUltimoAggTo",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"format": "date"
+						}
+					},
+					{
+						"name": "codIud",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "codIuv",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "cfPagatore",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/AccertamentoFlussoExportTo"
+									}
+								}
+							}
+						}
+					}
+				}
+			},
+			"put": {
+				"tags": [
+					"Accertamenti"
+				],
+				"operationId": "putAccertamentiPagamentiInseriti",
+				"parameters": [
+					{
+						"name": "mygovEnteId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "accertamentoId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "codUfficio",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "annoEsercizio",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "codCapitolo",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "codAccertamento",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "json",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "integer",
+									"format": "int32"
+								}
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"tags": [
+					"Accertamenti"
+				],
+				"operationId": "deleteAccertamentiPagamentiInseriti",
+				"parameters": [
+					{
+						"name": "mygovEnteId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "accertamentoId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "json",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "integer",
+									"format": "int32"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/accertamenti/list/{mygovEnteId}/{accertamentoId}/close": {
+			"put": {
+				"tags": [
+					"Accertamenti"
+				],
+				"operationId": "close",
+				"parameters": [
+					{
+						"name": "mygovEnteId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "accertamentoId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/AccertamentoTo"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/accertamenti/list/{mygovEnteId}/{accertamentoId}/cancel": {
+			"put": {
+				"tags": [
+					"Accertamenti"
+				],
+				"operationId": "cancel",
+				"parameters": [
+					{
+						"name": "mygovEnteId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "accertamentoId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/AccertamentoTo"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/accertamenti/capitolo/{mygovEnteId}": {
+			"get": {
+				"tags": [
+					"Accertamenti"
+				],
+				"operationId": "getcapitoli",
+				"parameters": [
+					{
+						"name": "mygovEnteId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "codTipo",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "codUfficio",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "deUfficio",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "flgUfficioAttivo",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "boolean"
+						}
+					},
+					{
+						"name": "codCapitolo",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "deCapitolo",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "annoCapitolo",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "codAccertamento",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "deAccertamento",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/AccertamentoCapitoloTo"
+									}
+								}
+							}
+						}
+					}
+				}
+			},
+			"put": {
+				"tags": [
+					"Accertamenti"
+				],
+				"operationId": "upsertCapitolo",
+				"parameters": [
+					{
+						"name": "mygovEnteId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "codTipo",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/AccertamentoCapitoloTo"
+							}
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/AccertamentoCapitoloTo"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/storage/file": {
+			"post": {
+				"tags": [
+					"Storage temporaneo"
+				],
+				"operationId": "uploadFile",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"required": [
+									"file"
+								],
+								"type": "object",
+								"properties": {
+									"file": {
+										"type": "string",
+										"format": "binary"
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/UploadTo"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/segnalazione/{mygovEnteId}": {
+			"post": {
+				"tags": [
+					"Segnalazione"
+				],
+				"operationId": "insert",
+				"parameters": [
+					{
+						"name": "mygovEnteId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/SegnalazioneTo"
+							}
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/SegnalazioneTo"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/segnalazione/search/{mygovEnteId}": {
+			"post": {
+				"tags": [
+					"Segnalazione"
+				],
+				"operationId": "searchByType",
+				"parameters": [
+					{
+						"name": "mygovEnteId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/SegnalazioneSearchTo"
+							}
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/SegnalazioneTo"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/riconciliazione/search/{mygovEnteId}/{searchType}": {
+			"post": {
+				"tags": [
+					"Riconciliazione"
+				],
+				"operationId": "searchByType_1",
+				"parameters": [
+					{
+						"name": "mygovEnteId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "searchType",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/RiconciliazioneSearchTo"
+							}
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/RiconciliazioneTo"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/riconciliazione/export/{mygovEnteId}/{searchType}/{versioneTracciato}": {
+			"post": {
+				"tags": [
+					"Riconciliazione"
+				],
+				"operationId": "export",
+				"parameters": [
+					{
+						"name": "mygovEnteId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "searchType",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "versioneTracciato",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/RiconciliazioneSearchTo"
+							}
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/ricevute-telematiche/search/{mygovEnteId}": {
+			"post": {
+				"tags": [
+					"RicevuteTelematiche"
+				],
+				"operationId": "searchRicevuteTelematiche",
+				"parameters": [
+					{
+						"name": "mygovEnteId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/RicevutaSearchTo"
+							}
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/FlussoRicevutaTo"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/rendicontazione/search/{mygovEnteId}": {
+			"post": {
+				"tags": [
+					"Rendicontazione"
+				],
+				"operationId": "searchRendicontazione",
+				"parameters": [
+					{
+						"name": "mygovEnteId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/RendicontazioneTo"
+							}
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/RendicontazioneTo"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/rendicontazione/detail/{mygovEnteId}/{iuf}/{iur}": {
+			"get": {
+				"tags": [
+					"Rendicontazione"
+				],
+				"operationId": "getDetails",
+				"parameters": [
+					{
+						"name": "mygovEnteId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "iuf",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "iur",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/RendicontazioneTo"
+								}
+							}
+						}
+					}
+				}
+			},
+			"post": {
+				"tags": [
+					"Rendicontazione"
+				],
+				"operationId": "filterDetails",
+				"parameters": [
+					{
+						"name": "mygovEnteId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "iuf",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "iur",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/RicevutaSearchTo"
+							}
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/RendicontazioneTo"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/public/mybox/uploadFlusso": {
+			"post": {
+				"tags": [
+					"MyBox"
+				],
+				"operationId": "uploadFlussoByWS",
+				"parameters": [
+					{
+						"name": "authorizationToken",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/public/info/config": {
+			"post": {
+				"tags": [
+					"Applicazione"
+				],
+				"summary": "Configurazione applicativa",
+				"description": "Ritorna i parametri della configurazione applicativa",
+				"operationId": "configInfo",
+				"responses": {
+					"default": {
+						"description": "I parametri della configurazione applicativa come mappa chiave/valore",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"security": []
+			}
+		},
+		"/public/info/app": {
+			"post": {
+				"tags": [
+					"Applicazione"
+				],
+				"summary": "Informazioni applicazione",
+				"description": "Ritorna le informazioni dell'applicazione (es. versione, build time, etc..)",
+				"operationId": "appInfo",
+				"responses": {
+					"default": {
+						"description": "Le informazioni dell'applicazione come mappa chiave/valore",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"security": []
+			}
+		},
+		"/public/authtoken": {
+			"post": {
+				"tags": [
+					"Autenticazione"
+				],
+				"summary": "Finalizza autenticazione",
+				"description": "Finalizza la procedura di autenticazione trasformando un login-token in un jwt-token sotto forma di http-only cookie",
+				"operationId": "authWithToken",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "string"
+							}
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"default": {
+						"description": "nel body l'oggetto contenente i dati dell'utente loggato; viene settato un cookie http-only con il token necessario per le chiamate protette",
+						"headers": {
+							"Set-Cookie": {
+								"style": "simple",
+								"schema": {
+									"type": "string",
+									"example": "jwtToken=eyJhbGciOiJIUzU...; Path=/; Secure; HttpOnly"
+								}
+							}
+						},
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UtenteTo"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "ritorna la descrizione dell'errore nel caso non sia stato possibile completare la procedura di autenticazione con successo",
+						"content": {
+							"text/plain": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				},
+				"security": []
+			}
+		},
+		"/mybox/upload/{mygovEnteId}": {
+			"post": {
+				"tags": [
+					"MyBox"
+				],
+				"operationId": "uploadByWebapp",
+				"parameters": [
+					{
+						"name": "mygovEnteId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "type",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "postedJson",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/checkLoginCookie": {
+			"post": {
+				"tags": [
+					"Autenticazione"
+				],
+				"summary": "Effettua login utilizzando il cookie http-only",
+				"description": "Verifica che esista il cookie http-only di autenticazione e, in caso, effettua il login con tale cookie",
+				"operationId": "checkLoginCookie",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/admin/tipiDovuto/{tipoDovutoId}/operatori/{operatoreId}/enabled/{newState}": {
+			"post": {
+				"tags": [
+					"Gestione tipi dovuto esterni"
+				],
+				"operationId": "swtichStateOperatoreTipoDovuto",
+				"parameters": [
+					{
+						"name": "tipoDovutoId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "operatoreId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "newState",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "boolean"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				}
+			}
+		},
+		"/admin/tipiDovuto/{id}": {
+			"get": {
+				"tags": [
+					"Gestione tipi dovuto esterni"
+				],
+				"operationId": "getTipoDovutoEsternoById",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/EnteTipoDovutoTo"
+								}
+							}
+						}
+					}
+				}
+			},
+			"post": {
+				"tags": [
+					"Gestione tipi dovuto esterni"
+				],
+				"operationId": "updateTipoDovutoEsterno",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/EnteTipoDovutoTo"
+							}
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				}
+			},
+			"delete": {
+				"tags": [
+					"Gestione tipi dovuto esterni"
+				],
+				"operationId": "deleteTipoDovutoEsterno",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				}
+			}
+		},
+		"/admin/enti/{enteId}/tipiDovutoEsterni": {
+			"post": {
+				"tags": [
+					"Gestione tipi dovuto esterni"
+				],
+				"operationId": "insertTipoDovutoEsterno",
+				"parameters": [
+					{
+						"name": "enteId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/EnteTipoDovutoTo"
+							}
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				}
+			}
+		},
+		"/accertamenti/insert/{mygovEnteId}": {
+			"post": {
+				"tags": [
+					"Accertamenti"
+				],
+				"operationId": "insert_1",
+				"parameters": [
+					{
+						"name": "mygovEnteId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "from",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"format": "date"
+						}
+					},
+					{
+						"name": "to",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"format": "date"
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/AccertamentoTo"
+							}
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/AccertamentoTo"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/accertamenti/importMassivo/{mygovEnteId}": {
+			"post": {
+				"tags": [
+					"Accertamenti"
+				],
+				"operationId": "importMassivo",
+				"parameters": [
+					{
+						"name": "mygovEnteId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "type",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"required": [
+									"file"
+								],
+								"type": "object",
+								"properties": {
+									"file": {
+										"type": "string",
+										"format": "binary"
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/a2a/ricevute-telematiche/import/2/{mygovReceiptId}": {
+			"post": {
+				"tags": [
+					"RicevuteTelematiche"
+				],
+				"operationId": "importReceiptForSecondaryEnte",
+				"parameters": [
+					{
+						"name": "mygovReceiptId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ExportFlussoEnteSecondarioTo"
+							}
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				}
+			}
+		},
+		"/tesoreria/search/{mygovEnteId}": {
+			"get": {
+				"tags": [
+					"Tesoreria"
+				],
+				"operationId": "search",
+				"parameters": [
+					{
+						"name": "mygovEnteId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "iuv",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "annoBolletta",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "codBolletta",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "idr",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "importo",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "number"
+						}
+					},
+					{
+						"name": "annoDocumento",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "codDocumento",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "annoProvvisorio",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "codProvvisorio",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "ordinante",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "dtContabileFrom",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"format": "date"
+						}
+					},
+					{
+						"name": "dtContabileTo",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"format": "date"
+						}
+					},
+					{
+						"name": "dtValutaFrom",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"format": "date"
+						}
+					},
+					{
+						"name": "dtValutaTo",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"format": "date"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/TesoreriaTo"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/tesoreria/dettaglio/{mygovEnteId}/{tesoreriaId}": {
+			"get": {
+				"tags": [
+					"Tesoreria"
+				],
+				"operationId": "detail",
+				"parameters": [
+					{
+						"name": "mygovEnteId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "tesoreriaId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/TesoreriaTo"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/tesoreria/dettaglio/bilanci/{mygovEnteId}": {
+			"get": {
+				"tags": [
+					"Tesoreria"
+				],
+				"operationId": "bilanci",
+				"parameters": [
+					{
+						"name": "mygovEnteId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "annoBolletta",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "codBolletta",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/BilancioTo"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/storage/file/{tokenId}/{filename}": {
+			"get": {
+				"tags": [
+					"Storage temporaneo"
+				],
+				"operationId": "downloadFile",
+				"parameters": [
+					{
+						"name": "tokenId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "filename",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "string",
+									"format": "binary"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/statistiche/ufficio/{mygovEnteId}": {
+			"get": {
+				"tags": [
+					"Statistiche"
+				],
+				"operationId": "ufficio",
+				"parameters": [
+					{
+						"name": "mygovEnteId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "anno",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "integer",
+							"format": "int32"
+						}
+					},
+					{
+						"name": "mese",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "integer",
+							"format": "int32"
+						}
+					},
+					{
+						"name": "giorno",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "integer",
+							"format": "int32"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/VmStatisticaTo"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/statistiche/uffici/{mygovEnteId}": {
+			"get": {
+				"tags": [
+					"Statistiche"
+				],
+				"operationId": "getUfficiByEnteTipo",
+				"parameters": [
+					{
+						"name": "mygovEnteId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "codTipo",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/AnagraficaUffCapAcc"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/statistiche/uffici/all/{mygovEnteId}": {
+			"get": {
+				"tags": [
+					"Statistiche"
+				],
+				"operationId": "getUfficiByEnte",
+				"parameters": [
+					{
+						"name": "mygovEnteId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/AnagraficaUffCapAcc"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/statistiche/tipoDovuto/{mygovEnteId}": {
+			"get": {
+				"tags": [
+					"Statistiche"
+				],
+				"operationId": "tipoDovuto",
+				"parameters": [
+					{
+						"name": "mygovEnteId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "anno",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "integer",
+							"format": "int32"
+						}
+					},
+					{
+						"name": "mese",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "integer",
+							"format": "int32"
+						}
+					},
+					{
+						"name": "giorno",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "integer",
+							"format": "int32"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/VmStatisticaTo"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/statistiche/mese/{mygovEnteId}": {
+			"get": {
+				"tags": [
+					"Statistiche"
+				],
+				"operationId": "mese",
+				"parameters": [
+					{
+						"name": "mygovEnteId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "anno",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int32"
+						}
+					},
+					{
+						"name": "mesi",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "array",
+							"items": {
+								"type": "integer",
+								"format": "int32"
+							}
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/VmStatisticaTo"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/statistiche/giorno/{mygovEnteId}": {
+			"get": {
+				"tags": [
+					"Statistiche"
+				],
+				"operationId": "giorno",
+				"parameters": [
+					{
+						"name": "mygovEnteId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "from",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "string",
+							"format": "date"
+						}
+					},
+					{
+						"name": "to",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "string",
+							"format": "date"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/VmStatisticaTo"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/statistiche/dettaglio/{mygovEnteId}": {
+			"get": {
+				"tags": [
+					"Statistiche"
+				],
+				"operationId": "getRicevuteTelematiche",
+				"parameters": [
+					{
+						"name": "mygovEnteId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "codTipo",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "codUfficio",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "codCapitolo",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "from",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"format": "date"
+						}
+					},
+					{
+						"name": "to",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"format": "date"
+						}
+					},
+					{
+						"name": "iuv",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "iur",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "attestante",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "cfPagatore",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "anagPagatore",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "cfVersante",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "anagVersante",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/FlussoRicevutaTo"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/statistiche/capitolo/{mygovEnteId}": {
+			"get": {
+				"tags": [
+					"Statistiche"
+				],
+				"operationId": "capitolo",
+				"parameters": [
+					{
+						"name": "mygovEnteId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "anno",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "integer",
+							"format": "int32"
+						}
+					},
+					{
+						"name": "mese",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "integer",
+							"format": "int32"
+						}
+					},
+					{
+						"name": "giorno",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "integer",
+							"format": "int32"
+						}
+					},
+					{
+						"name": "codTipo",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "codUfficio",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/VmStatisticaCapitoloTo"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/statistiche/capitoli/{mygovEnteId}": {
+			"get": {
+				"tags": [
+					"Statistiche"
+				],
+				"operationId": "getCapitoli",
+				"parameters": [
+					{
+						"name": "mygovEnteId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "codTipo",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "codUfficio",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/AnagraficaUffCapAcc"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/statistiche/anno/{mygovEnteId}": {
+			"get": {
+				"tags": [
+					"Statistiche"
+				],
+				"operationId": "anno",
+				"parameters": [
+					{
+						"name": "mygovEnteId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "anni",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "array",
+							"items": {
+								"type": "integer",
+								"format": "int32"
+							}
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/VmStatisticaTo"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/statistiche/accertamento/{mygovEnteId}": {
+			"get": {
+				"tags": [
+					"Statistiche"
+				],
+				"operationId": "accertamento",
+				"parameters": [
+					{
+						"name": "mygovEnteId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "anno",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "integer",
+							"format": "int32"
+						}
+					},
+					{
+						"name": "mese",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "integer",
+							"format": "int32"
+						}
+					},
+					{
+						"name": "giorno",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "integer",
+							"format": "int32"
+						}
+					},
+					{
+						"name": "codTipo",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "codUfficio",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "codCapitolo",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/VmStatisticaTo"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/segnalazione/storico/utenti/{mygovEnteId}": {
+			"get": {
+				"tags": [
+					"Segnalazione"
+				],
+				"operationId": "getStoricoUtenti",
+				"parameters": [
+					{
+						"name": "mygovEnteId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/Utente"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/riconciliazione/detail/{mygovEnteId}/{searchType}": {
+			"get": {
+				"tags": [
+					"Riconciliazione"
+				],
+				"operationId": "getDetail",
+				"parameters": [
+					{
+						"name": "mygovEnteId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "searchType",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "iuf",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "iud",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "iuv",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/RiconciliazioneTo"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/riconciliazione/classificazioni/{mygovEnteId}/{viewType}": {
+			"get": {
+				"tags": [
+					"Riconciliazione"
+				],
+				"operationId": "getClassificazioni",
+				"parameters": [
+					{
+						"name": "mygovEnteId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "viewType",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/ClassificazioneTo"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/riconciliazione/classificazioni/{mygovEnteId}": {
+			"get": {
+				"tags": [
+					"Riconciliazione"
+				],
+				"operationId": "getClassificazioni_1",
+				"parameters": [
+					{
+						"name": "mygovEnteId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "viewType",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/ClassificazioneTo"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/ricevute-telematiche/mypayinfo/{mygovEnteId}/{iuv}": {
+			"get": {
+				"tags": [
+					"RicevuteTelematiche"
+				],
+				"operationId": "getInfoFromMyPay",
+				"parameters": [
+					{
+						"name": "mygovEnteId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "iuv",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/FlussoRicevutaTo"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/ricevute-telematiche/mypayinfo/{mygovEnteId}/{iuv}/{codFiscalePa1}": {
+			"get": {
+				"tags": [
+					"RicevuteTelematiche"
+				],
+				"operationId": "getInfoEntePrimarioFromMyPay",
+				"parameters": [
+					{
+						"name": "mygovEnteId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "iuv",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "codFiscalePa1",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/FlussoRicevutaTo"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/rendicontazione/get/{mygovEnteId}/{iuf}": {
+			"get": {
+				"tags": [
+					"Rendicontazione"
+				],
+				"operationId": "getRendicontazione",
+				"parameters": [
+					{
+						"name": "mygovEnteId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "iuf",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/RendicontazioneTo"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/public/storage/object/{tokenId}": {
+			"get": {
+				"tags": [
+					"Storage temporaneo"
+				],
+				"operationId": "getObject",
+				"parameters": [
+					{
+						"name": "tokenId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/public/mybox/download/{mygovEnteId}": {
+			"get": {
+				"tags": [
+					"MyBox"
+				],
+				"operationId": "downloadPublic",
+				"parameters": [
+					{
+						"name": "mygovEnteId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "type",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "securityToken",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "filename",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/public/info/ping": {
+			"get": {
+				"tags": [
+					"Applicazione"
+				],
+				"summary": "Ping",
+				"description": "Metodo per verificare che il server stia rispondendo correttamente",
+				"operationId": "ping",
+				"responses": {
+					"default": {
+						"description": "La data corrente in millisecondi dal 01/Gen/1970",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"security": []
+			}
+		},
+		"/mybox/download/{mygovEnteId}": {
+			"get": {
+				"tags": [
+					"MyBox"
+				],
+				"operationId": "download",
+				"parameters": [
+					{
+						"name": "mygovEnteId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "type",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "filename",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "securityToken",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/flussi/import/{mygovEnteId}": {
+			"get": {
+				"tags": [
+					"Flussi"
+				],
+				"operationId": "flussiImport",
+				"parameters": [
+					{
+						"name": "mygovEnteId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "codTipo",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "nomeFlusso",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "from",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "string",
+							"format": "date"
+						}
+					},
+					{
+						"name": "to",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "string",
+							"format": "date"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/FlussoImportTo"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/flussi/export/{mygovEnteId}": {
+			"get": {
+				"tags": [
+					"Flussi"
+				],
+				"operationId": "flussiExport",
+				"parameters": [
+					{
+						"name": "mygovEnteId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "nomeFlusso",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "from",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "string",
+							"format": "date"
+						}
+					},
+					{
+						"name": "to",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "string",
+							"format": "date"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/FlussoExportTo"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/flussi/byEnteId/{mygovEnteId}": {
+			"get": {
+				"tags": [
+					"Flussi"
+				],
+				"operationId": "getByEnte",
+				"parameters": [
+					{
+						"name": "mygovEnteId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/FlussoTo"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/enti/{id}/tipiDovuto": {
+			"get": {
+				"tags": [
+					"Enti"
+				],
+				"operationId": "getTipiDovutoByEnteId",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/EnteTipoDovutoTo"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/enti/{id}/tipiDovutoOperatore": {
+			"get": {
+				"tags": [
+					"Enti"
+				],
+				"operationId": "getByMygovEnteIdAndOperatoreUsername",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/EnteTipoDovutoTo"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/enti/tipiDovuto/{mygovEnteId}": {
+			"get": {
+				"tags": [
+					"Enti"
+				],
+				"operationId": "getTipiDovuto",
+				"parameters": [
+					{
+						"name": "mygovEnteId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/EnteTipoDovuto"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/enti/byUtente": {
+			"get": {
+				"tags": [
+					"Enti"
+				],
+				"operationId": "getEntiByUtente",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/EnteTo"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/doLogout": {
+			"get": {
+				"tags": [
+					"Autenticazione"
+				],
+				"summary": "Finalizza logout",
+				"description": "Finalizza la procedura di logout cancellando il cookie",
+				"operationId": "logout",
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				}
+			}
+		},
+		"/appadmin/grant/{cfUser}": {
+			"get": {
+				"tags": [
+					"Applicazione"
+				],
+				"operationId": "checkGrantOperatore",
+				"parameters": [
+					{
+						"name": "cfUser",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"security": []
+			}
+		},
+		"/appadmin/cache/flush": {
+			"get": {
+				"tags": [
+					"Applicazione"
+				],
+				"summary": "CacheFlush",
+				"description": "Metodo per svuotare la cache applicativa",
+				"operationId": "cacheFlush",
+				"responses": {
+					"default": {
+						"description": "L'elenco dei nomi delle cache svuotate",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"security": []
+			}
+		},
+		"/admin/tipiDovuto/{id}/operatori": {
+			"get": {
+				"tags": [
+					"Gestione tipi dovuto esterni"
+				],
+				"operationId": "getOperatoriTipoDovutoEsternoById",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/OperatoreTo"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/admin/enti": {
+			"get": {
+				"tags": [
+					"Gestione tipi dovuto esterni"
+				],
+				"operationId": "searchEnti",
+				"parameters": [
+					{
+						"name": "codIpaEnte",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "deNome",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "codFiscale",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/EnteTo"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/admin/enti/{id}": {
+			"get": {
+				"tags": [
+					"Gestione tipi dovuto esterni"
+				],
+				"operationId": "getEnte",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/EnteTo"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/admin/enti/{id}/tipiDovutoEsterni": {
+			"get": {
+				"tags": [
+					"Gestione tipi dovuto esterni"
+				],
+				"operationId": "getTipiDovutoEsterniByEnteId",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/EnteTipoDovutoTo"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/accertamenti/uffici/{mygovEnteId}": {
+			"get": {
+				"tags": [
+					"Accertamenti"
+				],
+				"operationId": "getUfficiByEnteTipo_1",
+				"parameters": [
+					{
+						"name": "mygovEnteId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "codTipo",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/AnagraficaUffCapAcc"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/accertamenti/stati": {
+			"get": {
+				"tags": [
+					"Accertamenti"
+				],
+				"operationId": "stati",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/AnagraficaStato"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/accertamenti/ricevuteTelematiche/{mygovEnteId}": {
+			"get": {
+				"tags": [
+					"Accertamenti"
+				],
+				"operationId": "getRicevuteTelematiche_1",
+				"parameters": [
+					{
+						"name": "mygovEnteId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "codTipo",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "codIud",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "from",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"format": "date"
+						}
+					},
+					{
+						"name": "to",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"format": "date"
+						}
+					},
+					{
+						"name": "iuv",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "iur",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "attestante",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "cfPagatore",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "anagPagatore",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "cfVersante",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "anagVersante",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/FlussoRicevutaTo"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/accertamenti/list/{mygovEnteId}": {
+			"get": {
+				"tags": [
+					"Accertamenti"
+				],
+				"operationId": "list",
+				"parameters": [
+					{
+						"name": "mygovEnteId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "from",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"format": "date"
+						}
+					},
+					{
+						"name": "to",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"format": "date"
+						}
+					},
+					{
+						"name": "codIuv",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "codTipo",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "codStato",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "deNomeAccertamento",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/AccertamentoTo"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/accertamenti/list/{mygovEnteId}/{accertamentoId}/toAddRT": {
+			"get": {
+				"tags": [
+					"Accertamenti"
+				],
+				"operationId": "getAccertamentiPagamentiInseribili",
+				"parameters": [
+					{
+						"name": "mygovEnteId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "accertamentoId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "dtEsitoFrom",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"format": "date"
+						}
+					},
+					{
+						"name": "dtEsitoTo",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"format": "date"
+						}
+					},
+					{
+						"name": "dtUltimoAggFrom",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"format": "date"
+						}
+					},
+					{
+						"name": "dtUltimoAggTo",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"format": "date"
+						}
+					},
+					{
+						"name": "codIud",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "codIuv",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "cfPagatore",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/AccertamentoFlussoExportTo"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/accertamenti/list/{mygovEnteId}/{accertamentoId}/capitoli": {
+			"get": {
+				"tags": [
+					"Accertamenti"
+				],
+				"operationId": "getcapitoliRT",
+				"parameters": [
+					{
+						"name": "mygovEnteId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "accertamentoId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "codTipo",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "codIuv",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "codIud",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/CapitoloRT"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/accertamenti/list/{mygovEnteId}/{accertamentoId}/anagrafica": {
+			"get": {
+				"tags": [
+					"Accertamenti"
+				],
+				"operationId": "accertamentoAnagrafica",
+				"parameters": [
+					{
+						"name": "mygovEnteId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "accertamentoId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "dtEsitoFrom",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"format": "date"
+						}
+					},
+					{
+						"name": "dtEsitoTo",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"format": "date"
+						}
+					},
+					{
+						"name": "dtUltimoAggFrom",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"format": "date"
+						}
+					},
+					{
+						"name": "dtUltimoAggTo",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"format": "date"
+						}
+					},
+					{
+						"name": "codIud",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "codIuv",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "cfPagatore",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/AccertamentoTo"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/accertamenti/capitolo/{mygovEnteId}/{anagraficaId}": {
+			"get": {
+				"tags": [
+					"Accertamenti"
+				],
+				"operationId": "getCapitolo",
+				"parameters": [
+					{
+						"name": "mygovEnteId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "codTipo",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "anagraficaId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/AccertamentoCapitoloTo"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/accertamenti/capitoli/{mygovEnteId}": {
+			"get": {
+				"tags": [
+					"Accertamenti"
+				],
+				"operationId": "getCapitoli_1",
+				"parameters": [
+					{
+						"name": "mygovEnteId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "codTipo",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "annoEsercizio",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "codUfficio",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/AnagraficaUffCapAcc"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/accertamenti/accertamenti/{mygovEnteId}": {
+			"get": {
+				"tags": [
+					"Accertamenti"
+				],
+				"operationId": "getAccertamenti",
+				"parameters": [
+					{
+						"name": "mygovEnteId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "codTipo",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "codUfficio",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "annoEsercizio",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "codCapitolo",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/AnagraficaUffCapAcc"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"components": {
+		"schemas": {
+			"AccertamentoTo": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"deNomeAccertamento": {
+						"type": "string"
+					},
+					"codTipoDovuto": {
+						"type": "string"
+					},
+					"deTipoDovuto": {
+						"type": "string"
+					},
+					"deStato": {
+						"type": "string"
+					},
+					"creatore": {
+						"type": "string"
+					},
+					"dtUltimaModifica": {
+						"type": "string",
+						"format": "date-time"
+					}
+				}
+			},
+			"AccertamentoCapitoloTo": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"codTipoDovuto": {
+						"type": "string"
+					},
+					"deTipoDovuto": {
+						"type": "string"
+					},
+					"codUfficio": {
+						"type": "string"
+					},
+					"deUfficio": {
+						"type": "string"
+					},
+					"deAnnoEsercizio": {
+						"type": "string"
+					},
+					"codCapitolo": {
+						"type": "string"
+					},
+					"deCapitolo": {
+						"type": "string"
+					},
+					"codAccertamento": {
+						"type": "string"
+					},
+					"deAccertamento": {
+						"type": "string"
+					},
+					"dtCreazione": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"dtUltimaModifica": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"flgAttivo": {
+						"type": "boolean"
+					},
+					"flgAttivoCambiato": {
+						"type": "boolean"
+					}
+				}
+			},
+			"UploadTo": {
+				"type": "object",
+				"properties": {
+					"uploadId": {
+						"type": "string"
+					},
+					"filename": {
+						"type": "string"
+					},
+					"size": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"uploadTimestamp": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"expiryTimestamp": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"error": {
+						"type": "string"
+					}
+				}
+			},
+			"SegnalazioneTo": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"classificazione": {
+						"type": "string"
+					},
+					"iufKey": {
+						"type": "string"
+					},
+					"iudKey": {
+						"type": "string"
+					},
+					"iuvKey": {
+						"type": "string"
+					},
+					"dtInserimento": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"nota": {
+						"type": "string"
+					},
+					"utente": {
+						"type": "string"
+					},
+					"cfUtente": {
+						"type": "string"
+					},
+					"attivo": {
+						"type": "boolean"
+					},
+					"nascosto": {
+						"type": "boolean"
+					}
+				}
+			},
+			"SegnalazioneSearchTo": {
+				"type": "object",
+				"properties": {
+					"dtInseritoPrima": {
+						"type": "string",
+						"format": "date"
+					},
+					"dtInseritoDopo": {
+						"type": "string",
+						"format": "date"
+					},
+					"attivo": {
+						"type": "boolean"
+					},
+					"nascosto": {
+						"type": "boolean"
+					},
+					"classificazione": {
+						"type": "string"
+					},
+					"utente": {
+						"type": "string"
+					},
+					"iud": {
+						"type": "string"
+					},
+					"iuv": {
+						"type": "string"
+					},
+					"iuf": {
+						"type": "string"
+					}
+				}
+			},
+			"RiconciliazioneSearchTo": {
+				"type": "object",
+				"properties": {
+					"dateEsitoFrom": {
+						"type": "string",
+						"format": "date"
+					},
+					"dateEsitoTo": {
+						"type": "string",
+						"format": "date"
+					},
+					"dateUltModFrom": {
+						"type": "string",
+						"format": "date"
+					},
+					"dateUltModTo": {
+						"type": "string",
+						"format": "date"
+					},
+					"dateRegolFrom": {
+						"type": "string",
+						"format": "date"
+					},
+					"dateRegolTo": {
+						"type": "string",
+						"format": "date"
+					},
+					"dateContabFrom": {
+						"type": "string",
+						"format": "date"
+					},
+					"dateContabTo": {
+						"type": "string",
+						"format": "date"
+					},
+					"dateValutaFrom": {
+						"type": "string",
+						"format": "date"
+					},
+					"dateValutaTo": {
+						"type": "string",
+						"format": "date"
+					},
+					"iud": {
+						"type": "string"
+					},
+					"iuv": {
+						"type": "string"
+					},
+					"iur": {
+						"type": "string"
+					},
+					"codFiscalePagatore": {
+						"type": "string"
+					},
+					"anagPagatore": {
+						"type": "string"
+					},
+					"codFiscaleVersante": {
+						"type": "string"
+					},
+					"anagVersante": {
+						"type": "string"
+					},
+					"attestante": {
+						"type": "string"
+					},
+					"ordinante": {
+						"type": "string"
+					},
+					"idRendicont": {
+						"type": "string"
+					},
+					"idRegolamento": {
+						"type": "string"
+					},
+					"tipoDovuto": {
+						"type": "string"
+					},
+					"conto": {
+						"type": "string"
+					},
+					"importoTesoreria": {
+						"type": "string"
+					},
+					"causale": {
+						"type": "string"
+					},
+					"annoBolletta": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"codBolletta": {
+						"type": "string"
+					},
+					"annoDocumento": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"codDocumento": {
+						"type": "string"
+					},
+					"annoProvvisorio": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"codProvvisorio": {
+						"type": "string"
+					}
+				}
+			},
+			"RiconciliazioneTo": {
+				"type": "object",
+				"properties": {
+					"iuvKey": {
+						"type": "string"
+					},
+					"iudKey": {
+						"type": "string"
+					},
+					"iufKey": {
+						"type": "string"
+					},
+					"classificazione": {
+						"type": "string"
+					},
+					"classificazioneLabel": {
+						"type": "string"
+					},
+					"dataUltimoAgg": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"hasSegnalazione": {
+						"type": "boolean"
+					},
+					"deTipoDovuto": {
+						"type": "string"
+					},
+					"iuv": {
+						"type": "string"
+					},
+					"iud": {
+						"type": "string"
+					},
+					"iur": {
+						"type": "string"
+					},
+					"importo": {
+						"type": "string"
+					},
+					"dataEsecuzione": {
+						"type": "string",
+						"format": "date"
+					},
+					"pagatoreAnagrafica": {
+						"type": "string"
+					},
+					"pagatoreCodFisc": {
+						"type": "string"
+					},
+					"causale": {
+						"type": "string"
+					},
+					"datiSpecificiRiscossione": {
+						"type": "string"
+					},
+					"attestanteAnagrafica": {
+						"type": "string"
+					},
+					"attestanteCodFisc": {
+						"type": "string"
+					},
+					"versanteAnagrafica": {
+						"type": "string"
+					},
+					"versanteCodFisc": {
+						"type": "string"
+					},
+					"dataEsito": {
+						"type": "string",
+						"format": "date"
+					},
+					"idRendicontazione": {
+						"type": "string"
+					},
+					"importoTotale": {
+						"type": "string"
+					},
+					"dataFlusso": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"idRegolamento": {
+						"type": "string"
+					},
+					"dataRegolamento": {
+						"type": "string",
+						"format": "date"
+					},
+					"conto": {
+						"type": "string"
+					},
+					"dataValuta": {
+						"type": "string",
+						"format": "date"
+					},
+					"dataContabile": {
+						"type": "string",
+						"format": "date"
+					},
+					"ordinante": {
+						"type": "string"
+					},
+					"annoBolletta": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"codiceBolletta": {
+						"type": "string"
+					},
+					"annoDocumento": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"codDocumento": {
+						"type": "string"
+					},
+					"annoProvvisorio": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"codProvvisorio": {
+						"type": "string"
+					},
+					"importoTesoreria": {
+						"type": "string"
+					},
+					"causaleRiversamento": {
+						"type": "string"
+					},
+					"notaSegnalazione": {
+						"type": "string"
+					},
+					"utenteSegnalazione": {
+						"type": "string"
+					},
+					"cfUtenteSegnalazione": {
+						"type": "string"
+					},
+					"dataInserimentoSegnalazione": {
+						"type": "string",
+						"format": "date-time"
+					}
+				}
+			},
+			"RicevutaSearchTo": {
+				"type": "object",
+				"properties": {
+					"dateEsitoFrom": {
+						"type": "string",
+						"format": "date"
+					},
+					"dateEsitoTo": {
+						"type": "string",
+						"format": "date"
+					},
+					"iud": {
+						"type": "string"
+					},
+					"iuv": {
+						"type": "string"
+					},
+					"iur": {
+						"type": "string"
+					},
+					"codFiscalePagatore": {
+						"type": "string"
+					},
+					"anagPagatore": {
+						"type": "string"
+					},
+					"codFiscaleVersante": {
+						"type": "string"
+					},
+					"anagVersante": {
+						"type": "string"
+					},
+					"attestante": {
+						"type": "string"
+					},
+					"tipoDovuto": {
+						"type": "string"
+					}
+				}
+			},
+			"FlussoRicevutaTo": {
+				"type": "object",
+				"properties": {
+					"codiceIpaEnte": {
+						"type": "string"
+					},
+					"codIud": {
+						"type": "string"
+					},
+					"codRpSilinviarpIdUnivocoVersamento": {
+						"type": "string"
+					},
+					"codEDatiPagDatiSingPagIdUnivocoRiscoss": {
+						"type": "string"
+					},
+					"numEDatiPagDatiSingPagSingoloImportoPagato": {
+						"type": "number"
+					},
+					"dtEDatiPagDatiSingPagDataEsitoSingoloPagamento": {
+						"type": "string",
+						"format": "date"
+					},
+					"deEIstitAttDenominazioneAttestante": {
+						"type": "string"
+					},
+					"codESoggPagAnagraficaPagatore": {
+						"type": "string"
+					},
+					"codESoggPagIdUnivPagCodiceIdUnivoco": {
+						"type": "string"
+					},
+					"codESoggPagIdUnivPagTipoIdUnivoco": {
+						"type": "string"
+					},
+					"deEDatiPagDatiSingPagCausaleVersamento": {
+						"type": "string"
+					},
+					"codESoggVersAnagraficaVersante": {
+						"type": "string"
+					},
+					"codESoggVersIdUnivVersCodiceIdUnivoco": {
+						"type": "string"
+					},
+					"codESoggVersIdUnivVersTipoIdUnivoco": {
+						"type": "string"
+					},
+					"deTipoDovuto": {
+						"type": "string"
+					},
+					"codFiscalePa1": {
+						"type": "string"
+					},
+					"deStato": {
+						"type": "string"
+					},
+					"indiceDatiSingoloPagamento": {
+						"type": "integer",
+						"format": "int32"
+					}
+				}
+			},
+			"RendicontazioneTo": {
+				"type": "object",
+				"properties": {
+					"idRendicontazione": {
+						"type": "string"
+					},
+					"idRegolamento": {
+						"type": "string"
+					},
+					"dateRegolFrom": {
+						"type": "string",
+						"format": "date"
+					},
+					"dateRegolTo": {
+						"type": "string",
+						"format": "date"
+					},
+					"dateFlusso": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"dataRegolamento": {
+						"type": "string",
+						"format": "date"
+					},
+					"importoTotale": {
+						"type": "string"
+					},
+					"countTotalePagamenti": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"details": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/FlussoRicevutaTo"
+						}
+					}
+				}
+			},
+			"UtenteTo": {
+				"type": "object",
+				"properties": {
+					"userId": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"username": {
+						"type": "string"
+					},
+					"codiceFiscale": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"emailSourceType": {
+						"type": "string"
+					},
+					"nome": {
+						"type": "string"
+					},
+					"cognome": {
+						"type": "string"
+					},
+					"entiRoles": {
+						"type": "object",
+						"additionalProperties": {
+							"uniqueItems": true,
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						}
+					},
+					"emailValidationNeeded": {
+						"type": "boolean"
+					}
+				}
+			},
+			"EnteTipoDovutoTo": {
+				"type": "object",
+				"properties": {
+					"mygovEnteTipoDovutoId": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"mygovEnteId": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"codTipo": {
+						"type": "string"
+					},
+					"deTipo": {
+						"type": "string"
+					},
+					"esterno": {
+						"type": "boolean"
+					}
+				}
+			},
+			"EnteExportTo": {
+				"type": "object",
+				"properties": {
+					"codIpaEnte": {
+						"type": "string"
+					},
+					"codiceFiscaleEnte": {
+						"type": "string"
+					},
+					"deNomeEnte": {
+						"type": "string"
+					},
+					"emailAmministratore": {
+						"type": "string"
+					},
+					"codRpDatiVersTipoVersamento": {
+						"type": "string"
+					},
+					"numRpDatiVersDatiSingVersCommissioneCaricoPa": {
+						"type": "number"
+					},
+					"codRpDatiVersDatiSingVersIbanAccredito": {
+						"type": "string"
+					},
+					"codRpDatiVersDatiSingVersBicAccredito": {
+						"type": "string"
+					},
+					"codRpDatiVersDatiSingVersIbanAppoggio": {
+						"type": "string"
+					},
+					"codRpDatiVersDatiSingVersBicAppoggio": {
+						"type": "string"
+					},
+					"myboxClientKey": {
+						"type": "string"
+					},
+					"myboxClientSecret": {
+						"type": "string"
+					},
+					"enteSilInviaRispostaPagamentoUrl": {
+						"type": "string"
+					},
+					"codGlobalLocationNumber": {
+						"type": "string"
+					},
+					"dePassword": {
+						"type": "string"
+					},
+					"codRpDatiVersDatiSingVersBicAccreditoSeller": {
+						"type": "boolean"
+					},
+					"deRpEnteBenefDenominazioneBeneficiario": {
+						"type": "string"
+					},
+					"deRpEnteBenefIndirizzoBeneficiario": {
+						"type": "string"
+					},
+					"deRpEnteBenefCivicoBeneficiario": {
+						"type": "string"
+					},
+					"codRpEnteBenefCapBeneficiario": {
+						"type": "string"
+					},
+					"deRpEnteBenefLocalitaBeneficiario": {
+						"type": "string"
+					},
+					"deRpEnteBenefProvinciaBeneficiario": {
+						"type": "string"
+					},
+					"codRpEnteBenefNazioneBeneficiario": {
+						"type": "string"
+					},
+					"deRpEnteBenefTelefonoBeneficiario": {
+						"type": "string"
+					},
+					"deRpEnteBenefSitoWebBeneficiario": {
+						"type": "string"
+					},
+					"deRpEnteBenefEmailBeneficiario": {
+						"type": "string"
+					},
+					"applicationCode": {
+						"type": "string"
+					},
+					"codCodiceInterbancarioCbill": {
+						"type": "string"
+					},
+					"deInformazioniEnte": {
+						"type": "string"
+					},
+					"deLogoEnte": {
+						"type": "string"
+					},
+					"deAutorizzazione": {
+						"type": "string"
+					},
+					"cdStatoEnte": {
+						"type": "string"
+					},
+					"deUrlEsterniAttiva": {
+						"type": "string"
+					},
+					"linguaAggiuntiva": {
+						"type": "string"
+					},
+					"codTipoEnte": {
+						"type": "string"
+					},
+					"codTipoDovuto": {
+						"type": "string"
+					},
+					"deTipoDovuto": {
+						"type": "string"
+					},
+					"codiceTassonomico": {
+						"type": "string"
+					},
+					"deRpDatiVersDatiSingVersCausaleVersamento": {
+						"type": "string"
+					},
+					"deRpDatiVersDatiSingVersDatiSpecificiRiscossione": {
+						"type": "string"
+					}
+				}
+			},
+			"ExportFlussoEnteSecondarioTo": {
+				"type": "object",
+				"properties": {
+					"entePrimarioTo": {
+						"$ref": "#/components/schemas/EnteExportTo"
+					},
+					"enteSecondarioTo": {
+						"$ref": "#/components/schemas/EnteExportTo"
+					},
+					"receiptTo": {
+						"$ref": "#/components/schemas/ReceiptExportTo"
+					}
+				}
+			},
+			"ReceiptExportTo": {
+				"type": "object",
+				"properties": {
+					"mygovReceiptId": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"receiptId": {
+						"type": "string"
+					},
+					"noticeNumber": {
+						"type": "string"
+					},
+					"fiscalCode": {
+						"type": "string"
+					},
+					"outcome": {
+						"type": "string"
+					},
+					"creditorReferenceId": {
+						"type": "string"
+					},
+					"paymentAmount": {
+						"type": "number"
+					},
+					"description": {
+						"type": "string"
+					},
+					"companyName": {
+						"type": "string"
+					},
+					"officeName": {
+						"type": "string"
+					},
+					"uniqueIdentifierTypeDebtor": {
+						"type": "string"
+					},
+					"uniqueIdentifierValueDebtor": {
+						"type": "string"
+					},
+					"fullNameDebtor": {
+						"type": "string"
+					},
+					"streetNameDebtor": {
+						"type": "string"
+					},
+					"civicNumberDebtor": {
+						"type": "string"
+					},
+					"postalCodeDebtor": {
+						"type": "string"
+					},
+					"cityDebtor": {
+						"type": "string"
+					},
+					"stateProvinceRegionDebtor": {
+						"type": "string"
+					},
+					"countryDebtor": {
+						"type": "string"
+					},
+					"idPSP": {
+						"type": "string"
+					},
+					"pspFiscalCode": {
+						"type": "string"
+					},
+					"pspPartitaIVA": {
+						"type": "string"
+					},
+					"pspCompanyName": {
+						"type": "string"
+					},
+					"idChannel": {
+						"type": "string"
+					},
+					"channelDescription": {
+						"type": "string"
+					},
+					"uniqueIdentifierTypePayer": {
+						"type": "string"
+					},
+					"uniqueIdentifierValuePayer": {
+						"type": "string"
+					},
+					"fullNamePayer": {
+						"type": "string"
+					},
+					"streetNamePayer": {
+						"type": "string"
+					},
+					"civicNumberPayer": {
+						"type": "string"
+					},
+					"postalCodePayer": {
+						"type": "string"
+					},
+					"cityPayer": {
+						"type": "string"
+					},
+					"stateProvinceRegionPayer": {
+						"type": "string"
+					},
+					"countryPayer": {
+						"type": "string"
+					},
+					"paymentMethod": {
+						"type": "string"
+					},
+					"fee": {
+						"type": "number"
+					},
+					"paymentDateTime": {
+						"type": "string"
+					},
+					"applicationDate": {
+						"type": "string"
+					},
+					"transferDate": {
+						"type": "string"
+					},
+					"transferAmount1": {
+						"type": "number"
+					},
+					"fiscalCodePA1": {
+						"type": "string"
+					},
+					"iban1": {
+						"type": "string"
+					},
+					"remittanceInformation1": {
+						"type": "string"
+					},
+					"transferCategory1": {
+						"type": "string"
+					},
+					"transferAmount2": {
+						"type": "number"
+					},
+					"fiscalCodePA2": {
+						"type": "string"
+					},
+					"iban2": {
+						"type": "string"
+					},
+					"remittanceInformation2": {
+						"type": "string"
+					},
+					"transferCategory2": {
+						"type": "string"
+					},
+					"flgExported": {
+						"type": "boolean"
+					},
+					"emailPayer": {
+						"type": "string"
+					},
+					"emailDebtor": {
+						"type": "string"
+					}
+				}
+			},
+			"TesoreriaTo": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"annoBolletta": {
+						"type": "string"
+					},
+					"codBolletta": {
+						"type": "string"
+					},
+					"dtValuta": {
+						"type": "string",
+						"format": "date"
+					},
+					"dtContabile": {
+						"type": "string",
+						"format": "date"
+					},
+					"idRendicontazione": {
+						"type": "string"
+					},
+					"importoTesoreria": {
+						"type": "number"
+					},
+					"annoCodDocumento": {
+						"type": "string"
+					},
+					"codDocumento": {
+						"type": "string"
+					},
+					"annoCodProvvisorio": {
+						"type": "string"
+					},
+					"codProvvisorio": {
+						"type": "string"
+					},
+					"ordinante": {
+						"type": "string"
+					},
+					"causale": {
+						"type": "string"
+					},
+					"codConto": {
+						"type": "string"
+					}
+				}
+			},
+			"BilancioTo": {
+				"type": "object",
+				"properties": {
+					"codUfficio": {
+						"type": "string"
+					},
+					"codTipoDovuto": {
+						"type": "string"
+					},
+					"codCapitolo": {
+						"type": "string"
+					},
+					"codAccertamento": {
+						"type": "string"
+					},
+					"importo": {
+						"type": "number"
+					},
+					"esterno": {
+						"type": "boolean"
+					},
+					"intermediario": {
+						"type": "string"
+					},
+					"deTipoDovuto": {
+						"type": "string"
+					}
+				}
+			},
+			"VmStatisticaTo": {
+				"type": "object",
+				"properties": {
+					"codice": {
+						"type": "string"
+					},
+					"desc": {
+						"type": "string"
+					},
+					"numPagamenti": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"importoPagato": {
+						"type": "number"
+					},
+					"importoRendicontato": {
+						"type": "number"
+					},
+					"importoIncassato": {
+						"type": "number"
+					}
+				}
+			},
+			"AnagraficaUffCapAcc": {
+				"type": "object",
+				"properties": {
+					"mygovAnagraficaUffCapAccId": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"mygovEnteId": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"codTipoDovuto": {
+						"type": "string"
+					},
+					"codUfficio": {
+						"type": "string"
+					},
+					"deUfficio": {
+						"type": "string"
+					},
+					"flgAttivo": {
+						"type": "boolean"
+					},
+					"codCapitolo": {
+						"type": "string"
+					},
+					"deCapitolo": {
+						"type": "string"
+					},
+					"deAnnoEsercizio": {
+						"type": "string"
+					},
+					"codAccertamento": {
+						"type": "string"
+					},
+					"deAccertamento": {
+						"type": "string"
+					},
+					"dtCreazione": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"dtUltimaModifica": {
+						"type": "string",
+						"format": "date-time"
+					}
+				}
+			},
+			"VmStatisticaCapitoloTo": {
+				"type": "object",
+				"properties": {
+					"codUfficio": {
+						"type": "string"
+					},
+					"deUfficio": {
+						"type": "string"
+					},
+					"codTipoDovuto": {
+						"type": "string"
+					},
+					"deTipoDovuto": {
+						"type": "string"
+					},
+					"codCapitolo": {
+						"type": "string"
+					},
+					"deCapitolo": {
+						"type": "string"
+					},
+					"importoPagato": {
+						"type": "number"
+					},
+					"importoRendicontato": {
+						"type": "number"
+					},
+					"importoIncassato": {
+						"type": "number"
+					}
+				}
+			},
+			"Utente": {
+				"type": "object",
+				"properties": {
+					"mygovUtenteId": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"version": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"codFedUserId": {
+						"type": "string"
+					},
+					"codCodiceFiscaleUtente": {
+						"type": "string"
+					},
+					"deEmailAddress": {
+						"type": "string"
+					},
+					"deFirstname": {
+						"type": "string"
+					},
+					"deLastname": {
+						"type": "string"
+					},
+					"dtUltimoLogin": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"emailSourceType": {
+						"type": "string"
+					},
+					"chosenByUserEmail": {
+						"type": "boolean"
+					}
+				}
+			},
+			"ClassificazioneTo": {
+				"type": "object",
+				"properties": {
+					"key": {
+						"type": "string"
+					},
+					"label": {
+						"type": "string"
+					},
+					"infoText": {
+						"type": "string"
+					},
+					"fields": {
+						"uniqueItems": true,
+						"type": "array",
+						"items": {
+							"type": "string"
+						}
+					},
+					"exportVersions": {
+						"type": "array",
+						"items": {
+							"type": "string"
+						}
+					}
+				}
+			},
+			"FlussoImportTo": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"nomeFlusso": {
+						"type": "string"
+					},
+					"deTipo": {
+						"type": "string"
+					},
+					"codTipo": {
+						"type": "string"
+					},
+					"dataCaricamento": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"operatore": {
+						"type": "string"
+					},
+					"deStato": {
+						"type": "string"
+					},
+					"codStato": {
+						"type": "string"
+					},
+					"codErrore": {
+						"type": "string"
+					},
+					"log": {
+						"type": "string"
+					},
+					"filePathOriginale": {
+						"type": "string"
+					},
+					"filePathScarti": {
+						"type": "string"
+					},
+					"showDownload": {
+						"type": "boolean"
+					},
+					"securityToken": {
+						"type": "string"
+					}
+				}
+			},
+			"FlussoExportTo": {
+				"type": "object",
+				"properties": {
+					"idFlusso": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"nome": {
+						"type": "string"
+					},
+					"dataCaricamento": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"operatore": {
+						"type": "string"
+					},
+					"codStato": {
+						"type": "string"
+					},
+					"stato": {
+						"type": "string"
+					},
+					"dimensione": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"showDownload": {
+						"type": "boolean"
+					},
+					"dataPrenotazione": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"path": {
+						"type": "string"
+					},
+					"classificazione": {
+						"type": "string"
+					},
+					"versioneTracciato": {
+						"type": "string"
+					},
+					"securityToken": {
+						"type": "string"
+					}
+				}
+			},
+			"FlussoTo": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"nome": {
+						"type": "string"
+					}
+				}
+			},
+			"Ente": {
+				"type": "object",
+				"properties": {
+					"mygovEnteId": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"codIpaEnte": {
+						"type": "string"
+					},
+					"codiceFiscaleEnte": {
+						"type": "string"
+					},
+					"deNomeEnte": {
+						"type": "string"
+					},
+					"emailAmministratore": {
+						"type": "string"
+					},
+					"dtCreazione": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"dtUltimaModifica": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"myboxClientKey": {
+						"type": "string"
+					},
+					"myboxClientSecret": {
+						"type": "string"
+					},
+					"numGiorniPagamentoPresunti": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"dePassword": {
+						"type": "string"
+					},
+					"flgPagati": {
+						"type": "boolean"
+					},
+					"flgTesoreria": {
+						"type": "boolean"
+					},
+					"deLogoEnte": {
+						"type": "string"
+					}
+				}
+			},
+			"EnteTipoDovuto": {
+				"type": "object",
+				"properties": {
+					"mygovEnteTipoDovutoId": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"mygovEnteId": {
+						"$ref": "#/components/schemas/Ente"
+					},
+					"codTipo": {
+						"type": "string"
+					},
+					"deTipo": {
+						"type": "string"
+					},
+					"esterno": {
+						"type": "boolean"
+					}
+				}
+			},
+			"EnteTo": {
+				"type": "object",
+				"properties": {
+					"mygovEnteId": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"codIpaEnte": {
+						"type": "string"
+					},
+					"codiceFiscaleEnte": {
+						"type": "string"
+					},
+					"deNomeEnte": {
+						"type": "string"
+					},
+					"flgTesoreria": {
+						"type": "boolean"
+					},
+					"thumbLogoEnte": {
+						"type": "string"
+					},
+					"hashThumbLogoEnte": {
+						"type": "string"
+					}
+				}
+			},
+			"OperatoreTo": {
+				"type": "object",
+				"properties": {
+					"userId": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"username": {
+						"type": "string"
+					},
+					"codiceFiscale": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"emailSourceType": {
+						"type": "string"
+					},
+					"nome": {
+						"type": "string"
+					},
+					"cognome": {
+						"type": "string"
+					},
+					"entiRoles": {
+						"type": "object",
+						"additionalProperties": {
+							"uniqueItems": true,
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						}
+					},
+					"emailValidationNeeded": {
+						"type": "boolean"
+					},
+					"operatoreId": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"flgAssociazione": {
+						"type": "boolean"
+					},
+					"notRegisteredUser": {
+						"type": "boolean"
+					}
+				}
+			},
+			"AnagraficaStato": {
+				"type": "object",
+				"properties": {
+					"mygovAnagraficaStatoId": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"codStato": {
+						"type": "string"
+					},
+					"deStato": {
+						"type": "string"
+					},
+					"deTipoStato": {
+						"type": "string"
+					},
+					"dtCreazione": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"dtUltimaModifica": {
+						"type": "string",
+						"format": "date-time"
+					}
+				}
+			},
+			"AccertamentoFlussoExportTo": {
+				"type": "object",
+				"properties": {
+					"codTipoDovuto": {
+						"type": "string"
+					},
+					"deTipoDovuto": {
+						"type": "string"
+					},
+					"codiceIud": {
+						"type": "string"
+					},
+					"codiceIuv": {
+						"type": "string"
+					},
+					"identificativoUnivocoRiscossione": {
+						"type": "string"
+					},
+					"denominazioneAttestante": {
+						"type": "string"
+					},
+					"codiceIdentificativoUnivocoAttestante": {
+						"type": "string"
+					},
+					"tipoIdentificativoUnivocoAttestante": {
+						"type": "string"
+					},
+					"anagraficaVersante": {
+						"type": "string"
+					},
+					"codiceIdentificativoUnivocoVersante": {
+						"type": "string"
+					},
+					"tipoIdentificativoUnivocoVersante": {
+						"type": "string"
+					},
+					"anagraficaPagatore": {
+						"type": "string"
+					},
+					"codiceIdentificativoUnivocoPagatore": {
+						"type": "string"
+					},
+					"tipoIdentificativoUnivocoPagatore": {
+						"type": "string"
+					},
+					"dtUltimoAggiornamento": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"dtEsitoSingoloPagamento": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"causaleVersamento": {
+						"type": "string"
+					},
+					"singoloImportoPagato": {
+						"type": "number"
+					}
+				}
+			},
+			"CapitoloRT": {
+				"type": "object",
+				"properties": {
+					"codUfficio": {
+						"type": "string"
+					},
+					"deUfficio": {
+						"type": "string"
+					},
+					"codCapitolo": {
+						"type": "string"
+					},
+					"deCapitolo": {
+						"type": "string"
+					},
+					"deAnnoEsercizio": {
+						"type": "string"
+					},
+					"codAccertamento": {
+						"type": "string"
+					},
+					"deAccertamento": {
+						"type": "string"
+					},
+					"numImporto": {
+						"type": "number"
+					}
+				}
+			}
+		},
+		"securitySchemes": {
+			"myPay4Security": {
+				"type": "apiKey",
+				"name": "jwtToken",
+				"in": "cookie",
+				"scheme": "bearer",
+				"bearerFormat": "JWT"
+			}
+		}
+	}
+}
