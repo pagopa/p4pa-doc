@@ -1,0 +1,27 @@
+sequenceDiagram
+    actor Operatore
+    participant FE as FE_MyOperatore
+    participant BFF as BFF_MyOperatore
+    participant AUTH as P4PA_AUTH
+    participant SelfCare
+    
+    Operatore ->> FE: Ricerca enti abilitati
+    activate FE
+    FE ->> BFF: Recupera enti
+
+    activate BFF
+    BFF ->> AUTH: Recupera enti associati<br />all'utente in sessione
+
+    activate AUTH
+    AUTH ->> SelfCare: Recupera enti
+    loop Per ogni ente
+        AUTH ->> SelfCare: Recupera ruolo utente
+    end
+    AUTH -->> BFF: Enti e ruoli
+    deactivate AUTH
+
+    BFF -->> FE: 
+    deactivate BFF
+
+    FE -->> Operatore: 
+    deactivate FE
