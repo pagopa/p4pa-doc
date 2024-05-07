@@ -1,0 +1,54 @@
+sequenceDiagram
+    actor Operatore
+    participant UserAgent
+    participant FE as FE_MyOperatore
+    participant BFF as BFF_MyOperatore
+    participant MyId
+
+    note right of Operatore: Utente privo di sessione valida
+    Operatore ->> UserAgent: Accede ad una qualsiasi pagina
+    activate UserAgent
+UserAgent ->> FE: 
+    activate FE
+FE ->> UserAgent: Redirect verso pagina di login
+deactivate FE
+
+UserAgent ->> BFF: GET /saml/login?callbackUrl=<FE_BASE_URL>/logged
+activate BFF
+rect rgb(190, 190, 190)
+note right of MyId: Presente solo su YourPay
+BFF -->> UserAgent: Redirect verso servizio di autenticazione (protocollo SAML)
+deactivate BFF
+
+UserAgent ->> MyId: AuthnRequest
+activate MyId
+note right of MyId: L'utente si autentica
+MyId -->> UserAgent: Redirect con asserzione SAML
+deactivate MyId
+
+UserAgent ->> BFF: Consegna asserzione SAML
+activate BFF
+note right of BFF: Costruisce ID token
+BFF -->> UserAgent: Redirect verso pagina del FE per accettazione ID token
+deactivate BFF
+end
+
+UserAgent ->> FE: GET /logged?login_token=<logintoken>
+activate FE
+
+FE ->> BFF: POST /public/authtoken
+activate BFF
+note right of BFF: valida Id token
+BFF -->> FE: access token JWT
+deactivate BFF
+
+FE -->> UserAgent: access token JWT
+deactivate FE
+alt L'operatore aveva spuntato la casella "Ricordami"
+note right of UserAgent: token di sessione persistito:<BR />Può essere o local storage o cookie,<BR />dipende da una configurazione del BFF
+else
+note right of UserAgent: token di sessione mantenuto in RAM
+end
+UserAgent -->> Operatore: 
+note right of Operatore: Operatore libero di navigare<BR />all'interno del portale
+deactivate UserAgent

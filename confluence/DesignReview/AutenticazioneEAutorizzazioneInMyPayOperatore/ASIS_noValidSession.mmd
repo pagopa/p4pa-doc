@@ -9,7 +9,7 @@ sequenceDiagram
     FE ->> Operatore: Redirect verso pagina di login
     deactivate FE
 
-    Operatore ->> BFF: GET /saml/login?callbackUrl=<FE_BASE_URL>/logged?login_token=<logintoken>
+    Operatore ->> BFF: GET /saml/login?callbackUrl=<FE_BASE_URL>/logged
     activate BFF
     BFF -->> Operatore: Redirect verso servizio di autenticazione
     deactivate BFF
