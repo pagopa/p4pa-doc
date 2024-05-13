@@ -4,6 +4,7 @@ sequenceDiagram
     participant FE as FE_MyOperatore
     participant BFF as BFF_MyOperatore
     participant MyId
+    participant DB
 
     note right of Operatore: Utente privo di sessione valida
     Operatore ->> UserAgent: Accede ad una qualsiasi pagina
@@ -39,6 +40,8 @@ activate FE
 FE ->> BFF: POST /public/authtoken
 activate BFF
 note right of BFF: valida Id token
+BFF ->> DB: upsert mygov_utente
+BFF ->> DB: upsert mygov_operatore
 BFF -->> FE: access token JWT
 deactivate BFF
 
