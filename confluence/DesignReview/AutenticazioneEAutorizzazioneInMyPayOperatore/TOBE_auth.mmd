@@ -10,69 +10,86 @@ sequenceDiagram
 
     activate UserAgent
     alt Operatore entra direttamente sul portale MyPay Operatore
-    note over Operatore, UserAgent: Assenza di una sessione valida
-    Operatore ->> UserAgent: Accede al portale MyPay Operatore
+        note over Operatore, UserAgent: Assenza di una sessione valida
+        Operatore ->> UserAgent: Accede al portale MyPay Operatore
 
-    UserAgent ->> FE: #
-    activate FE
-    FE -->> UserAgent: Redirect verso pagina di login
-    deactivate FE
-
-    UserAgent ->> BFF: Pagina di login
-    activate BFF
-    BFF -->> UserAgent: Redirect verso servizio di autenticazione
-    deactivate BFF
+        UserAgent ->> FE: #
+        activate FE
+            FE -->> UserAgent: Redirect verso pagina di login
+        deactivate FE
     else
-    Operatore ->> UserAgent: Accede al portale SelfCare
+        Operatore ->> UserAgent: Accede al portale SelfCare
     end
 
     UserAgent ->> SelfCare: Pagina di login
     activate SelfCare
-    note right of SelfCare: L'utente si autentica e accede<br />al prodotto "Piattaforma Unitaria"
-    SelfCare -->> UserAgent: Redirect verso pagina di accettazione tokenExchange
-    note over UserAgent, SelfCare: RFC 8693 dello standard OAuth 2.0, token passato mediante fragment
+        note right of SelfCare: L'utente si autentica e accede<br />al prodotto "Piattaforma Unitaria"
+        SelfCare -->> UserAgent: Redirect verso pagina di accettazione ID Token
     deactivate SelfCare
+    note over UserAgent, SelfCare: RFC 8693 dello standard OAuth 2.0, token passato mediante query param
 
-    UserAgent ->> AUTH: GET /payhub/auth?token=<tokenExchange>
-    activate AUTH
-    AUTH ->> SelfCare: Recupera .well-known/jwks.json
-    note right of AUTH: Valida tokenExchange
-    AUTH ->> SelfCare: getInstitutionProductOperatores
-    note over AUTH, SelfCare: recupero email
-    note right of AUTH: Genera ID token
-    AUTH ->> Redis: Genera una nuova chiave (Authorization Code)<BR />e salva contestualmente l'ID token settando una TTL
-    AUTH -->> UserAgent: Redirect verso pagina di accettazione Authorization Code
-    deactivate AUTH
-
-    UserAgent ->> FE: Consegna Authorization Code
+    UserAgent ->> FE: GET /logged?login_token=<ID Token>
     activate FE
-    FE ->> BFF: Consegna Authorization Code
-    activate BFF
-    BFF ->> AUTH: Consegna Authorization Code
+        FE ->> BFF: POST /public/authtoken Body:ID Token
+        activate BFF
+            BFF ->> AUTH: GET /authorize
+            activate AUTH
+                AUTH ->> SelfCare: Recupera .well-known/jwks.json
+                note right of AUTH: Valida ID Token
+                note right of AUTH: Genera access Token
+                AUTH ->> BFF: Consegna access Token
+            deactivate AUTH
 
-    activate AUTH
-    AUTH ->> Redis: Recupero ID Token
-    alt ID Token trovato
-    AUTH -->> BFF: ID Token
-    deactivate AUTH
+            BFF ->> AUTH: GET /userinfo
+            activate AUTH
+                AUTH ->> SelfCare: getInstitutionProductOperatores
+                note over AUTH, SelfCare: recupero email
+                AUTH -->> BFF: Dati utente
+            deactivate AUTH
 
-    BFF ->> AUTH: Recupera .well-known/jwks.json
-    note right of BFF: Valida ID Token e genera access token
-    BFF -->> FE: access token JWT
-    deactivate BFF
-    FE -->> UserAgent: #
-    alt L'operatore ha spuntato la casella "Ricordami"
-    note right of UserAgent: token di sessione persistito nel local storage
-    else
-    note right of UserAgent: token di sessione mantenuto in RAM
-    end
-    else
-    AUTH -->> BFF: Unauthorized
-    BFF -->> FE: Redirect pagina di login
-    end
+            BFF ->> BFF: upsert mygov_utente
+            BFF ->> BFF: upsert mygov_operatore
+            BFF -->> FE: access token JWT
+        deactivate BFF
+        FE -->> UserAgent: #
+        alt L'operatore ha spuntato la casella "Ricordami"
+            note right of UserAgent: token di sessione persistito nel local storage
+        else
+            note right of UserAgent: token di sessione mantenuto in RAM
+        end
     deactivate FE
 
     UserAgent -->> Operatore: #
     deactivate UserAgent
 
-    note over Operatore, UserAgent: Da adesso l'operatore potrà navigare le pagine del FE
+    note right of Operatore: Operatore libero di navigare<BR />all'interno del portale
+
+    Operatore ->> UserAgent: Naviga il portale
+
+    activate UserAgent
+    UserAgent ->> FE: #
+    activate FE
+    FE ->> BFF: Invoca API protetta
+    note over FE, BFF: Authorization: Bearer <accessToken>
+
+    activate BFF
+    BFF ->> AUTH: GET /tokeninfo
+    activate AUTH
+    alt token valido
+        AUTH -->> BFF: Claim interne al token
+        note right of BFF: Richiesta autorizzata<BR />Processa richiesta
+    else
+        AUTH -->> BFF: Forbidden
+    end
+    deactivate AUTH
+
+    activate AUTH
+    deactivate AUTH
+
+    BFF -->> FE: Esito richiesta
+    deactivate BFF
+
+    FE -->> UserAgent: Renderizza esito API
+    deactivate FE
+    UserAgent -->> Operatore: #
+    deactivate UserAgent

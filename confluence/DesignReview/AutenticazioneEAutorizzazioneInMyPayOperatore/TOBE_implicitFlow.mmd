@@ -1,0 +1,55 @@
+sequenceDiagram
+    actor Operatore
+    participant UserAgent
+    participant FE as FE_MyOperatore
+    participant BFF as BFF_MyOperatore
+    participant AUTH as Authorization Server
+
+    Operatore ->> UserAgent: Accede al portale MyPay Operatore
+
+    activate UserAgent
+        note over Operatore, UserAgent: Privo di sessione valida
+        UserAgent ->> FE: #
+        activate FE
+            FE -->> UserAgent: Redirect verso pagina di login
+        deactivate FE
+
+        note over AUTH: Dal punto di vista di MyPay Operatore,<BR />si tratta di una sola entità.<BR />In realtà è qui che avverrà l'integrazione<BR />tra p4pa-auth e SelfCare
+        UserAgent ->> AUTH: Pagina di login
+        activate AUTH
+            note right of AUTH: L'utente si autentica
+            AUTH -->> UserAgent: Redirect verso pagina di accettazione ID Token
+        deactivate AUTH
+
+        UserAgent ->> FE: Consegna ID Token
+        activate FE
+            FE ->> BFF: Consegna ID Token
+            activate BFF
+                BFF ->> AUTH: GET /authorize
+                activate AUTH
+                    note right of AUTH: Valida ID Token
+                    note right of AUTH: Genera access Token
+                    AUTH ->> BFF: Consegna access Token
+                deactivate AUTH
+
+                BFF ->> AUTH: GET /userinfo
+                activate AUTH
+                    AUTH -->> BFF: Dati utente
+                deactivate AUTH
+
+                BFF ->> BFF: upsert mygov_utente
+                BFF ->> BFF: upsert mygov_operatore
+                BFF -->> FE: access token JWT
+            deactivate BFF
+            FE -->> UserAgent:
+            alt L'operatore ha spuntato la casella "Ricordami"
+                note right of UserAgent: token di sessione persistito nel local storage
+            else
+                note right of UserAgent: token di sessione mantenuto in RAM
+            end
+        deactivate FE
+
+        UserAgent -->> Operatore:
+    deactivate UserAgent
+    
+    note over Operatore, UserAgent: Da adesso l'operatore potrà navigare le pagine del FE
