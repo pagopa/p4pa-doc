@@ -73,10 +73,10 @@ sequenceDiagram
     note over FE, BFF: Authorization: Bearer <accessToken>
 
     activate BFF
-    BFF ->> AUTH: GET /tokeninfo
+    BFF ->> AUTH: GET /userinfo
     activate AUTH
     alt token valido
-        AUTH -->> BFF: Claim interne al token
+        AUTH -->> BFF: Dati utente
         note right of BFF: Richiesta autorizzata<BR />Processa richiesta
     else
         AUTH -->> BFF: Forbidden
