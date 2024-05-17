@@ -4,85 +4,106 @@ sequenceDiagram
     participant FE as FE_MyOperatore
     participant BFF as BFF_MyOperatore
     participant MyId
+    participant MyProfile
 
     note right of Operatore: Utente privo di sessione valida
     Operatore ->> UserAgent: Accede ad una qualsiasi pagina
     activate UserAgent
-    UserAgent ->> FE: #
-    activate FE
-    FE ->> UserAgent: Redirect verso pagina di login
-    deactivate FE
+        UserAgent ->> FE: #
+        activate FE
+            FE ->> UserAgent: Redirect verso pagina di login
+        deactivate FE
 
-    UserAgent ->> BFF: GET /saml/login?callbackUrl=<FE_BASE_URL>/logged
-    activate BFF
-    rect rgb(190, 190, 190)
-    note right of MyId: Presente solo su YourPay
-    BFF -->> UserAgent: Redirect verso servizio di autenticazione (protocollo SAML)
-    deactivate BFF
+        UserAgent ->> BFF: GET /saml/login?callbackUrl=<FE_BASE_URL>/logged
+        activate BFF
+            rect rgb(190, 190, 190)
+            note right of MyId: Presente solo su YourPay
+            BFF -->> UserAgent: Redirect verso servizio di autenticazione (protocollo SAML)
+        deactivate BFF
 
-    UserAgent ->> MyId: AuthnRequest
-    activate MyId
-    note right of MyId: L'utente si autentica
-    MyId -->> UserAgent: Redirect con asserzione SAML
-    deactivate MyId
+        UserAgent ->> MyId: AuthnRequest
+        activate MyId
+            note right of MyId: L'utente si autentica
+            MyId -->> UserAgent: Redirect con asserzione SAML
+        deactivate MyId
 
-    UserAgent ->> BFF: Consegna asserzione SAML
-    activate BFF
-    note right of BFF: Valida asserzione
-    note right of BFF: Costruisce ID token
-    BFF -->> UserAgent: Redirect verso pagina del FE per accettazione ID token
-    deactivate BFF
-    end
+        UserAgent ->> BFF: Consegna asserzione SAML
+        activate BFF
+            note right of BFF: Valida asserzione
+            note right of BFF: Costruisce ID token
+            BFF -->> UserAgent: Redirect verso pagina del FE per accettazione ID token
+        deactivate BFF
+        end
 
-    UserAgent ->> FE: GET /logged?login_token=<ID Token>
-    activate FE
+        UserAgent ->> FE: GET /logged?login_token=<ID Token>
+        activate FE
 
-    FE ->> BFF: POST /public/authtoken
-    note over FE, BFF: ID Token passato come Body
-    activate BFF
-    note right of BFF: valida ID token
-    BFF ->> BFF: upsert mygov_utente
-    BFF ->> BFF: upsert mygov_operatore
-    BFF -->> FE: access token JWT
-    deactivate BFF
+            FE ->> BFF: POST /public/authtoken
+            note over FE, BFF: ID Token passato come Body
+            activate BFF
+                note right of BFF: valida ID Token
+                BFF ->> BFF: upsert mygov_utente
+                BFF ->> BFF: recupera enti e ruoli aggiornati
 
-    FE -->> UserAgent: access token JWT
-    deactivate FE
-    alt L'operatore aveva spuntato la casella "Ricordami"
-    note right of UserAgent: token di sessione persistito:<BR />Può essere o local storage o cookie,<BR />dipende da una configurazione del BFF
-    else
-    note right of UserAgent: token di sessione mantenuto in RAM
-    end
-    UserAgent -->> Operatore: #
+                activate BFF
+                    note right of BFF: La codebase consegnata si limita<BR />ad interrogare la tabella mygov_operatore<BR />contenente la relazione ente-operatore
+                    rect rgb(190, 190, 190)
+                        note right of MyProfile: Presente solo su YourPay
+                        BFF ->> MyProfile: getUserTenants
+                        loop Per ogni ente restituito
+                            BFF ->> MyProfile: getUserRoles
+                        end
+                    end
+                deactivate BFF
+
+                BFF ->> BFF: Aggiorna relazioni operatore
+                activate BFF
+                    BFF ->> BFF: Recupera le relazioni pre-esistenti operatore-ente<BR />da mygov_operatore
+                    loop Relazione non più presente
+                        BFF ->> BFF: Cancella tipi dovuto assegnati (mygov_operatore_ente_tipo_dovuto)
+                        BFF ->> BFF: Cancella associazione operatore-ente da mygov_operatore
+                    end
+                    loop Nuove relazioni
+                        BFF ->> BFF: Crea record in mygov_operatore per relazionare l'operatore all'ente
+                    end
+                    loop Relazioni già censite
+                        note right of BFF: Gli operatori devono avere il ruolo ROLE_OPER
+                        note right of BFF: Gli amministratori sia ROLE_OPER che ROLE_ADMIN
+                        BFF ->> BFF: Aggiorna il ruolo
+                    end
+                deactivate BFF
+
+                BFF -->> FE: AccessToken e dati utente
+            deactivate BFF
+
+            FE -->> UserAgent: AccessToken
+        deactivate FE
+        alt L'operatore aveva spuntato la casella "Ricordami"
+            note right of UserAgent: token di sessione persistito:<BR />Può essere o local storage o cookie,<BR />dipende da una configurazione del BFF
+        else
+            note right of UserAgent: token di sessione mantenuto in RAM
+        end
+        UserAgent -->> Operatore: #
     deactivate UserAgent
     note right of Operatore: Operatore libero di navigare<BR />all'interno del portale
 
-Operatore ->> UserAgent: Naviga il portale
+    Operatore ->> UserAgent: Naviga il portale
 
-activate UserAgent
-UserAgent ->> FE: #
-activate FE
-FE ->> BFF: Invoca API protetta
-note over FE, BFF: Authorization: Bearer <accessToken>
+    activate UserAgent
+        UserAgent ->> FE: #
+        activate FE
+            FE ->> BFF: Invoca API protetta
+            note over FE, BFF: AccessToken trasmesso tramite<BR />Header Authorization o cookie<BR />in base alla configurazione del BFF
 
-activate BFF
-BFF ->> AUTH: GET /tokeninfo
-activate AUTH
-alt token valido
-AUTH -->> BFF: Claim interne al token
-note right of BFF: Richiesta autorizzata<BR />Processa richiesta
-else
-AUTH -->> BFF: Forbidden
-end
-deactivate AUTH
+            activate BFF
+                note right of BFF: valida token
+                BFF ->> BFF: recupera enti e ruoli<BR />da tabella mygov_operatore
+                note right of BFF: Costruisce rappresentazione in-memory<BR />dell'utente in sessione attingendo<BR />alle claim dell'AccessToken<BR />e ai dati della mygov_operatore
+                BFF ->> BFF: Processa richiesta
+                BFF -->> FE: Esito richiesta
+            deactivate BFF
 
-activate AUTH
-deactivate AUTH
-
-BFF -->> FE: Esito richiesta
-deactivate BFF
-
-FE -->> UserAgent: Renderizza esito API
-deactivate FE
-UserAgent -->> Operatore: #
-deactivate UserAgent
+            FE -->> UserAgent: Renderizza esito API
+        deactivate FE
+        UserAgent -->> Operatore: #
+    deactivate UserAgent

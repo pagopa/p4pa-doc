@@ -5,61 +5,70 @@ sequenceDiagram
     participant BFF as BFF_MyOperatore
     participant AUTH as P4PA_AUTH
     participant SelfCare
-    participant Redis
 
 
     activate UserAgent
-    alt Operatore entra direttamente sul portale MyPay Operatore
-        note over Operatore, UserAgent: Assenza di una sessione valida
-        Operatore ->> UserAgent: Accede al portale MyPay Operatore
+        alt Operatore entra direttamente sul portale MyPay Operatore
+            note over Operatore, UserAgent: Assenza di una sessione valida
+            Operatore ->> UserAgent: Accede al portale MyPay Operatore
 
-        UserAgent ->> FE: #
-        activate FE
-            FE -->> UserAgent: Redirect verso pagina di login
-        deactivate FE
-    else
-        Operatore ->> UserAgent: Accede al portale SelfCare
-    end
-
-    UserAgent ->> SelfCare: Pagina di login
-    activate SelfCare
-        note right of SelfCare: L'utente si autentica e accede<br />al prodotto "Piattaforma Unitaria"
-        SelfCare -->> UserAgent: Redirect verso pagina di accettazione ID Token
-    deactivate SelfCare
-    note over UserAgent, SelfCare: RFC 8693 dello standard OAuth 2.0, token passato mediante query param
-
-    UserAgent ->> FE: GET /logged?login_token=<ID Token>
-    activate FE
-        FE ->> BFF: POST /public/authtoken Body:ID Token
-        activate BFF
-            BFF ->> AUTH: GET /authorize
-            activate AUTH
-                AUTH ->> SelfCare: Recupera .well-known/jwks.json
-                note right of AUTH: Valida ID Token
-                note right of AUTH: Genera access Token
-                AUTH ->> BFF: Consegna access Token
-            deactivate AUTH
-
-            BFF ->> AUTH: GET /userinfo
-            activate AUTH
-                AUTH ->> SelfCare: getInstitutionProductOperatores
-                note over AUTH, SelfCare: recupero email
-                AUTH -->> BFF: Dati utente
-            deactivate AUTH
-
-            BFF ->> BFF: upsert mygov_utente
-            BFF ->> BFF: upsert mygov_operatore
-            BFF -->> FE: access token JWT
-        deactivate BFF
-        FE -->> UserAgent: #
-        alt L'operatore ha spuntato la casella "Ricordami"
-            note right of UserAgent: token di sessione persistito nel local storage
+            UserAgent ->> FE: #
+            activate FE
+                FE -->> UserAgent: Redirect verso pagina di login
+            deactivate FE
         else
-            note right of UserAgent: token di sessione mantenuto in RAM
+            Operatore ->> UserAgent: Accede al portale SelfCare
         end
-    deactivate FE
 
-    UserAgent -->> Operatore: #
+        UserAgent ->> SelfCare: Pagina di login
+        activate SelfCare
+            note right of SelfCare: L'utente si autentica e accede<br />al prodotto "Piattaforma Unitaria"
+            SelfCare -->> UserAgent: Redirect verso pagina di accettazione ID Token
+        deactivate SelfCare
+        note over UserAgent, SelfCare: RFC 8693 dello standard OAuth 2.0, token passato mediante query param
+
+        UserAgent ->> FE: GET /logged?login_token=<ID Token>
+        activate FE
+            FE ->> BFF: POST /public/authtoken Body:ID Token
+            activate BFF
+                BFF ->> AUTH: POST /token
+                activate AUTH
+                    AUTH ->> SelfCare: Recupera .well-known/jwks.json
+                    note right of AUTH: Valida ID Token
+                    note right of AUTH: Genera access Token
+                    note right of AUTH: Salva in cache la coppia<BR />AccessToken.jti: ID Token
+                    AUTH ->> BFF: Consegna access Token
+                deactivate AUTH
+
+                BFF ->> AUTH: GET /userinfo
+                activate AUTH
+                    note right of AUTH: Recupera l'ID Token dalla cache
+                    AUTH -->> BFF: Dati utente ed ente di accesso
+                deactivate AUTH
+
+                BFF ->> BFF: upsert mygov_utente
+
+                BFF ->> BFF: Aggiorna relazione ente-operatore
+                activate BFF
+                    BFF ->> BFF: Recupera attuale relazione operatore-ente<BR />da mygov_operatore
+                    alt Relazione non trovata
+                        BFF ->> BFF: Crea record in mygov_operatore per relazionare l'operatore all'ente
+                    else
+                        BFF ->> BFF: Aggiorna il ruolo
+                    end
+                deactivate BFF
+
+                BFF -->> FE: access token JWT
+            deactivate BFF
+            FE -->> UserAgent: #
+            alt L'operatore ha spuntato la casella "Ricordami"
+                note right of UserAgent: token di sessione persistito nel local storage
+            else
+                note right of UserAgent: token di sessione mantenuto in RAM
+            end
+        deactivate FE
+
+        UserAgent -->> Operatore: #
     deactivate UserAgent
 
     note right of Operatore: Operatore libero di navigare<BR />all'interno del portale
@@ -67,29 +76,28 @@ sequenceDiagram
     Operatore ->> UserAgent: Naviga il portale
 
     activate UserAgent
-    UserAgent ->> FE: #
-    activate FE
-    FE ->> BFF: Invoca API protetta
-    note over FE, BFF: Authorization: Bearer <accessToken>
+        UserAgent ->> FE: #
+        activate FE
+            FE ->> BFF: Invoca API protetta
+            note over FE, BFF: Authorization: Bearer <accessToken>
 
-    activate BFF
-    BFF ->> AUTH: GET /userinfo
-    activate AUTH
-    alt token valido
-        AUTH -->> BFF: Dati utente
-        note right of BFF: Richiesta autorizzata<BR />Processa richiesta
-    else
-        AUTH -->> BFF: Forbidden
-    end
-    deactivate AUTH
+            activate BFF
+                BFF ->> AUTH: GET /userinfo
+                activate AUTH
+                    alt token valido
+                        note right of AUTH: Recupera l'ID Token dalla cache
+                        AUTH -->> BFF: Dati utente e ente di accesso
+                        note right of BFF: Costruisce rappresentazione in-memory<BR />dell'utente in sessione attingendo<BR />alla risposta di UserInfo<BR />e ai dati della mygov_operatore
+                        note right of BFF: Richiesta autorizzata<BR />Processa richiesta
+                    else
+                        AUTH -->> BFF: Forbidden
+                    end
+                deactivate AUTH
 
-    activate AUTH
-    deactivate AUTH
+                BFF -->> FE: Esito richiesta
+            deactivate BFF
 
-    BFF -->> FE: Esito richiesta
-    deactivate BFF
-
-    FE -->> UserAgent: Renderizza esito API
-    deactivate FE
-    UserAgent -->> Operatore: #
+            FE -->> UserAgent: Renderizza esito API
+        deactivate FE
+        UserAgent -->> Operatore: #
     deactivate UserAgent
