@@ -1,0 +1,15 @@
+sequenceDiagram
+    participant UA as User Agent
+    participant RP as Client
+    participant AS as Authorization Server
+    UA->> RP: GET /login
+    RP -->> UA: 302 Found Location: https://authserver.com/authorize
+    Note over UA,AS: Authentication Request
+    UA ->>+ AS: GET /authorize
+    AS ->> AS: authenticate User
+    AS -->>- UA: 302 Found Location: https://client.example.org/cb?code=xxxx
+    Note over UA,AS: Token Request
+    UA ->>+ RP: GET /token?code=xxxx
+    RP ->> AS: POST /token?code=xxxx
+    AS -->> RP: Access, ID, Refresh tokens
+    RP -->>- UA: TBD
