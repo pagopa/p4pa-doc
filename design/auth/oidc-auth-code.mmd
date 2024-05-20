@@ -1,7 +1,8 @@
 sequenceDiagram
     participant UA as User Agent
-    participant RP as Client
-    participant AS as Authorization Server
+    participant RP as Relying Party
+    participant AS as Authorization Server<br>OpenID Provider
+    participant RO as Resource Owner
     UA->> RP: GET /login
     RP -->> UA: 302 Found Location: https://authserver.com/authorize
     Note over UA,AS: Authentication Request
@@ -12,4 +13,9 @@ sequenceDiagram
     UA ->>+ RP: GET /token?code=xxxx
     RP ->> AS: POST /token?code=xxxx
     AS -->> RP: Access, ID, Refresh tokens
-    RP -->>- UA: TBD
+    RP -->>- UA: access token
+    UA ->> UA: storage?
+    UA ->> RP: GET protected resource<br>Authentication: Bearer <access token>
+    RP ->>+ RO: GET protected resource
+    RO ->> AS: validate access token
+    RO ->>- RP: resource
