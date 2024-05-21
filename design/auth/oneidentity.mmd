@@ -1,0 +1,26 @@
+sequenceDiagram
+    participant UA as arc-frontend<br>User Agent
+    participant RP as arc-backend<br>Relying Party
+    participant AS as OneIdentity<br>OpenID Provider
+    participant RO as Resource Owner
+    participant IDP as SPID IDP
+    UA->> RP: GET /login
+    RP -->> UA: redirect to technology product-specific url
+    Note over UA,AS: Authentication Request
+    UA ->>+ AS: /product/login?pubkey&nonce
+    AS -->> UA: 301 to SPID IDP
+    UA ->>+ IDP: AuthN Req
+    IDP ->> IDP: authenticate User
+    IDP -->>- UA: POST autosubmit SAMLResponse to acs url
+    UA ->>+ AS: POST /product/acs
+    AS ->> AS: save SAMLResponse &<br> create auth code
+    AS -->>- UA: return auth code and redirect to /token endpoint on product
+    UA ->> RP: /token + code
+    RP ->> AS: code + product specific auth
+    AS -->> RP: id token + access token 
+    RP -->> UA: return product specific session
+    UA ->> UA: storage?
+    UA ->> RP: GET protected resource<br>Authentication: Bearer <access token>
+    RP ->>+ RO: GET protected resource
+    RO ->> AS: validate access token
+    RO ->>- RP: resource
