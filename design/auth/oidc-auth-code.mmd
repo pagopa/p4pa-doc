@@ -13,6 +13,7 @@ sequenceDiagram
     UA ->>+ RP: GET /token?code=xxxx
     RP ->> AS: POST /token?code=xxxx
     AS -->> RP: Access, ID, Refresh tokens
+    Note over RP,AS: scambio di token backend to backend
     RP -->>- UA: access token
     UA ->> UA: storage?
     UA ->> RP: GET protected resource<br>Authentication: Bearer <access token>
