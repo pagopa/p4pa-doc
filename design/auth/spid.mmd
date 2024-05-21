@@ -1,0 +1,13 @@
+sequenceDiagram
+    participant UA as User Agent
+    participant SP as Service Provider
+    participant IDP as Identity Provider
+    UA->> SP: access resource
+    SP -->> UA: redirect with <AuthnRequest>
+    UA ->> IDP: GET using <AuthnRequest>
+    IDP -->> UA: challenge for credentials
+    UA ->> IDP: User login
+    IDP ->> UA: signed <Response> in HTML form
+    UA ->> SP: POST signed <Response>
+    SP ->> SP: Assertion Consumer Service<br>validates Response
+    SP ->> UA: supply resource
