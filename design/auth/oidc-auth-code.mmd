@@ -13,7 +13,7 @@ sequenceDiagram
     UA ->>+ RP: GET /token?code=xxxx
     RP ->> AS: POST /token?code=xxxx
     AS -->> RP: Access, ID, Refresh tokens
-    Note over RP,AS: token communication backend to backend
+    Note over RP,AS: communication backend to backend
     RP ->> RP: generate session token
     RP -->>- UA: session token
     UA ->> UA: storage?
@@ -21,4 +21,4 @@ sequenceDiagram
     RP ->>+ RO: GET protected resource
     RO ->> RP: validate session token
     RO ->>- RP: validation ok, return resource
-    RP ->> UA: return resource
+    RP -->> UA: return resource
