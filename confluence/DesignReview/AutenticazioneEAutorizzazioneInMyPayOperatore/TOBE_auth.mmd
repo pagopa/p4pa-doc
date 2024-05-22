@@ -60,12 +60,23 @@ sequenceDiagram
 
                 BFF -->> FE: access token JWT
             deactivate BFF
-            FE -->> UserAgent: #
+
+            FE ->> BFF: GET /userinfo
+            activate BFF
+                BFF ->> AUTH: GET /userinfo
+                activate AUTH
+                    AUTH -->> BFF: Dati utente
+                deactivate AUTH
+            BFF -->> FE: Dati utente
+            deactivate BFF
+            note right of FE: Salva dati utente in memoria
+
             alt L'operatore ha spuntato la casella "Ricordami"
                 note right of UserAgent: token di sessione persistito nel local storage
             else
                 note right of UserAgent: token di sessione mantenuto in RAM
             end
+            FE -->> UserAgent: #
         deactivate FE
 
         UserAgent -->> Operatore: #

@@ -73,10 +73,11 @@ sequenceDiagram
                     end
                 deactivate BFF
 
-                BFF -->> FE: AccessToken e dati utente
+                BFF -->> FE: token e dati utente
+                note over BFF, FE: Il token contiene ancora i dati personali dell'utente
             deactivate BFF
 
-            FE -->> UserAgent: AccessToken
+            FE -->> UserAgent: token
         deactivate FE
         alt L'operatore aveva spuntato la casella "Ricordami"
             note right of UserAgent: token di sessione persistito:<BR />Può essere o local storage o cookie,<BR />dipende da una configurazione del BFF
@@ -93,7 +94,7 @@ sequenceDiagram
         UserAgent ->> FE: #
         activate FE
             FE ->> BFF: Invoca API protetta
-            note over FE, BFF: AccessToken trasmesso tramite<BR />Header Authorization o cookie<BR />in base alla configurazione del BFF
+            note over FE, BFF: token trasmesso tramite<BR />Header Authorization o cookie<BR />in base alla configurazione del BFF
 
             activate BFF
                 note right of BFF: valida token
