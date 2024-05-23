@@ -1,0 +1,144 @@
+openapi: 3.0.1
+info:
+  title: p4pa-auth
+  description: Api and Models
+  version: 0.0.1
+servers:
+  - url: "http://localhost:8080/payhub"
+paths:
+  /auth/token:
+    post:
+      tags:
+        - auth
+      operationId: postToken
+      security: []
+      parameters:
+        - name: grant_type
+          in: query
+          required: true
+          schema:
+            enum: [
+              "urn:ietf:params:oauth:grant-type:token-exchange"
+            ]
+            type: string
+        - name: subject_token
+          description: "ID Token"
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: subject_token_type
+          in: query
+          required: true
+          schema:
+            enum: [
+              "urn:ietf:params:oauth:token-type:id_token"
+            ]
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccessToken'
+        '400':
+          description: Invalid request
+        '401':
+          description: Authentication failed
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthErrorDTO'
+  /auth/userinfo:
+    get:
+      tags:
+        - auth
+      operationId: getUserInfo
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserInfo'
+        '400':
+          description: Invalid request
+        '401':
+          description: Authentication failed
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthErrorDTO'
+  /auth/logout:
+    get:
+      tags:
+        - auth
+      operationId: logout
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Invalid request
+security:
+  - BearerAuth: []
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+  schemas:
+    AccessToken:
+      type: object
+      required:
+        - access_token
+        - token_type
+        - expires_in
+      properties:
+        access_token:
+          type: string
+          enum:
+            - AUTH_GENERIC_ERROR
+        token_type:
+          type: string
+          default: bearer
+        expires_in:
+          type: number
+    UserInfo:
+      type: object
+      required:
+        - userId
+        - fiscalCode
+        - familyName
+        - name
+        - issuer
+        - organization
+      properties:
+        userId:
+          type: string
+        fiscalCode:
+          type: string
+        familyName:
+          type: string
+        name:
+          type: string
+        issuer:
+          type: string
+        organization:
+          type: string
+    AuthErrorDTO:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          enum:
+            - AUTH_GENERIC_ERROR
+        message:
+          type: string

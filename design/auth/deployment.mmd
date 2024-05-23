@@ -1,0 +1,43 @@
+C4Deployment
+    title AuthZ & AuthN Piattaforma Unitaria
+
+    UpdateLayoutConfig($c4ShapeInRow="3", $c4BoundaryInRow="2")
+
+
+    System(spid, "SPID")
+    System(sc, "SelfCare")
+    Person(usr_ope, "Operatore Ente")
+
+
+    Deployment_Node(az, "Piattaforma Unitaria", "Azure") {
+        Deployment_Node(cdn, "", "CDN") {
+            Container(pu_app_fe, "FE Piattaforma Unitaria", "Static website / SPA / Angular")
+        }
+
+        Deployment_Node(aks, "Kubernetes", "Azure AKS") {
+            Deployment_Node(deploy_be, "", "pod", "scaling automatico"){
+                Container(pu_app_be, "BE Piattaforma Unitaria", "java / spring boot")
+            }
+            Deployment_Node(deploy_auth, "", "pod", "scaling automatico"){
+                Container(pu_iam, "P4PA-AUTH", "java / spring boot")
+            }
+        }
+    }
+
+    Rel(usr_ope, sc, "Si autentica e<BR/>accede al prodotto")
+    UpdateRelStyle(usr_ope, sc, $textColor="blue", $lineColor="black", $offsetX="-50", $offsetY="-40")
+
+    Rel(sc, spid, "SPID", "SAML")
+    UpdateRelStyle(sc, spid, $textColor="blue", $lineColor="blue", $offsetX="-10", $offsetY="-30")
+
+    Rel(sc, pu_app_fe, "ID token", "OAUTH")
+    UpdateRelStyle(sc, pu_app_fe, $textColor="blue", $lineColor="blue", $offsetX="-30", $offsetY="-50")
+
+    Rel(pu_app_fe, pu_app_be, "ID token", "OAUTH")
+    UpdateRelStyle(pu_app_fe, pu_app_be, $textColor="blue", $lineColor="blue", $offsetX="-20", $offsetY="-40")
+
+    Rel(pu_iam, sc, "validate ID token", "OAUTH")
+    UpdateRelStyle(pu_iam, sc, $textColor="blue", $lineColor="blue", $offsetX="-30", $offsetY="-90")
+
+    Rel(pu_app_be, pu_iam, "TokenExchange", "OAUTH")
+    UpdateRelStyle(pu_app_be, pu_iam, $textColor="blue", $lineColor="blue", $offsetX="-40", $offsetY="-30")
