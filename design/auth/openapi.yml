@@ -13,6 +13,14 @@ paths:
       operationId: postToken
       security: []
       parameters:
+        - name: client_id
+          in: query
+          required: true
+          schema:
+            enum: [
+              "piattaforma-unitaria"
+            ]
+            type: string
         - name: grant_type
           in: query
           required: true
@@ -39,6 +47,14 @@ paths:
           schema:
             enum: [
               "urn:ietf:params:oauth:token-type:id_token"
+            ]
+            type: string
+        - name: scope
+          in: query
+          required: true
+          schema:
+            enum: [
+              "openid"
             ]
             type: string
       responses:
@@ -80,11 +96,27 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AuthErrorDTO'
-  /auth/logout:
-    get:
+  /auth/revoke:
+    post:
       tags:
         - auth
       operationId: logout
+      security: []
+      parameters:
+        - name: client_id
+          in: query
+          required: true
+          schema:
+            enum: [
+              "piattaforma-unitaria"
+            ]
+            type: string
+        - name: token
+          description: "Access Token"
+          in: query
+          required: true
+          schema:
+            type: string
       responses:
         '200':
           description: OK

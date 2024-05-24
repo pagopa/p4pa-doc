@@ -16,7 +16,7 @@ sequenceDiagram
             note over FE, BFF: Authorization: Bearer <accessToken>
 
             activate BFF
-                BFF ->> AUTH: GET /logout
+                BFF ->> AUTH: POST /revoke
                 activate AUTH
                     AUTH ->> AUTH: Rimuove AccessToken dalla cache
                 deactivate AUTH
