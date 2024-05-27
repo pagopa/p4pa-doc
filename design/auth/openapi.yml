@@ -139,8 +139,6 @@ components:
       properties:
         access_token:
           type: string
-          enum:
-            - AUTH_GENERIC_ERROR
         token_type:
           type: string
           default: bearer
@@ -171,12 +169,16 @@ components:
     AuthErrorDTO:
       type: object
       required:
-        - code
-        - message
+        - error
       properties:
-        code:
+        error:
           type: string
           enum:
             - AUTH_GENERIC_ERROR
-        message:
+            - invalid_request
+            - invalid_client
+            - invalid_scope
+            - invalid_grant
+            - unsupported_grant_type
+        error_description:
           type: string
