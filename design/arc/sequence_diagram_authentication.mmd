@@ -1,0 +1,27 @@
+sequenceDiagram
+actor User
+participant FE_ARC
+participant BE_ARC
+participant OneIdentity OpenId Provider
+
+note right of User: User Authentication
+    activate User
+		User ->> FE_ARC : Access
+    activate FE_ARC
+        FE_ARC ->> BE_ARC : GET /login
+    deactivate User
+    activate BE_ARC
+        BE_ARC -->> FE_ARC : redirect to technology product-specific url
+note over FE_ARC, OneIdentity OpenId Provider: Authentication Request
+		FE_ARC ->> OneIdentity OpenId Provider : /<product>/login
+    activate OneIdentity OpenId Provider
+        OneIdentity OpenId Provider ->> OneIdentity OpenId Provider : save SAML response & create auth token
+        OneIdentity OpenId Provider ->> FE_ARC : return auth code and redirect to /token endpoint on product
+note over FE_ARC, OneIdentity OpenId Provider: Token Request
+        FE_ARC ->> BE_ARC : /token + code
+        BE_ARC ->> OneIdentity OpenId Provider : Token + Client Credentials
+        OneIdentity OpenId Provider -->> BE_ARC : Id token + access token
+        BE_ARC ->> FE_ARC : Return product specific session token
+    deactivate OneIdentity OpenId Provider
+    deactivate FE_ARC
+    deactivate BE_ARC

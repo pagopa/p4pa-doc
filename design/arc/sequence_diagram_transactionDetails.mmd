@@ -1,0 +1,30 @@
+sequenceDiagram
+actor User
+participant FE_ARC
+participant BE_ARC
+participant Biz_Events_Service
+participant NDP
+
+note right of User: User authenticated
+    activate User
+    activate FE_ARC
+note over User, NDP : Retrieve Transaction Details
+        User ->> FE_ARC : Access to transaction details
+    deactivate User
+    activate BE_ARC
+        FE_ARC ->> BE_ARC : GET Transaction Details/<transactionId> <br> Authentication: Baerer <Session Token>
+        BE_ARC ->> BE_ARC : Validate session token
+    activate Biz_Events_Service
+    note right of BE_ARC : Retrieving CF from token
+        BE_ARC ->> Biz_Events_Service : Fiscal Code, Transaction Id
+    activate NDP
+    activate BE_ARC
+        Biz_Events_Service ->> NDP :
+        NDP -->> Biz_Events_Service : Transaction Details
+        Biz_Events_Service -->> BE_ARC : Transaction Details
+    deactivate BE_ARC
+        BE_ARC -->> FE_ARC : Transaction Details
+    deactivate NDP
+    deactivate BE_ARC
+    deactivate FE_ARC
+    deactivate Biz_Events_Service
