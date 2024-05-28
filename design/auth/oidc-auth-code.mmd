@@ -1,0 +1,24 @@
+sequenceDiagram
+    participant UA as User Agent
+    participant RP as Relying Party
+    participant AS as OpenID Provider
+    participant RO as Resource Owner
+    UA->> RP: GET /login
+    RP -->> UA: 302 Found Location: https://authserver.com/authorize
+    Note over UA,AS: Authentication Request
+    UA ->>+ AS: GET /authorize
+    AS ->> AS: authenticate User
+    AS -->>- UA: 302 Found Location: https://client.example.org/cb?code=xxxx
+    Note over UA,AS: Token Request
+    UA ->>+ RP: GET /token?code=xxxx
+    RP ->> AS: POST /token?code=xxxx
+    AS -->> RP: Access, ID, Refresh tokens
+    Note over RP,AS: communication backend to backend
+    RP ->> RP: generate session token
+    RP -->>- UA: session token
+    UA ->> UA: storage?
+    UA ->> RP: GET protected resource<br>Authentication: Bearer <session token>
+    RP ->>+ RO: GET protected resource
+    RO ->> RP: validate session token
+    RO ->>- RP: validation ok, return resource
+    RP -->> UA: return resource
