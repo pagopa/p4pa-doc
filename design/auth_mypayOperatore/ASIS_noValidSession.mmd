@@ -1,0 +1,16 @@
+sequenceDiagram
+    actor Operatore
+    participant FE as FE_MyOperatore
+    participant BFF as BFF_MyOperatore
+
+    note right of Operatore: Utente privo di sessione valida
+    Operatore ->> FE: Accede ad una qualsiasi pagina
+    activate FE
+    FE ->> Operatore: Redirect verso pagina di login
+    deactivate FE
+
+    Operatore ->> BFF: GET /saml/login?callbackUrl=<FE_BASE_URL>/logged
+    activate BFF
+    BFF -->> Operatore: Redirect verso servizio di autenticazione
+    deactivate BFF
+

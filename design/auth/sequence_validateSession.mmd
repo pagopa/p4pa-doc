@@ -1,0 +1,38 @@
+sequenceDiagram
+    actor Operatore
+    participant UserAgent
+    participant FE as FE_MyOperatore
+    participant BFF as BFF_MyOperatore
+    participant AUTH as P4PA_AUTH
+    participant SelfCare
+
+    note right of Operatore: Utente autenticato
+
+    Operatore ->> UserAgent: Naviga il portale
+
+    activate UserAgent
+        UserAgent ->> FE: #
+        activate FE
+            FE ->> BFF: Invoca API protetta
+            note over FE, BFF: Authorization: Bearer <accessToken>
+
+            activate BFF
+                BFF ->> AUTH: GET /userinfo
+                activate AUTH
+                    alt token valido e presente in cache
+                        note right of AUTH: Recupera l'ID Token dalla cache
+                        AUTH -->> BFF: Dati utente e ente di accesso
+                        note right of BFF: Costruisce rappresentazione in-memory<BR />dell'utente in sessione attingendo<BR />alla risposta di UserInfo<BR />e ai dati della mygov_operatore
+                        note right of BFF: Richiesta autorizzata<BR />Processa richiesta
+                    else
+                        AUTH -->> BFF: Forbidden
+                    end
+                deactivate AUTH
+
+                BFF -->> FE: Esito richiesta
+            deactivate BFF
+
+            FE -->> UserAgent: Renderizza esito API
+        deactivate FE
+        UserAgent -->> Operatore: #
+    deactivate UserAgent

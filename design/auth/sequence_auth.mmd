@@ -1,0 +1,75 @@
+sequenceDiagram
+    actor Operatore
+    participant UserAgent
+    participant FE as FE_MyOperatore
+    participant BFF as BFF_MyOperatore
+    participant AUTH as P4PA_AUTH
+    participant SelfCare
+
+    activate UserAgent
+        alt Operatore entra direttamente sul portale Piattaforma Unitaria
+            note over Operatore, UserAgent: Assenza di una sessione valida
+            Operatore ->> UserAgent: Accede al portale Piattaforma Unitaria
+
+            UserAgent ->> FE: #
+            activate FE
+                FE -->> UserAgent: Redirect verso pagina di login
+            deactivate FE
+        else
+            Operatore ->> UserAgent: Accede al portale SelfCare
+        end
+
+        UserAgent ->> SelfCare: Pagina di login
+        activate SelfCare
+            note right of SelfCare: L'utente si autentica e accede<br />al prodotto "Piattaforma Unitaria"
+            SelfCare -->> UserAgent: Redirect verso pagina di accettazione ID Token
+        deactivate SelfCare
+        note over UserAgent, SelfCare: RFC 8693 dello standard OAuth 2.0, token passato mediante query param
+
+        UserAgent ->> FE: GET /logged?login_token=<ID Token>
+        activate FE
+            FE ->> BFF: POST /public/authtoken Body:ID Token
+            activate BFF
+                BFF ->> AUTH: POST /token
+                activate AUTH
+                    AUTH ->> SelfCare: Recupera .well-known/jwks.json
+                    note right of AUTH: Valida ID Token
+                    note right of AUTH: Genera access Token (exp 4 ore)
+                    note right of AUTH: Salva in cache la coppia<BR />AccessToken.jti: ID Token<BR />Retention pari al exp
+                    AUTH ->> BFF: Consegna access Token
+                deactivate AUTH
+
+                BFF ->> AUTH: GET /userinfo
+                activate AUTH
+                    note right of AUTH: Recupera l'ID Token dalla cache
+                    AUTH -->> BFF: Dati utente ed ente di accesso
+                deactivate AUTH
+
+                BFF ->> BFF: Registra dati utente (no PII)
+
+                BFF -->> FE: access token JWT
+            deactivate BFF
+
+            FE ->> BFF: GET /userinfo
+            activate BFF
+                BFF ->> AUTH: GET /userinfo
+                activate AUTH
+                    note right of AUTH: Recupera l'ID Token dalla cache
+                    AUTH -->> BFF: Dati utente ed ente di accesso
+                deactivate AUTH
+            BFF -->> FE: Dati utente
+            deactivate BFF
+            note right of FE: Salva dati utente in memoria
+
+            alt L'operatore ha spuntato la casella "Ricordami"
+                note right of UserAgent: token di sessione persistito nel local storage
+            else
+                note right of UserAgent: token di sessione mantenuto in RAM
+            end
+            FE -->> UserAgent: #
+        deactivate FE
+
+        UserAgent -->> Operatore: #
+    deactivate UserAgent
+
+    note right of Operatore: Operatore libero di navigare<BR />all'interno del portale

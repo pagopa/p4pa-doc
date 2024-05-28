@@ -1,0 +1,30 @@
+sequenceDiagram
+    actor Operatore
+    participant UserAgent
+    participant FE as FE_MyOperatore
+    participant BFF as BFF_MyOperatore
+    participant AUTH as P4PA_AUTH
+
+    note right of Operatore: Utente autenticato
+
+    Operatore ->> UserAgent: Preme il pulsante "Esci"
+
+    activate UserAgent
+        UserAgent ->> FE: #
+        activate FE
+            FE ->> BFF: GET /public/doLogout
+            note over FE, BFF: Authorization: Bearer <accessToken>
+
+            activate BFF
+                BFF ->> AUTH: POST /revoke
+                activate AUTH
+                    AUTH ->> AUTH: Rimuove AccessToken dalla cache
+                deactivate AUTH
+
+                BFF -->> FE: #
+            deactivate BFF
+
+            FE -->> UserAgent: #
+        deactivate FE
+        UserAgent -->> Operatore: #
+    deactivate UserAgent

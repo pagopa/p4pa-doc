@@ -1,0 +1,34 @@
+C4Container
+    title AuthZ & AuthN Piattaforma Unitaria
+
+    UpdateLayoutConfig($c4ShapeInRow="3", $c4BoundaryInRow="2")
+
+
+    System(spid, "SPID")
+    System(sc, "SelfCare", "Autentica gli utenti,<BR/>ne gestisce i ruoli e<BR/>inoltra l'identità ai prodotti")
+    Person(usr_ope, "Operatore Ente")
+
+
+    Boundary(pu, "Piattaforma Unitaria") {
+        Container(pu_app_fe, "FE Piattaforma Unitaria", "Static website / SPA / Angular", "Riceve e inoltra l'ID Token,<BR />scambiandolo con un AccessToken<BR />per poi richiedere i dati dell'utente")
+        Container(pu_app_be, "BE Piattaforma Unitaria", "java / spring boot", "Riceve e inoltra l'ID Token,<BR />scambiandolo con un AccessToken.<BR />Richiede e valida l'AccessToken per le API protette")
+        Container(pu_iam, "P4PA-AUTH", "java / spring boot", "Valida l'ID Token,<BR />genera gli AccessToken,<BR />governa le sessioni")
+    }
+
+    Rel(usr_ope, sc, "Si autentica e<BR/>accede al prodotto")
+    UpdateRelStyle(usr_ope, sc, $textColor="blue", $lineColor="black", $offsetX="-50", $offsetY="-40")
+
+    Rel(sc, spid, "SPID", "SAML")
+    UpdateRelStyle(sc, spid, $textColor="blue", $lineColor="blue", $offsetX="-10", $offsetY="-30")
+
+    Rel(sc, pu_app_fe, "ID token", "OAUTH")
+    UpdateRelStyle(sc, pu_app_fe, $textColor="blue", $lineColor="blue", $offsetX="-60", $offsetY="-10")
+
+    Rel(pu_app_fe, pu_app_be, "ID token", "OAUTH")
+    UpdateRelStyle(pu_app_fe, pu_app_be, $textColor="blue", $lineColor="blue", $offsetX="-20", $offsetY="-40")
+
+    Rel(pu_iam, sc, "validate ID token", "OAUTH")
+    UpdateRelStyle(pu_iam, sc, $textColor="blue", $lineColor="blue", $offsetX="40", $offsetY="-10")
+
+    Rel(pu_app_be, pu_iam, "TokenExchange", "OAUTH")
+    UpdateRelStyle(pu_app_be, pu_iam, $textColor="blue", $lineColor="blue", $offsetX="-40", $offsetY="-30")
