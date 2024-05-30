@@ -4,7 +4,7 @@ sequenceDiagram
     participant FE as FE_MyOperatore
     participant BFF as BFF_MyOperatore
     participant AUTH as P4PA_AUTH
-    participant SelfCare
+    participant IAM
 
     activate UserAgent
         alt Operatore entra direttamente sul portale Piattaforma Unitaria
@@ -19,20 +19,20 @@ sequenceDiagram
             Operatore ->> UserAgent: Accede al portale SelfCare
         end
 
-        UserAgent ->> SelfCare: Pagina di login
-        activate SelfCare
-            note right of SelfCare: L'utente si autentica e accede<br />al prodotto "Piattaforma Unitaria"
-            SelfCare -->> UserAgent: Redirect verso pagina di accettazione ID Token
-        deactivate SelfCare
-        note over UserAgent, SelfCare: RFC 8693 dello standard OAuth 2.0, token passato mediante query param
+        UserAgent ->> IAM: Pagina di login
+        activate IAM
+            note right of IAM: L'utente si autentica e accede<br />al prodotto "Piattaforma Unitaria"
+            IAM -->> UserAgent: Redirect verso pagina di accettazione ID Token
+        deactivate IAM
+        note over UserAgent, IAM: RFC 8693 dello standard OAuth 2.0, token passato mediante query param.<BR />L'ID Token dovrà avere durata effimera (1 minuto)
 
-        UserAgent ->> FE: GET /logged?login_token=<ID Token>
+        UserAgent ->> FE: Prosegue con la redirect
         activate FE
-            FE ->> BFF: POST /public/authtoken Body:ID Token
+            FE ->> BFF: Consegna ID Token
             activate BFF
                 BFF ->> AUTH: POST /token
                 activate AUTH
-                    AUTH ->> SelfCare: Recupera .well-known/jwks.json
+                    AUTH ->> IAM: Recupera .well-known/jwks.json
                     note right of AUTH: Valida ID Token
                     note right of AUTH: Genera access Token (exp 4 ore)
                     note right of AUTH: Salva in cache la coppia<BR />AccessToken.jti: ID Token<BR />Retention pari al exp
@@ -61,11 +61,7 @@ sequenceDiagram
             deactivate BFF
             note right of FE: Salva dati utente in memoria
 
-            alt L'operatore ha spuntato la casella "Ricordami"
-                note right of UserAgent: token di sessione persistito nel local storage
-            else
-                note right of UserAgent: token di sessione mantenuto in RAM
-            end
+            note right of UserAgent: token di sessione persistito nel session storage
             FE -->> UserAgent: #
         deactivate FE
 

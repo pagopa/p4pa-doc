@@ -12,7 +12,7 @@ sequenceDiagram
     activate UserAgent
         UserAgent ->> FE: #
         activate FE
-            FE ->> BFF: GET /public/doLogout
+            FE ->> BFF: logout
             note over FE, BFF: Authorization: Bearer <accessToken>
 
             activate BFF
