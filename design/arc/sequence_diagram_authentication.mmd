@@ -12,15 +12,27 @@ note right of User: User Authentication
     deactivate User
     activate BE_ARC
         BE_ARC -->> FE_ARC : redirect to technology product-specific url
+    deactivate FE_ARC
+    deactivate BE_ARC
 note over FE_ARC, OneIdentity OpenId Provider: Authentication Request
+    activate FE_ARC
 		FE_ARC ->> OneIdentity OpenId Provider : /<product>/login
     activate OneIdentity OpenId Provider
+    activate OneIdentity OpenId Provider
         OneIdentity OpenId Provider ->> OneIdentity OpenId Provider : save SAML response & create auth token
+    deactivate OneIdentity OpenId Provider
         OneIdentity OpenId Provider ->> FE_ARC : return auth code and redirect to /token endpoint on product
+    deactivate FE_ARC
+    deactivate OneIdentity OpenId Provider
 note over FE_ARC, OneIdentity OpenId Provider: Token Request
+    activate FE_ARC
+    activate BE_ARC
+    activate OneIdentity OpenId Provider
         FE_ARC ->> BE_ARC : /token + code
+    activate BE_ARC
         BE_ARC ->> OneIdentity OpenId Provider : Token + Client Credentials
         OneIdentity OpenId Provider -->> BE_ARC : Id token + access token
+    deactivate BE_ARC
         BE_ARC ->> FE_ARC : Return product specific session token
     deactivate OneIdentity OpenId Provider
     deactivate FE_ARC
