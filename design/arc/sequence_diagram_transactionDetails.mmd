@@ -7,30 +7,21 @@ participant NDP
 
 note right of User: User authenticated
 note over User, NDP : Retrieve Transaction Details
-    activate User
+    User ->> FE_ARC : Access to transaction details
     activate FE_ARC
-        User ->> FE_ARC : Access to transaction details
-    deactivate User
-    deactivate FE_ARC
-    activate FE_ARC
-    activate BE_ARC
         FE_ARC ->> BE_ARC : GET Transaction Details/<transactionId> <br> Authentication: Bearer <Session Token>
-    activate BE_ARC
-        BE_ARC ->> BE_ARC : Validate session token
-    deactivate BE_ARC
-    note right of BE_ARC : Retrieving CF from token
-    activate Biz_Events_Service
-        BE_ARC ->> Biz_Events_Service : Fiscal Code, Transaction Id
-    activate NDP
-    activate BE_ARC
-    activate Biz_Events_Service
-        Biz_Events_Service ->> NDP : retrieve user transaction details from the "nodo-dei-pagamenti"
-        NDP -->> Biz_Events_Service : Transaction Details
-        Biz_Events_Service -->> BE_ARC : Transaction Details
-    deactivate Biz_Events_Service
-    deactivate BE_ARC
-    deactivate NDP
-        BE_ARC -->> FE_ARC : Transaction Details
-    deactivate BE_ARC
+        activate BE_ARC
+            BE_ARC ->> BE_ARC : Validate session token
+            note right of BE_ARC : Retrieving CF from token
+            BE_ARC ->> Biz_Events_Service : Fiscal Code, Transaction Id
+            activate Biz_Events_Service
+                Biz_Events_Service ->> NDP : retrieve user transaction details from the "nodo-dei-pagamenti"
+                activate NDP
+                    NDP -->> Biz_Events_Service : Transaction Details
+                deactivate NDP
+                Biz_Events_Service -->> BE_ARC : #
+            deactivate Biz_Events_Service
+            BE_ARC -->> FE_ARC : #
+        deactivate BE_ARC
+    FE_ARC  -->> User : #
     deactivate FE_ARC
-    deactivate Biz_Events_Service

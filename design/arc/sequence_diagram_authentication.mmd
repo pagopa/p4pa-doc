@@ -5,35 +5,37 @@ participant BE_ARC
 participant OneIdentity OpenId Provider
 
 note right of User: User Authentication
-    activate User
-		User ->> FE_ARC : Access
+
+    User ->> FE_ARC : Access
     activate FE_ARC
         FE_ARC ->> BE_ARC : GET /login
-    deactivate User
-    activate BE_ARC
-        BE_ARC -->> FE_ARC : redirect to technology product-specific url
+        activate BE_ARC
+            BE_ARC -->> FE_ARC : redirect to technology product-specific url
+        deactivate BE_ARC
+        FE_ARC -->> User : #
     deactivate FE_ARC
-    deactivate BE_ARC
-note over FE_ARC, OneIdentity OpenId Provider: Authentication Request
+note over User, OneIdentity OpenId Provider: Authentication Request
+    User ->> FE_ARC : Follow redirect
     activate FE_ARC
-		FE_ARC ->> OneIdentity OpenId Provider : /<product>/login
-    activate OneIdentity OpenId Provider
-    activate OneIdentity OpenId Provider
-        OneIdentity OpenId Provider ->> OneIdentity OpenId Provider : save SAML response & create auth token
-    deactivate OneIdentity OpenId Provider
-        OneIdentity OpenId Provider ->> FE_ARC : return auth code and redirect to /token endpoint on product
+		FE_ARC ->> OneIdentity OpenId Provider : GET /<product>/login
+        activate OneIdentity OpenId Provider
+            OneIdentity OpenId Provider ->> OneIdentity OpenId Provider : save SAML response & create auth token
+            OneIdentity OpenId Provider ->> FE_ARC : return auth code and redirect to /token endpoint on product
+        deactivate OneIdentity OpenId Provider
+        FE_ARC -->> User : #
     deactivate FE_ARC
-    deactivate OneIdentity OpenId Provider
-note over FE_ARC, OneIdentity OpenId Provider: Token Request
+
+note over User, OneIdentity OpenId Provider: Token Request
+    User ->> FE_ARC : Auth token
     activate FE_ARC
-    activate BE_ARC
-    activate OneIdentity OpenId Provider
-        FE_ARC ->> BE_ARC : /token + code
-    activate BE_ARC
-        BE_ARC ->> OneIdentity OpenId Provider : Token + Client Credentials
-        OneIdentity OpenId Provider -->> BE_ARC : Id token + access token
-    deactivate BE_ARC
-        BE_ARC ->> FE_ARC : Return product specific session token
-    deactivate OneIdentity OpenId Provider
+        FE_ARC ->> BE_ARC : /token
+        activate BE_ARC
+            BE_ARC ->> OneIdentity OpenId Provider : Token + Client Credentials
+                activate OneIdentity OpenId Provider
+                    OneIdentity OpenId Provider -->> BE_ARC : Id token + access token
+                deactivate OneIdentity OpenId Provider
+            BE_ARC -->> FE_ARC : Return product specific session token
+        deactivate BE_ARC
+        FE_ARC -->> User : #
     deactivate FE_ARC
-    deactivate BE_ARC
+
