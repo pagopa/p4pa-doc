@@ -19,6 +19,7 @@ sequenceDiagram
                 BFF ->> AUTH: POST /revoke
                 activate AUTH
                     AUTH ->> AUTH: Rimuove AccessToken dalla cache
+                    AUTH -->> BFF: #
                 deactivate AUTH
 
                 BFF -->> FE: #

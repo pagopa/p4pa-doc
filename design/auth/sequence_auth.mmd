@@ -16,7 +16,7 @@ sequenceDiagram
                 FE -->> UserAgent: Redirect verso pagina di login
             deactivate FE
         else
-            Operatore ->> UserAgent: Accede al portale SelfCare
+            Operatore ->> UserAgent: Accede all'Area Riservata
         end
 
         UserAgent ->> IAM: Pagina di login
@@ -35,19 +35,41 @@ sequenceDiagram
                     AUTH ->> IAM: Recupera .well-known/jwks.json
                     note right of AUTH: Valida ID Token
                     note right of AUTH: Genera access Token (exp 4 ore)
-                    note right of AUTH: Salva in cache la coppia<BR />AccessToken.jti: ID Token<BR />Retention pari al exp
-                    AUTH ->> BFF: Consegna access Token
+                    note right of AUTH: Salva in cache la coppia<BR />AccessToken: ID Token<BR />Retention pari al exp
+                    AUTH ->> BFF: Consegna Access Token
                 deactivate AUTH
 
                 BFF ->> AUTH: GET /userinfo
                 activate AUTH
                     note right of AUTH: Recupera l'ID Token dalla cache
-                    AUTH -->> BFF: Dati utente ed ente di accesso
+                    AUTH -->> BFF: Dati utente ed enti/ruoli
                 deactivate AUTH
 
-                BFF ->> BFF: Registra dati utente (no PII)
+                alt Utente non registrato
+                    BFF -->> FE: access token JWT e HttpStatus 412
+                    FE -->> UserAgent: Pagina di accettazione ToS
+                    UserAgent -->> Operatore: #
+                    Operatore ->> UserAgent: Accetta ToS
+                    UserAgent ->> FE: #
+                    FE ->> BFF: Accettazione ToS
+                    note over FE, BFF: Authorization: Bearer <accessToken>
+                    BFF ->> AUTH: GET /userinfo
+                    activate AUTH
+                        note right of AUTH: Recupera l'ID Token dalla cache
+                        AUTH -->> BFF: Dati utente ed enti/ruoli
+                    deactivate AUTH
+                end
 
-                BFF -->> FE: access token JWT
+                BFF ->> BFF: Registra dati utente (no PII)
+                activate BFF
+                    alt Ottenuta totalità degli enti/ruoli
+                        BFF ->> BFF: Aggiorna relazioni enti/ruoli
+                    else Ottenuto solo ente di accesso
+                        BFF ->> BFF: Aggiorna relazione ente di accesso-ruolo
+                    end
+                deactivate BFF
+
+                BFF -->> FE: access token JWT e HttpStatus 200
             deactivate BFF
 
             FE ->> BFF: GET /userinfo
@@ -55,7 +77,7 @@ sequenceDiagram
                 BFF ->> AUTH: GET /userinfo
                 activate AUTH
                     note right of AUTH: Recupera l'ID Token dalla cache
-                    AUTH -->> BFF: Dati utente ed ente di accesso
+                    AUTH -->> BFF: Dati utente ed enti/ruoli
                 deactivate AUTH
             BFF -->> FE: Dati utente
             deactivate BFF
