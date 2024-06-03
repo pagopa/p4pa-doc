@@ -3,23 +3,18 @@ actor User
 participant FE_ARC
 participant BE_ARC
 participant Biz_Events_Service
-participant NDP
 
 note right of User: User authenticated
-note over User, NDP : Retrieve Transactions List
+note over User, Biz_Events_Service : Retrieve Transactions List
     User ->> FE_ARC : Access to transaction list
     activate FE_ARC
-        FE_ARC ->> BE_ARC : GET Transactions List <br> Authentication: Bearer <Session Token>
+        FE_ARC ->> BE_ARC : GET /transactions <br> Authentication: Bearer <Session Token>
         activate BE_ARC
             BE_ARC ->> BE_ARC : Validate session token
             note right of BE_ARC : Retrieving CF from token
             BE_ARC ->> Biz_Events_Service : Fiscal Code
             activate Biz_Events_Service
-                Biz_Events_Service ->> NDP: retrieve user transactions from the "nodo-dei-pagamenti"
-                activate NDP
-                    NDP -->> Biz_Events_Service : Transactions List
-                deactivate NDP
-                Biz_Events_Service -->> BE_ARC : #
+                Biz_Events_Service -->> BE_ARC : Retrieve transactions list
             deactivate Biz_Events_Service
             BE_ARC -->> FE_ARC : #
         deactivate BE_ARC

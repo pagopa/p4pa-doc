@@ -26,9 +26,9 @@ note over User, OneIdentity OpenId Provider: Authentication Request
     deactivate FE_ARC
 
 note over User, OneIdentity OpenId Provider: Token Request
-    User ->> FE_ARC : Auth token
+    User ->> FE_ARC : Auth code
     activate FE_ARC
-        FE_ARC ->> BE_ARC : /token
+        FE_ARC ->> BE_ARC : POST /token
         activate BE_ARC
             BE_ARC ->> OneIdentity OpenId Provider : Token + Client Credentials
                 activate OneIdentity OpenId Provider
