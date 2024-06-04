@@ -36,39 +36,40 @@ sequenceDiagram
                     note right of AUTH: Valida ID Token
                     note right of AUTH: Genera access Token (exp 4 ore)
                     note right of AUTH: Salva in cache la coppia<BR />AccessToken: ID Token<BR />Retention pari al exp
-                    AUTH ->> BFF: Consegna Access Token
-                deactivate AUTH
-
-                BFF ->> AUTH: GET /userinfo
-                activate AUTH
-                    note right of AUTH: Recupera l'ID Token dalla cache
-                    AUTH -->> BFF: Dati utente ed enti/ruoli
-                deactivate AUTH
-
-                alt Utente non registrato
-                    BFF -->> FE: access token JWT e HttpStatus 412
-                    FE -->> UserAgent: Pagina di accettazione ToS
-                    UserAgent -->> Operatore: #
-                    Operatore ->> UserAgent: Accetta ToS
-                    UserAgent ->> FE: #
-                    FE ->> BFF: Accettazione ToS
-                    note over FE, BFF: Authorization: Bearer <accessToken>
-                    BFF ->> AUTH: GET /userinfo
+                    AUTH ->> AUTH: Ricerca in tabella Users
                     activate AUTH
-                        note right of AUTH: Recupera l'ID Token dalla cache
-                        AUTH -->> BFF: Dati utente ed enti/ruoli
+                        alt Utente non registrato
+                            AUTH -->> BFF: access token JWT e HttpStatus 412
+                            BFF -->> FE: access token JWT e HttpStatus 412
+                            FE -->> UserAgent: Pagina di accettazione ToS
+                            UserAgent -->> Operatore: #
+                            Operatore ->> UserAgent: Accetta ToS
+                            UserAgent ->> FE: #
+                            FE ->> BFF: Accettazione ToS
+                            note over FE, BFF: Authorization: Bearer <accessToken>
+                            BFF ->> AUTH: POST /consent
+                            note over BFF, AUTH: Authorization: Bearer <accessToken>
+                            activate AUTH
+                                note right of AUTH: Recupera l'ID Token dalla cache
+                                AUTH ->> AUTH: Ricerca in tabella utenti
+
+                                alt Utente non registrato
+                                    AUTH ->> AUTH: Registra dati utente in tabella Users (no PII)
+                                    alt Il token contiene l'ente di accesso ed il ruolo
+                                        AUTH ->> AUTH: Aggiorna relazione ente-utente in tabella Operators
+                                    end
+                                end
+
+                                AUTH -->> BFF: 200: OK
+                            deactivate AUTH
+                        else
+                            alt Il token contiene l'ente di accesso ed il ruolo
+                                AUTH ->> AUTH: Aggiorna relazione ente-utente in tabella Operators
+                            end
+                            AUTH ->> BFF: 200: Consegna Access Token
+                        end
+
                     deactivate AUTH
-                end
-
-                BFF ->> BFF: Registra dati utente (no PII)
-                activate BFF
-                    alt Ottenuta totalità degli enti/ruoli
-                        BFF ->> BFF: Aggiorna relazioni enti/ruoli
-                    else Ottenuto solo ente di accesso
-                        BFF ->> BFF: Aggiorna relazione ente di accesso-ruolo
-                    end
-                deactivate BFF
-
                 BFF -->> FE: access token JWT e HttpStatus 200
             deactivate BFF
 
@@ -76,7 +77,8 @@ sequenceDiagram
             activate BFF
                 BFF ->> AUTH: GET /userinfo
                 activate AUTH
-                    note right of AUTH: Recupera l'ID Token dalla cache
+                    AUTH ->> AUTH: Recupera l'ID Token dalla cache
+                    AUTH ->> AUTH: Recupera le relazioni ed i ruoli<BR />con gli enti dalla tabella Operators
                     AUTH -->> BFF: Dati utente ed enti/ruoli
                 deactivate AUTH
             BFF -->> FE: Dati utente

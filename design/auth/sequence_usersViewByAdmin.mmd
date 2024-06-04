@@ -13,7 +13,7 @@ sequenceDiagram
     activate UserAgent
         UserAgent ->> FE: #
         activate FE
-            FE ->> BFF: Invoca API protetta
+            FE ->> BFF: Ottieni lista operatori ente
             note over FE, BFF: Authorization: Bearer <accessToken>
 
             activate BFF
@@ -23,7 +23,16 @@ sequenceDiagram
                         AUTH ->> AUTH: Recupera l'ID Token dalla cache
                         AUTH ->> AUTH: Recupera le relazioni ed i ruoli<BR />con gli enti dalla tabella Operators
                         AUTH -->> BFF: Dati utente ed enti/ruoli
-                        note right of BFF: Richiesta autorizzata<BR />Processa richiesta
+
+                        alt L'utente è amministratore per l'ente
+                            BFF ->> AUTH: GET /operators
+                            activate AUTH
+                                AUTH ->> AUTH: Interroga tabelle Users e Operators
+                            deactivate AUTH
+                            note over BFF, AUTH: Filtro per organizationId
+                        else
+                            AUTH -->> BFF: Forbidden
+                        end
                     else
                         AUTH -->> BFF: Forbidden
                     end
