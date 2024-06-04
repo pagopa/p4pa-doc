@@ -1,0 +1,52 @@
+sequenceDiagram
+    actor Operatore
+    participant UserAgent
+    participant FE as FE_MyOperatore
+    participant BFF as BFF_MyOperatore
+    participant AUTH as P4PA_AUTH
+    participant IAM
+
+    note right of Operatore: Utente autenticato
+
+    Operatore ->> UserAgent: Naviga il portale
+
+    activate UserAgent
+        UserAgent ->> FE: #
+        activate FE
+            FE ->> BFF: Aggiungi/Aggiorna/Rimuovi operatore ente
+            note over FE, BFF: Authorization: Bearer <accessToken>
+
+            activate BFF
+                BFF ->> AUTH: GET /userinfo
+                activate AUTH
+                    alt token valido e presente in cache
+                        AUTH ->> AUTH: Recupera l'ID Token dalla cache
+                        AUTH ->> AUTH: Recupera le relazioni ed i ruoli<BR />con gli enti dalla tabella Operators
+                        AUTH -->> BFF: Dati utente ed enti/ruoli
+
+                        alt L'utente è amministratore per l'ente
+                            BFF ->> AUTH: POST /operators<BR />DELETE /operators/{operatorId}
+                            note over BFF, AUTH: Filtro per organizationId
+                            activate AUTH
+                                alt L'utente è amministratore per l'ente
+                                    AUTH ->> AUTH: Esegue azione
+                                    AUTH -->> BFF: Esito operazione
+                                else
+                                    AUTH -->> BFF: Forbidden
+                                end
+                            deactivate AUTH
+                        else
+                            AUTH -->> BFF: Forbidden
+                        end
+                    else
+                        AUTH -->> BFF: Forbidden
+                    end
+                deactivate AUTH
+
+                BFF -->> FE: Esito richiesta
+            deactivate BFF
+
+            FE -->> UserAgent: Renderizza esito API
+        deactivate FE
+        UserAgent -->> Operatore: #
+    deactivate UserAgent
