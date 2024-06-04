@@ -26,10 +26,15 @@ sequenceDiagram
 
                         alt L'utente è amministratore per l'ente
                             BFF ->> AUTH: GET /operators
-                            activate AUTH
-                                AUTH ->> AUTH: Interroga tabelle Users e Operators
-                            deactivate AUTH
                             note over BFF, AUTH: Filtro per organizationId
+                            activate AUTH
+                                alt L'utente è amministratore per l'ente
+                                    AUTH ->> AUTH: Interroga tabelle Users e Operators
+                                    AUTH -->> BFF: Lista operatori
+                                else
+                                    AUTH -->> BFF: Forbidden
+                                end
+                            deactivate AUTH
                         else
                             AUTH -->> BFF: Forbidden
                         end
