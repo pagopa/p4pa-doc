@@ -63,8 +63,9 @@ sequenceDiagram
                                 AUTH -->> BFF: 200: OK
                             deactivate AUTH
                         else
-                            alt Il token contiene l'ente di accesso ed il ruolo
+                            alt Configurata modalità "ente di accesso"
                                 AUTH ->> AUTH: Aggiorna relazione ente-utente in tabella Operators
+                                note right of AUTH: Se il token non contiene l'ente di accesso,<BR />si otterrà l'errore di token non valido
                             end
                             AUTH ->> BFF: 200: Consegna Access Token
                         end

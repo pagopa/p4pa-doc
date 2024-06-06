@@ -9,7 +9,7 @@ paths:
   /auth/token:
     post:
       tags:
-        - auth
+        - authn
       operationId: postToken
       security: []
       parameters:
@@ -46,7 +46,7 @@ paths:
           required: true
           schema:
             enum: [
-              "urn:ietf:params:oauth:token-type:id_token"
+              "urn:ietf:params:oauth:token-type:jwt"
             ]
             type: string
         - name: scope
@@ -77,7 +77,7 @@ paths:
   /auth/userinfo:
     get:
       tags:
-        - auth
+        - authn
       operationId: getUserInfo
       responses:
         '200':
@@ -86,10 +86,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserInfo'
-        '400':
-          description: Invalid request
         '401':
-          description: Authentication failed
+          description: Unauthorized
         '500':
           description: Server ERROR
           content:
@@ -99,9 +97,8 @@ paths:
   /auth/revoke:
     post:
       tags:
-        - auth
+        - authn
       operationId: logout
-      security: []
       parameters:
         - name: client_id
           in: query
@@ -122,6 +119,106 @@ paths:
           description: OK
         '400':
           description: Invalid request
+  /am/consent:
+    post:
+      tags:
+        - authz
+      operationId: logout
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+  /am/operators/{organizationIpaCode}:
+    get:
+      tags:
+        - authz
+      operationId: getOrganizationOperators
+      parameters:
+        - name: organizationIpaCode
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: page
+          in: query
+          description: "The number of the page"
+          schema:
+            type: integer
+            default: 0
+        - name: size
+          in: query
+          description: "Number of items"
+          schema:
+            type: integer
+            default: 10
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperatorsPage'
+        '400':
+          description: Invalid request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+    post:
+      tags:
+        - authz
+      operationId: createOrganizationOperator
+      parameters:
+        - name: organizationIpaCode
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOperatorRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Operator'
+        '400':
+          description: Invalid request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /am/operators/{organizationIpaCode}/{operatorId}:
+    delete:
+      tags:
+        - authz
+      operationId: deleteOrganizationOperator
+      parameters:
+        - name: organizationIpaCode
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: operatorId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: OK
+        '400':
+          description: Invalid request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
 security:
   - BearerAuth: []
 components:
@@ -143,7 +240,7 @@ components:
           type: string
           default: bearer
         expires_in:
-          type: number
+          type: int
     UserInfo:
       type: object
       required:
@@ -165,6 +262,94 @@ components:
         issuer:
           type: string
         organization:
+          $ref: components/schemas/UserOrganizationRoles
+    UserOrganizationRoles:
+      type: object
+      required:
+        - id
+        - name
+        - fiscalCode
+        - ipaCode
+        - roles
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        fiscalCode:
+          type: string
+        ipaCode:
+          type: string
+        roles:
+          type: array
+          items:
+            type: string
+    OperatorsPage:
+      type: object
+      required:
+        - content
+        - pageNo
+        - pageSize
+        - totalElements
+        - totalPages
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/Operator'
+          description: "The list of organization operators"
+        pageNo:
+          type: integer
+          format: int32
+          description: "Number of page"
+        pageSize:
+          type: integer
+          format: int32
+          description: "Number of elements in the page"
+        totalElements:
+          type: integer
+          format: int32
+          description: "Number of total elements"
+        totalPages:
+          type: integer
+          format: int32
+          description: "Number of total pages"
+    Operator:
+      type: object
+      required:
+        - userId
+        - mappedExternalUserId
+        - userCode
+        - operatorId
+        - role
+        - organizationIpaCode
+      properties:
+        userId:
+          type: integer
+          format: int32
+        mappedExternalUserId:
+          type: string
+        userCode:
+          type: string
+        operatorId:
+          type: integer
+          format: int32
+        role:
+          type: string
+        organizationIpaCode:
+          type: string
+    CreateOperatorRequest:
+      type: object
+      required:
+        - externalUserId
+        - fiscalCode
+        - role
+      properties:
+        externalUserId:
+          type: string
+        fiscalCode:
+          type: string
+        role:
           type: string
     AuthErrorDTO:
       type: object
