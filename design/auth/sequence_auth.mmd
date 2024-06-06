@@ -34,7 +34,7 @@ sequenceDiagram
                 activate AUTH
                     AUTH ->> IAM: Recupera .well-known/jwks.json
                     note right of AUTH: Valida ID Token
-                    note right of AUTH: Genera access Token (exp 4 ore)
+                    note right of AUTH: Genera access Token
                     note right of AUTH: Salva in cache la coppia<BR />AccessToken: ID Token<BR />Retention pari al exp
                     AUTH ->> AUTH: Ricerca in tabella Users
                     activate AUTH

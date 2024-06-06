@@ -233,14 +233,20 @@ components:
         - access_token
         - token_type
         - expires_in
+        - refresh_token
+        - refresh_expires_in
       properties:
         access_token:
           type: string
         token_type:
           type: string
-          default: bearer
+          default: Bearer
         expires_in:
-          type: int
+          type: integer
+        refresh_token:
+          type: string
+        refresh_expires_in:
+          type: integer
     UserInfo:
       type: object
       required:
