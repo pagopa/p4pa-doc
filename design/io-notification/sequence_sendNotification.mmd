@@ -1,0 +1,12 @@
+sequenceDiagram
+    participant Payhub_Be
+    participant IONotification
+    participant EventHub
+
+    Payhub_Be ->> IONotification: richiesta invio notifica <br/>POST /send/message/{enteId}/{tipoDovutoId}
+
+    activate IONotification
+        note left of IONotification: Payhub invia payload con il codice fiscale
+        IONotification ->> EventHub: invia richiesta ad EventHub
+        IONotification -->> Payhub_Be: #
+    deactivate IONotification
