@@ -11,14 +11,9 @@ sequenceDiagram
 
     alt esiste db
         IONotification ->> Backend_IO: getAll services da IO <br/>GET /manage/services
+
         activate Backend_IO
-
-        alt chiamata IO fallita
-            Backend_IO -->> IONotification: error
-            IONotification -->> Payhub_Be: retry
-        end
-
-        Backend_IO -->> IONotification: lista di servizi
+            Backend_IO -->> IONotification: lista di servizi
         deactivate Backend_IO
 
         alt servizio esiste su IO
@@ -26,35 +21,30 @@ sequenceDiagram
             IONotification -->> Payhub_Be: 201 CREATED
         else servizio NON esiste su IO
             IONotification ->> Backend_IO: creare sevizio <br/>POST /api/v1/manage/services
+
             activate Backend_IO
-
-            alt chiamata IO fallita
-                Backend_IO -->> IONotification: error
-                IONotification -->> Payhub_Be: retry
-            end
-
-            Backend_IO -->> IONotification: servizio
+                Backend_IO -->> IONotification: servizio
             deactivate Backend_IO
+
             IONotification ->> IONotification_DB: aggiorna servizio <br/>(serviceId, stato)
             IONotification -->> Payhub_Be: 201 CREATED
         end
 
     else NON esiste db
         IONotification ->> Backend_IO: creare sevizio <br/>POST /api/v1/manage/services
+
         activate Backend_IO
-
-        alt chiamata IO fallita
-            Backend_IO -->> IONotification: error
-            IONotification -->> Payhub_Be: retry
-        end
-
-        Backend_IO -->> IONotification: servizio
+            Backend_IO -->> IONotification: servizio
         deactivate Backend_IO
+
         IONotification ->> IONotification_DB: aggiorna servizio <br/>(serviceId, stato)
         IONotification -->> Payhub_Be: 201 CREATED
 
     else error
         IONotification_DB -->> IONotification: 429
+        IONotification -->> Payhub_Be: retry
+    else chiamata IO fallita
+        Backend_IO -->> IONotification: error
         IONotification -->> Payhub_Be: retry
     end
 
