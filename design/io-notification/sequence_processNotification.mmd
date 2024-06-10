@@ -1,0 +1,28 @@
+sequenceDiagram
+    participant IONotification
+    participant Backend_IO
+    participant IONotification_DB
+
+
+    IONotification ->> IONotification_DB: GET serviceId
+    IONotification ->> Backend_IO:  recupero token<br/>GET /api/v1/manage/services/{serviceId}/keys
+
+    activate Backend_IO
+        Backend_IO -->> IONotification: token
+    deactivate Backend_IO
+
+    IONotification ->> Backend_IO:  Verifica se il cittadino ha abilitato le notifiche push <br/>POST /api/v1/profiles
+
+    activate Backend_IO
+        Backend_IO -->> IONotification: esito
+    deactivate Backend_IO
+
+    IONotification ->> Backend_IO:  invia notifica <br/>POST /api/v1/messages
+
+    activate Backend_IO
+        Backend_IO -->> IONotification: notifica
+    deactivate Backend_IO
+
+    IONotification ->> IONotification_DB: salva notifica
+
+
