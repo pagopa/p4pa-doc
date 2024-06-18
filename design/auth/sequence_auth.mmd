@@ -4,7 +4,7 @@ sequenceDiagram
     participant FE as FE_MyOperatore
     participant BFF as BFF_MyOperatore
     participant AUTH as P4PA_AUTH
-    participant SelfCare
+    participant IAM
 
     activate UserAgent
         alt Operatore entra direttamente sul portale Piattaforma Unitaria
@@ -16,56 +16,77 @@ sequenceDiagram
                 FE -->> UserAgent: Redirect verso pagina di login
             deactivate FE
         else
-            Operatore ->> UserAgent: Accede al portale SelfCare
+            Operatore ->> UserAgent: Accede all'Area Riservata
         end
 
-        UserAgent ->> SelfCare: Pagina di login
-        activate SelfCare
-            note right of SelfCare: L'utente si autentica e accede<br />al prodotto "Piattaforma Unitaria"
-            SelfCare -->> UserAgent: Redirect verso pagina di accettazione ID Token
-        deactivate SelfCare
-        note over UserAgent, SelfCare: RFC 8693 dello standard OAuth 2.0, token passato mediante query param
+        UserAgent ->> IAM: Pagina di login
+        activate IAM
+            note right of IAM: L'utente si autentica e accede<br />al prodotto "Piattaforma Unitaria"
+            IAM -->> UserAgent: Redirect verso pagina di accettazione ID Token
+        deactivate IAM
+        note over UserAgent, IAM: RFC 8693 dello standard OAuth 2.0, token passato mediante query param.<BR />L'ID Token dovrà avere durata effimera (1 minuto)
 
-        UserAgent ->> FE: GET /logged?login_token=<ID Token>
+        UserAgent ->> FE: Prosegue con la redirect
         activate FE
-            FE ->> BFF: POST /public/authtoken Body:ID Token
+            FE ->> BFF: Consegna ID Token
             activate BFF
                 BFF ->> AUTH: POST /token
                 activate AUTH
-                    AUTH ->> SelfCare: Recupera .well-known/jwks.json
+                    AUTH ->> IAM: Recupera .well-known/jwks.json
                     note right of AUTH: Valida ID Token
-                    note right of AUTH: Genera access Token (exp 4 ore)
-                    note right of AUTH: Salva in cache la coppia<BR />AccessToken.jti: ID Token<BR />Retention pari al exp
-                    AUTH ->> BFF: Consegna access Token
-                deactivate AUTH
+                    note right of AUTH: Genera access Token
+                    note right of AUTH: Salva in cache la coppia<BR />AccessToken: ID Token<BR />Retention pari al exp
+                    AUTH ->> AUTH: Ricerca in tabella Users
+                    activate AUTH
+                        alt Utente non registrato
+                            AUTH -->> BFF: access token JWT e HttpStatus 412
+                            BFF -->> FE: access token JWT e HttpStatus 412
+                            FE -->> UserAgent: Pagina di accettazione ToS
+                            UserAgent -->> Operatore: #
+                            Operatore ->> UserAgent: Accetta ToS
+                            UserAgent ->> FE: #
+                            FE ->> BFF: Accettazione ToS
+                            note over FE, BFF: Authorization: Bearer <accessToken>
+                            BFF ->> AUTH: POST /consent
+                            note over BFF, AUTH: Authorization: Bearer <accessToken>
+                            activate AUTH
+                                note right of AUTH: Recupera l'ID Token dalla cache
+                                AUTH ->> AUTH: Ricerca in tabella utenti
 
-                BFF ->> AUTH: GET /userinfo
-                activate AUTH
-                    note right of AUTH: Recupera l'ID Token dalla cache
-                    AUTH -->> BFF: Dati utente ed ente di accesso
-                deactivate AUTH
+                                alt Utente non registrato
+                                    AUTH ->> AUTH: Registra dati utente in tabella Users (no PII)
+                                    alt Il token contiene l'ente di accesso ed il ruolo
+                                        AUTH ->> AUTH: Aggiorna relazione ente-utente in tabella Operators
+                                    end
+                                end
 
-                BFF ->> BFF: Registra dati utente (no PII)
+                                AUTH -->> BFF: 200: OK
+                            deactivate AUTH
+                        else
+                            alt Configurata modalità "ente di accesso"
+                                AUTH ->> AUTH: Aggiorna relazione ente-utente in tabella Operators
+                                note right of AUTH: Se il token non contiene l'ente di accesso,<BR />si otterrà l'errore di token non valido
+                            end
+                            AUTH ->> BFF: 200: Consegna Access Token
+                        end
 
-                BFF -->> FE: access token JWT
+                    deactivate AUTH
+                BFF -->> FE: access token JWT e HttpStatus 200
             deactivate BFF
 
             FE ->> BFF: GET /userinfo
             activate BFF
                 BFF ->> AUTH: GET /userinfo
                 activate AUTH
-                    note right of AUTH: Recupera l'ID Token dalla cache
-                    AUTH -->> BFF: Dati utente ed ente di accesso
+                    AUTH ->> AUTH: Recupera l'ID Token dalla cache
+                    AUTH ->> AUTH: Recupera le relazioni ed i ruoli<BR />con gli enti dalla tabella Operators
+                    AUTH -->> BFF: Dati utente ed enti/ruoli
                 deactivate AUTH
             BFF -->> FE: Dati utente
             deactivate BFF
             note right of FE: Salva dati utente in memoria
 
-            alt L'operatore ha spuntato la casella "Ricordami"
-                note right of UserAgent: token di sessione persistito nel local storage
-            else
-                note right of UserAgent: token di sessione mantenuto in RAM
-            end
+            note right of UserAgent: token di sessione persistito nel session storage
             FE -->> UserAgent: #
         deactivate FE
 

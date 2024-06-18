@@ -12,13 +12,14 @@ sequenceDiagram
     activate UserAgent
         UserAgent ->> FE: #
         activate FE
-            FE ->> BFF: GET /public/doLogout
+            FE ->> BFF: logout
             note over FE, BFF: Authorization: Bearer <accessToken>
 
             activate BFF
                 BFF ->> AUTH: POST /revoke
                 activate AUTH
                     AUTH ->> AUTH: Rimuove AccessToken dalla cache
+                    AUTH -->> BFF: #
                 deactivate AUTH
 
                 BFF -->> FE: #
