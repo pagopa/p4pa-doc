@@ -263,7 +263,7 @@ components:
         - familyName
         - name
         - issuer
-        - organization
+        - organizations
       properties:
         userId:
           type: string
@@ -275,8 +275,12 @@ components:
           type: string
         issuer:
           type: string
-        organization:
-          $ref: components/schemas/UserOrganizationRoles
+        organizationAccess:
+          type: string
+        organizations:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserOrganizationRoles'
     UserOrganizationRoles:
       type: object
       required:
