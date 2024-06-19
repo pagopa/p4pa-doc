@@ -263,7 +263,7 @@ components:
         - familyName
         - name
         - issuer
-        - organization
+        - organizations
       properties:
         userId:
           type: string
@@ -275,18 +275,22 @@ components:
           type: string
         issuer:
           type: string
-        organization:
-          $ref: components/schemas/UserOrganizationRoles
+        organizationAccess:
+          type: string
+        organizations:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserOrganizationRoles'
     UserOrganizationRoles:
       type: object
       required:
-        - id
+        - operatorId
         - name
         - fiscalCode
         - ipaCode
         - roles
       properties:
-        id:
+        operatorId:
           type: string
         name:
           type: string
@@ -335,7 +339,7 @@ components:
         - mappedExternalUserId
         - userCode
         - operatorId
-        - role
+        - roles
         - organizationIpaCode
       properties:
         userId:
@@ -348,8 +352,10 @@ components:
         operatorId:
           type: integer
           format: int32
-        role:
-          type: string
+        roles:
+          type: array
+          items:
+            type: string
         organizationIpaCode:
           type: string
     CreateOperatorRequest:
