@@ -68,6 +68,8 @@ paths:
           description: Invalid request
         '401':
           description: Authentication failed
+        '429':
+          description: Too Many Requests
         '412':
           description: ToS acceptance missing
         '500':
@@ -90,6 +92,8 @@ paths:
                 $ref: '#/components/schemas/UserInfo'
         '401':
           description: Unauthorized
+        '429':
+          description: Too Many Requests
         '412':
           description: ToS acceptance missing
         '500':
@@ -103,6 +107,7 @@ paths:
       tags:
         - authn
       operationId: logout
+      security: []
       parameters:
         - name: client_id
           in: query
@@ -133,6 +138,8 @@ paths:
           description: OK
         '401':
           description: Unauthorized
+        '429':
+          description: Too Many Requests
   /am/operators/{organizationIpaCode}:
     get:
       tags:
@@ -171,6 +178,8 @@ paths:
           description: Forbidden
         '412':
           description: ToS acceptance missing
+        '429':
+          description: Too Many Requests
     post:
       tags:
         - authz
@@ -200,6 +209,8 @@ paths:
           description: Unauthorized
         '403':
           description: Forbidden
+        '429':
+          description: Too Many Requests
   /am/operators/{organizationIpaCode}/{operatorId}:
     delete:
       tags:
@@ -227,6 +238,8 @@ paths:
           description: Forbidden
         '412':
           description: ToS acceptance missing
+        '429':
+          description: Too Many Requests
 security:
   - BearerAuth: []
 components:
@@ -364,10 +377,13 @@ components:
         - externalUserId
         - fiscalCode
         - roles
+        - organizationIpaCode
       properties:
         externalUserId:
           type: string
         fiscalCode:
+          type: string
+        organizationIpaCode:
           type: string
         roles:
           type: array
