@@ -272,6 +272,7 @@ components:
       type: object
       required:
         - userId
+        - mappedExternalUserId
         - fiscalCode
         - familyName
         - name
@@ -279,6 +280,8 @@ components:
         - organizations
       properties:
         userId:
+          type: string
+        mappedExternalUserId:
           type: string
         fiscalCode:
           type: string
@@ -298,18 +301,12 @@ components:
       type: object
       required:
         - operatorId
-        - name
-        - fiscalCode
-        - ipaCode
+        - organizationIpaCode
         - roles
       properties:
         operatorId:
           type: string
-        name:
-          type: string
-        fiscalCode:
-          type: string
-        ipaCode:
+        organizationIpaCode:
           type: string
         roles:
           type: array
