@@ -34,11 +34,12 @@ sequenceDiagram
                 activate AUTH
                     AUTH ->> IAM: Recupera .well-known/jwks.json
                     note right of AUTH: Valida ID Token
-                    note right of AUTH: Genera access Token
-                    note right of AUTH: Salva in cache la coppia<BR />AccessToken: ID Token<BR />Retention pari al exp
                     AUTH ->> AUTH: Ricerca in tabella Users
                     activate AUTH
                         alt Utente non registrato
+                            note right of AUTH: Genera access Token con scope 'tos'
+                            note right of AUTH: Salva in cache la coppia<BR />AccessToken: ID Token<BR />Retention pari al exp
+
                             AUTH -->> BFF: access token JWT e HttpStatus 412
                             BFF -->> FE: access token JWT e HttpStatus 412
                             FE -->> UserAgent: Pagina di accettazione ToS
@@ -59,14 +60,19 @@ sequenceDiagram
                                         AUTH ->> AUTH: Aggiorna relazione ente-utente in tabella Operators
                                     end
                                 end
+                                note right of AUTH: Genera access Token con scope 'api'
+                                note right of AUTH: Salva in cache la coppia<BR />AccessToken: ID Token<BR />Retention pari al exp
 
-                                AUTH -->> BFF: 200: OK
+                                AUTH -->> BFF: 200: Consegna Access Token
                             deactivate AUTH
                         else
                             alt Configurata modalità "ente di accesso"
                                 AUTH ->> AUTH: Aggiorna relazione ente-utente in tabella Operators
                                 note right of AUTH: Se il token non contiene l'ente di accesso,<BR />si otterrà l'errore di token non valido
                             end
+                            note right of AUTH: Genera access Token con scope 'api'
+                            note right of AUTH: Salva in cache la coppia<BR />AccessToken: ID Token<BR />Retention pari al exp
+
                             AUTH ->> BFF: 200: Consegna Access Token
                         end
 
