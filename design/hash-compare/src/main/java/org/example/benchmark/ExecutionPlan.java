@@ -21,9 +21,13 @@ public class ExecutionPlan {
 
     @Setup(Level.Trial)
     public void init() {
-        setValue();
         setPepper();
         setHash();
+    }
+
+    @Setup(Level.Iteration)
+    public void initIteration(){
+        setValue();
     }
 
     private void setValue() {

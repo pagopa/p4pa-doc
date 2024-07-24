@@ -6,11 +6,11 @@ import java.util.concurrent.TimeUnit;
 
 public class HashAlgorithmBenchmark {
 
-    @Fork(value = 1, warmups = 1)
+    @Fork(value = 1, warmups = 0)
     @Warmup(iterations = 1, time = 10)
-    @Measurement(iterations = 3, time = 60)
+    @Measurement(iterations = 5, time = 10)
     @Benchmark
-    @BenchmarkMode({Mode.Throughput, Mode.AverageTime})
+    @BenchmarkMode({Mode.Throughput})
     @OutputTimeUnit(TimeUnit.MILLISECONDS)
     public void test(ExecutionPlan executionPlan){
         executionPlan.hash.apply(executionPlan.value);
