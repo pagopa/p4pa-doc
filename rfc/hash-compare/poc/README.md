@@ -1,0 +1,1 @@
+To run the benchmark just execute the main contained inside the `org.example.Main` class.
