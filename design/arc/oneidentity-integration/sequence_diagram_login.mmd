@@ -1,0 +1,11 @@
+sequenceDiagram
+    actor User
+    participant ARC
+    participant OneIdentity
+
+
+    User ->>+ ARC: GET /login
+    opt 302 Redirect
+        ARC ->>+ User: return redirect to Login page
+        User ->>+ OneIdentity: User landed on OneIdentity Login page
+    end

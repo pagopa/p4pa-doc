@@ -1,0 +1,12 @@
+sequenceDiagram
+
+    actor User
+    participant ARC
+    participant OneIdentity
+
+    OneIdentity ->>+ User: Authorization Code
+    User ->>+ ARC: Authorization Code
+    ARC ->>+ OneIdentity: Authorization Code + Client ID + Client Secret
+    OneIdentity ->>+ ARC: Id Token Access token
+    ARC ->> ARC: Generate new Tokens
+    ARC ->>+ User: Get session Tokens

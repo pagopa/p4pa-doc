@@ -1,0 +1,21 @@
+sequenceDiagram
+    participant SPID/CIE IDP
+    actor User
+    participant ARC
+    participant OneIdentity
+
+
+    User ->>+ ARC: GET /login OIDC
+    ARC ->>+ User: return 302 to IDP Login page
+    User ->>+ OneIdentity: User landed on OneIdentity Login page and chooses Provider
+    OneIdentity ->>+ User: Authentication Request SAML
+    User ->>+ SPID/CIE IDP: Authentication Request SAML
+    SPID/CIE IDP ->>+ User: Authentication Response SAML
+    User ->>+ OneIdentity: Authentication Response SAML
+    OneIdentity ->>+ User: Authorization Code
+    User ->>+ ARC: Authorization Code
+    ARC ->>+ OneIdentity: Authorization Code + Client ID + Client Secret
+    OneIdentity ->>+ ARC: Id Token Access token
+    ARC ->> ARC: Generate new Tokens
+    ARC ->>+ User: Get session Tokens
+    User ->>+ ARC: Invoke protected API
