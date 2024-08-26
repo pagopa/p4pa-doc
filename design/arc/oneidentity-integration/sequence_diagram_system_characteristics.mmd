@@ -1,0 +1,16 @@
+sequenceDiagram
+    participant Utente
+    participant ARC-BE
+    participant OneIdentity as One Identity
+
+    Utente->>ARC-BE: Richiesta accesso all'applicazione
+    ARC-BE->>ARC-BE: Controlla se il token di accesso è valido
+    alt Token Valido
+        ARC-BE->>Utente: Accesso consentito
+    else Token Non Valido
+        ARC-BE->>OneIdentity: Richiesta di autenticazione
+        OneIdentity->>OneIdentity: Verifica credenziali (stateless)
+        OneIdentity->>ARC-BE: Autenticazione riuscita
+        ARC-BE->>ARC-BE: Genera un nuovo token di accesso
+        ARC-BE->>Utente: Accesso consentito con nuovo token
+    end
