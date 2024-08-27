@@ -5,17 +5,17 @@ sequenceDiagram
     participant OneIdentity as OneIdentity
 
 
-    User-Agent ->>+ ARC: GET /login OIDC
-    ARC ->>+ User-Agent: return 302 to IDP Login page
-    User-Agent ->>+ OneIdentity: User landed on OneIdentity Login page and chooses Provider
-    OneIdentity ->>+ User-Agent: Authentication Request SAML
-    User-Agent ->>+ SPID/CIE IDP: Authentication Request SAML
-    SPID/CIE IDP ->>+ User-Agent: Authentication Response SAML
-    User-Agent ->>+ OneIdentity: Authentication Response SAML
-    OneIdentity ->>+ User-Agent: Authorization Code
-    User-Agent ->>+ ARC: Authorization Code
-    ARC ->>+ OneIdentity: Authorization Code + Client ID + Client Secret
-    OneIdentity ->>+ ARC: Id Token Access token
+    User-Agent ->> ARC: GET /login OIDC
+    ARC ->> User-Agent: return 302 to IDP Login page
+    User-Agent ->> OneIdentity: User landed on OneIdentity Login page and chooses Provider
+    OneIdentity ->> User-Agent: Authentication Request SAML
+    User-Agent ->> SPID/CIE IDP: Authentication Request SAML
+    SPID/CIE IDP ->> User-Agent: Authentication Response SAML
+    User-Agent ->> OneIdentity: Authentication Response SAML
+    OneIdentity ->> User-Agent: Authorization Code
+    User-Agent ->> ARC: Authorization Code
+    ARC ->> OneIdentity: Authorization Code + Client ID + Client Secret
+    OneIdentity ->> ARC: Id Token Access token
     ARC ->> ARC: Generate new Tokens
-    ARC ->>+ User-Agent: Get session Tokens
-    User-Agent ->>+ ARC: Invoke protected API
+    ARC ->> User-Agent: Get session Tokens
+    User-Agent ->> ARC: Invoke protected API

@@ -4,9 +4,9 @@ sequenceDiagram
     participant ARC
     participant OneIdentity
 
-    OneIdentity ->>+ User-Agent: Authorization Code
-    User-Agent ->>+ ARC: Authorization Code
-    ARC ->>+ OneIdentity: Authorization Code + Client ID + Client Secret
-    OneIdentity ->>+ ARC: Id Token Access token
+    OneIdentity ->> User-Agent: Authorization Code
+    User-Agent ->> ARC: Authorization Code
+    ARC ->> OneIdentity: Authorization Code + Client ID + Client Secret
+    OneIdentity ->> ARC: Id Token Access token
     ARC ->> ARC: Generate new Tokens
-    ARC ->>+ User-Agent: Get session Tokens
+    ARC ->> User-Agent: Get session Tokens

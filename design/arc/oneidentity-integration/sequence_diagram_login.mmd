@@ -3,8 +3,8 @@ sequenceDiagram
     participant ARC
     participant OneIdentity
 
-    User-Agent ->>+ ARC: GET /login
+    User-Agent ->> ARC: GET /login
     opt 302 Redirect
-        ARC ->>+ User-Agent: return redirect to Login page
-        User-Agent ->>+ OneIdentity: User landed on OneIdentity Login page
+        ARC ->> User-Agent: return redirect to Login page
+        User-Agent ->> OneIdentity: User landed on OneIdentity Login page
     end
