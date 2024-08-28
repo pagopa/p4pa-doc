@@ -3,14 +3,14 @@ sequenceDiagram
     participant ARC
     participant OneIdentity as One Identity
 
-    User-Agent->>ARC: Richiesta accesso all'applicazione
-    ARC->>ARC: Controlla se il token di accesso è valido
-    alt Token Valido
-        ARC->>User-Agent: Accesso consentito
-    else Token Non Valido
-        ARC->>OneIdentity: Richiesta di autenticazione
-        OneIdentity->>OneIdentity: Esegue autenticazione (stateless)
-        OneIdentity->>ARC: Autenticazione riuscita
-        ARC->>ARC: Genera un nuovo token di accesso
-        ARC->>User-Agent: Accesso consentito con nuovo token
+    User-Agent ->> ARC: Invoke protected API
+    ARC ->> ARC: Check if the token is valid
+    alt Token Valid
+        ARC -->> User-Agent: Access granted return resource
+    else Token Invalid
+        ARC ->>+ OneIdentity: Login required
+        OneIdentity ->> OneIdentity: Execute authentication (stateless)
+        OneIdentity -->>- ARC: Authenticated
+        ARC ->> ARC: Generate new Access token
+        ARC -->> User-Agent: Retrun new Access token
     end
