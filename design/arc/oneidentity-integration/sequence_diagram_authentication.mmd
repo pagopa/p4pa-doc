@@ -1,0 +1,30 @@
+sequenceDiagram
+    participant SPID/CIE IDP as SPID/CIE IDP
+    participant User-Agent as User-Agent
+    participant ARC as ARC
+    participant OneIdentity as OneIdentity
+
+
+    User-Agent ->>+ ARC: GET /login OIDC
+    ARC -->>- User-Agent: return 302 to IDP Login page
+
+    rect rgb(190, 223, 255)
+        note over SPID/CIE IDP, OneIdentity : Authentication on IDP
+        User-Agent ->> OneIdentity: User landed on OneIdentity Login page and chooses Provider
+        OneIdentity -->> User-Agent: Authentication Request SAML
+        User-Agent ->> SPID/CIE IDP: Authentication Request SAML
+        SPID/CIE IDP -->> User-Agent: Authentication Response SAML
+        User-Agent ->> OneIdentity: Authentication Response SAML
+        OneIdentity -->> User-Agent: Authorization Code
+    end
+
+    rect rgb(190, 223, 255)
+        note over User-Agent, OneIdentity : Exchange authorization code for IDP tokens and generate new Application Access Token
+        User-Agent ->>+ ARC: Authorization Code
+        ARC ->> OneIdentity: Authorization Code + Client ID + Client Secret
+        OneIdentity -->> ARC: Id Token and Access token
+        ARC ->> ARC: Generate new Application Access Token
+        ARC -->>- User-Agent: Get Access Token
+    end
+
+    User-Agent ->> ARC: Invoke protected API

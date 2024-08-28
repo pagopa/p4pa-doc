@@ -1,0 +1,11 @@
+sequenceDiagram
+    participant User-Agent
+    participant ARC
+
+    User-Agent ->> ARC: Invoke protected API
+    ARC ->> ARC: Check if the token is valid
+    alt Token Valid
+        ARC -->> User-Agent: Access granted return resource
+    else Token Invalid
+        ARC -->> User-Agent: Access denied login required
+    end
