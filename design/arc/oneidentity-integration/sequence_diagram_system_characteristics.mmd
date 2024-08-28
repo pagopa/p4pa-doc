@@ -8,9 +8,5 @@ sequenceDiagram
     alt Token Valid
         ARC -->> User-Agent: Access granted return resource
     else Token Invalid
-        ARC ->>+ OneIdentity: Login required
-        OneIdentity ->> OneIdentity: Execute authentication (stateless)
-        OneIdentity -->>- ARC: Authenticated
-        ARC ->> ARC: Generate new Access token
-        ARC -->> User-Agent: Return new Access token
+        ARC -->> User-Agent: Access denied login required
     end
