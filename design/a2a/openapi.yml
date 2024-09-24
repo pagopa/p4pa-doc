@@ -17,9 +17,6 @@ paths:
           in: query
           required: true
           schema:
-            enum: [
-              "piattaforma-unitaria"
-            ]
             type: string
         - name: grant_type
           in: query
@@ -33,18 +30,15 @@ paths:
         - name: subject_token
           description: "ID Token"
           in: query
-          required: true
           schema:
             type: string
         - name: subject_issuer
           description: "Issuer del subject_token"
           in: query
-          required: true
           schema:
             type: string
         - name: subject_token_type
           in: query
-          required: true
           schema:
             enum: [
               "urn:ietf:params:oauth:token-type:jwt"
@@ -88,9 +82,6 @@ paths:
           in: query
           required: true
           schema:
-            enum: [
-              "piattaforma-unitaria"
-            ]
             type: string
         - name: token
           description: "Access Token"
@@ -105,7 +96,7 @@ paths:
           description: Invalid request
         '401':
           description: Invalid client_id
-  /am/clients/{organizationIpaCode}:
+  /auth/clients/{organizationIpaCode}:
     get:
       tags:
         - authz
@@ -116,25 +107,13 @@ paths:
           required: true
           schema:
             type: string
-        - name: page
-          in: query
-          description: "The number of the page"
-          schema:
-            type: integer
-            default: 0
-        - name: size
-          in: query
-          description: "Number of items"
-          schema:
-            type: integer
-            default: 10
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Client'
+                $ref: '#/components/schemas/ClientDTO'
         '400':
           description: Invalid request
         '401':
@@ -167,7 +146,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Client'
+                $ref: '#/components/schemas/ClientDTO'
         '400':
           description: Invalid request
         '401':
@@ -198,12 +177,15 @@ components:
           default: Bearer
         expires_in:
           type: integer
-    Client:
+    ClientDTO:
       type: object
       required:
         - client_id
+        - client_Secret
       properties:
         client_id:
+          type: string
+        organizationIpaCode:
           type: string
         client_secret:
           type: string
