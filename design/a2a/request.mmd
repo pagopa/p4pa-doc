@@ -1,0 +1,7 @@
+sequenceDiagram
+    M2M App->>+P4PA-AUTH: richiesta token ClientID + Client Secret
+    P4PA-AUTH->>P4PA-AUTH: Decrypt client_secret
+    P4PA-AUTH->>P4PA-AUTH: validazione Credentials
+    P4PA-AUTH-->>-M2M App: Access Token
+    M2M App->>+API: Request con Access Token
+    API-->>-M2M App: Response
