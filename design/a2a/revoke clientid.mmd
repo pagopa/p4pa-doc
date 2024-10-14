@@ -1,0 +1,15 @@
+sequenceDiagram
+actor A as Administrator
+alt Amministratore non abilitato
+A->>+UserAgent: Accede al portale piattaforma unitaria
+UserAgent->>+P4PA-AUTH: POST /revoke
+P4PA-AUTH->>P4PA-AUTH: verifica autorizzazioni
+note right of P4PA-AUTH: Verifica se l'amministratore ha le <br/>autorizzazioni per quell'ente
+P4PA-AUTH-->>-UserAgent: 403 utente non autorizzato
+else Amministratore abilitato
+UserAgent->>+P4PA-AUTH: POST /revoke
+P4PA-AUTH->>P4PA-AUTH: verifica autorizzazioni
+P4PA-AUTH->>P4PA-AUTH: revoca del client_secret
+P4PA-AUTH-->>-UserAgent: 200 OK
+UserAgent-->>-A: 
+end
