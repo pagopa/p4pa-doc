@@ -20,6 +20,7 @@ flowchart TD
 
     subgraph SPD["Salvataggio PD"]
         K --> CPD[(Creazione Posizione Debitoria)]
+        A@{ shape: braces, label: Stato: pagamento pagoPa ? 'Da notificare' : 'Pagabile' }
     end
 
     CPD --> L
@@ -71,7 +72,7 @@ flowchart TD
         IN[Invia Notifica IO]
     end
 
-    W -->|No|X[(Fine)]
+    W -->|No|X@{shape: dbl-circ, label: Fine}
     IN --> X
     ZX --> UPD
 
