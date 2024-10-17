@@ -1,0 +1,79 @@
+flowchart TD
+    O((Inizio)) --> D[(Recupera EnteTipoDovuto per operatore)]
+    style O fill: #ffffff
+
+    subgraph Verifica Autorizazzione
+        D --> E{EnteTipoDovuto trovato?}
+        E -->|No| F[ValidatorException: EnteTipoDovuto non attivo per operatore]
+    end
+
+    E -->|Sì| G["Creazione nuovo oggetto PosizioneDebitoria"]
+    G --> FE
+
+    subgraph Validazione Rate
+        FE[(Recupera Flusso dell'Ente)]
+        FE --> H{Flusso dell'Ente trovato?}
+        H -->|No| I[MyPayException: Errore interno]
+        H -->|Sì| J[Associa PD a flusso]
+        J --> K[Validazione formale e business delle rate]
+    end
+
+    subgraph SPD["Salvataggio PD"]
+        K --> CPD[(Creazione Posizione Debitoria)]
+    end
+
+    CPD --> L
+    L{Pagamento PagoPA?} -->|Sì|M
+    L -->|No|X
+
+    subgraph Generazione IUV
+        subgraph LGIR[Loop per ogni Rata]
+            M[Genera IUV]
+            M --> O2[(Salva IUV)]
+            style LGIR fill: #CCFFCC
+        end
+    end
+
+    O2 --> Y{Pagamento Sincrono?}
+
+    subgraph StandIn
+        ACA{Sincrono con StandIn?}
+        ACA -->|Sì|YACA[Sincronizza Rate in ACA]
+        style YACA fill: #87CEEB
+    end
+
+    ACA -->|No|XX
+    YACA --> XX
+    Y -->|No|ZA
+
+    subgraph GPD Preload
+        XX{Gpd Preload?}
+        XX -->|Sì| ZX[Manage Preload]
+    end
+
+    XX -->|No|UPD
+
+    subgraph CPB[Creazione Posizione Debitoria]
+        ZA[Genera IUPD] --> Z[Crea nuova posizione debitoria e aggiorna GpdStatus]
+    end
+
+    Z --> UPD
+    Y -->|Sì|ACA
+
+    subgraph APD[Update PD]
+        UPD[("Aggiorna Posizione Debitoria")]
+    end
+
+    UPD --> W
+
+    subgraph Notifica di IO
+        W{Notifica attiva per Ente e TipoDovuto} -->|Sì| IN
+        IN[Invia Notifica IO]
+    end
+
+    W -->|No|X[(Fine)]
+    IN --> X
+    ZX --> UPD
+
+
+    style X fill: #ffffff
