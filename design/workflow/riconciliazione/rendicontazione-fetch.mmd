@@ -2,21 +2,21 @@
 title: WF recupero Rendicontazioni da pagoPA
 ---
 flowchart TD
+    DESCRIPTION@{ shape: braces, label: "WF schedulato periodicamente" }
+
     START@{shape: start} --> FETCH_LIST:::activity@{label: "Chiedi flussi di Rendicontazione"}
 
     FETCH_LIST --> LOOP
 
     subgraph LOOP["Per ogni flusso ottenuto"]
+        FETCH_FILE:::activity@{label: "Chiedi file di Rendicontazione"} --> INVOKE_WF:::child-workflow@{label: "Invoca WF caricamento file Rendicontazione"}
 
-        FETCH_FILE:::activity@{label: "Chiedi file di Rendicontazione"} --> INVOKE_WF:::activity@{label: " "}
-
-        SIGNAL:::activity@{label: "Invia evento 'Rendicontazione' con lista di IUV al workflow Riconciliazione"}
-        NOTE@{ shape: braces, label: "signalWithStart con workflowID=IUF" }
+        NOTE@{ shape: braces, label: "workflow lanciati in parallelo" }
     end
 
     LOOP --> END@{shape: stop}
     class LOOP loop
 
-    classDef disable display:none;
     classDef activity fill:#FFE5B4, stroke:#FFB347, stroke-width:2px;
     classDef loop fill:#CCFFCC, stroke:#7FBF7F, stroke-width:2px, padding-bottom: 5px;
+    classDef child-workflow fill:#FFE5B4, stroke:#FFB347, stroke-width:2px

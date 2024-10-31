@@ -2,6 +2,7 @@
 title: WF caricamento file Rendicontazione
 ---
 flowchart TD
+    DESCRIPTION@{ shape: braces, label: "Input: path del file da caricare" }
     START@{shape: start} --> INJESTION:::activity@{label: "Leggi file e persisti righe"}
 
     INJESTION --> LOOP
