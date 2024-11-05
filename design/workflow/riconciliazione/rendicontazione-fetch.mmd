@@ -9,7 +9,7 @@ flowchart TD
     FETCH_LIST --> LOOP
 
     subgraph LOOP["Per ogni flusso ottenuto"]
-        FETCH_FILE:::activity@{label: "Chiedi file di Rendicontazione"} --> INVOKE_WF:::child-workflow@{label: "Invoca WF caricamento file Rendicontazione"}
+        FETCH_FILE:::activity@{label: "Chiedi file di Rendicontazione"} --> INVOKE_WF:::child-workflow@{shape: subproc, label: "Invoca WF caricamento file Rendicontazione"}
 
         NOTE@{ shape: braces, label: "workflow lanciati in parallelo" }
     end
@@ -17,6 +17,6 @@ flowchart TD
     LOOP --> END@{shape: stop}
     class LOOP loop
 
-    classDef activity fill:#FFE5B4, stroke:#FFB347, stroke-width:2px;
+    classDef activity fill:#FFFFE0, stroke:#ffc300, stroke-width:2px;
     classDef loop fill:#CCFFCC, stroke:#7FBF7F, stroke-width:2px, padding-bottom: 5px;
     classDef child-workflow fill:#FFE5B4, stroke:#FFB347, stroke-width:2px
