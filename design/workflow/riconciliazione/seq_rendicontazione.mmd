@@ -1,0 +1,52 @@
+---
+title: Flusso Rendicontazione
+---
+sequenceDiagram
+    actor USER as Operatore Ente
+    participant PU-FE as PiattaformaUnitaria-FE
+    participant PU-BE as PiattaformaUnitaria-BE
+    participant FS as File Share
+    participant WF as Workflow Service
+    participant PAGOPA as pagoPA
+
+    alt Caricamento manuale
+        note over PU-FE: Pagina flussi di Rendicontazione
+        USER ->> PU-FE: Carica file Rendicontazione
+
+        activate PU-FE
+            PU-FE ->> PU-BE: #
+
+            activate PU-BE
+                PU-BE ->> FS: Salva file Rendicontazione
+                PU-BE ->> WF: Avvia Rendicontazione
+
+                activate WF
+                    WF ->>WF: Avvia async<BR />"WF caricamento file Rendicontazione"
+                    WF -->> PU-BE: #
+                deactivate WF
+
+                PU-BE -->> PU-FE: #
+            deactivate PU-BE
+
+            PU-FE -->> USER: #
+        deactivate PU-FE
+    else Schedulazione automatica
+        rect rgba(0, 0, 255, .1)
+            note over WF: "WF recupero Rendicontazione da pagoPA"
+            WF ->> WF : Schedulazione periodica
+
+            activate WF
+                WF ->>+ PAGOPA: Chiedi lista flussi
+                PAGOPA -->>- WF: Lista flussi
+
+                loop Per ogni flusso di Rendicontazione
+                    WF ->>+ PAGOPA: Chiedi file flusso Rendicontazione
+                    PAGOPA -->>- WF: file Rendicontazione
+                    WF ->> FS: Salva file Rendicontazione
+
+                    WF ->> WF : Avvia async<BR />"WF caricamento file Rendicontazione"
+                end
+            deactivate WF
+        end
+
+    end
