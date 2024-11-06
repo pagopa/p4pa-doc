@@ -1,0 +1,61 @@
+---
+title: WF Riconciliazione
+config:
+    flowchart:
+        rankSpacing: 1
+---
+flowchart TD
+    subgraph SIGNALS_BLOCK
+    direction LR
+        subgraph SIGNAL_RENDICONTAZIONE_BLOCK["Evento Rendicontazione"]
+        direction LR
+            DESCRIPTION_SIGNAL_RENDICONTAZIONE@{ shape: braces, label: "Input: IUF, IUVs" }
+            SIGNAL_RENDICONTAZIONE@{ shape: bolt }
+            SIGNAL_RENDICONTAZIONE --> ADD_IUVS["Aggiungi IUVs "]
+            ADD_IUVS --> SIGNAL_RENDICONTAZIONE_END@{ shape: "stop" }
+        end
+        class SIGNAL_RENDICONTAZIONE_BLOCK signal_block
+
+        subgraph SIGNAL_TESORERIA_BLOCK["Evento Tesoreria"]
+        direction LR
+            DESCRIPTION_SIGNAL_TESORERIA@{ shape: braces, label: "Input: IUF" }
+            SIGNAL_TESORERIA@{ shape: bolt }
+            SIGNAL_TESORERIA --> SIGNAL_TESORERIAE_END@{ shape: "stop" }
+        end
+        class SIGNAL_TESORERIA_BLOCK signal_block
+    end
+    class SIGNALS_BLOCK hidden
+
+    subgraph WF_BLOCK
+        subgraph NOTE_START_BLOCK
+            DESCRIPTION@{ shape: braces, label: "Input: IUF" }
+            START@{shape: start}
+        end
+        class NOTE_START_BLOCK hidden
+
+        START --> WAIT_RENDICONTAZIONE@{shape: hourglass}
+
+        subgraph NOTE_WAIT_RENDICONTAZIONE_BLOCK[" "]
+            WAIT_RENDICONTAZIONE
+            NOTE_WAIT_RENDICONTAZIONE@{ shape: braces, label: "Attesa evento di Rendicontazione pagamenti associati allo IUF" }
+        end
+        class NOTE_WAIT_RENDICONTAZIONE_BLOCK note_block
+
+        WAIT_RENDICONTAZIONE --> FIND_TESORERIA_IUF:::activity@{label: "Recupera tesoreria associata allo IUF"}
+        FIND_TESORERIA_IUF --> SET_NEXT_STATE["var NEXT_STATE=Transcodifica stato riconciliazione"]
+        SET_NEXT_STATE --> LOOP
+
+        subgraph LOOP["Per ogni IUV Rendicontato"]
+            UPDATE_IUV_STATE:::activity@{label: "Aggiorna stato riconciliazione IUV"}
+        end
+
+        LOOP --> END@{shape: stop}
+        class LOOP loop
+    end
+    class WF_BLOCK hidden
+
+    classDef note_block display:none;
+    classDef hidden display:none;
+    classDef activity fill:#FFFFE0, stroke:#ffc300, stroke-width:2px;
+    classDef loop fill:#CCFFCC, stroke:#7FBF7F, stroke-width:2px, padding-bottom: 5px;
+    classDef signal_block fill:#48cae4, stroke:#023e8a, stroke-width:2px

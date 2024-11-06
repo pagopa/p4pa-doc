@@ -1,0 +1,26 @@
+---
+title: WF caricamento file Rendicontazione
+---
+flowchart TD
+    DESCRIPTION@{ shape: braces, label: "Input: path del file da caricare" }
+    START@{shape: start} --> INGESTION:::activity@{label: "Leggi file e persisti righe"}
+
+    INGESTION --> LOOP
+
+    subgraph LOOP["Per ogni IUF restituito dall'activity di ingestion"]
+
+        %% dummy block added to have an empty line
+        DUMMY:::disable-->SIGNAL
+        linkStyle 2 display:none;
+
+        SIGNAL:::send-signal@{shape: delay, label: "Invia evento 'Rendicontazione' con lista di IUV al workflow Riconciliazione"}
+        NOTE@{ shape: braces, label: "signalWithStart con workflowID=IUF" }
+    end
+
+    LOOP --> END@{shape: stop}
+    class LOOP loop
+
+    classDef disable display:none;
+    classDef activity fill:#FFFFE0, stroke:#ffc300, stroke-width:2px;
+    classDef loop fill:#CCFFCC, stroke:#7FBF7F, stroke-width:2px, padding-bottom: 5px;
+    classDef send-signal fill:#48cae4, stroke:#023e8a, stroke-width:2px

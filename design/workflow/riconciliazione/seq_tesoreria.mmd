@@ -1,0 +1,30 @@
+---
+title: Flusso Tesoreria
+---
+sequenceDiagram
+    actor USER as Operatore Ente
+    participant PU-FE as PiattaformaUnitaria-FE
+    participant PU-BE as PiattaformaUnitaria-BE
+    participant FS as File Share
+    participant WF as Workflow Service
+
+    note over PU-FE: Pagina Tesoreria
+    USER ->> PU-FE: Carica file Tesoreria
+
+    activate PU-FE
+        PU-FE ->> PU-BE: #
+
+        activate PU-BE
+            PU-BE ->> FS: Salva file Tesoreria
+            PU-BE ->> WF: Avvia Tesoreria
+
+            activate WF
+                WF ->>WF: Avvia async<BR />"WF caricamento file Tesoreria"
+                WF -->> PU-BE: #
+            deactivate WF
+
+            PU-BE -->> PU-FE: #
+        deactivate PU-BE
+
+        PU-FE -->> USER: #
+    deactivate PU-FE

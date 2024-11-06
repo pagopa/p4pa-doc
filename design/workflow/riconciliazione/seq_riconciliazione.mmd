@@ -1,0 +1,12 @@
+---
+title: Flusso Riconciliazione
+---
+sequenceDiagram
+    participant WF_R as WF caricamento file Rendicontazione
+    participant WF_T as WF caricamento file Tesoreria
+    participant WF_RC as WF caricamento file Riconciliazione
+
+    WF_R ->> WF_RC: Avvia Riconciliazione IUF e IUVs
+    WF_T ->> WF_RC: Avvia Riconciliazione IUF
+
+    note over WF_R,WF_RC: Ogni evento verso la Riconciliazione comporterà la rischedulazione del WF<BR />qualora non già attivo.<BR/>L'uso dello IUF come workflowID garantisce la sequenzialità dei processamenti
