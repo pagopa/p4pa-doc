@@ -1,0 +1,95 @@
+---
+title: WF Classificazione rate pagate
+config:
+    flowchart:
+        rankSpacing: 1
+---
+flowchart TD
+    subgraph WF_BLOCK
+        subgraph NOTE_START_BLOCK
+            DESCRIPTION@{ shape: braces, label: "Input: IUF, IUVs" }
+            START@{shape: start}
+        end
+        class NOTE_START_BLOCK hidden
+
+        START --> LOOP_IUVs
+
+        subgraph LOOP_IUVs["Per ogni IUV"]
+        direction TB
+
+            subgraph CLASSIFY_IUV["Aggiorna stato riconciliazione IUV"]
+            direction TB
+                DUMMY:::hidden --> FIND_RT
+                linkStyle 1 display:none
+
+                FIND_RT@{shape: database, label: "Cerca ricevuta IUV"} -->
+                FIND_REND@{shape: database, label: "Cerca rendicontazione IUV"} -->
+                FIND_TES@{shape: database, label: "Cerca tesoreria IUF o IUV"} -->
+                CLASSIFY["Determina etichetta"] -->
+                UPSERT_CLASSIFY@{shape: database, label: "Upsert classificazione IUV"}
+
+            end
+
+            LOOP_NOTE@{shape: braces, label: "Se troppi IUV, break e continueAsNew fornendo gli IUV residui, assicurandosi prima di attendere gli eventuali handler in esecuzione"}
+            class CLASSIFY_IUV activity
+        end
+
+        LOOP_IUVs --> END@{shape: stop}
+        class LOOP_IUVs loop
+    end
+    class WF_BLOCK hidden
+
+    subgraph SIGNALS_BLOCK
+    direction LR
+
+        subgraph SIGNAL_RATE_BLOCK["Evento Classifica rate"]
+        direction LR
+            DESCRIPTION_SIGNAL_RATE@{ shape: braces, label: "Input: IUF, IUVs" }
+            SIGNAL_RATE@{ shape: bolt } -->
+            ADD_RATE_IUVs["Aggiungi IUVs "] -->
+            SIGNAL_RICEVUTA_END@{ shape: "stop" }
+        end
+        class SIGNAL_RATE_BLOCK signal_block
+
+        subgraph SIGNAL_RENDICONTAZIONE_BLOCK["Evento Rendicontazione"]
+        direction LR
+            DESCRIPTION_SIGNAL_RENDICONTAZIONE@{ shape: braces, label: "Input: IUF, IUVs" }
+            SIGNAL_RENDICONTAZIONE@{ shape: bolt } -->
+            ADD_RENDICONTAZIONE_IUVS["Aggiungi IUVs "] -->
+            SIGNAL_RENDICONTAZIONE_END@{ shape: "stop" }
+        end
+        class SIGNAL_RENDICONTAZIONE_BLOCK signal_block
+
+        subgraph SIGNAL_TESORERIA_BLOCK["Evento Tesoreria IUF"]
+        direction LR
+            DESCRIPTION_SIGNAL_TESORERIA@{ shape: braces, label: "Input: IUF" }
+            SIGNAL_TESORERIA@{ shape: bolt } --> FIND_TESORERIA_IUVS_ACTIVITY
+
+            subgraph FIND_TESORERIA_IUVS_ACTIVITY["Ricerca IUVs associati allo IUF"]
+                DUMMY2:::hidden --> FIND_TESORERIA_IUVS
+                linkStyle 12 display:none
+
+                FIND_TESORERIA_IUVS["Ricerca Rendicontazione IUF"] -->
+                EXISTS_RENDICONTAZIONE_TES{"Trovata Rendicontazione?"}
+
+                EXISTS_RENDICONTAZIONE_TES -->|Sì|RETURN_TESORERIA_IUVS@{shape: terminal, label: "Restituisci IUVs trovati"}
+
+                EXISTS_RENDICONTAZIONE_TES -->
+                |No|SAVE_TES_ANOMALY@{shape: database, label: "Salva anomalia Tesoreria"} -->
+                RETURN_TESORERIA_IUVS
+            end
+            class FIND_TESORERIA_IUVS_ACTIVITY activity
+
+            FIND_TESORERIA_IUVS_ACTIVITY -->
+            ADD_TESORERIA_IUVS["Aggiungi IUVs "] -->
+            SIGNAL_TESORERIA_END@{ shape: "stop" }
+        end
+        class SIGNAL_TESORERIA_BLOCK signal_block
+    end
+    class SIGNALS_BLOCK hidden
+
+    classDef note_block display:none;
+    classDef hidden display:none;
+    classDef activity fill:#FFFFE0, stroke:#ffc300, stroke-width:2px;
+    classDef loop fill:#CCFFCC, stroke:#7FBF7F, stroke-width:2px, padding-bottom: 5px;
+    classDef signal_block fill:#48cae4, stroke:#023e8a, stroke-width:2px
