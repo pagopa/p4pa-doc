@@ -1,0 +1,70 @@
+---
+title: WF caricamento giornale di cassa XLS
+---
+flowchart TD
+    DESCRIPTION@{ shape: braces, label: "Input: path del file da caricare" }
+    START@{shape: start} --> INGESTION:::activity@{label: "Leggi file e persisti righe"}
+
+    subgraph INGESTION_NOTE_BLOCK
+        INGESTION
+        INGESTION_NOTE@{shape: braces, label: "Restituisce lista IUF e lista IUV"}
+    end
+    class INGESTION_NOTE_BLOCK note_block
+
+    INGESTION --> CLASSIFY_IUVs
+
+    subgraph CLASSIFY_IUVs["Verifica classificazione rate"]
+
+        subgraph LOOP_IUV["Per ogni IUV restituito dall'activity di ingestion"]
+        direction TB
+
+            subgraph CLASSIFY_IUV["Verifica classificazione singola rata"]
+
+                FIND_IUF["Ricerca esistenza IUF associata allo IUV"]
+
+                subgraph FIND_IUF_NOTE_BLOCK
+                    FIND_IUF
+                    FIND_IUF_NOTE@{shape: braces, label: "Classificazione precedente"}
+                end
+                class FIND_IUF_NOTE_BLOCK note_block
+
+                FIND_IUF --> EXISTS_IUF{"Esiste IUF?"}
+                EXISTS_IUF -->|No|SAVE_NO_IUF@{shape: database, label: "Salva classificazione TES_NO_IUF_OR_IUV"}
+
+                subgraph SAVE_NO_IUF_NOTE_BLOCK
+                    SAVE_NO_IUF
+                    SAVE_NO_IUF_NOTE@{shape: braces, label: "Salvataggio eseguito su una transazione separata, catch eccezione per chiave duplicata dentro il loop per rieseguire nuovamente il blocco"}
+                end
+                class SAVE_NO_IUF_NOTE_BLOCK note_block
+
+                EXISTS_IUF -->|Sì|RETURN_IUF@{shape: stadium, label: "Restituisci IUF se trovato"}
+                SAVE_NO_IUF --> RETURN_IUF
+            end
+        end
+
+        LOOP_IUV --> RETURN_IUFS@{shape: stadium, label: "Restituisci IUFs trovati"}
+    end
+    class LOOP_IUV loop
+    class CLASSIFY_IUVs activity
+
+    CLASSIFY_IUVs --> LOOP_IUF
+
+    subgraph LOOP_IUF["Per ogni IUF restituito dall'activity di ingestion e dalla classificazione rate"]
+
+        %% dummy block added to have an empty line
+        DUMMY2:::hidden-->SIGNAL_IUF
+        linkStyle 8 display:none;
+
+        SIGNAL_IUF:::send-signal@{shape: delay, label: "Invia evento 'Tesoreria IUF' al workflow 'Classificazione rate pagate'"}
+        NOTE@{ shape: braces, label: "signalWithStart con workflowID=IUF" }
+    end
+    class LOOP_IUF loop
+
+    LOOP_IUF --> END@{shape: stop}
+
+
+    classDef hidden display:none;
+    classDef note_block display:none;
+    classDef activity fill:#FFFFE0, stroke:#ffc300, stroke-width:2px;
+    classDef loop fill:#CCFFCC, stroke:#7FBF7F, stroke-width:2px, padding-bottom: 5px;
+    classDef send-signal fill:#48cae4, stroke:#023e8a, stroke-width:2px

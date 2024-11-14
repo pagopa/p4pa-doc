@@ -1,0 +1,14 @@
+---
+title: Flusso Riconciliazione
+---
+sequenceDiagram
+    participant WF_RT as WF classifica<BR />rata pagata
+    participant WF_R as WF caricamento<BR />file Rendicontazione
+    participant WF_T as WF caricamento<BR />file Tesoreria
+    participant WF_RC as WF classificazione<BR />rate pagate
+
+    WF_RT ->> WF_RC: Classifica rate (IUF,IUVs)
+    WF_R ->> WF_RC: Rendicontazione (IUF,IUVs)
+    WF_T ->> WF_RC: Tesoreria IUF (IUF)
+
+    note over WF_RT,WF_RC: Ogni evento verso 'Classificazione rate pagate' comporterà<BR />la rischedulazione del WF qualora non già attivo.<BR/><BR/>L'uso dello IUF come workflowID garantisce<BR />la sequenzialità dei processamenti

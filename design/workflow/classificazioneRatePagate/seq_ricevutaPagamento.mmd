@@ -1,0 +1,23 @@
+---
+title: Ricezione ricevute pagamenti
+---
+sequenceDiagram
+    participant NODO as Nodo Pagamenti
+    participant PU-BE as PiattaformaUnitaria-BE
+    participant KAFKA as Kafka
+    participant WF as Workflow Service
+
+    NODO ->> PU-BE: paSendRT
+
+    activate PU-BE
+        PU-BE ->> PU-BE: Elabora ricevuta
+        PU-BE ->> KAFKA: Publica evento "RT_RECEIVED"
+    deactivate PU-BE
+
+    KAFKA ->> WF: Consegna evento
+
+    activate WF
+        WF ->>WF: Avvia async<BR />"WF classifica rata pagata"
+
+        WF -->> KAFKA: ack
+    deactivate WF
