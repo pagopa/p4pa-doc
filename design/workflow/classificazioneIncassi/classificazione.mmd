@@ -1,5 +1,5 @@
 ---
-title: WF Classificazione rate pagate
+title: WF Classificazione incassi
 config:
     flowchart:
         rankSpacing: 1
@@ -75,7 +75,7 @@ flowchart TD
                 EXISTS_RENDICONTAZIONE_TES -->|Sì|RETURN_TESORERIA_IUVS@{shape: terminal, label: "Restituisci IUVs trovati"}
 
                 EXISTS_RENDICONTAZIONE_TES -->
-                |No|SAVE_TES_ANOMALY@{shape: database, label: "Salva anomalia Tesoreria TES_NO_MATCH"} -->
+                |No|SAVE_TES_ANOMALY@{shape: database, label: "Salva classificazione TES_NO_MATCH (IUV nullo)"} -->
                 RETURN_TESORERIA_IUVS
             end
             class FIND_TESORERIA_IUVS_ACTIVITY activity
