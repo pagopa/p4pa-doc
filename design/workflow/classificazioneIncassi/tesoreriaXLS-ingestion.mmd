@@ -11,56 +11,33 @@ flowchart TD
     end
     class INGESTION_NOTE_BLOCK note_block
 
-    INGESTION --> CLASSIFY_IUVs
+    INGESTION --> LOOP_IUVs
 
-    subgraph CLASSIFY_IUVs["Verifica classificazione rate"]
+    subgraph LOOP_IUVs["Per ogni IUV restituito dall'activity di ingestion"]
 
-        subgraph LOOP_IUV["Per ogni IUV restituito dall'activity di ingestion"]
-        direction TB
+        %% dummy block added to have an empty line
+        DUMMY1:::hidden-->SIGNAL_IUV
+        linkStyle 2 display:none;
 
-            subgraph CLASSIFY_IUV["Verifica classificazione singola rata"]
-
-                FIND_IUF["Ricerca esistenza IUF associata allo IUV"]
-
-                subgraph FIND_IUF_NOTE_BLOCK
-                    FIND_IUF
-                    FIND_IUF_NOTE@{shape: braces, label: "Classificazione precedente"}
-                end
-                class FIND_IUF_NOTE_BLOCK note_block
-
-                FIND_IUF --> EXISTS_IUF{"Esiste IUF?"}
-                EXISTS_IUF -->|No|SAVE_NO_IUF@{shape: database, label: "Salva classificazione TES_NO_IUF_OR_IUV"}
-
-                subgraph SAVE_NO_IUF_NOTE_BLOCK
-                    SAVE_NO_IUF
-                    SAVE_NO_IUF_NOTE@{shape: braces, label: "Salvataggio eseguito su una transazione separata, catch eccezione per chiave duplicata dentro il loop per rieseguire nuovamente il blocco"}
-                end
-                class SAVE_NO_IUF_NOTE_BLOCK note_block
-
-                EXISTS_IUF -->|Sì|RETURN_IUF@{shape: stadium, label: "Restituisci IUF se trovato"}
-                SAVE_NO_IUF --> RETURN_IUF
-            end
-        end
-
-        LOOP_IUV --> RETURN_IUFS@{shape: stadium, label: "Restituisci IUFs trovati"}
+        SIGNAL_IUV:::send-signal@{shape: delay, label: "Invia evento 'Classifica IUV' al workflow 'Classificazione IUV'"}
+        NOTE_SIGNAL_IUV@{ shape: braces, label: "signalWithStart con workflowID=IUV" }
     end
-    class LOOP_IUV loop
-    class CLASSIFY_IUVs activity
+    class LOOP_IUVs loop
 
-    CLASSIFY_IUVs --> LOOP_IUF
+    LOOP_IUVs --> LOOP_IUFs
 
-    subgraph LOOP_IUF["Per ogni IUF restituito dall'activity di ingestion e dalla classificazione rate"]
+    subgraph LOOP_IUFs["Per ogni IUF restituito dall'activity di ingestion"]
 
         %% dummy block added to have an empty line
         DUMMY2:::hidden-->SIGNAL_IUF
-        linkStyle 8 display:none;
+        linkStyle 4 display:none;
 
-        SIGNAL_IUF:::send-signal@{shape: delay, label: "Invia evento 'Tesoreria IUF' al workflow 'Classificazione incassi'"}
-        NOTE@{ shape: braces, label: "signalWithStart con workflowID=IUF" }
+        SIGNAL_IUF:::send-signal@{shape: delay, label: "Invia evento 'Tesoreria IUF' al workflow 'Classificazione IUF'"}
+        NOTE_SIGNAL_IUF@{ shape: braces, label: "signalWithStart con workflowID=IUF" }
     end
-    class LOOP_IUF loop
+    class LOOP_IUFs loop
 
-    LOOP_IUF --> END@{shape: stop}
+    LOOP_IUFs --> END@{shape: stop}
 
 
     classDef hidden display:none;

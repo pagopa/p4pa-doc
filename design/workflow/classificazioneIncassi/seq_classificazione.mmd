@@ -2,13 +2,20 @@
 title: Flusso Riconciliazione
 ---
 sequenceDiagram
-    participant WF_RT as WF classifica<BR />rata pagata
+    participant EV_RT as Evento<BR />pagamento
+    participant EV_RT_N as Evento notifica<BR />pagato
     participant WF_R as WF caricamento<BR />file Rendicontazione
     participant WF_T as WF caricamento<BR />file Tesoreria
-    participant WF_RC as WF classificazione<BR />rate pagate
+    participant WF_CLS_IUF as WF classificazione<BR />IUF
+    participant WF_CLS_IUV as WF classificazione<BR />IUV
 
-    WF_RT ->> WF_RC: Classifica rate (IUF,IUVs)
-    WF_R ->> WF_RC: Rendicontazione (IUF,IUVs)
-    WF_T ->> WF_RC: Tesoreria IUF (IUF)
+    note over EV_RT,WF_CLS_IUV: Ogni evento verso 'WF classificazione IUV' comporterà<BR />la rischedulazione del WF qualora non già attivo.<BR/><BR/>L'uso dello IUV come workflowID garantisce<BR />la sequenzialità dei processamenti
 
-    note over WF_RT,WF_RC: Ogni evento verso 'Classificazione incassi' comporterà<BR />la rischedulazione del WF qualora non già attivo.<BR/><BR/>L'uso dello IUF come workflowID garantisce<BR />la sequenzialità dei processamenti
+    EV_RT ->> WF_CLS_IUV: Classifica IUV
+    EV_RT_N ->> WF_CLS_IUV: Classifica IUV
+    WF_R ->> WF_CLS_IUF: Rendicontazione
+    WF_T ->> WF_CLS_IUF: Tesoreria IUF
+    WF_T ->> WF_CLS_IUV: Classifica IUV
+    WF_CLS_IUF ->> WF_CLS_IUV: Classifica IUV
+
+    note over EV_RT,WF_CLS_IUV: Ogni evento verso 'WF classificazione IUF' comporterà<BR />la rischedulazione del WF qualora non già attivo.<BR/><BR/>L'uso dello IUF come workflowID garantisce<BR />la sequenzialità dei processamenti
