@@ -3,48 +3,18 @@ title: WF classifica rata pagata
 ---
 flowchart TD
     DESCRIPTION@{ shape: braces, label: "Input: IUV pagato" }
-    START@{shape: start} --> CLASSIFY_IUV
+    START@{shape: start} --> CLASSIFY_DUPLICATE:::activity@{label: "Verifica e classifica se doppione"}
 
-    subgraph CLASSIFY_IUV["Verifica classificazione rata"]
-
-        FIND_IUF["Ricerca esistenza IUF associata allo IUV"]
-
-        subgraph FIND_IUF_NOTE_BLOCK
-            FIND_IUF
-            FIND_IUF_NOTE@{shape: braces, label: "Classificazione precedente (select for update)"}
-        end
-        class FIND_IUF_NOTE_BLOCK note_block
-
-        FIND_IUF -->
-        EXISTS_IUF{"Esiste IUF?"} -->
-        |No|EXISTS_TESORERIA_IUV{"Esiste Tesoreria IUV?"} -->
-        |No| SAVE_NO_IUF@{shape: database, label: "Salva classificazione RT_NO_IUF"}
-
-        subgraph SAVE_NO_IUF_NOTE_BLOCK
-            SAVE_NO_IUF
-            SAVE_NO_IUF_NOTE@{shape: braces, label: "Eccezione se chiave duplicata che scatenerà il retry dell'Activity"}
-        end
-        class SAVE_NO_IUF_NOTE_BLOCK note_block
-
-        EXISTS_TESORERIA_IUV --> |Sì| UPDATE_TES_NO_IUF@{shape: database, label: "Aggiorna classificazione in RT_TES"}
-
-        EXISTS_IUF -->|Sì|RETURN_IUF@{shape: stadium, label: "Restituisci IUF se trovato"}
-        SAVE_NO_IUF & UPDATE_TES_NO_IUF --> RETURN_IUF
-    end
-    class CLASSIFY_IUV activity
-
-    CLASSIFY_IUV --> EXISTS_IUF_WF{"Esiste IUF?"}
-    EXISTS_IUF_WF -->|Sì| SIGNAL
+    CLASSIFY_DUPLICATE -->SIGNAL
 
     subgraph SIGNAL_NOTE_BLOCK
-        SIGNAL:::send-signal@{shape: delay, label: "Invia evento 'Classifica rate' passando una lista con il solo IUV al workflow 'Classificazione incassi'"}
+        SIGNAL:::send-signal@{shape: delay, label: "Invia evento 'Classifica IUV' al workflow 'Classificazione IUV'"}
         SIGNAL_NOTE@{ shape: braces, label: "signalWithStart con workflowID=IUF" }
     end
     class SIGNAL_NOTE_BLOCK note_block
 
     SIGNAL --> END@{shape: stop}
-    EXISTS_IUF_WF -->|No|END
 
     classDef note_block display:none;
     classDef activity fill:#FFFFE0, stroke:#ffc300, stroke-width:2px;
-    classDef send-signal fill:#48cae4, stroke:#023e8a, stroke-width:2px
+    classDef send-signal fill:#ade8f4, stroke:#48cae4, stroke-width:2px

@@ -24,7 +24,8 @@ flowchart TD
             FIND_RT@{shape: database, label: "Cerca ricevuta IUV"} -->
             FIND_RT_NOTIFIED@{shape: database, label: "Cerca notifica IUV"} -->
             FIND_REND@{shape: database, label: "Cerca rendicontazione IUV"} -->
-            FIND_TES@{shape: database, label: "Cerca tesoreria IUF o IUV"} -->
+            FIND_TES_IUF@{shape: database, label: "Cerca tesoreria IUF"} -->
+            FIND_TES_IUV@{shape: database, label: "Cerca tesoreria IUV"} -->
             CLASSIFY["Determina etichette"] -->
             DELETE_PREVIOUS@{shape: database, label: "Delete precedenti classificazioni IUV<BR />(<> 'DOPPI')"} -->
             INSERT_NEW@{shape: database, label: "Insert classificazioni IUV"}
@@ -54,4 +55,4 @@ flowchart TD
     classDef hidden display:none;
     classDef activity fill:#FFFFE0, stroke:#ffc300, stroke-width:2px;
     classDef loop fill:#CCFFCC, stroke:#7FBF7F, stroke-width:2px, padding-bottom: 5px;
-    classDef signal_block fill:#48cae4, stroke:#023e8a, stroke-width:2px
+    classDef signal_block fill:#ade8f4, stroke:#48cae4, stroke-width:2px
