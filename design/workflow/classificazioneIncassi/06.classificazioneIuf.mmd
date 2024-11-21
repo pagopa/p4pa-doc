@@ -31,10 +31,21 @@ flowchart TD
 
         subgraph SIGNAL_RENDICONTAZIONE_BLOCK["Evento Rendicontazione"]
         direction LR
-            DESCRIPTION_SIGNAL_RENDICONTAZIONE@{ shape: braces, label: "Input: IUF, codiceEsito, IUVs" }
+            DESCRIPTION_SIGNAL_RENDICONTAZIONE@{ shape: braces, label: "Input: IUF, codiceEsito, IUVs" } -->
+            DUMMY1:::hidden --> DUMMY2:::hidden --> DUMMY3:::hidden --> DUMMY4:::hidden --> DUMMY5:::hidden
+            linkStyle 2,3,4,5,6 display:none
+
             SIGNAL_RENDICONTAZIONE@{ shape: bolt } -->
-            DELETE_CLASSIFY_NULL_IUV:::activity@{label: "Delete classificazione IUF con IUV null"} -->
-            HANDLE_CODICEESITO9:::activity@{label: "Gestisci codiceEsito 9"} -->
+            DELETE_CLASSIFY_NULL_IUV:::activity@{label: "Delete classificazione 'TES_NO_MATCH'"} -->
+            IS_CODICEESITO9{"CodiceEsito == 9"} --> |Sì|HANDLE_CODICEESITO9
+            subgraph HANDLE_CODICEESITO9["Gestisci codiceEsito 9"]
+                SEND_RT_MSG@{shape: das, label: "Notifica Ricevuta"}
+            end
+            class HANDLE_CODICEESITO9 activity
+
+            IS_CODICEESITO9 --> |No|ADD_RENDICONTAZIONE_IUVS
+
+            HANDLE_CODICEESITO9 -->
             ADD_RENDICONTAZIONE_IUVS["Aggiungi IUVs "] -->
             SIGNAL_RENDICONTAZIONE_END@{ shape: "stop" }
         end
@@ -42,12 +53,13 @@ flowchart TD
 
         subgraph SIGNAL_TESORERIA_BLOCK["Evento Tesoreria IUF"]
         direction LR
-            DESCRIPTION_SIGNAL_TESORERIA@{ shape: braces, label: "Input: IUF" }
+            DESCRIPTION_SIGNAL_TESORERIA@{ shape: braces, label: "Input: IUF" } -->
+            DUMMY6:::hidden --> DUMMY7:::hidden --> DUMMY8:::hidden
+            linkStyle 13,14,15 display:none
+
             SIGNAL_TESORERIA@{ shape: bolt } --> FIND_TESORERIA_IUVS_ACTIVITY
 
-            subgraph FIND_TESORERIA_IUVS_ACTIVITY["Ricerca IUVs associati allo IUF"]
-                DUMMY2:::hidden --> FIND_TESORERIA_IUVS
-                linkStyle 7 display:none
+            subgraph FIND_TESORERIA_IUVS_ACTIVITY["Ricerca IUVs tramite IUF"]
 
                 FIND_TESORERIA_IUVS["Ricerca Rendicontazione IUF"] -->
                 EXISTS_RENDICONTAZIONE_TES{"Trovata Rendicontazione?"}
@@ -55,7 +67,7 @@ flowchart TD
                 EXISTS_RENDICONTAZIONE_TES -->|Sì|RETURN_TESORERIA_IUVS@{shape: terminal, label: "Restituisci IUVs trovati"}
 
                 EXISTS_RENDICONTAZIONE_TES -->
-                |No|SAVE_TES_ANOMALY@{shape: database, label: "Salva classificazione TES_NO_MATCH (IUV nullo)"} -->
+                |No|SAVE_TES_ANOMALY@{shape: database, label: "Salva classificazione 'TES_NO_MATCH'"} -->
                 RETURN_TESORERIA_IUVS
             end
             class FIND_TESORERIA_IUVS_ACTIVITY activity

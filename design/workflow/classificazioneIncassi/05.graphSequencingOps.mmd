@@ -4,64 +4,65 @@ title: Sequenzializzazione accessi tabella classificazioni
 flowchart TD
     subgraph START
     direction LR
-        subgraph NOTE_RT_BLOCK
-        direction TB
-            NOTE_RT@{shape: braces, label: "RT"} -->
-            START_RT
-            linkStyle 0 display:none;
-        end
-
-        subgraph NOTE_RN_BLOCK
-        direction TB
-            NOTE_RN@{shape: braces, label: "Notifica Pagamento"} -->
-            START_RN
-            linkStyle 1 display:none;
-        end
 
         subgraph NOTE_REND_BLOCK
         direction TB
             NOTE_REND@{shape: braces, label: "Rendicontazione"} -->
             START_REND
-            linkStyle 2 display:none;
+            linkStyle 0 display:none;
         end
 
         subgraph NOTE_TES_IUF_BLOCK
         direction TB
             NOTE_TES_IUF@{shape: braces, label: "Tesoreria IUF"} -->
             START_TES_IUF
-            linkStyle 3 display:none;
+            linkStyle 1 display:none;
         end
 
         subgraph NOTE_TES_IUV_BLOCK
         direction TB
             NOTE_TES_IUV@{shape: braces, label: "Tesoreria IUV"} -->
             START_TES_IUV
+            linkStyle 2 display:none;
+        end
+
+        subgraph NOTE_RT_BLOCK
+        direction TB
+            NOTE_RT@{shape: braces, label: "RT"} -->
+            START_RT
+            linkStyle 3 display:none;
+        end
+
+        subgraph NOTE_RN_BLOCK
+        direction TB
+            NOTE_RN@{shape: braces, label: "Notifica Pagamento"} -->
+            START_RN
             linkStyle 4 display:none;
         end
     end
 
     subgraph RT
         START_RT@{shape: start} -->
+        |IUD|JOIN_IUD@{shape: join} -->
+        IUD_NO_RT["Gestisci classificazione 'IUD_NO_RT'"] -->
         |IUV|JOIN_IUV@{shape: join}
     end
 
     subgraph RN
         START_RN@{shape: start} -->
-        |IUV|JOIN_IUV@{shape: join}
+        |IUD|JOIN_IUD@{shape: join}
     end
 
     subgraph REND
         START_REND@{shape: start} -->
         |IUF|JOIN_IUF@{shape: join} -->
-        DELETE_IUF_IUV_NULL["Cancella classificazione IUF con IUV null"] -->
+        TES_NO_MATCH["Gestisci classificazione 'TES_NO_MATCH'"] -->
         |IUV|JOIN_IUV@{shape: join}
     end
 
     subgraph TES_IUF
         START_TES_IUF@{shape: start} -->
-        |IUF|JOIN_IUF@{shape: join} -->
-        INSERT_IUF_IUV_NULL["Aggiungi classificazione IUF con IUV null"] -->
-        |IUV|JOIN_IUV@{shape: join}
+        |IUF|JOIN_IUF@{shape: join}
     end
 
     subgraph TES_IUV
