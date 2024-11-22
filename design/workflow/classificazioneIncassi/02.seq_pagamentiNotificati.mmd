@@ -1,0 +1,20 @@
+---
+title: Flusso Pagamenti Notificati
+---
+sequenceDiagram
+    actor SIL
+    participant PU-BE as PiattaformaUnitaria-BE
+    participant FS as File Share
+    participant WF as Workflow Service
+
+    SIL ->> PU-BE: Carica file<BR />Pagamenti Notificati
+
+    activate PU-BE
+        PU-BE ->> FS: Salva file
+        PU-BE ->> WF: Avvia Pagamenti Notificati
+
+        activate WF
+            WF ->>WF: Avvia async<BR />"WF caricamento file<BR />Pagamenti Notificati"
+            WF -->> PU-BE: #
+        deactivate WF
+    deactivate PU-BE

@@ -3,7 +3,7 @@ title: Flusso Riconciliazione
 ---
 sequenceDiagram
     participant WF_RT as WF classifica<BR />rata pagata
-    participant API_RT_N as API pagamenti<BR />notificati
+    participant WF_RN as WF caricamento<BR />pagamenti notificati
     participant WF_R as WF caricamento<BR />file Rendicontazione
     participant WF_T as WF caricamento<BR />file Tesoreria
     participant WF_CLS_IUD as WF classificazione<BR />IUD
@@ -11,11 +11,17 @@ sequenceDiagram
     participant WF_CLS_IUV as WF classificazione<BR />IUV
 
     WF_RT ->>+ WF_CLS_IUD: Classifica IUD
-    API_RT_N ->> WF_CLS_IUD: Classifica IUD
+    WF_RN ->> WF_CLS_IUD: Classifica IUD
+    WF_CLS_IUD ->> WF_CLS_IUD: Match IUD
     WF_CLS_IUD ->>- WF_CLS_IUV: Classifica IUV
+    activate WF_CLS_IUV
+
     WF_R ->>+ WF_CLS_IUF: Rendicontazione
     WF_T ->> WF_CLS_IUF: Tesoreria IUF
+    WF_CLS_IUF ->> WF_CLS_IUF: Match IUF
     WF_CLS_IUF ->>- WF_CLS_IUV: Classifica IUV
+
     WF_T ->> WF_CLS_IUV: Classifica IUV
+    WF_CLS_IUV ->>- WF_CLS_IUV: Classifica IUV
 
     note over WF_RT,WF_CLS_IUV: Ogni evento verso 'WF classificazione XXX' comporterà<BR />la rischedulazione del WF qualora non già attivo.<BR/><BR/>L'uso di uno stesso identificativo come workflowID garantisce<BR />la sequenzialità dei processamenti
