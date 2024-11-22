@@ -39,6 +39,7 @@ flowchart TD
             DELETE_CLASSIFY_NULL_IUV:::activity@{label: "Delete classificazione 'TES_NO_MATCH'"} -->
             IS_CODICEESITO9{"CodiceEsito == 9"} --> |Sì|HANDLE_CODICEESITO9
             subgraph HANDLE_CODICEESITO9["Gestisci codiceEsito 9"]
+                SAVE_RT@{shape: database, label: "Salva Ricevuta"} -->
                 SEND_RT_MSG@{shape: das, label: "Notifica Ricevuta"}
             end
             class HANDLE_CODICEESITO9 activity
@@ -55,7 +56,7 @@ flowchart TD
         direction LR
             DESCRIPTION_SIGNAL_TESORERIA@{ shape: braces, label: "Input: IUF" } -->
             DUMMY6:::hidden --> DUMMY7:::hidden --> DUMMY8:::hidden
-            linkStyle 13,14,15 display:none
+            linkStyle 14,15,16 display:none
 
             SIGNAL_TESORERIA@{ shape: bolt } --> FIND_TESORERIA_IUVS_ACTIVITY
 
