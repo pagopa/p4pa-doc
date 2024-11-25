@@ -2,7 +2,7 @@
 title: Flusso Riconciliazione
 ---
 sequenceDiagram
-    participant WF_RT as WF classifica<BR />rata pagata
+    participant EV_RT as Evento<BR />rata pagata
     participant WF_RN as WF caricamento<BR />pagamenti notificati
     participant WF_R as WF caricamento<BR />file Rendicontazione
     participant WF_T as WF caricamento<BR />file Tesoreria
@@ -10,7 +10,7 @@ sequenceDiagram
     participant WF_CLS_IUF as WF classificazione<BR />IUF
     participant WF_CLS_IUV as WF classificazione<BR />IUV
 
-    WF_RT ->>+ WF_CLS_IUD: Classifica IUD
+    EV_RT ->>+ WF_CLS_IUD: Classifica IUD
     WF_RN ->> WF_CLS_IUD: Classifica IUD
     WF_CLS_IUD ->> WF_CLS_IUD: Match IUD
     WF_CLS_IUD ->>- WF_CLS_IUV: Classifica IUV
@@ -24,4 +24,4 @@ sequenceDiagram
     WF_T ->> WF_CLS_IUV: Classifica IUV
     WF_CLS_IUV ->>- WF_CLS_IUV: Classifica IUV
 
-    note over WF_RT,WF_CLS_IUV: Ogni evento verso 'WF classificazione XXX' comporterà<BR />la rischedulazione del WF qualora non già attivo.<BR/><BR/>L'uso di uno stesso identificativo come workflowID garantisce<BR />la sequenzialità dei processamenti
+    note over EV_RT,WF_CLS_IUV: Ogni evento verso 'WF classificazione XXX' comporterà<BR />la rischedulazione del WF qualora non già attivo.<BR/><BR/>L'uso di uno stesso identificativo come workflowID garantisce<BR />la sequenzialità dei processamenti
