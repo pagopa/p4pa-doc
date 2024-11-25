@@ -17,7 +17,7 @@ sequenceDiagram
     KAFKA ->> WF: Consegna evento
 
     activate WF
-        WF ->>WF: Avvia async<BR />"WF classifica rata pagata"
+        WF ->>WF: Invia evento async al<BR />"WF classificazione IUD"<BR /> (signalWithStart)
 
         WF -->> KAFKA: ack
     deactivate WF

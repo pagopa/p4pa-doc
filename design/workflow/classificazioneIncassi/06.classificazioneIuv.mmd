@@ -1,0 +1,59 @@
+---
+title: WF Classificazione IUV
+config:
+    flowchart:
+        rankSpacing: 1
+---
+flowchart TD
+    subgraph WF_BLOCK
+        subgraph NOTE_START_BLOCK
+            DESCRIPTION@{ shape: braces, label: "Input: IUV" }
+            START@{shape: start}
+        end
+        class NOTE_START_BLOCK hidden
+
+        START -->
+        REMOVE_ELAB_REQUESTS["Rimuovi tutte le richieste di elaborazione correnti"] -->
+        CLASSIFY_IUV
+
+        subgraph CLASSIFY_IUV["Aggiorna stato riconciliazione IUV"]
+        direction TB
+            DUMMY:::hidden --> FIND_RT
+            linkStyle 2 display:none
+
+            FIND_RT@{shape: database, label: "Cerca ricevuta IUV"} -->
+            FIND_RT_NOTIFIED@{shape: database, label: "Cerca notifica IUV"} -->
+            FIND_REND@{shape: database, label: "Cerca rendicontazione IUV"} -->
+            FIND_TES_IUF@{shape: database, label: "Cerca tesoreria IUF"} -->
+            FIND_TES_IUV@{shape: database, label: "Cerca tesoreria IUV"} -->
+            CLASSIFY["Determina etichette"] -->
+            DELETE_PREVIOUS@{shape: database, label: "Delete precedenti classificazioni IUV<BR />(<> 'DOPPI')"} -->
+            INSERT_NEW@{shape: database, label: "Insert classificazioni IUV"} -->
+            UPDATE_IUV@{shape: database, label: "Aggiorna rata (IUF, IUR, stato)"}
+
+        end
+
+       CLASSIFY_IUV --> END@{shape: stop}
+    end
+
+    class WF_BLOCK hidden
+
+    subgraph SIGNALS_BLOCK
+    direction LR
+
+        subgraph SIGNAL_IUV_BLOCK["Evento Classifica IUV"]
+        direction LR
+            DESCRIPTION_SIGNAL_IUV@{ shape: braces, label: "Input: IUV" }
+            SIGNAL_IUV@{ shape: bolt } -->
+            ADD_SIGNAL_IUV["Aggiungi richiesta elaborazione"] -->
+            SIGNAL_IUV_END@{ shape: "stop" }
+        end
+        class SIGNAL_IUV_BLOCK signal_block
+    end
+    class SIGNALS_BLOCK hidden
+
+    classDef note_block display:none;
+    classDef hidden display:none;
+    classDef activity fill:#FFFFE0, stroke:#ffc300, stroke-width:2px;
+    classDef loop fill:#CCFFCC, stroke:#7FBF7F, stroke-width:2px, padding-bottom: 5px;
+    classDef signal_block fill:#ade8f4, stroke:#48cae4, stroke-width:2px

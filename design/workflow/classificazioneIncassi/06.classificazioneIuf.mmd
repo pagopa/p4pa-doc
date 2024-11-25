@@ -1,5 +1,5 @@
 ---
-title: WF Classificazione rate pagate
+title: WF Classificazione IUF
 config:
     flowchart:
         rankSpacing: 1
@@ -17,21 +17,8 @@ flowchart TD
         subgraph LOOP_IUVs["Per ogni IUV"]
         direction TB
 
-            subgraph CLASSIFY_IUV["Aggiorna stato riconciliazione IUV"]
-            direction TB
-                DUMMY:::hidden --> FIND_RT
-                linkStyle 1 display:none
-
-                FIND_RT@{shape: database, label: "Cerca ricevuta IUV"} -->
-                FIND_REND@{shape: database, label: "Cerca rendicontazione IUV"} -->
-                FIND_TES@{shape: database, label: "Cerca tesoreria IUF o IUV"} -->
-                CLASSIFY["Determina etichetta"] -->
-                UPSERT_CLASSIFY@{shape: database, label: "Upsert classificazione IUV"}
-
-            end
-
-            LOOP_NOTE@{shape: braces, label: "Se troppi IUV, break e continueAsNew fornendo gli IUV residui, assicurandosi prima di attendere gli eventuali handler in esecuzione"}
-            class CLASSIFY_IUV activity
+        SIGNAL_IUV:::send-signal@{shape: delay, label: "Invia evento 'Classifica IUV' al workflow 'Classificazione IUV'"}
+        NOTE_SIGNAL_IUV@{ shape: braces, label: "signalWithStart con workflowID=IUV" }
         end
 
         LOOP_IUVs --> END@{shape: stop}
@@ -42,19 +29,24 @@ flowchart TD
     subgraph SIGNALS_BLOCK
     direction LR
 
-        subgraph SIGNAL_RATE_BLOCK["Evento Classifica rate"]
-        direction LR
-            DESCRIPTION_SIGNAL_RATE@{ shape: braces, label: "Input: IUF, IUVs" }
-            SIGNAL_RATE@{ shape: bolt } -->
-            ADD_RATE_IUVs["Aggiungi IUVs "] -->
-            SIGNAL_RICEVUTA_END@{ shape: "stop" }
-        end
-        class SIGNAL_RATE_BLOCK signal_block
-
         subgraph SIGNAL_RENDICONTAZIONE_BLOCK["Evento Rendicontazione"]
         direction LR
-            DESCRIPTION_SIGNAL_RENDICONTAZIONE@{ shape: braces, label: "Input: IUF, IUVs" }
+            DESCRIPTION_SIGNAL_RENDICONTAZIONE@{ shape: braces, label: "Input: IUF, codiceEsito, IUVs" } -->
+            DUMMY1:::hidden --> DUMMY2:::hidden --> DUMMY3:::hidden --> DUMMY4:::hidden --> DUMMY5:::hidden
+            linkStyle 2,3,4,5,6 display:none
+
             SIGNAL_RENDICONTAZIONE@{ shape: bolt } -->
+            DELETE_CLASSIFY_NULL_IUV:::activity@{label: "Delete classificazione 'TES_NO_MATCH'"} -->
+            IS_CODICEESITO9{"CodiceEsito == 9"} --> |Sì|HANDLE_CODICEESITO9
+            subgraph HANDLE_CODICEESITO9["Gestisci codiceEsito 9"]
+                SAVE_RT@{shape: database, label: "Salva Ricevuta"} -->
+                SEND_RT_MSG@{shape: das, label: "Notifica Ricevuta"}
+            end
+            class HANDLE_CODICEESITO9 activity
+
+            IS_CODICEESITO9 --> |No|ADD_RENDICONTAZIONE_IUVS
+
+            HANDLE_CODICEESITO9 -->
             ADD_RENDICONTAZIONE_IUVS["Aggiungi IUVs "] -->
             SIGNAL_RENDICONTAZIONE_END@{ shape: "stop" }
         end
@@ -62,12 +54,13 @@ flowchart TD
 
         subgraph SIGNAL_TESORERIA_BLOCK["Evento Tesoreria IUF"]
         direction LR
-            DESCRIPTION_SIGNAL_TESORERIA@{ shape: braces, label: "Input: IUF" }
+            DESCRIPTION_SIGNAL_TESORERIA@{ shape: braces, label: "Input: IUF" } -->
+            DUMMY6:::hidden --> DUMMY7:::hidden --> DUMMY8:::hidden
+            linkStyle 14,15,16 display:none
+
             SIGNAL_TESORERIA@{ shape: bolt } --> FIND_TESORERIA_IUVS_ACTIVITY
 
-            subgraph FIND_TESORERIA_IUVS_ACTIVITY["Ricerca IUVs associati allo IUF"]
-                DUMMY2:::hidden --> FIND_TESORERIA_IUVS
-                linkStyle 12 display:none
+            subgraph FIND_TESORERIA_IUVS_ACTIVITY["Ricerca IUVs tramite IUF"]
 
                 FIND_TESORERIA_IUVS["Ricerca Rendicontazione IUF"] -->
                 EXISTS_RENDICONTAZIONE_TES{"Trovata Rendicontazione?"}
@@ -75,7 +68,7 @@ flowchart TD
                 EXISTS_RENDICONTAZIONE_TES -->|Sì|RETURN_TESORERIA_IUVS@{shape: terminal, label: "Restituisci IUVs trovati"}
 
                 EXISTS_RENDICONTAZIONE_TES -->
-                |No|SAVE_TES_ANOMALY@{shape: database, label: "Salva anomalia Tesoreria TES_NO_MATCH"} -->
+                |No|SAVE_TES_ANOMALY@{shape: database, label: "Salva classificazione 'TES_NO_MATCH'"} -->
                 RETURN_TESORERIA_IUVS
             end
             class FIND_TESORERIA_IUVS_ACTIVITY activity
@@ -92,4 +85,5 @@ flowchart TD
     classDef hidden display:none;
     classDef activity fill:#FFFFE0, stroke:#ffc300, stroke-width:2px;
     classDef loop fill:#CCFFCC, stroke:#7FBF7F, stroke-width:2px, padding-bottom: 5px;
-    classDef signal_block fill:#48cae4, stroke:#023e8a, stroke-width:2px
+    classDef signal_block fill:#ade8f4, stroke:#48cae4, stroke-width:2px
+    classDef send-signal fill:#ade8f4, stroke:#48cae4, stroke-width:2px
