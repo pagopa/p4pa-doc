@@ -1,0 +1,23 @@
+sequenceDiagram
+    actor Operator as Operator
+    participant PU as Piattaforma Unitaria
+    participant PDNDService as P4PA PDND Service
+    participant PDND as PDND
+    participant ANPR as ANPR
+
+    Operator->>PU: Enters citizen's data
+    PU->>PDNDService: Requests data verification by Fiscal Code
+    PDNDService->>PDND: Requests access token for C030 service
+    PDND-->>PDNDService: Returns access token
+    PDNDService->>PDND: Request citizen's idANPR
+    PDND->>ANPR: Request citizen's idANPR
+    ANPR-->>PDND: Returns idANPR
+    PDND-->>PDNDService: Returns idANPR
+    PDNDService->>PDND: Requests access token for C003 service
+    PDND-->>PDNDService: Returns access token
+    PDNDService->>PDND: Requests citizen's data by idANPR
+    PDND->>ANPR: Requests citizen's data by idANPR
+    ANPR-->>PDND: Returns updated data
+    PDND-->>PDNDService: Returns citizen's data
+    PDNDService-->>PU: Returns verified data
+    PU-->>Operator: Displays verification result
