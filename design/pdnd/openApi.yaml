@@ -1,0 +1,71 @@
+openapi: 3.0.3
+info:
+  title: P4PA-PDND-Service API
+  description: API and Models.
+  version: 0.0.1
+servers:
+  - url: "http://localhost:8080/p4papdnd"
+paths:
+  /anpr-service-e002/citizen:
+    get:
+      summary: Retrieve citizen data
+      description: Returns detailed information about a citizen based on their fiscal code.
+      parameters:
+        - name: fiscalCode
+          in: query
+          description: The fiscal code of the citizen
+          required: true
+          schema:
+            type: string
+            example: RSSMRA85M01H501Z
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  firstName:
+                    type: string
+                    example: Mario
+                  lastName:
+                    type: string
+                    example: Rossi
+                  dateOfBirth:
+                    type: string
+                    format: YYYY-MM-DD
+                    example: '2021-11-15'
+                  address:
+                    $ref: '#/components/schemas/Address'
+        '400':
+          description: Invalid request
+        '403':
+          description: Forbidden
+        '404':
+          description: Citizen not found
+        '500':
+          description: Internal server error
+security:
+  - BearerAuth: []
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+  schemas:
+    Address:
+      type: object
+      properties:
+        street:
+          type: string
+          example: Via Roma 10
+        city:
+          type: string
+          example: Roma
+        postalCode:
+          type: string
+          example: 00100
+        country:
+          type: string
+          example: Italy
