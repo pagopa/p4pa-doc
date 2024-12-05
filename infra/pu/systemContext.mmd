@@ -1,0 +1,63 @@
+C4Context
+    title Piattaforma Unitaria
+
+    Person(op, "Operatori enti")
+    System_Ext(SIL, "Sistema Informativo Locale")
+    System_Ext(IAM, "Identity and Access Management")
+    System_Ext(PAGOPA, "Servizi PagoPA")
+
+    Enterprise_Boundary(PU, "Piattaforma Unitaria") {
+        Component(FE, "Portale Piattaforma Unitaria", "Single Page Application", "Interfaccia utente")
+        System(ms_in, "Microservizi inbound")
+        System(ms_inout, "Microservizi inbound/oubound")
+
+        Boundary(PU_priv, "Rete privata", ""){
+            System(ms_entities, "Microservizi entità")
+            System(ms_batch, "Microservizi processi batch")
+            System(ms_out_pagopa, "Microservizi oubound PagoPA")
+
+            Boundary(storage, "Storage", ""){
+                SystemDb(db_cache, "Cache", "Redis")
+                Container(share, "File share")
+                SystemDb(db_sql, "SQL", "PostgreSQL")
+                SystemDb(db_document, "Document", "MongoDB")
+            }
+
+            Boundary(queue, "Queue", ""){
+                SystemQueue(queue, "Queue", "Kafka")
+            }
+
+            Boundary(devops, "DevOps", ""){
+                Component(agent_devops_e2e, "Test e2e", "postman")
+                Component(agent_devops_soak, "Test di carico", "K6")
+                Component(agent_devops_feature_api, "Test funzionali API", "Behave")
+                Component(agent_devops_feature_ui, "Test funzionali UI", "Cucumber + Playwright")
+            }
+        }
+    }
+
+    Rel(op, FE, "", "HTTPS")
+    Rel(op, ms_in, "", "HTTPS")
+
+
+    Rel(SIL, ms_in, "", "HTTPS")
+    BiRel(SIL, ms_inout, "", "HTTPS")
+    Rel(ms_inout, IAM, "", "HTTPS")
+    Rel(ms_inout, share, "")
+
+    Rel(ms_out_pagopa, PAGOPA, "", "HTTPS")
+    BiRel(ms_inout, PAGOPA, "", "HTTPS")
+
+    Rel(ms_in, ms_entities, "", "HTTPS")
+    Rel(ms_in, share, "")
+
+    Rel(ms_entities, db_cache, "")
+    Rel(ms_entities, db_sql, "")
+    Rel(ms_entities, db_document, "")
+    Rel(ms_entities, queue, "")
+
+    Rel(queue, ms_batch, "")
+    Rel(ms_batch, ms_entities, "", "HTTPS")
+    Rel(ms_batch, ms_out_pagopa, "", "HTTPS")
+    Rel(ms_batch, ms_inout, "", "HTTPS")
+    Rel(ms_batch, share, "")
