@@ -24,6 +24,7 @@ flowchart TD
             NOTE_TES_IUV@{shape: braces, label: "Tesoreria IUV"} -->
             START_TES_IUV
             linkStyle 2 display:none;
+            style NOTE_TES_IUV color:red,stroke:red;
         end
 
         subgraph NOTE_RT_BLOCK
@@ -43,35 +44,39 @@ flowchart TD
 
     subgraph RT
         START_RT@{shape: start} -->
-        |IUD|JOIN_IUD@{shape: join} -->
+        |orgId/IUD|JOIN_IUD@{shape: join} -->
         IUD_NO_RT["Gestisci classificazione 'IUD_NO_RT'"] -->
-        |IUV|JOIN_IUV@{shape: join}
+        |orgId/IUV/IUR/transferIndex|JOIN_IUV@{shape: join}
+
+        START_RT -->
+        |orgId/IUV/IUR/transferIndex|JOIN_IUV@{shape: join}
     end
 
     subgraph RN
         START_RN@{shape: start} -->
-        |IUD|JOIN_IUD@{shape: join}
+        |orgId/IUD|JOIN_IUD@{shape: join}
     end
 
     subgraph REND
         START_REND@{shape: start} -->
-        |IUF|JOIN_IUF@{shape: join} -->
+        |orgId/IUF|JOIN_IUF@{shape: join} -->
         TES_NO_MATCH["Gestisci classificazione 'TES_NO_MATCH'"] -->
-        |IUV|JOIN_IUV@{shape: join}
+        |orgId/IUV/IUR/transferIndex|JOIN_IUV@{shape: join}
     end
 
     subgraph TES_IUF
         START_TES_IUF@{shape: start} -->
-        |IUF|JOIN_IUF@{shape: join}
+        |orgId/IUF|JOIN_IUF@{shape: join}
     end
 
     subgraph TES_IUV
         START_TES_IUV@{shape: start} -->
-        |IUV|JOIN_IUV@{shape: join}
+        |orgId/IUV|JOIN_IUV@{shape: join}
+        linkStyle 14 color:red,stroke:red;
     end
 
     JOIN_IUV -->
-    CLASSIFY_IUV["Classifica IUV"] -->
+    CLASSIFY_IUV["Classifica Transfer"] -->
     END@{shape: stop}
 
     class NOTE_RT_BLOCK,NOTE_RN_BLOCK,NOTE_REND_BLOCK,NOTE_TES_IUF_BLOCK,NOTE_TES_IUV_BLOCK hidden

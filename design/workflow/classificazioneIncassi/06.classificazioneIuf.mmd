@@ -7,18 +7,18 @@ config:
 flowchart TD
     subgraph WF_BLOCK
         subgraph NOTE_START_BLOCK
-            DESCRIPTION@{ shape: braces, label: "Input: IUF, IUVs" }
+            DESCRIPTION@{ shape: braces, label: "Input: IUF, orgId, List&lt;IUV,IUR,transferIndex&gt;" }
             START@{shape: start}
         end
         class NOTE_START_BLOCK hidden
 
         START --> LOOP_IUVs
 
-        subgraph LOOP_IUVs["Per ogni IUV"]
+        subgraph LOOP_IUVs["Per ogni Transfer"]
         direction TB
 
-        SIGNAL_IUV:::send-signal@{shape: delay, label: "Invia evento 'Classifica IUV' al workflow 'Classificazione IUV'"}
-        NOTE_SIGNAL_IUV@{ shape: braces, label: "signalWithStart con workflowID=IUV" }
+        SIGNAL_IUV:::send-signal@{shape: delay, label: "Invia evento 'Classifica Transfer' al workflow 'Classificazione Transfer'"}
+        NOTE_SIGNAL_IUV@{ shape: braces, label: "signalWithStart con workflowID=orgId+IUV+ IUR+transferIndex" }
         end
 
         LOOP_IUVs --> END@{shape: stop}
@@ -31,7 +31,7 @@ flowchart TD
 
         subgraph SIGNAL_RENDICONTAZIONE_BLOCK["Evento Rendicontazione"]
         direction LR
-            DESCRIPTION_SIGNAL_RENDICONTAZIONE@{ shape: braces, label: "Input: IUF, codiceEsito, IUVs" } -->
+            DESCRIPTION_SIGNAL_RENDICONTAZIONE@{ shape: braces, label: "Input: orgId, IUF, codiceEsito, List&lt;IUV,IUR,transferIndex&gt;" } -->
             DUMMY1:::hidden --> DUMMY2:::hidden --> DUMMY3:::hidden --> DUMMY4:::hidden --> DUMMY5:::hidden
             linkStyle 2,3,4,5,6 display:none
 
@@ -47,25 +47,25 @@ flowchart TD
             IS_CODICEESITO9 --> |No|ADD_RENDICONTAZIONE_IUVS
 
             HANDLE_CODICEESITO9 -->
-            ADD_RENDICONTAZIONE_IUVS["Aggiungi IUVs "] -->
+            ADD_RENDICONTAZIONE_IUVS["Aggiungi IUV/IUR/transferIndex "] -->
             SIGNAL_RENDICONTAZIONE_END@{ shape: "stop" }
         end
         class SIGNAL_RENDICONTAZIONE_BLOCK signal_block
 
         subgraph SIGNAL_TESORERIA_BLOCK["Evento Tesoreria IUF"]
         direction LR
-            DESCRIPTION_SIGNAL_TESORERIA@{ shape: braces, label: "Input: IUF" } -->
+            DESCRIPTION_SIGNAL_TESORERIA@{ shape: braces, label: "Input: orgId, IUF, treasuryId" } -->
             DUMMY6:::hidden --> DUMMY7:::hidden --> DUMMY8:::hidden
             linkStyle 14,15,16 display:none
 
             SIGNAL_TESORERIA@{ shape: bolt } --> FIND_TESORERIA_IUVS_ACTIVITY
 
-            subgraph FIND_TESORERIA_IUVS_ACTIVITY["Ricerca IUVs tramite IUF"]
+            subgraph FIND_TESORERIA_IUVS_ACTIVITY["Ricerca Transfers by IUF"]
 
                 FIND_TESORERIA_IUVS["Ricerca Rendicontazione IUF"] -->
                 EXISTS_RENDICONTAZIONE_TES{"Trovata Rendicontazione?"}
 
-                EXISTS_RENDICONTAZIONE_TES -->|Sì|RETURN_TESORERIA_IUVS@{shape: terminal, label: "Restituisci IUVs trovati"}
+                EXISTS_RENDICONTAZIONE_TES -->|Sì|RETURN_TESORERIA_IUVS@{shape: terminal, label: "Restituisci IUV/IUR/transferIndex trovati"}
 
                 EXISTS_RENDICONTAZIONE_TES -->
                 |No|SAVE_TES_ANOMALY@{shape: database, label: "Salva classificazione 'TES_NO_MATCH'"} -->
@@ -74,7 +74,7 @@ flowchart TD
             class FIND_TESORERIA_IUVS_ACTIVITY activity
 
             FIND_TESORERIA_IUVS_ACTIVITY -->
-            ADD_TESORERIA_IUVS["Aggiungi IUVs "] -->
+            ADD_TESORERIA_IUVS["Aggiungi IUV/IUR/transferIndex "] -->
             SIGNAL_TESORERIA_END@{ shape: "stop" }
         end
         class SIGNAL_TESORERIA_BLOCK signal_block

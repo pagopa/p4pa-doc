@@ -7,17 +7,17 @@ config:
 flowchart TD
     subgraph WF_BLOCK
         subgraph NOTE_START_BLOCK
-            DESCRIPTION@{ shape: braces, label: "Input: IUD, IUV" }
+            DESCRIPTION@{ shape: braces, label: "Input: orgId, IUV, IUR, transferIndex" }
             START@{shape: start}
         end
         class NOTE_START_BLOCK hidden
 
         START -->
-        SIGNAL_IUV:::send-signal@{shape: delay, label: "Invia evento 'Classifica IUV' al workflow 'Classificazione IUV'"}
+        SIGNAL_IUV:::send-signal@{shape: delay, label: "Invia evento 'Classifica Transfer' al workflow 'Classificazione Transfer'"}
 
         subgraph NOTE_SIGNAL_IUV_BLOCK
             SIGNAL_IUV
-            NOTE_SIGNAL_IUV@{ shape: braces, label: "signalWithStart con workflowID=IUV" }
+            NOTE_SIGNAL_IUV@{ shape: braces, label: "signalWithStart con workflowID=orgId+IUV+ IUR+transferIndex" }
         end
         class NOTE_SIGNAL_IUV_BLOCK note_block
 
@@ -30,20 +30,20 @@ flowchart TD
 
         subgraph SIGNAL_RT_BLOCK["Evento Ricevuta"]
         direction LR
-            DESCRIPTION_SIGNAL_RT@{ shape: braces, label: "Input: IUV, IUD" } -->
+            DESCRIPTION_SIGNAL_RT@{ shape: braces, label: "Input: orgId, IUD, IUV, IUR, transferIndex" } -->
             DUMMY1:::hidden --> DUMMY2:::hidden--> DUMMY3:::hidden
             linkStyle 2,3,4 display:none
 
             SIGNAL_RT@{ shape: bolt } -->
             DELETE_CLASSIFY_NULL_IUV:::activity@{label: "Delete classificazione 'IUD_NO_RT'"} -->
-            ADD_RT_IUV["Aggiungi IUV "] -->
+            ADD_RT_IUV["Aggiungi orgId/IUV/IUR/transferIndex "] -->
             SIGNAL_RT_END@{ shape: "stop" }
         end
         class SIGNAL_RT_BLOCK signal_block
 
         subgraph SIGNAL_RN_BLOCK["Evento Pagamento Notificato"]
         direction LR
-            DESCRIPTION_SIGNAL_RN@{ shape: braces, label: "Input: IUD" } -->
+            DESCRIPTION_SIGNAL_RN@{ shape: braces, label: "Input: organizationId, IUD, transferIndex" } -->
             DUMMY4:::hidden --> DUMMY5:::hidden --> DUMMY6:::hidden
             linkStyle 8,9,10 display:none;
 
@@ -55,7 +55,7 @@ flowchart TD
                 FIND_RT_IUD["Ricerca Ricevuta tramite IUD"] -->
                 EXISTS_RT_IUD{"Trovata Ricevuta?"}
 
-                EXISTS_RT_IUD -->|Sì|RETURN_RT_IUV@{shape: terminal, label: "Restituisci IUV se trovato"}
+                EXISTS_RT_IUD -->|Sì|RETURN_RT_IUV@{shape: terminal, label: "Restituisci orgId/IUV/IUR/transferIndex se trovato"}
 
                 EXISTS_RT_IUD -->
                 |No|SAVE_RN_ANOMALY@{shape: database, label: "Salva classificazione 'IUD_NO_RT'"} -->
@@ -64,7 +64,7 @@ flowchart TD
             class FIND_RT_ACTIVITY activity
 
             FIND_RT_ACTIVITY -->
-            ADD_RN_IUV["Aggiungi IUV "] -->
+            ADD_RN_IUV["Aggiungi orgId/IUV/IUR/transferIndex "] -->
             SIGNAL_RN_END@{ shape: "stop" }
 
         end

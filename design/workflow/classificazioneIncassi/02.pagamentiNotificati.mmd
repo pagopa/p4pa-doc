@@ -18,7 +18,7 @@ flowchart TD
         linkStyle 5 display:none;
 
         SIGNAL:::send-signal@{shape: delay, label: "Invia evento 'Pagamento Notificato' al workflow 'Classificazione IUD'"}
-        NOTE@{ shape: braces, label: "signalWithStart con workflowID=IUD" }
+        NOTE@{ shape: braces, label: "signalWithStart con workflowID=organizationId+IUD" }
     end
 
     LOOP --> END@{shape: stop}

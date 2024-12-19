@@ -1,5 +1,5 @@
 ---
-title: WF Classificazione IUV
+title: WF Classificazione Transfer
 config:
     flowchart:
         rankSpacing: 1
@@ -7,7 +7,7 @@ config:
 flowchart TD
     subgraph WF_BLOCK
         subgraph NOTE_START_BLOCK
-            DESCRIPTION@{ shape: braces, label: "Input: IUV" }
+            DESCRIPTION@{ shape: braces, label: "Input: orgId, IUV, IUR, transferIndex" }
             START@{shape: start}
         end
         class NOTE_START_BLOCK hidden
@@ -16,21 +16,22 @@ flowchart TD
         REMOVE_ELAB_REQUESTS["Rimuovi tutte le richieste di elaborazione correnti"] -->
         CLASSIFY_IUV
 
-        subgraph CLASSIFY_IUV["Aggiorna stato riconciliazione IUV"]
+        subgraph CLASSIFY_IUV["Aggiorna stato riconciliazione Transfer"]
         direction TB
             DUMMY:::hidden --> FIND_RT
             linkStyle 2 display:none
 
-            FIND_RT@{shape: database, label: "Cerca ricevuta IUV"} -->
-            FIND_RT_NOTIFIED@{shape: database, label: "Cerca notifica IUV"} -->
-            FIND_REND@{shape: database, label: "Cerca rendicontazione IUV"} -->
+            FIND_RT@{shape: database, label: "Cerca ricevuta Transfer"} -->
+            FIND_RT_NOTIFIED@{shape: database, label: "Cerca notifica Transfer"} -->
+            FIND_REND@{shape: database, label: "Cerca rendicontazione Transfer"} -->
             FIND_TES_IUF@{shape: database, label: "Cerca tesoreria IUF"} -->
             FIND_TES_IUV@{shape: database, label: "Cerca tesoreria IUV"} -->
             CLASSIFY["Determina etichette"] -->
-            DELETE_PREVIOUS@{shape: database, label: "Delete precedenti classificazioni IUV<BR />(<> 'DOPPI')"} -->
-            INSERT_NEW@{shape: database, label: "Insert classificazioni IUV"} -->
-            UPDATE_IUV@{shape: database, label: "Aggiorna rata (IUF, IUR, stato)"}
+            DELETE_PREVIOUS@{shape: database, label: "Delete precedenti classificazioni Transfer<BR />(<> 'DOPPI')"} -->
+            INSERT_NEW@{shape: database, label: "Insert classificazioni Transfer"} -->
+            UPDATE_IUV@{shape: database, label: "Aggiorna transfer e rata (IUF, stato)"}
 
+            style FIND_TES_IUV color:red;
         end
 
        CLASSIFY_IUV --> END@{shape: stop}
@@ -41,9 +42,9 @@ flowchart TD
     subgraph SIGNALS_BLOCK
     direction LR
 
-        subgraph SIGNAL_IUV_BLOCK["Evento Classifica IUV"]
+        subgraph SIGNAL_IUV_BLOCK["Evento Classifica Transfer"]
         direction LR
-            DESCRIPTION_SIGNAL_IUV@{ shape: braces, label: "Input: IUV" }
+            DESCRIPTION_SIGNAL_IUV@{ shape: braces, label: "Input: orgId, IUV, IUR, transferIndex" }
             SIGNAL_IUV@{ shape: bolt } -->
             ADD_SIGNAL_IUV["Aggiungi richiesta elaborazione"] -->
             SIGNAL_IUV_END@{ shape: "stop" }

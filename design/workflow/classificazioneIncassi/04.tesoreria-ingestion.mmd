@@ -11,14 +11,14 @@ flowchart TD
 
     LOOP
 
-    subgraph LOOP["Per ogni IUF restituito dall'activity di ingestion"]
+    subgraph LOOP["Per ogni IUF/treasuryId restituito dall'activity di ingestion"]
 
         %% dummy block added to have an empty line
         DUMMY:::disable-->SIGNAL
         linkStyle 5 display:none;
 
-        SIGNAL:::send-signal@{shape: delay, label: "Invia evento 'Tesoreria' al workflow 'Classificazione IUF'"}
-        NOTE@{ shape: braces, label: "signalWithStart con workflowID=IUF" }
+        SIGNAL:::send-signal@{shape: delay, label: "Invia evento 'Tesoreria' con treasuryId al workflow 'Classificazione IUF'"}
+        NOTE@{ shape: braces, label: "signalWithStart con workflowID=organizationId+IUF" }
     end
 
     LOOP --> END@{shape: stop}

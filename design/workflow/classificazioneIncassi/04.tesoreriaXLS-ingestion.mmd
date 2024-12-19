@@ -2,14 +2,14 @@
 title: WF caricamento giornale di cassa XLS
 ---
 flowchart TD
-    DESCRIPTION@{ shape: braces, label: "Input: path del file da caricare" }
+    DESCRIPTION@{ shape: braces, label: "Input: ingestionFlowFileId" }
     START@{shape: start} -->
     UPDATE_STATUS_INELAB:::activity@{label: "Aggiorna stato ingestionFlow in 'IMPORT_IN_ELAB'"} -->
     INGESTION:::activity@{label: "Leggi file e persisti righe"}
 
     subgraph INGESTION_NOTE_BLOCK
         INGESTION
-        INGESTION_NOTE@{shape: braces, label: "Restituisce lista IUF e lista IUV"}
+        INGESTION_NOTE@{shape: braces, label: "Restituisce List&lt;IUF,treasuryId&gt;, <span style=\"color:red\">List&lt;IUV&gt;</span>"}
     end
     class INGESTION_NOTE_BLOCK note_block
 
@@ -24,21 +24,22 @@ flowchart TD
         DUMMY1:::hidden-->SIGNAL_IUV
         linkStyle 5 display:none;
 
-        SIGNAL_IUV:::send-signal@{shape: delay, label: "Invia evento 'Classifica IUV' al workflow 'Classificazione IUV'"}
-        NOTE_SIGNAL_IUV@{ shape: braces, label: "signalWithStart con workflowID=IUV" }
+        SIGNAL_IUV:::send-signal@{shape: delay, label: "Invia evento 'Classifica Transfer' al workflow 'Classificazione Transfer'"}
+        NOTE_SIGNAL_IUV@{ shape: braces, label: "signalWithStart con workflowID=organizationId+IUV" }
     end
     class LOOP_IUVs loop
+    style LOOP_IUVs color:red;
 
     LOOP_IUVs --> LOOP_IUFs
 
-    subgraph LOOP_IUFs["Per ogni IUF restituito dall'activity di ingestion"]
+    subgraph LOOP_IUFs["Per ogni IUF/treasuryId restituito dall'activity di ingestion"]
 
         %% dummy block added to have an empty line
         DUMMY2:::hidden-->SIGNAL_IUF
         linkStyle 7 display:none;
 
-        SIGNAL_IUF:::send-signal@{shape: delay, label: "Invia evento 'Tesoreria IUF' al workflow 'Classificazione IUF'"}
-        NOTE_SIGNAL_IUF@{ shape: braces, label: "signalWithStart con workflowID=IUF" }
+        SIGNAL_IUF:::send-signal@{shape: delay, label: "Invia evento 'Tesoreria IUF' con treasuryId al workflow 'Classificazione IUF'"}
+        NOTE_SIGNAL_IUF@{ shape: braces, label: "signalWithStart con workflowID=organizationId+IUF" }
     end
     class LOOP_IUFs loop
 
