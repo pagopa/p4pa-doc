@@ -55,7 +55,9 @@ flowchart TD
                 FIND_RT_IUD["Ricerca Ricevuta tramite IUD"] -->
                 EXISTS_RT_IUD{"Trovata Ricevuta?"}
 
-                EXISTS_RT_IUD -->|Sì|RETURN_RT_IUV@{shape: terminal, label: "Restituisci orgId/IUV/IUR/transferIndex se trovato"}
+                EXISTS_RT_IUD -->
+                |Sì|DELETE_RN_ANOMALY@{shape: database, label: "Delete classificazione 'IUD_NO_RT'"} -->
+                RETURN_RT_IUV@{shape: terminal, label: "Restituisci orgId/IUV/IUR/transferIndex se trovato"}
 
                 EXISTS_RT_IUD -->
                 |No|SAVE_RN_ANOMALY@{shape: database, label: "Salva classificazione 'IUD_NO_RT'"} -->

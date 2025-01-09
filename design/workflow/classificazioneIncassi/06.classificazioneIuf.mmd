@@ -65,7 +65,9 @@ flowchart TD
                 FIND_TESORERIA_IUVS["Ricerca Rendicontazione IUF"] -->
                 EXISTS_RENDICONTAZIONE_TES{"Trovata Rendicontazione?"}
 
-                EXISTS_RENDICONTAZIONE_TES -->|Sì|RETURN_TESORERIA_IUVS@{shape: terminal, label: "Restituisci IUV/IUR/transferIndex trovati"}
+                EXISTS_RENDICONTAZIONE_TES -->
+                |Sì| DELETE_TES_ANOMALY@{shape: database, label: "Delete classificazione 'TES_NO_MATCH'"} -->
+                RETURN_TESORERIA_IUVS@{shape: terminal, label: "Restituisci IUV/IUR/transferIndex trovati"}
 
                 EXISTS_RENDICONTAZIONE_TES -->
                 |No|SAVE_TES_ANOMALY@{shape: database, label: "Salva classificazione 'TES_NO_MATCH'"} -->
