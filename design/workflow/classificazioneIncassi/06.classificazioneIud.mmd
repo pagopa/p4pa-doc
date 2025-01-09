@@ -49,15 +49,16 @@ flowchart TD
 
 
 
-            SIGNAL_RN@{ shape: bolt } --> FIND_RT_ACTIVITY
+            SIGNAL_RN@{ shape: bolt } -->
+            DELETE_RN_ANOMALY:::activity@{label: "Delete classificazione 'IUD_NO_RT'"} -->
+            FIND_RT_ACTIVITY
 
             subgraph FIND_RT_ACTIVITY["Ricerca IUV tramite IUD"]
                 FIND_RT_IUD["Ricerca Ricevuta tramite IUD"] -->
                 EXISTS_RT_IUD{"Trovata Ricevuta?"}
 
                 EXISTS_RT_IUD -->
-                |Sì|DELETE_RN_ANOMALY@{shape: database, label: "Delete classificazione 'IUD_NO_RT'"} -->
-                RETURN_RT_IUV@{shape: terminal, label: "Restituisci orgId/IUV/IUR/transferIndex se trovato"}
+                |Sì|RETURN_RT_IUV@{shape: terminal, label: "Restituisci orgId/IUV/IUR/transferIndex se trovato"}
 
                 EXISTS_RT_IUD -->
                 |No|SAVE_RN_ANOMALY@{shape: database, label: "Salva classificazione 'IUD_NO_RT'"} -->

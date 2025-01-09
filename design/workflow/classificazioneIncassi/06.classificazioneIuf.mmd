@@ -58,7 +58,9 @@ flowchart TD
             DUMMY6:::hidden --> DUMMY7:::hidden --> DUMMY8:::hidden
             linkStyle 14,15,16 display:none
 
-            SIGNAL_TESORERIA@{ shape: bolt } --> FIND_TESORERIA_IUVS_ACTIVITY
+            SIGNAL_TESORERIA@{ shape: bolt } -->
+            DELETE_TES_ANOMALY:::activity@{label: "Delete classificazione 'TES_NO_MATCH'"} -->
+            FIND_TESORERIA_IUVS_ACTIVITY
 
             subgraph FIND_TESORERIA_IUVS_ACTIVITY["Ricerca Transfers by IUF"]
 
@@ -66,8 +68,7 @@ flowchart TD
                 EXISTS_RENDICONTAZIONE_TES{"Trovata Rendicontazione?"}
 
                 EXISTS_RENDICONTAZIONE_TES -->
-                |Sì| DELETE_TES_ANOMALY@{shape: database, label: "Delete classificazione 'TES_NO_MATCH'"} -->
-                RETURN_TESORERIA_IUVS@{shape: terminal, label: "Restituisci IUV/IUR/transferIndex trovati"}
+                |Sì|RETURN_TESORERIA_IUVS@{shape: terminal, label: "Restituisci IUV/IUR/transferIndex trovati"}
 
                 EXISTS_RENDICONTAZIONE_TES -->
                 |No|SAVE_TES_ANOMALY@{shape: database, label: "Salva classificazione 'TES_NO_MATCH'"} -->
