@@ -1,0 +1,25 @@
+sequenceDiagram
+    participant SIL
+    participant WF as Temporal
+    participant MS_SEND as p4pa-send-notification
+    participant DB
+    participant SEND_PAGOPA as SEND
+
+    SIL ->>+ MS_SEND: Crea notifica senza file
+        MS_SEND ->> DB: Salva notifica <BR />(status=SENDING)
+        MS_SEND ->>+ WF: Avvia WF invio notifica SEND con file<BR />(wfId=sendNotificationId)
+    MS_SEND -->>- SIL: ok
+
+    WF ->>+ MS_SEND: Richiesta autorizzazione caricamento SEND<BR />(sendNotificationId)
+        MS_SEND ->> SEND_PAGOPA: Richiesta autorizzazione caricamento SEND
+        MS_SEND ->> DB: Aggiorna stato<BR />(status=REGISTERED)<BR />salva secret + url caricamento
+        MS_SEND -->>- WF: ok
+
+    WF ->>+ MS_SEND: Richiesta creazione notifica SEND<BR />(sendNotificationId)
+        MS_SEND ->> DB: Recupera notifica
+        MS_SEND ->> MS_SEND: valida stato
+        MS_SEND ->> SEND_PAGOPA: Invia notifica
+        MS_SEND ->> DB: Aggiorna stato<BR />(status=COMPLETE)<BR />Salva notificationRequestId e paProtocolNumber
+        MS_SEND -->>- WF: ok
+
+    deactivate WF
