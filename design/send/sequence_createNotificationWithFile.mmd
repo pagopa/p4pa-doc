@@ -1,0 +1,44 @@
+sequenceDiagram
+    participant SIL
+    participant MS_SHARE as p4pa-fileshare
+    participant SHARE
+    participant WF as Temporal
+    participant MS_SEND as p4pa-send-notification
+    participant DB
+    participant SEND_PAGOPA as SEND
+
+    SIL ->>+ MS_SEND: Crea notifica +<BR />sha del file che verrà caricato
+        MS_SEND ->> DB: Salva notifica e sha atteso<BR /><BR />(status=WAITING_FILE)
+        note left of DB: entità sendNotification
+        MS_SEND -->>- SIL: id + url di caricamento
+
+    SIL ->>+ MS_SHARE: file
+        MS_SHARE ->> SHARE: store file
+        MS_SHARE ->>+ MS_SEND: Avvia notifica (id + sha file caricato)
+            MS_SEND ->> MS_SEND: Validazione sha
+            MS_SEND ->> DB: Aggiorna stato notifica<BR />(status=SENDING)
+            MS_SEND ->>+ WF: Avvia WF invio notifica SEND con file<BR />(wfId=sendNotificationId)
+            MS_SEND -->>- MS_SHARE: ok
+    MS_SHARE -->>- SIL: ok
+
+    WF ->>+ MS_SEND: Richiesta autorizzazione caricamento SEND<BR />(sendNotificationId)
+        MS_SEND ->> SEND_PAGOPA: Richiesta autorizzazione caricamento SEND
+        MS_SEND ->> DB: Aggiorna stato<BR />(status=REGISTERED)<BR />salva secret + url caricamento
+        MS_SEND -->>- WF: ok
+
+    WF ->>+ MS_SEND: Carica file su SEND<BR />(sendNotificationId)
+        MS_SEND ->> DB: Recupera notifica
+        MS_SEND ->> MS_SEND: valida stato
+        MS_SEND ->> SHARE: Recupera file
+        MS_SEND ->> SEND_PAGOPA: Invia file
+        MS_SEND ->> DB: Aggiorna stato<BR />(status=UPLOADED)<BR />salva x-amz-version-id
+        MS_SEND -->>- WF: ok
+
+    WF ->>+ MS_SEND: Richiesta creazione notifica SEND<BR />(sendNotificationId)
+        MS_SEND ->> DB: Recupera notifica
+        MS_SEND ->> MS_SEND: valida stato
+        MS_SEND ->> SEND_PAGOPA: Invia notifica
+        MS_SEND ->> DB: Aggiorna stato<BR />(status=COMPLETE)<BR />Salva notificationRequestId e paProtocolNumber
+        MS_SEND -->>- WF: ok
+
+    deactivate WF
