@@ -1,0 +1,245 @@
+openapi: 3.0.3
+info:
+  title: P4PA-SEND-Service API
+  description: API and Models.
+  version: 0.0.1
+servers:
+  - url: "http://localhost:8080/p4pasend"
+paths:
+  /notification:
+    post:
+      security: []
+      summary: Create notification
+      description: Create initial notification
+      operationId: createSendNotification
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CreateNotificationRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CreateNotificationResponse'
+        '400':
+          description: Invalid request
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal server error
+  /notification/{sendIdNotification}:
+    get:
+      security: []
+      summary: get send notification
+      description: get send notification
+      operationId: getSendNotification
+      parameters:
+        - name: sendIdNotification
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SendNotificationDTO'
+        '400':
+          description: Invalid request
+        '403':
+          description: Forbidden
+        '404':
+          description: Notification not found
+        '500':
+          description: Internal server error
+    post:
+      security: []
+      summary: start notification process
+      description: Start request to authorize preload file to SEND
+      operationId: startNotification
+      parameters:
+        - name: sendIdNotification
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CreateNotificationRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CreateNotificationResponse'
+        '400':
+          description: Invalid request
+        '403':
+          description: Forbidden
+        '404':
+          description: Notification not found
+        '409':
+          description: Wrong notification status
+        '500':
+          description: Internal server error
+  /send/preload/{sendIdNotification}:
+    post:
+      security: []
+      summary: preload file to SEND process
+      description: request to authorize preload file to SEND
+      operationId: preloadSendFile
+      parameters:
+        - name: sendIdNotification
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Invalid request
+        '403':
+          description: Forbidden
+        '404':
+          description: Notification not found
+        '409':
+          description: Wrong notification status
+        '500':
+          description: Internal server error
+  /send/load/{sendIdNotification}:
+    post:
+      security: []
+      summary: load file to SEND archive process
+      description: request to load file to SEND archive
+      operationId: loadSendFile
+      parameters:
+        - name: sendIdNotification
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Invalid request
+        '403':
+          description: Forbidden
+        '404':
+          description: Notification not found
+        '409':
+          description: Wrong notification status
+        '500':
+          description: Internal server error
+  /send/delivery/{sendIdNotification}:
+    post:
+      security: []
+      summary: delivery notification
+      description: delivery notification
+      operationId: deliveryNotification
+      parameters:
+        - name: sendIdNotification
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Invalid request
+        '403':
+          description: Forbidden
+        '404':
+          description: Notification not found
+        '409':
+          description: Wrong notification status
+        '500':
+          description: Internal server error
+security:
+  - BearerAuth: []
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+  schemas:
+    CreateNotificationRequest:
+      type: object
+      required:
+        - preload
+        - contentType
+        - sha256
+      properties:
+        preload:
+          type: object
+          required:
+            - preloadId
+            - preloadUrl
+          properties:
+            preloadId:
+              type: string
+            preloadUrl:
+              type: string
+        contentType:
+          type: string
+          example: "application/pdf"
+        sha256:
+          type: string
+    CreateNotificationResponse:
+      type: object
+      properties:
+        sendIdNotification:
+          type: integer
+          format: int64
+        preloadRef:
+          type: array
+          items:
+            $ref: '#/components/schemas/PreloadNotificationDTO'
+        status:
+          $ref: '#/components/schemas/NotificationStatusDTO'
+    PreloadNotificationDTO:
+      type: object
+      properties:
+        preloadId:
+          type: string
+        preloadUrl:
+          type: string
+    NotificationStatusDTO:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+            - WAITING_FILE
+            - SENDING
+            - REGISTERED
+            - UPLOADED
+            - COMPLETE
+    SendNotificationDTO:
+      type: object
+      properties:
+        sendIdNotification:
+          type: integer
+          format: int64
+        status:
+          $ref: '#/components/schemas/NotificationStatusDTO'
