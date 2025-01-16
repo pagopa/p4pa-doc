@@ -8,7 +8,6 @@ servers:
 paths:
   /notification:
     post:
-      security: []
       summary: Create notification
       description: Create initial notification
       operationId: createSendNotification
@@ -36,7 +35,6 @@ paths:
           description: Internal server error
   /notification/{sendIdNotification}:
     get:
-      security: []
       summary: get send notification
       description: get send notification
       operationId: getSendNotification
@@ -63,8 +61,8 @@ paths:
           description: Notification not found
         '500':
           description: Internal server error
+  /notification/{sendIdNotification}/start:
     post:
-      security: []
       summary: start notification process
       description: Start request to authorize preload file to SEND
       operationId: startNotification
@@ -74,13 +72,6 @@ paths:
           required: true
           schema:
             type: integer
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/CreateNotificationRequest'
       responses:
         '200':
           description: OK
@@ -100,9 +91,8 @@ paths:
           description: Wrong notification status
         '500':
           description: Internal server error
-  /send/preload/{sendIdNotification}:
+  /send/{sendIdNotification}/preload:
     post:
-      security: []
       summary: preload file to SEND process
       description: request to authorize preload file to SEND
       operationId: preloadSendFile
@@ -125,9 +115,8 @@ paths:
           description: Wrong notification status
         '500':
           description: Internal server error
-  /send/load/{sendIdNotification}:
+  /send/{sendIdNotification}/load:
     post:
-      security: []
       summary: load file to SEND archive process
       description: request to load file to SEND archive
       operationId: loadSendFile
@@ -150,9 +139,8 @@ paths:
           description: Wrong notification status
         '500':
           description: Internal server error
-  /send/delivery/{sendIdNotification}:
+  /send/{sendIdNotification}/delivery:
     post:
-      security: []
       summary: delivery notification
       description: delivery notification
       operationId: deliveryNotification
