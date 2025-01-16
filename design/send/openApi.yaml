@@ -80,7 +80,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/CreateNotificationResponse'
+                  $ref: '#/components/schemas/StartNotificationResponse'
         '400':
           description: Invalid request
         '403':
@@ -205,6 +205,12 @@ components:
             $ref: '#/components/schemas/PreloadNotificationDTO'
         status:
           $ref: '#/components/schemas/NotificationStatusDTO'
+    StartNotificationResponse:
+      type: object
+      properties:
+        workFlowId:
+          type: integer
+          format: int64
     PreloadNotificationDTO:
       type: object
       properties:
