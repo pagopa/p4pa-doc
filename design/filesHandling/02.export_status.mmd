@@ -4,7 +4,6 @@ title: Stati export_file
 stateDiagram-v2
     [*] --> REQUESTED
     REQUESTED --> PROCESSING
-
     PROCESSING --> COMPLETED
-
-    COMPLETED --> [*]
+    COMPLETED --> EXPIRED
+    EXPIRED --> [*]
