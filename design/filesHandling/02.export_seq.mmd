@@ -1,0 +1,33 @@
+---
+title: Richiesta di esportazione dati
+---
+sequenceDiagram
+    actor CLIENT as SIL/FE
+    participant BFF as p4pa-pu-bff<BR />p4pa-pu-sil
+    participant MS_PROCESS_EXECUTIONS as p4pa-process-executions
+    participant MS_WF as p4pa-workflow-hub
+    participant WF as Temporal
+    participant SHARED as Shared Folder
+    participant MS_AUTH as p4pa-auth
+    participant MS_ENTITY as Microservizio entità
+
+    CLIENT ->>+ BFF: Richiesta export dati
+        BFF ->> MS_AUTH: getUserInfo()
+        BFF ->> BFF: Verifica autorizzazione richiesta
+        BFF ->>+ MS_PROCESS_EXECUTIONS: createExportFile()
+            MS_PROCESS_EXECUTIONS ->> MS_PROCESS_EXECUTIONS: Crea entità export_file<BR />Status=REQUESTED
+            MS_PROCESS_EXECUTIONS ->> MS_PROCESS_EXECUTIONS: Determina il WF da invocare
+            MS_PROCESS_EXECUTIONS ->>+ MS_WF: Richiesta avvio WF
+                MS_WF ->>+ WF: Avvia WF
+                MS_WF -->>- MS_PROCESS_EXECUTIONS: workflowId
+            MS_PROCESS_EXECUTIONS -->>- BFF: fileExportId
+        BFF -->>- CLIENT: fileExportId
+
+    WF ->> MS_PROCESS_EXECUTIONS: Aggiorna stato export_file in<BR />PROCESSING
+    WF ->> MS_ENTITY: Query dati richiesti
+    WF ->> WF: Creazione file cifrato
+    WF ->> SHARED: Deposita file cifrato
+    WF ->> MS_PROCESS_EXECUTIONS: Aggiorna stato ingestion_flow_file in<BR />COMPLETED
+    WF ->> MS_AUTH: getUserInfoFromMappedExternaUserId()
+    WF ->> CLIENT: Notifica esito operazione tramite email
+    deactivate WF

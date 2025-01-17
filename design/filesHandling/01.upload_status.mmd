@@ -1,0 +1,12 @@
+---
+title: Stati ingestion_flow_file
+---
+stateDiagram-v2
+    [*] --> UPLOADED
+    UPLOADED --> PROCESSING
+
+    PROCESSING --> COMPLETED
+    PROCESSING --> ERROR
+
+    COMPLETED --> [*]
+    ERROR --> [*]

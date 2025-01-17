@@ -1,0 +1,17 @@
+---
+title: Richiesta download export dati completato
+---
+sequenceDiagram
+    actor CLIENT as SIL/FE
+    participant MS_FILESHARE as p4pa-file-share
+    participant MS_PROCESS_EXECUTIONS as p4pa-process-executions
+    participant SHARED as Shared Folder
+    participant MS_AUTH as p4pa-auth
+
+    CLIENT ->>+ MS_FILESHARE: GET exportFile(exportFileId) + jwt
+        MS_FILESHARE ->> MS_AUTH: getUserInfo()
+        MS_FILESHARE ->> MS_PROCESS_EXECUTIONS: getExportFile(exportFileId)
+        MS_FILESHARE ->> MS_FILESHARE: Autorizza la chiamata e<BR />verifica stato export
+        MS_FILESHARE ->> SHARED: Recupera file cifrato
+        MS_FILESHARE ->> MS_FILESHARE: Decifra file
+        MS_FILESHARE -->>- CLIENT: file
