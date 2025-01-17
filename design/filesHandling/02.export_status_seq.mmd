@@ -1,0 +1,14 @@
+---
+title: Il client vuole verificare lo stato di avanzamento della richiesta
+---
+sequenceDiagram
+    actor CLIENT as SIL/FE
+    participant BFF as p4pa-pu-bff<BR />p4pa-pu-sil
+    participant MS_AUTH as p4pa-auth
+    participant MS_PROCESS_EXECUTIONS as p4pa-process-executions
+
+    CLIENT ->>+ BFF: getExportStatus(fileExportId)
+        BFF ->> MS_AUTH: getUserInfo()
+        BFF ->> MS_PROCESS_EXECUTIONS: getExportStatus(fileExportId)
+        BFF ->> BFF: Verifica autorizzazione richiesta
+        BFF -->>- CLIENT: exportFileStatus

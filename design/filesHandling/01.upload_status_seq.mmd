@@ -1,0 +1,14 @@
+---
+title: Il client vuole verificare lo stato di avanzamento della richiesta
+---
+sequenceDiagram
+    actor CLIENT as SIL/FE
+    participant MS_FILESHARE as p4pa-file-share
+    participant MS_AUTH as p4pa-auth
+    participant MS_PROCESS_EXECUTIONS as p4pa-process-executions
+
+    CLIENT ->>+ MS_FILESHARE: getImportStatus(ingestionFlowFileId) + jwt
+        MS_FILESHARE ->> MS_AUTH: getUserInfo()
+        MS_FILESHARE ->> MS_PROCESS_EXECUTIONS: getIngestionFlowFile(ingestionFlowFileId)
+        MS_FILESHARE ->> MS_FILESHARE: Autorizza la chiamata
+        MS_FILESHARE -->- CLIENT: ingestionFlowFileStatus

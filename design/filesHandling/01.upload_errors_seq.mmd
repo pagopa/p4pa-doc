@@ -1,0 +1,31 @@
+---
+title: Il client vuole recuperare il file di errori associati al caricamento
+---
+sequenceDiagram
+    actor CLIENT as SIL/FE
+    participant MS_FILESHARE as p4pa-file-share
+    participant MS_AUTH as p4pa-auth
+    participant MS_PROCESS_EXECUTIONS as p4pa-process-executions
+    participant SHARED as Shared Folder
+
+    CLIENT ->>+ MS_FILESHARE: getImportErrors(ingestionFlowFileId)<BR />+ jwt
+    MS_FILESHARE ->> MS_AUTH: getUserInfo()
+    MS_FILESHARE ->> MS_PROCESS_EXECUTIONS: getIngestionFlowFile(ingestionFlowFileId)
+    MS_FILESHARE ->> MS_FILESHARE: Autorizza la chiamata
+    MS_FILESHARE ->> SHARED: Recupero file
+    MS_FILESHARE -->>- CLIENT: file errori caricamento---
+title: Il client vuole recuperare il file di errori associati al caricamento
+---
+sequenceDiagram
+    actor CLIENT as SIL/FE
+    participant MS_FILESHARE as p4pa-file-share
+    participant MS_AUTH as p4pa-auth
+    participant MS_PROCESS_EXECUTIONS as p4pa-process-executions
+    participant SHARED as Shared Folder
+
+    CLIENT ->>+ MS_FILESHARE: getImportErrors(ingestionFlowFileId)<BR />+ jwt
+        MS_FILESHARE ->> MS_AUTH: getUserInfo()
+        MS_FILESHARE ->> MS_PROCESS_EXECUTIONS: getIngestionFlowFile(ingestionFlowFileId)
+        MS_FILESHARE ->> MS_FILESHARE: Autorizza la chiamata
+        MS_FILESHARE ->> SHARED: Recupero file
+        MS_FILESHARE -->>- CLIENT: file errori caricamento
