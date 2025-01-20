@@ -1,0 +1,15 @@
+---
+title: WF caricamento file Ricevuta RT
+---
+flowchart TD
+    DESCRIPTION@{ shape: braces, label: "Input: ingestionFlowId" }
+    START@{shape: start} -->
+    UPDATE_STATUS_INELAB:::activity@{label: "Aggiorna stato ingestionFlowFile in 'PROCESSING'"} -->
+    INGESTION:::activity@{label: "Leggi file, salva Receipt e archivia file"} -->
+    UPDATE_STATUS_COMPLETE:::activity@{label: "Aggiorna stato ingestionFlowFile in 'COMPLETED'"} -->
+    SEND_EMAIL:::activity@{label: "Notifica cittadino tramite email"} -->
+    END@{shape: stop}
+
+    classDef disable display:none;
+    classDef activity fill:#FFFFE0, stroke:#ffc300, stroke-width:2px;
+    classDef loop fill:#CCFFCC, stroke:#7FBF7F, stroke-width:2px, padding-bottom: 5px;

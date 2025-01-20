@@ -1,0 +1,47 @@
+---
+title: Ricezione ricevuta RT
+---
+sequenceDiagram
+    actor PAGOPA as Nodo Pagamenti
+    participant MS_PAGOPA_PAY as p4pa-pagopa-payments
+    participant MS_AUTH as p4pa-auth
+    participant MS_FILESHARE as p4pa-file-share
+    participant MS_PROCESS_EXECUTIONS as p4pa-process-executions
+    participant MS_WF as p4pa-workflow-hub
+    participant WF as Temporal
+    participant MS_DP as p4pa-debt-positions
+    participant SHARED as Shared Folder
+    participant KAFKA as Kafka
+
+    PAGOPA ->>+ MS_PAGOPA_PAY: paSendRT<BR />paSendRTV2
+        MS_PAGOPA_PAY ->> MS_AUTH: postToken()
+        MS_PAGOPA_PAY ->>+ MS_FILESHARE: POST file + jwt<BR />flowType=RECEIPT_PAGOPA
+            MS_FILESHARE ->> MS_AUTH: getUserInfo()
+            MS_FILESHARE ->> MS_FILESHARE: Autorizza la chiamata<BR />Cifra il file
+            MS_FILESHARE ->> SHARED: Deposita file cifrato
+            MS_FILESHARE ->>+ MS_PROCESS_EXECUTIONS: createIngestionFlowFile()
+                MS_PROCESS_EXECUTIONS ->> MS_PROCESS_EXECUTIONS: Crea entità ingestion_flow_file<BR />Status=UPLOADED
+                MS_PROCESS_EXECUTIONS ->>+ MS_WF: Richiesta avvio WF LoadReceiptPagoPa<BR />input=ingestionFlowFileId
+                    MS_WF ->>+ WF: Avvia WF
+                    MS_WF -->>- MS_PROCESS_EXECUTIONS: workflowId
+                MS_PROCESS_EXECUTIONS -->>- MS_FILESHARE: ingestionFlowFileId
+            MS_FILESHARE -->>- MS_PAGOPA_PAY: ingestionFlowFileId
+        MS_PAGOPA_PAY -->>- PAGOPA: ok
+
+    WF ->> MS_PROCESS_EXECUTIONS: Aggiorna stato ingestion_flow_file in<BR />PROCESSING
+    WF ->> SHARED: Recupero file
+    WF ->> WF: Decifratura file
+    WF ->>+ MS_DP: createReceipt()
+        alt Posizione debitoria esistente
+            MS_DP ->> MS_DP: Aggiorna stato Installment<BR />PaymentOptions/DebtPosition
+        else
+            MS_DP ->> MS_DP: Creazione Posizione debitoria fittizia
+        end
+        MS_DP ->> KAFKA: Notifica ricezione ricevuta
+        note left of KAFKA: Tra i suoi consumer<BR />p4pa-workflow-hub per<BR/>avvio classificazione IUD
+        MS_DP -->>- WF: Receipt
+    WF ->> SHARED: Archiviazione file
+    WF ->> MS_PROCESS_EXECUTIONS: Aggiorna stato ingestion_flow_file in<BR />COMPLETED
+    WF ->> WF: Notifica cittadino tramite email
+
+    deactivate WF
