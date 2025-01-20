@@ -4,7 +4,7 @@ title: WF caricamento file Pagamenti Notificati
 flowchart TD
     DESCRIPTION@{ shape: braces, label: "Input: ingestionFlowId" }
     START@{shape: start} -->
-    UPDATE_STATUS_INELAB:::activity@{label: "Aggiorna stato ingestionFlow in 'IMPORT_IN_ELAB'"} -->
+    UPDATE_STATUS_INELAB:::activity@{label: "Aggiorna stato ingestionFlowFile in 'PROCESSING'"} -->
     INGESTION:::activity@{label: "Leggi file e persisti righe"} -->
     UPDATE_STATUS_COMPLETE:::activity@{label: "Finalizza stato entità ingestionFlowId"} -->
     SEND_EMAIL:::activity@{label: "Notifica stato import tramite email"} -->

@@ -4,7 +4,7 @@ title: WF caricamento giornale di cassa XLS
 flowchart TD
     DESCRIPTION@{ shape: braces, label: "Input: ingestionFlowFileId" }
     START@{shape: start} -->
-    UPDATE_STATUS_INELAB:::activity@{label: "Aggiorna stato ingestionFlow in 'IMPORT_IN_ELAB'"} -->
+    UPDATE_STATUS_INELAB:::activity@{label: "Aggiorna stato ingestionFlowFile in 'PROCESSING'"} -->
     INGESTION:::activity@{label: "Leggi file e persisti righe"}
 
     subgraph INGESTION_NOTE_BLOCK

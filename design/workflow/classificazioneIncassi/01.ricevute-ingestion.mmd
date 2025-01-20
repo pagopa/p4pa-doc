@@ -4,24 +4,17 @@ title: WF caricamento file Ricevute
 flowchart TD
     DESCRIPTION@{ shape: braces, label: "Input: ingestionFlowId" }
     START@{shape: start} -->
-    UPDATE_STATUS_INELAB:::activity@{label: "Aggiorna stato ingestionFlow in 'IMPORT_IN_ELAB'"} -->
-    INGESTION:::activity@{label: "Leggi file, persisti e restituisci solamente le posizioni debitorie nuove"} -->
+    UPDATE_STATUS_INELAB:::activity@{label: "Aggiorna stato ingestionFlowFile in 'PROCESSING'"} -->
+    INGESTION:::activity@{label: "Leggi file,<BR />invoca API createReceipt di p4pa-debt-position,<BR />archivia il file"} -->
     UPDATE_STATUS_COMPLETE:::activity@{label: "Finalizza stato entità ingestionFlowId"} -->
     SEND_EMAIL:::activity@{label: "Notifica stato import tramite email"} -->
+    END@{shape: stop}
 
-    LOOP
-
-    subgraph LOOP["Per ogni IUV restituito dall'activity di ingestion"]
-
-        %% dummy block added to have an empty line
-        DUMMY:::disable-->SIGNAL
-        linkStyle 5 display:none;
-
-        SIGNAL:::activity@{label: "Invia evento 'RT_RECEIVED' su Kafka"}
+    subgraph INGESTION_NOTE_BLOCK
+        INGESTION
+        INGESTION_NOTE@{shape: braces, label: "p4pa-debt-positions invierà la notifica verso KAFKA"}
     end
-
-    LOOP --> END@{shape: stop}
-    class LOOP loop
+    class INGESTION_NOTE_BLOCK disable
 
     classDef disable display:none;
     classDef activity fill:#FFFFE0, stroke:#ffc300, stroke-width:2px;
