@@ -12,6 +12,7 @@ sequenceDiagram
     participant MS_DP as p4pa-debt-positions
     participant SHARED as Shared Folder
     participant KAFKA as Kafka
+    participant SIL
 
     PAGOPA ->>+ MS_PAGOPA_PAY: paSendRT<BR />paSendRTV2
         MS_PAGOPA_PAY ->> MS_AUTH: postToken()
@@ -42,6 +43,7 @@ sequenceDiagram
         MS_DP -->>- WF: Receipt
     WF ->> SHARED: Archiviazione file
     WF ->> MS_PROCESS_EXECUTIONS: Aggiorna stato ingestion_flow_file in<BR />COMPLETED
+    WF ->> SIL: Notifica SIL
     WF ->> WF: Notifica cittadino tramite email
 
     deactivate WF

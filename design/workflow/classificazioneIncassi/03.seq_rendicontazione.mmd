@@ -5,9 +5,9 @@ sequenceDiagram
     actor USER as Operatore Ente
     participant PU-FE as PiattaformaUnitaria-FE
     participant PU-BE as PiattaformaUnitaria-BE
-    participant FS as File Share
     participant WF as Workflow Service
-    participant PAGOPA as pagoPA
+    participant PAGOPA as pagoPA Service
+    participant FS as File Share Service
 
     alt Caricamento manuale
         note over PU-FE: Pagina flussi di Rendicontazione
@@ -17,13 +17,11 @@ sequenceDiagram
             PU-FE ->> PU-BE: #
 
             activate PU-BE
-                PU-BE ->> FS: Salva file Rendicontazione
-                PU-BE ->> WF: Avvia Rendicontazione
-
-                activate WF
-                    WF ->>WF: Avvia async<BR />"WF caricamento file Rendicontazione"
-                    WF -->> PU-BE: #
-                deactivate WF
+                PU-BE ->>+ FS: Salva file Rendicontazione
+                    FS ->>+ WF: Avvia Rendicontazione
+                        WF ->>WF: Avvia async<BR />"WF caricamento file Rendicontazione"
+                        WF -->>- FS: #
+                    FS -->>- PU-BE: #
 
                 PU-BE -->> PU-FE: #
             deactivate PU-BE
@@ -33,20 +31,19 @@ sequenceDiagram
     else Schedulazione automatica
         rect rgba(0, 0, 255, .1)
             note over WF: "WF recupero Rendicontazione da pagoPA"
-            WF ->> WF : Schedulazione periodica
-
-            activate WF
+            WF ->>+ WF : Schedulazione periodica
                 WF ->>+ PAGOPA: Chiedi lista flussi
                 PAGOPA -->>- WF: Lista flussi
 
                 loop Per ogni flusso di Rendicontazione
                     WF ->>+ PAGOPA: Chiedi file flusso Rendicontazione
-                    PAGOPA -->>- WF: file Rendicontazione
-                    WF ->> FS: Salva file Rendicontazione
+                        PAGOPA ->>+ FS: Salva file Rendicontazione
+                        PAGOPA -->>- WF: #
+                    deactivate WF
 
-                    WF ->> WF : Avvia async<BR />"WF caricamento file Rendicontazione"
+                    FS ->> WF : Avvia async<BR />"WF caricamento file Rendicontazione"
+                    deactivate FS
                 end
-            deactivate WF
         end
 
     end

@@ -7,6 +7,7 @@ flowchart TD
     UPDATE_STATUS_INELAB:::activity@{label: "Aggiorna stato ingestionFlowFile in 'PROCESSING'"} -->
     INGESTION:::activity@{label: "Leggi file, salva Receipt e archivia file"} -->
     UPDATE_STATUS_COMPLETE:::activity@{label: "Aggiorna stato ingestionFlowFile in 'COMPLETED'"} -->
+    NOTIFY_SIL:::activity@{label: "Notifica SIL"} -->
     SEND_EMAIL:::activity@{label: "Notifica cittadino tramite email"} -->
     END@{shape: stop}
 
