@@ -6,7 +6,7 @@ flowchart TD
 
     START@{shape: start} -->
     FETCH_LIST:::activity@{label: "Chiedi flussi di Rendicontazione non elaborati"} -->
-    LOOP
+    FETCH_FILES
 
     subgraph FETCH_LIST_NOTE_BLOCK
         FETCH_LIST
@@ -14,11 +14,14 @@ flowchart TD
     end
     class FETCH_LIST_NOTE_BLOCK disable
 
-    subgraph LOOP["Per ogni flusso ottenuto"]
-        FETCH_FILE:::activity@{label: "Chiedi file di Rendicontazione"}
+    subgraph FETCH_FILES["Recupera flussi"]
+        subgraph LOOP["Per ogni flusso ottenuto"]
+            FETCH_FILE@{label: "Chiedi file di Rendicontazione se non già processato"}
 
-        NOTE@{ shape: braces, label: "p4pa-pagopa-payments recupererà il singolo file e demanderà a<BR />p4pa-file-share il suo caricamento" }
+            NOTE@{ shape: braces, label: "p4pa-pagopa-payments recupererà il singolo file e demanderà a<BR />p4pa-file-share il suo caricamento" }
+        end
     end
+    class FETCH_FILES activity
 
     LOOP --> END@{shape: stop}
     class LOOP loop
