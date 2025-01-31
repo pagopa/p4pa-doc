@@ -1,44 +1,60 @@
 sequenceDiagram
     participant SIL
     participant MS_SHARE as p4pa-fileshare
+    participant MS_SIL as p4pa-pu-sil
     participant SHARE
     participant WF as Temporal
     participant MS_SEND as p4pa-send-notification
     participant DB
     participant SEND_PAGOPA as SEND
 
-    SIL ->>+ MS_SEND: Crea notifica +<BR />sha del file che verrà caricato
-        MS_SEND ->> DB: Salva notifica e sha atteso<BR /><BR />(status=WAITING_FILE)
-        note left of DB: entità sendNotification
-        MS_SEND -->>- SIL: id + url di caricamento
+    SIL ->>+ MS_SIL: Crea notifica +<BR />lista e sha dei file da caricare
+        MS_SIL ->>+ MS_SEND: #
+            MS_SEND ->> DB: Salva notifica e sha attesi<BR /><BR />(stato files=WAITING<BR />stato notifica=WAITING_FILE)
+            note left of DB: Entità sendNotification
+            MS_SEND -->>- MS_SIL: id + url di caricamento
+            note over MS_SIL,MS_SEND: Una url per tutti i file con id notifica nel path
+        MS_SIL -->>- SIL: #
 
-    SIL ->>+ MS_SHARE: file
-        MS_SHARE ->> SHARE: store file
-        MS_SHARE ->>+ MS_SEND: Avvia notifica (id + sha file caricato)
-            MS_SEND ->> MS_SEND: Validazione sha
-            MS_SEND ->> DB: Aggiorna stato notifica<BR />(status=SENDING)
-            MS_SEND ->>+ WF: Avvia WF invio notifica SEND con file<BR />(wfId=sendNotificationId)
+    SIL ->>+ MS_SHARE: id notifica + file
+        MS_SHARE ->> MS_SHARE: Calcola sha e<BR />cifra il file
+        MS_SHARE ->> SHARE: Salva file cifrato
+        MS_SHARE ->>+ MS_SEND: Avvia notifica<BR />(id + sha, path e nome file caricato)
+            MS_SEND ->> DB: Recupera notifica
+            MS_SEND ->> MS_SEND: Valida stato
+            MS_SEND ->> MS_SEND: Validazione filename e sha
+            alt In attesa di altri file
+                MS_SEND ->> DB: Aggiorna stato<BR />caricamento singolo file<BR />(stato file=READY)
+            else
+                MS_SEND ->> DB: Aggiorna stato<BR />caricamento singolo file<BR />(stato file=READY<BR />stato notifica=SENDING)
+                MS_SEND ->>+ WF: Avvia WF invio<BR />notifica SEND con file<BR />(wfId=sendNotificationId)
+            end
             MS_SEND -->>- MS_SHARE: ok
     MS_SHARE -->>- SIL: ok
 
-    WF ->>+ MS_SEND: Richiesta autorizzazione caricamento SEND<BR />(sendNotificationId)
+    WF ->>+ MS_SEND: Richiesta autorizzazione<BR />caricamento SEND<BR />(sendNotificationId)
+        MS_SEND ->> DB: Recupera notifica
+        MS_SEND ->> MS_SEND: Valida stato
         MS_SEND ->> SEND_PAGOPA: Richiesta autorizzazione caricamento SEND
-        MS_SEND ->> DB: Aggiorna stato<BR />(status=REGISTERED)<BR />salva secret + url caricamento
+        MS_SEND ->> DB: Aggiorna stato<BR />(stato notifica=REGISTERED)<BR />salva secret + url caricamento
         MS_SEND -->>- WF: ok
 
     WF ->>+ MS_SEND: Carica file su SEND<BR />(sendNotificationId)
         MS_SEND ->> DB: Recupera notifica
-        MS_SEND ->> MS_SEND: valida stato
-        MS_SEND ->> SHARE: Recupera file
-        MS_SEND ->> SEND_PAGOPA: Invia file
-        MS_SEND ->> DB: Aggiorna stato<BR />(status=UPLOADED)<BR />salva x-amz-version-id
+        MS_SEND ->> MS_SEND: Valida stato
+        loop Per ogni file non caricato
+            MS_SEND ->> SHARE: Recupera e decifra file
+            MS_SEND ->> SEND_PAGOPA: Invia file
+            MS_SEND ->> DB: Aggiorna stato singolo file<BR />(stato=UPLOADED)
+        end
+        MS_SEND ->> DB: Aggiorna stato<BR />(stato notifica=UPLOADED)<BR />salva x-amz-version-id
         MS_SEND -->>- WF: ok
 
     WF ->>+ MS_SEND: Richiesta creazione notifica SEND<BR />(sendNotificationId)
         MS_SEND ->> DB: Recupera notifica
-        MS_SEND ->> MS_SEND: valida stato
+        MS_SEND ->> MS_SEND: Valida stato
         MS_SEND ->> SEND_PAGOPA: Invia notifica
-        MS_SEND ->> DB: Aggiorna stato<BR />(status=COMPLETE)<BR />Salva notificationRequestId e paProtocolNumber
+        MS_SEND ->> DB: Aggiorna stato<BR />(stato notifica=COMPLETE)<BR />Salva notificationRequestId e<BR/>paProtocolNumber
         MS_SEND -->>- WF: ok
 
     deactivate WF
