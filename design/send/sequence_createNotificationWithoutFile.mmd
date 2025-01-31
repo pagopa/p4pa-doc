@@ -14,13 +14,15 @@ sequenceDiagram
     MS_SIL -->>- SIL: ok
 
     WF ->>+ MS_SEND: Richiesta autorizzazione caricamento SEND<BR />(sendNotificationId)
+        MS_SEND ->> DB: Recupera notifica
+        MS_SEND ->> MS_SEND: Valida stato
         MS_SEND ->> SEND_PAGOPA: Richiesta autorizzazione caricamento SEND
         MS_SEND ->> DB: Aggiorna stato<BR />(status=REGISTERED)<BR />salva secret + url caricamento
         MS_SEND -->>- WF: ok
 
     WF ->>+ MS_SEND: Richiesta creazione notifica SEND<BR />(sendNotificationId)
         MS_SEND ->> DB: Recupera notifica
-        MS_SEND ->> MS_SEND: valida stato
+        MS_SEND ->> MS_SEND: Valida stato
         MS_SEND ->> SEND_PAGOPA: Invia notifica
         MS_SEND ->> DB: Aggiorna stato<BR />(status=COMPLETE)<BR />Salva notificationRequestId e paProtocolNumber
         MS_SEND -->>- WF: ok

@@ -20,6 +20,8 @@ sequenceDiagram
         MS_SHARE ->> MS_SHARE: Calcola sha e<BR />cifra il file
         MS_SHARE ->> SHARE: Salva file cifrato
         MS_SHARE ->>+ MS_SEND: Avvia notifica<BR />(id + sha, path e nome file caricato)
+            MS_SEND ->> DB: Recupera notifica
+            MS_SEND ->> MS_SEND: Valida stato
             MS_SEND ->> MS_SEND: Validazione filename e sha
             alt In attesa di altri file
                 MS_SEND ->> DB: Aggiorna stato<BR />caricamento singolo file<BR />(stato file=READY)
@@ -31,13 +33,15 @@ sequenceDiagram
     MS_SHARE -->>- SIL: ok
 
     WF ->>+ MS_SEND: Richiesta autorizzazione<BR />caricamento SEND<BR />(sendNotificationId)
+        MS_SEND ->> DB: Recupera notifica
+        MS_SEND ->> MS_SEND: Valida stato
         MS_SEND ->> SEND_PAGOPA: Richiesta autorizzazione caricamento SEND
         MS_SEND ->> DB: Aggiorna stato<BR />(stato notifica=REGISTERED)<BR />salva secret + url caricamento
         MS_SEND -->>- WF: ok
 
     WF ->>+ MS_SEND: Carica file su SEND<BR />(sendNotificationId)
         MS_SEND ->> DB: Recupera notifica
-        MS_SEND ->> MS_SEND: valida stato
+        MS_SEND ->> MS_SEND: Valida stato
         loop Per ogni file non caricato
             MS_SEND ->> SHARE: Recupera e decifra file
             MS_SEND ->> SEND_PAGOPA: Invia file
@@ -48,7 +52,7 @@ sequenceDiagram
 
     WF ->>+ MS_SEND: Richiesta creazione notifica SEND<BR />(sendNotificationId)
         MS_SEND ->> DB: Recupera notifica
-        MS_SEND ->> MS_SEND: valida stato
+        MS_SEND ->> MS_SEND: Valida stato
         MS_SEND ->> SEND_PAGOPA: Invia notifica
         MS_SEND ->> DB: Aggiorna stato<BR />(stato notifica=COMPLETE)<BR />Salva notificationRequestId e<BR/>paProtocolNumber
         MS_SEND -->>- WF: ok
