@@ -35,7 +35,11 @@ sequenceDiagram
     WF ->>+ MS_DP: createReceipt()
         alt Posizione debitoria esistente
             MS_DP ->> MS_DP: Aggiorna stato Installment<BR />PaymentOptions/DebtPosition
-            MS_DP ->> MS_WF: Avvio WF Sincronizzazione PaymentOption invalidate
+            alt Almeno una PaymentOption è da invalidare
+                MS_DP ->> MS_WF: Avvio WF Sincronizzazione PaymentOption invalidate
+            else
+                MS_DP ->> MS_WF: Avvio WF Aggiorna scadenza installment
+            end
         else
             MS_DP ->> MS_DP: Creazione Posizione debitoria fittizia
         end
