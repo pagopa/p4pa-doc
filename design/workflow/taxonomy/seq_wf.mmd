@@ -1,0 +1,25 @@
+---
+title: Aggiornamento tassonomia
+---
+sequenceDiagram
+    actor USER as Utente Operation
+    participant MS_WF as p4pa-workflow-hub
+    participant WF as Temporal
+    participant MS_ORG as p4pa-organization
+    participant MS_PAGOPA_PAY as p4pa-pagopa-payments
+    participant PAGOPA
+    participant DB
+
+    note right of WF: Anche tramite<BR />schedulazione
+
+    USER ->>+ MS_WF: Aggiorna tassonomia
+        MS_WF ->>+ WF: Avvia WF<BR />aggiornamento tassonomia
+        MS_WF -->>- USER: started
+
+    WF ->>+ MS_ORG: syncTaxonomy
+        MS_ORG ->>+ MS_PAGOPA_PAY: fetchTaxonomy
+            MS_PAGOPA_PAY ->> PAGOPA: fetchTaxonomy
+            MS_PAGOPA_PAY -->- MS_ORG: tassonomie
+        MS_ORG ->> DB: Upsert/Delete
+        MS_ORG -->>- WF: ok
+    deactivate WF

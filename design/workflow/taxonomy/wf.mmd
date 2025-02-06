@@ -1,0 +1,11 @@
+---
+title: WF aggiornamento tassonomia
+---
+flowchart TD
+    DESCRIPTION@{ shape: braces, label: "WF schedulato periodicamente" }
+
+    START@{shape: start} -->
+    INVOKE_SYNC_TAXONOMY:::activity@{label: "Invoca API 'syncTaxonomy' di p4pa-organization"} -->
+    END@{shape: stop}
+
+    classDef activity fill:#FFFFE0, stroke:#ffc300, stroke-width:2px;
