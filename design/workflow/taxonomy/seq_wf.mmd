@@ -19,7 +19,7 @@ sequenceDiagram
     WF ->>+ MS_ORG: syncTaxonomy
         MS_ORG ->>+ MS_PAGOPA_PAY: fetchTaxonomy
             MS_PAGOPA_PAY ->> PAGOPA: fetchTaxonomy
-            MS_PAGOPA_PAY -->- MS_ORG: tassonomie
+            MS_PAGOPA_PAY -->>- MS_ORG: tassonomie
         MS_ORG ->> DB: Upsert/Delete
         MS_ORG -->>- WF: ok
     deactivate WF
