@@ -36,10 +36,10 @@ sequenceDiagram
         alt Posizione debitoria esistente
             MS_DP ->> MS_DP: Aggiorna stato Installment<BR />PaymentOptions/DebtPosition
             alt Almeno una PaymentOption è da invalidare
-                MS_DP ->> MS_WF: Avvio WF Sincronizzazione PaymentOption invalidate
-            else
-                MS_DP ->> MS_WF: Avvio WF Aggiorna scadenza installment
+                MS_DP ->> MS_DP: Setta a TO_SYNC e stato successivo INVALID<BR />le altre PaymentOption in stato UNPAID
             end
+            MS_DP ->> MS_WF: Avvio WF Sincronizzazione PaymentOption invalidate
+            note left of MS_DP: Chiamato anche per prevedere<BR />l'aggiornamento della schedulazione<BR />per la scadenza degli Installment
         else
             MS_DP ->> MS_DP: Creazione Posizione debitoria fittizia
         end
