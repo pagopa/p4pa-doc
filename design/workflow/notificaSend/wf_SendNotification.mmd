@@ -1,0 +1,29 @@
+---
+title: WF notifica SEND
+---
+flowchart TD
+    DESCRIPTION@{ shape: braces, label: "Input: sendNotificationId" }
+    START@{shape: start} -->
+    PRELOAD_SEND:::activity@{label: "Richiesta autorizzazione al caricamento su SEND<BR/>(preLoad)"} -->
+    UPLOAD_SEND:::activity@{label: "Carica file su SEND<BR/>(upload)"} -->
+    DELIVERY_SEND:::activity@{label: "Richiesta creazione notifica su SEND<BR/>(delivery)"} -->
+    WAIT_SEND_ACCEPTANCE_LOOP -->
+    END@{shape: stop}
+
+    subgraph WAIT_SEND_ACCEPTANCE_LOOP["Ritenta X volte"]
+        RETRIEVE_SEND_STATUS:::activity@{label: "Recupero stato notifica SEND"} -->
+        IS_ACCEPTED{"Stato notifica SEND == ACCEPTED"} -->
+        |Sì|RETURN@{shape: terminal}
+
+        IS_ACCEPTED -->
+        |No|IS_TOO_MANY_RETRY{"Numero massimo di tentativi superati?"} -->
+        |No|WAIT["Attendi X minuti"]
+
+        IS_TOO_MANY_RETRY -->
+        |Sì|THROW_TOO_MANY_ATTEMPTS_ERROR@{shape: terminal, label: "Lancia eccezione per far fallire il WF"}
+    end
+    class WAIT_SEND_ACCEPTANCE_LOOP loop
+
+    classDef disable display:none;
+    classDef activity fill:#FFFFE0, stroke:#ffc300, stroke-width:2px;
+    classDef loop fill:#CCFFCC, stroke:#7FBF7F, stroke-width:2px, padding-bottom: 5px;
