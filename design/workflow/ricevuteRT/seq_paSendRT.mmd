@@ -38,13 +38,16 @@ sequenceDiagram
             alt Almeno una PaymentOption è da invalidare
                 MS_DP ->> MS_DP: Setta a TO_SYNC e stato successivo INVALID<BR />le altre PaymentOption in stato UNPAID
             end
-            MS_DP ->> MS_WF: Avvio WF Sincronizzazione PaymentOption invalidate
+            MS_DP ->>+ MS_WF: Avvio WF Sincronizzazione PaymentOption invalidate
             note left of MS_DP: Chiamato anche per prevedere<BR />l'aggiornamento della schedulazione<BR />per la scadenza degli Installment<BR/>e per la pubblicazione dell'Evento
         else
             MS_DP ->> MS_DP: Creazione Posizione debitoria fittizia
             MS_DP ->> KAFKA: Notifica ricezione ricevuta
         end
-        note left of KAFKA: Tra i suoi consumer<BR />p4pa-workflow-hub per<BR/>avvio classificazione IUD
+        note left of MS_WF: Per semplicità associato alla<BR/>barra di vita di work-flow-hub,<BR/>ma è eseguito in async dal WF avviato
+        MS_WF -->> KAFKA: Notifica ricezione ricevuta
+        deactivate MS_WF
+        note right of KAFKA: Tra i suoi consumer<BR />p4pa-workflow-hub per<BR/>avvio classificazione IUD
         MS_DP -->>- WF: Receipt
     WF ->> SHARED: Archiviazione file
     WF ->> MS_PROCESS_EXECUTIONS: Aggiorna stato ingestion_flow_file in<BR />COMPLETED
