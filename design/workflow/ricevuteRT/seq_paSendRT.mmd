@@ -39,11 +39,11 @@ sequenceDiagram
                 MS_DP ->> MS_DP: Setta a TO_SYNC e stato successivo INVALID<BR />le altre PaymentOption in stato UNPAID
             end
             MS_DP ->> MS_WF: Avvio WF Sincronizzazione PaymentOption invalidate
-            note left of MS_DP: Chiamato anche per prevedere<BR />l'aggiornamento della schedulazione<BR />per la scadenza degli Installment
+            note left of MS_DP: Chiamato anche per prevedere<BR />l'aggiornamento della schedulazione<BR />per la scadenza degli Installment<BR/>e per la pubblicazione dell'Evento
         else
             MS_DP ->> MS_DP: Creazione Posizione debitoria fittizia
+            MS_DP ->> KAFKA: Notifica ricezione ricevuta
         end
-        MS_DP ->> KAFKA: Notifica ricezione ricevuta
         note left of KAFKA: Tra i suoi consumer<BR />p4pa-workflow-hub per<BR/>avvio classificazione IUD
         MS_DP -->>- WF: Receipt
     WF ->> SHARED: Archiviazione file
