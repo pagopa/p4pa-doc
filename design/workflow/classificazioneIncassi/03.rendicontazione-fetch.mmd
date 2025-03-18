@@ -9,7 +9,7 @@ flowchart TD
     BROKER_LOOP
 
     subgraph BROKER_LOOP["Per ogni intermediario"]
-        FETCH_ORG_LIST:::activity@{label: "Recupero lista enti intermediati"} -->
+        FETCH_ORG_LIST:::activity@{label: "Recupero lista enti intermediati in stato ACTIVE"} -->
         ORG_FETCH_WF_LOOP
 
         subgraph ORG_FETCH_WF_LOOP["Per ogni ente"]
