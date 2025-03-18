@@ -8,6 +8,7 @@ flowchart TD
     UPLOAD_SEND:::activity@{label: "Carica file su SEND<BR/>(upload)"} -->
     DELIVERY_SEND:::activity@{label: "Richiesta creazione notifica su SEND<BR/>(delivery)"} -->
     WAIT_SEND_ACCEPTANCE_LOOP -->
+    SCHEDULE_NOTIFICATION_DATE_RETRIEVE:::activity@{label: "Cancella e rischedula WF di recupero data di notifica"} -->
     END@{shape: stop}
 
     subgraph WAIT_SEND_ACCEPTANCE_LOOP["Ritenta X volte"]
