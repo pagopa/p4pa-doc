@@ -26,6 +26,10 @@ flowchart TD
     end
     class WAIT_SEND_ACCEPTANCE_LOOP loop
 
+    CATCH_ALL@{shape: bolt} -->
+    PUBLISH_ERROR_EVENT:::activity@{label: "Pubblica evento di errore su coda"} -->
+    RE_THROW@{shape: terminal, label: "Rilancia stessa eccezione"}
+
     classDef disable display:none;
     classDef activity fill:#FFFFE0, stroke:#ffc300, stroke-width:2px;
     classDef loop fill:#CCFFCC, stroke:#7FBF7F, stroke-width:2px, padding-bottom: 5px;
