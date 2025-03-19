@@ -10,12 +10,13 @@ flowchart TD
     END@{shape: stop}
 
     IS_SUCCESS -->
-    |No|END
+    |Sì|PUBLISH_EVENT:::activity@{label: "Pubblica evento su coda"} -->
+    END
 
     subgraph RETRIEVE_NOTIFICATION_DATE_ACTIVITY["Recupero e salvataggio data di notifica"]
         RETRIEVE_NOTIFICATION_DATE["Invoca API di p4pa-send-notification per recuperare data di notifica"] -->
         IS_NOTIFIED{"Data di notifica presente?"} -->
-        |No|RETURN_FALSE@{shape: terminal, label: "Return false"}
+        |No|RETURN_KO@{shape: terminal, label: "Return null"}
 
         subgraph SAVE_NOTIFICATION_DATE_NOTE_BLOCK
             SAVE_NOTIFICATION_DATE
@@ -26,7 +27,7 @@ flowchart TD
 
         IS_NOTIFIED -->
         |Sì|SAVE_NOTIFICATION_DATE["Invoca API installmentSynchronize di debt-positions per salvare data di notifica"] -->
-        RETURN_TRUE@{shape: terminal, label: "Return true"}
+        RETURN_OK@{shape: terminal, label: "Return SendNotification"}
 
         subgraph RETRIEVE_NOTIFICATION_DATE_NOTE_BLOCK
             RETRIEVE_NOTIFICATION_DATE
