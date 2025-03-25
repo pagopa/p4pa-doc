@@ -1,0 +1,10 @@
+---
+title: WF creazione Accertamenti
+---
+flowchart TD
+    DESCRIPTION@{ shape: braces, label: "Input: receiptId" }
+    START@{shape: start} -->
+    CREATE_ASSESSMENT:::activity@{label: "Invoca API createAssessmentByReceiptId di classifications"} -->
+    END@{shape: stop}
+
+    classDef activity fill:#FFFFE0, stroke:#ffc300, stroke-width:2px;

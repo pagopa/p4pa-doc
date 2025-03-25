@@ -1,0 +1,19 @@
+---
+title: Creazione Accertamenti
+---
+sequenceDiagram
+    participant MS_DP as debt-positions
+    participant KAFKA as Kafka
+    participant MS_WF as workflow-hub
+    participant WF as Temporal
+    participant MS_CL as classifications
+
+    note over MS_DP: API createReceipt
+    MS_DP ->> KAFKA: RT_RECEIVED
+
+    KAFKA ->>+ MS_WF: Consegna evento
+        MS_WF ->>+ WF: Avvia WorkFlow<BR />"Creazione Accertamenti"
+        MS_WF -->>- KAFKA: ack
+
+    WF ->> MS_CL: createAssessmentByReceiptId
+    deactivate WF
