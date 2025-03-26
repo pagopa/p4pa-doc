@@ -1,0 +1,15 @@
+---
+title: Stati send_notification
+---
+stateDiagram-v2
+    [*] --> WAITING_FILE: Presenza di file<BR/>da caricare
+    WAITING_FILE --> SENDING
+
+    [*] --> SENDING: No file
+    SENDING --> REGISTERED: Creata entità su SEND
+    REGISTERED --> UPLOADED: File caricati
+    UPLOADED --> COMPLETE
+
+    REGISTERED --> COMPLETE: No file da caricare
+    COMPLETE --> ACCEPTED: Stato ACCEPTED anche per SEND
+    ACCEPTED --> [*]
