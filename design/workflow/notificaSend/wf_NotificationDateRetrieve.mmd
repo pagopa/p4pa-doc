@@ -10,8 +10,13 @@ flowchart TD
     END@{shape: stop}
 
     IS_SUCCESS -->
-    |Sì|PUBLISH_EVENT:::activity@{label: "Pubblica evento su coda"} -->
+    |Sì|PUBLISH_EVENT_LOOP -->
     END
+
+    subgraph PUBLISH_EVENT_LOOP["Per ogni DebtPosition"]
+        PUBLISH_EVENT:::activity@{label: "Pubblica evento su coda"}
+    end
+    class PUBLISH_EVENT_LOOP loop
 
     subgraph RETRIEVE_NOTIFICATION_DATE_ACTIVITY["Recupero e salvataggio data di notifica"]
         RETRIEVE_NOTIFICATION_DATE["Invoca API di p4pa-send-notification per recuperare data di notifica"] -->

@@ -8,9 +8,14 @@ flowchart TD
     UPLOAD_SEND:::activity@{label: "Carica file su SEND<BR/>(upload)"} -->
     DELIVERY_SEND:::activity@{label: "Richiesta creazione notifica su SEND<BR/>(delivery)"} -->
     WAIT_SEND_ACCEPTANCE_LOOP -->
-    PUBLISH_EVENT:::activity@{label: "Pubblica evento su coda"} -->
+    PUBLISH_EVENT_LOOP -->
     SCHEDULE_NOTIFICATION_DATE_RETRIEVE:::activity@{label: "Cancella e rischedula WF di recupero data di notifica"} -->
     END@{shape: stop}
+
+    subgraph PUBLISH_EVENT_LOOP["Per ogni DebtPosition"]
+        PUBLISH_EVENT:::activity@{label: "Pubblica evento su coda"}
+    end
+    class PUBLISH_EVENT_LOOP loop
 
     subgraph WAIT_SEND_ACCEPTANCE_LOOP["Ritenta X volte"]
         RETRIEVE_SEND_STATUS:::activity@{label: "Recupero stato notifica SEND"} -->
@@ -23,12 +28,18 @@ flowchart TD
 
         IS_TOO_MANY_RETRY -->
         |Sì|THROW_TOO_MANY_ATTEMPTS_ERROR@{shape: terminal, label: "Lancia eccezione per far fallire il WF"}
+
     end
     class WAIT_SEND_ACCEPTANCE_LOOP loop
 
     CATCH_ALL@{shape: bolt} -->
-    PUBLISH_ERROR_EVENT:::activity@{label: "Pubblica evento di errore su coda"} -->
+    PUBLISH_ERROR_EVENT_LOOP -->
     RE_THROW@{shape: terminal, label: "Rilancia stessa eccezione"}
+
+    subgraph PUBLISH_ERROR_EVENT_LOOP["Per ogni DebtPosition"]
+        PUBLISH_ERROR_EVENT:::activity@{label: "Notifica evento di errore"}
+    end
+    class PUBLISH_ERROR_EVENT_LOOP loop
 
     classDef disable display:none;
     classDef activity fill:#FFFFE0, stroke:#ffc300, stroke-width:2px;
