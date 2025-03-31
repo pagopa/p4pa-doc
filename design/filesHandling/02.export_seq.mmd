@@ -1,4 +1,6 @@
 ---
+config:
+  theme: default
 title: Richiesta di esportazione dati
 ---
 sequenceDiagram
@@ -10,7 +12,6 @@ sequenceDiagram
     participant SHARED as Shared Folder
     participant MS_AUTH as p4pa-auth
     participant MS_ENTITY as Microservizio entità
-
     CLIENT ->>+ BFF: Richiesta export dati
         BFF ->> MS_AUTH: getUserInfo()
         BFF ->> BFF: Verifica autorizzazione richiesta
@@ -22,7 +23,6 @@ sequenceDiagram
                 MS_WF -->>- MS_PROCESS_EXECUTIONS: workflowId
             MS_PROCESS_EXECUTIONS -->>- BFF: fileExportId
         BFF -->>- CLIENT: fileExportId
-
     WF ->> MS_PROCESS_EXECUTIONS: Aggiorna stato export_file in<BR />PROCESSING
     WF ->> MS_ENTITY: Query dati richiesti
     WF ->> WF: Creazione file cifrato
