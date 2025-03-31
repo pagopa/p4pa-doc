@@ -1,4 +1,7 @@
 ---
+config:
+  theme: default
+  look: classic
 title: WF recupero data di notifica di SEND
 ---
 flowchart TD
@@ -7,38 +10,31 @@ flowchart TD
     LOOP -->
     PUBLISH_EVENT_LOOP -->
     END
-
     subgraph PUBLISH_EVENT_LOOP["Per ogni DebtPosition"]
         PUBLISH_EVENT:::activity@{label: "Pubblica evento su coda"}
     end
     class PUBLISH_EVENT_LOOP loop
-
     subgraph LOOP["Finchè dataNotifica != null"]
     direction TB
         RETRIEVE_NOTIFICATION_DATE_ACTIVITY -->
         IS_SUCCESS{"Return true?"} -->
         |No|CONTINUE@{shape: terminal}
-
         IS_SUCCESS -->
         |Sì|BREAK@{shape: terminal}
-
         subgraph RETRIEVE_NOTIFICATION_DATE_ACTIVITY["Recupero e salvataggio data di notifica"]
         direction TB
             RETRIEVE_NOTIFICATION_DATE["Invoca API di p4pa-send-notification per recuperare data di notifica"] -->
             IS_NOTIFIED{"Data di notifica presente?"} -->
             |No|RETURN_KO@{shape: terminal, label: "Return null"}
-
             subgraph SAVE_NOTIFICATION_DATE_NOTE_BLOCK
                 SAVE_NOTIFICATION_DATE
                 SAVE_NOTIFICATION_DATE_NOTE@{shape: braces, label: "Comporterà l'invocazione dell'API syncDebtPosition di workflow-hub"}
                 SAVE_NOTIFICATION_DATE_NOTE_2@{shape: braces, label: "In caso di WF multe, qualora la Posizione Debitoria risulta ancora non pagata, ciò comporterà l'attivazione della scadenza del periodo di riduzione"}
             end
             class SAVE_NOTIFICATION_DATE_NOTE_BLOCK disable
-
             IS_NOTIFIED -->
-            |Sì|SAVE_NOTIFICATION_DATE["Invoca API installmentSynchronize di debt-positions per salvare data di notifica"] -->
+            |Sì|SAVE_NOTIFICATION_DATE["Invoca API updateInstallmentsNotificationDate di debt-positions per salvare data di notifica su tutti i NAV coinvolti"] -->
             RETURN_OK@{shape: terminal, label: "Return SendNotification"}
-
             subgraph RETRIEVE_NOTIFICATION_DATE_NOTE_BLOCK
                 RETRIEVE_NOTIFICATION_DATE
                 RETRIEVE_NOTIFICATION_DATE_NOTE@{shape: braces, label: "L'API verifica se la data è già salvata ed eventualmente la restituisce, altrimenti invoca l'API di SEND per richiederla ed eventualmente salvarla"}
@@ -48,8 +44,6 @@ flowchart TD
         class NOTIFICATION_DATE_RETRIEVE activity
     end
     class LOOP loop
-
-
     classDef disable display:none;
     classDef activity fill:#FFFFE0, stroke:#ffc300, stroke-width:2px;
     classDef loop fill:#CCFFCC, stroke:#7FBF7F, stroke-width:2px, padding-bottom: 5px;
