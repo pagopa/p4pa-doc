@@ -27,7 +27,7 @@ sequenceDiagram
     WF ->> MS_ENTITY: Query dati richiesti
     WF ->> WF: Creazione file cifrato
     WF ->> SHARED: Deposita file cifrato
-    WF ->> MS_PROCESS_EXECUTIONS: Aggiorna stato ingestion_flow_file in<BR />COMPLETED
+    WF ->> MS_PROCESS_EXECUTIONS: Aggiorna stato export_file in<BR />COMPLETED + dettagli export
     WF ->> WF: Schedula WF scadenza export
     WF ->> MS_AUTH: getUserInfoFromMappedExternaUserId()
     WF ->> CLIENT: Notifica esito operazione tramite email
