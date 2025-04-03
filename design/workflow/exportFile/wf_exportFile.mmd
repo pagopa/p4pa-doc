@@ -1,0 +1,19 @@
+---
+config:
+  theme: default
+  look: classic
+title: WF export file
+---
+flowchart TD
+    DESCRIPTION@{ shape: braces, label: "Input: exportFileId, exportFileType" }
+    START@{shape: start} -->
+    UPDATE_STATUS_INELAB:::activity@{label: "Aggiorna stato ExportFile in 'PROCESSING'"} -->
+    INGESTION:::activity@{label: "Esegui export"} -->
+    UPDATE_STATUS_COMPLETE:::activity@{label: "Finalizza stato entità ExportFile"} -->
+    SCHEDULE_EXPIRATION:::activity@{label: "Schedula WF scadenza export"} -->
+    SEND_EMAIL:::activity@{label: "Notifica stato export tramite email"} -->
+    END@{shape: stop}
+    classDef disable display:none;
+    classDef activity fill:#FFFFE0, stroke:#ffc300, stroke-width:2px;
+    classDef loop fill:#CCFFCC, stroke:#7FBF7F, stroke-width:2px, padding-bottom: 5px;
+    classDef send-signal fill:#ade8f4, stroke:#48cae4, stroke-width:2px
