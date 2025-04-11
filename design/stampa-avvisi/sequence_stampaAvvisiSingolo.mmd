@@ -1,0 +1,18 @@
+sequenceDiagram
+    participant FE
+    participant p4pa_bff
+    participant p4pa_payments
+    participant p4pa_organization
+    participant pagoPA_API
+
+     FE ->>+ p4pa_bff: Richiede stampaAvvisi
+        p4pa_bff ->>+ p4pa_payments: generateNotice
+            p4pa_payments ->>+ p4pa_organization: recupera api key
+            p4pa_organization -->>- p4pa_payments: #
+            p4pa_payments ->>+ pagoPA_API: GET /notices/templates
+                note left of pagoPA_API: GET se template non presente
+                pagoPA_API -->>- p4pa_payments: #
+                p4pa_payments ->>+ pagoPA_API: POST /notices/generate
+            pagoPA_API -->>- p4pa_payments: #
+        p4pa_payments -->>+ p4pa_bff: #
+     p4pa_bff -->>+ FE: #
