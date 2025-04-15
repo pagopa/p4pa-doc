@@ -10,7 +10,7 @@ sequenceDiagram
             p4pa_payments ->>+ pagoPA_API: POST /notices/generate-massive(templateId[],data)
             pagoPA_API -->>- p4pa_payments: return string folderId
         p4pa_payments -->>- Temporal: return string folderId
-        loop until response is 200
+        loop until response is != 204
                 Temporal ->>+ p4pa_payments: retrieveMassiveNotices
                     p4pa_payments ->>+ pagoPA_API: GET /notices/folder/{folderId}/status
                     pagoPA_API -->>- p4pa_payments: return status res
