@@ -1,22 +1,23 @@
 sequenceDiagram
-    participant FE
-    participant p4pa_bff
+    participant Temporal
     participant p4pa_payments
     participant p4pa_organization
     participant pagoPA_API
 
-     FE ->>+ p4pa_bff: Richiede stampaAvvisiMassiva
-        p4pa_bff ->>+ p4pa_payments: generateNoticeMassive
-            p4pa_payments ->>+ p4pa_organization: recupera api key
+    Temporal ->>+ p4pa_payments: startMassiveNoticesGeneration
+        p4pa_payments ->>+ p4pa_organization: get api key
             p4pa_organization -->>- p4pa_payments: #
             p4pa_payments ->>+ pagoPA_API: POST /notices/generate-massive(templateId[],data)
-                pagoPA_API -->>- p4pa_payments: return string folderId
-                p4pa_payments ->>+ pagoPA_API: GET /notices/folder/{folderId}/status
-                pagoPA_API -->>- p4pa_payments: return status res
-                note left of pagoPA_API: contiene elenco avvisi(processati e non) e relativi fileId
-                p4pa_payments ->>+ pagoPA_API: GET /notices/folder/{folderId}/url
-                pagoPA_API -->>- p4pa_payments: return signed url per download zip avvisi
-                p4pa_payments ->>+ pagoPA_API: download zip signedUrl
-                pagoPA_API -->>- p4pa_payments: return zip
-        p4pa_payments -->>+ p4pa_bff: #
-     p4pa_bff -->>+ FE: #
+            pagoPA_API -->>- p4pa_payments: return string folderId
+        p4pa_payments -->>- Temporal: return string folderId
+        loop until response is 200
+                Temporal ->>+ p4pa_payments: retrieveMassiveNotices
+                    p4pa_payments ->>+ pagoPA_API: GET /notices/folder/{folderId}/status
+                    pagoPA_API -->>- p4pa_payments: return status res
+                    note left of pagoPA_API: contains print notices(processed and other) with fileId
+                    p4pa_payments ->>+ pagoPA_API: GET /notices/folder/{folderId}/url
+                    pagoPA_API -->>- p4pa_payments: return signed url to download zip
+                    p4pa_payments ->>+ pagoPA_API: download zip signedUrl
+                    pagoPA_API -->>- p4pa_payments: return zip
+                    p4pa_payments -->>+ Temporal: 200 o 204(no content)
+        end
