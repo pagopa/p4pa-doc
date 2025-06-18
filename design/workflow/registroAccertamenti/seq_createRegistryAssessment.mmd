@@ -1,0 +1,19 @@
+---
+config:
+  theme: default
+  look: classic
+title: Creazione Registro Accertamenti
+---
+sequenceDiagram
+    participant PU as PU
+    participant KAFKA as Kafka
+    participant MS_WF as workflow-hub
+    participant WF as Temporal
+    participant MS_CL as classifications
+    note over PU: Creation/update DP
+    PU ->> KAFKA: DPI_ADDED<BR/>DP_CREATED<BR/>DP_UPDATED<BR/>DPI_UPDATED
+    KAFKA ->>+ MS_WF: Consegna evento
+        MS_WF ->>+ WF: Avvia WorkFlow<BR />"Creazione Registro Accertamenti"
+        MS_WF -->>- KAFKA: ack
+    WF ->> MS_CL: createAssessmentsRegistryBy<BR/>DebtPositionDTOAndIud
+    deactivate WF

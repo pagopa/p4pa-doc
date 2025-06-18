@@ -1,0 +1,13 @@
+---
+config:
+  theme: default
+  look: classic
+title: Creazione Registro Accertamenti
+---
+flowchart TD
+    DESCRIPTION@{ shape: braces, label: "Input: debtPositionDTO, iudList" }
+    START@{shape: start} -->
+    CREATE_ASSESSMENT:::activity@{label: "Invoca API createAssessmentsRegistryByDebtPositionDTOAndIud di classifications"} -->
+    END@{shape: stop}
+
+    classDef activity fill:#FFFFE0, stroke:#ffc300, stroke-width:2px;
