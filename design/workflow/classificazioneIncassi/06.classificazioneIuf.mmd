@@ -36,7 +36,7 @@ flowchart TD
             linkStyle 2,3,4,5,6 display:none
 
             SIGNAL_RENDICONTAZIONE@{ shape: bolt } -->
-            DELETE_CLASSIFY_NULL_IUV:::activity@{label: "Delete classificazione 'TES_NO_MATCH'"} -->
+            DELETE_CLASSIFY_NULL_IUV:::activity@{label: "Delete classificazione 'TES_NO_IUF_OR_IUV'"} -->
             IS_CODICEESITO9{"CodiceEsito == 9"} --> |Sì|HANDLE_CODICEESITO9
             subgraph HANDLE_CODICEESITO9["Gestisci codiceEsito 9"]
                 SAVE_RT@{shape: database, label: "Salva Ricevuta"} -->
@@ -59,7 +59,7 @@ flowchart TD
             linkStyle 14,15,16 display:none
 
             SIGNAL_TESORERIA@{ shape: bolt } -->
-            DELETE_TES_ANOMALY:::activity@{label: "Delete classificazione 'TES_NO_MATCH'"} -->
+            DELETE_TES_ANOMALY:::activity@{label: "Delete classificazione 'TES_NO_IUF_OR_IUV'"} -->
             FIND_TESORERIA_IUVS_ACTIVITY
 
             subgraph FIND_TESORERIA_IUVS_ACTIVITY["Ricerca Transfers by IUF"]
@@ -71,7 +71,7 @@ flowchart TD
                 |Sì|RETURN_TESORERIA_IUVS@{shape: terminal, label: "Restituisci IUV/IUR/transferIndex trovati"}
 
                 EXISTS_RENDICONTAZIONE_TES -->
-                |No|SAVE_TES_ANOMALY@{shape: database, label: "Salva classificazione 'TES_NO_MATCH'"} -->
+                |No|SAVE_TES_ANOMALY@{shape: database, label: "Salva classificazione 'TES_NO_IUF_OR_IUV'"} -->
                 RETURN_TESORERIA_IUVS
             end
             class FIND_TESORERIA_IUVS_ACTIVITY activity
