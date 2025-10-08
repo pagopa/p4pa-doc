@@ -1,8 +1,10 @@
 ---
-title: WF Classificazione IUF
 config:
-    flowchart:
-        rankSpacing: 1
+  flowchart:
+    rankSpacing: 1
+  theme: default
+  look: classic
+title: WF Classificazione IUF
 ---
 flowchart TD
     subgraph WF_BLOCK
@@ -16,13 +18,12 @@ flowchart TD
 
         subgraph LOOP_IUVs["Per ogni Transfer"]
         direction TB
-
-        SIGNAL_IUV:::send-signal@{shape: delay, label: "Invia evento 'Classifica Transfer' al workflow 'Classificazione Transfer'"}
-        NOTE_SIGNAL_IUV@{ shape: braces, label: "signalWithStart con workflowID=orgId+IUV+ IUR+transferIndex" }
+            SIGNAL_IUV:::send-signal@{shape: delay, label: "Invia evento 'Classifica Transfer' al workflow 'Classificazione Transfer'"}
+            NOTE_SIGNAL_IUV@{ shape: braces, label: "signalWithStart con workflowID=orgId+IUV+ IUR+transferIndex" }
         end
+        class LOOP_IUVs loop
 
         LOOP_IUVs --> END@{shape: stop}
-        class LOOP_IUVs loop
     end
     class WF_BLOCK hidden
 
@@ -37,8 +38,8 @@ flowchart TD
 
             SIGNAL_RENDICONTAZIONE@{ shape: bolt } -->
             DELETE_CLASSIFY_NULL_IUV:::activity@{label: "Delete classificazione 'TES_NO_IUF_OR_IUV'"} -->
-            IS_CODICEESITO9{"CodiceEsito == 9"} --> |Sì|HANDLE_CODICEESITO9
-            subgraph HANDLE_CODICEESITO9["Gestisci codiceEsito 9"]
+            IS_CODICEESITO9{"CodiceEsito == 8 o 9"} --> |Sì|HANDLE_CODICEESITO9
+            subgraph HANDLE_CODICEESITO9["Gestisci codiceEsito 8 o 9"]
                 SAVE_RT@{shape: database, label: "Salva Ricevuta"} -->
                 SEND_RT_MSG@{shape: das, label: "Notifica Ricevuta"}
             end
@@ -59,12 +60,16 @@ flowchart TD
             linkStyle 14,15,16 display:none
 
             SIGNAL_TESORERIA@{ shape: bolt } -->
-            DELETE_TES_ANOMALY:::activity@{label: "Delete classificazione 'TES_NO_IUF_OR_IUV'"} -->
+            DELETE_TES_ANOMALY:::activity@{label: "Delete classificazione by treasuryId"} -->
             FIND_TESORERIA_IUVS_ACTIVITY
 
             subgraph FIND_TESORERIA_IUVS_ACTIVITY["Ricerca Transfers by IUF"]
+                IS_IUF_EMPTY{"IUF presente?"} -->
+                |Sì|SAVE_TES_IUF_ANOMALY@{shape: database, label: "Salva classificazione 'TES_NO_MATCH'"} -->
+                RETURN_TESORERIA_IUVS
 
-                FIND_TESORERIA_IUVS["Ricerca Rendicontazione IUF"] -->
+                IS_IUF_EMPTY -->
+                |No|FIND_TESORERIA_IUVS["Ricerca Rendicontazione IUF"] -->
                 EXISTS_RENDICONTAZIONE_TES{"Trovata Rendicontazione?"}
 
                 EXISTS_RENDICONTAZIONE_TES -->
