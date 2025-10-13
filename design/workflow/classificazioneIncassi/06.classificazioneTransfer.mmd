@@ -1,8 +1,10 @@
 ---
-title: WF Classificazione Transfer
 config:
-    flowchart:
-        rankSpacing: 1
+  flowchart:
+    rankSpacing: 1
+  theme: default
+  look: classic
+title: WF Classificazione Transfer
 ---
 flowchart TD
     subgraph WF_BLOCK
@@ -33,18 +35,18 @@ flowchart TD
 
             style FIND_TES_IUV color:red;
         end
-
-       CLASSIFY_IUV --> END@{shape: stop}
+       CLASSIFY_IUV -->
+       SIGNAL_ASSESSMENT:::send-signal@{shape: delay, label: "Invia evento 'Classifica Accertamento' al workflow 'Classificazione Accertamenti'"} -->
+       END@{shape: stop}
     end
-
     class WF_BLOCK hidden
 
     subgraph SIGNALS_BLOCK
     direction LR
-
         subgraph SIGNAL_IUV_BLOCK["Evento Classifica Transfer"]
         direction LR
             DESCRIPTION_SIGNAL_IUV@{ shape: braces, label: "Input: orgId, IUV, IUR, transferIndex" }
+
             SIGNAL_IUV@{ shape: bolt } -->
             ADD_SIGNAL_IUV["Aggiungi richiesta elaborazione"] -->
             SIGNAL_IUV_END@{ shape: "stop" }
@@ -58,3 +60,4 @@ flowchart TD
     classDef activity fill:#FFFFE0, stroke:#ffc300, stroke-width:2px;
     classDef loop fill:#CCFFCC, stroke:#7FBF7F, stroke-width:2px, padding-bottom: 5px;
     classDef signal_block fill:#ade8f4, stroke:#48cae4, stroke-width:2px
+    classDef send-signal fill:#ade8f4, stroke:#48cae4, stroke-width:2px

@@ -1,0 +1,52 @@
+---
+config:
+  flowchart:
+    rankSpacing: 1
+  look: classic
+  theme: default
+title: WF Classificazione Accertamento
+---
+flowchart TD
+    subgraph WF_BLOCK
+        subgraph NOTE_START_BLOCK
+            DESCRIPTION@{ shape: braces, label: "Input: orgId, IUV, IUD" }
+            START@{shape: start}
+        end
+        class NOTE_START_BLOCK hidden
+
+        START -->
+        REMOVE_ELAB_REQUESTS["Rimuovi tutte le richieste di elaborazione correnti"] -->
+        CLASSIFY
+
+        subgraph CLASSIFY["Aggiorna classificazione Accertamento"]
+        direction TB
+            DUMMY:::hidden --> FIND_ASSESSMENT
+            linkStyle 2 display:none
+
+            FIND_ASSESSMENT@{shape: database, label: "Cerca dettaglio Accertamento"} -->
+            FIND_CLASSIFICATION@{shape: database, label: "Cerca classificazioni Transfers"} -->
+            CALC_CLASSIFY["Determina etichetta"] -->
+            UPDATE_ASSESSMENT@{shape: database, label: "Aggiorna Dettaglio Accertamento (etichetta e date)"}
+        end
+       CLASSIFY --> END@{shape: stop}
+    end
+    class WF_BLOCK hidden
+
+    subgraph SIGNALS_BLOCK
+    direction LR
+        subgraph SIGNAL_IUV_BLOCK["Evento Classifica Accertamento"]
+        direction LR
+            DESCRIPTION_SIGNAL_IUV@{ shape: braces, label: "Input: orgId, IUV, IUD" }
+            SIGNAL_IUV@{ shape: bolt } -->
+            ADD_SIGNAL_IUV["Aggiungi richiesta elaborazione"] -->
+            SIGNAL_IUV_END@{ shape: "stop" }
+        end
+        class SIGNAL_IUV_BLOCK signal_block
+    end
+    class SIGNALS_BLOCK hidden
+
+    classDef note_block display:none;
+    classDef hidden display:none;
+    classDef activity fill:#FFFFE0, stroke:#ffc300, stroke-width:2px;
+    classDef loop fill:#CCFFCC, stroke:#7FBF7F, stroke-width:2px, padding-bottom: 5px;
+    classDef signal_block fill:#ade8f4, stroke:#48cae4, stroke-width:2px
