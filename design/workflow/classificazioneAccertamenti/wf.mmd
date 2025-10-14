@@ -20,15 +20,31 @@ flowchart TD
 
         subgraph CLASSIFY["Aggiorna classificazione Accertamento"]
         direction TB
-            DUMMY:::hidden --> FIND_ASSESSMENT
+            DUMMY:::hidden --> FIND_ASSESSMENT_DETAILS
             linkStyle 2 display:none
 
-            FIND_ASSESSMENT@{shape: database, label: "Cerca dettaglio Accertamento"} -->
-            FIND_CLASSIFICATION@{shape: database, label: "Cerca classificazioni Transfers"} -->
+            FIND_ASSESSMENT_DETAILS@{shape: database, label: "Cerca Dettagli Accertamento"} -->
+            EXIST_ASSESSMENT_DETAILS{"Esiste almeno un Dettalio Accertamento?"} -->
+            |Sì|FIND_CLASSIFICATION@{shape: database, label: "Cerca classificazioni Transfers"} -->
             CALC_CLASSIFY["Determina etichetta"] -->
-            UPDATE_ASSESSMENT@{shape: database, label: "Aggiorna Dettaglio Accertamento (etichetta e date)"}
+            IS_CHANGED{"Modifiche da salvare?"} -->
+            |Sì|UPDATE_ASSESSMENT_DETAIL@{shape: database, label: "Aggiorna Dettaglio Accertamento (etichetta e date)"} -->
+            FIND_ASSESSMENT@{shape: database, label: "Cerca Accertamento"} -->
+            RETURN_ASSESSMENT@{shape: terminal, label: "Return PaymentAssessmentsDataDTO"}
+
+            EXIST_ASSESSMENT_DETAILS -->
+            |No|RETURN_NULL@{shape: terminal, label: "Return null"}
+
+            IS_CHANGED -->
+            |No|RETURN_NULL
         end
-       CLASSIFY --> END@{shape: stop}
+       CLASSIFY -->
+       ACTIVITY_RETURN_NULL{"Return null?"} -->
+       |No|PUBLISH_ASSESSMENT_EVENT:::activity@{label: "Pubblica evento Accertamento"} -->
+       END@{shape: stop}
+
+       ACTIVITY_RETURN_NULL -->
+       |Sì|END
     end
     class WF_BLOCK hidden
 
