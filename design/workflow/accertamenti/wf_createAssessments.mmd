@@ -9,8 +9,6 @@ flowchart TD
 
     START@{shape: start} -->
     CREATE_ASSESSMENT:::activity@{label: "Invoca API createAssessmentByReceiptId di classifications"} -->
-    SIGNAL_ASSESSMENT:::send-signal@{shape: delay, label: "Invia evento 'Classifica Accertamento' al workflow 'Classificazione Accertamenti'"} -->
     END@{shape: stop}
 
     classDef activity fill:#FFFFE0, stroke:#ffc300, stroke-width:2px;
-    classDef send-signal fill:#ade8f4, stroke:#48cae4, stroke-width:2px
