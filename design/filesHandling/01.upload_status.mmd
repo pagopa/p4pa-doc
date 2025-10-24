@@ -1,13 +1,19 @@
 ---
+config:
+  look: classic
+  theme: default
 title: Stati ingestion_flow_file
 ---
 stateDiagram-v2
     [*] --> UPLOADED
+
     UPLOADED --> PROCESSING
-    UPLOADED --> ERROR
+    UPLOADED --> ERROR: Flusso di import o versione<BR/>non supportata
 
     PROCESSING --> COMPLETED
-    PROCESSING --> ERROR
+    PROCESSING --> WARNING: Errori nell'importare<BR/>una o più righe
+    PROCESSING --> ERROR: File non letto
 
     COMPLETED --> [*]
+    WARNING --> [*]
     ERROR --> [*]
