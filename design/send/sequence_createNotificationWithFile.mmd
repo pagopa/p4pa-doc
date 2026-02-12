@@ -53,6 +53,12 @@ sequenceDiagram
     WF ->>+ MS_SEND: Richiesta creazione notifica SEND<BR />(sendNotificationId)
         MS_SEND ->> DB: Recupera notifica
         MS_SEND ->> MS_SEND: Valida stato
+        MS_SEND ->> MS_SEND: Verifica presenza Stream
+        alt Se non esiste Stream
+            MS_SEND ->>+ SEND_PAGOPA: Crea Stream
+            SEND_PAGOPA -->>- MS_SEND: OK
+            MS_SEND ->> WF: avvia SendNotificationProcessWF
+        end
         MS_SEND ->> SEND_PAGOPA: Invia notifica
         MS_SEND ->> DB: Aggiorna stato<BR />(stato notifica=COMPLETE)<BR />Salva notificationRequestId e<BR/>paProtocolNumber
         MS_SEND -->>- WF: ok

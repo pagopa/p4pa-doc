@@ -7,10 +7,10 @@ sequenceDiagram
     participant SEND_PAGOPA as SEND
 
     SIL ->>+ MS_SIL: Crea notifica senza file
-        MS_SIL ->>+ MS_SEND: #
+        MS_SIL ->>+ MS_SEND:
             MS_SEND ->> DB: Salva notifica <BR />(status=SENDING)
             MS_SEND ->>+ WF: Avvia WF invio notifica SEND con file<BR />(wfId=sendNotificationId)
-        MS_SEND -->>- MS_SIL: #
+        MS_SEND -->>- MS_SIL:
     MS_SIL -->>- SIL: ok
 
     WF ->>+ MS_SEND: Richiesta autorizzazione caricamento SEND<BR />(sendNotificationId)
@@ -23,6 +23,12 @@ sequenceDiagram
     WF ->>+ MS_SEND: Richiesta creazione notifica SEND<BR />(sendNotificationId)
         MS_SEND ->> DB: Recupera notifica
         MS_SEND ->> MS_SEND: Valida stato
+        MS_SEND ->> MS_SEND: Verifica presenza Stream
+        alt Se non esiste Stream
+            MS_SEND ->>+ SEND_PAGOPA: Crea Stream
+            SEND_PAGOPA -->>- MS_SEND: OK
+            MS_SEND ->> WF: avvia SendNotificationProcessWF
+        end
         MS_SEND ->> SEND_PAGOPA: Invia notifica
         MS_SEND ->> DB: Aggiorna stato<BR />(status=COMPLETE)<BR />Salva notificationRequestId e paProtocolNumber
         MS_SEND -->>- WF: ok

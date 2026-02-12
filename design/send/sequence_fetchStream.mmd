@@ -1,0 +1,30 @@
+sequenceDiagram
+    participant WF as Temporal
+    participant MS_SEND as p4pa-send-notification
+    participant SEND_PAGOPA as SEND
+    participant Kafka_DP
+    loop Fetch Stream
+        alt ACCEPTED
+            SEND_PAGOPA -->>+ WF: (event) ACCEPT
+            WF ->> MS_SEND: updateSendNotificationStatusActivity
+            WF ->>+ SEND_PAGOPA: request LegalFact
+            SEND_PAGOPA -->>- WF: return LegalFact
+            WF ->> MS_SEND: store LegalFact to share
+            WF ->> Kafka_DP: publishSendEvent
+            deactivate WF
+        end
+        alt REFUSED
+            SEND_PAGOPA -->>+ WF: (event) REFUSED
+            WF ->> MS_SEND: updateSendNotificationStatusActivity
+            WF ->> Kafka_DP: publishSendErrorEvent
+            deactivate WF
+        end
+        alt VIEWED
+            SEND_PAGOPA -->>+ WF: (event) VIEWED
+            WF ->> MS_SEND: sendNotificationDateRetrieveActivity
+            WF ->>+ SEND_PAGOPA: request LegalFact
+            SEND_PAGOPA -->>- WF: return LegalFact
+            WF ->> MS_SEND: store LegalFact to share
+            deactivate WF
+        end
+    end
