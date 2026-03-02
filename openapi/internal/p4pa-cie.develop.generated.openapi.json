@@ -1,0 +1,1170 @@
+{
+  "openapi" : "3.1.0",
+  "info" : {
+    "title" : "p4pa-cie",
+    "description" : "Api and Models",
+    "version" : "0.0.1"
+  },
+  "servers" : [ {
+    "url" : "http://localhost",
+    "description" : "Generated server url"
+  } ],
+  "security" : [ {
+    "BearerAuth" : [ ]
+  } ],
+  "tags" : [ {
+    "name" : "ipzs",
+    "description" : "the ipzs API"
+  }, {
+    "name" : "mint",
+    "description" : "Api for Ministero degli Interni"
+  }, {
+    "name" : "Organizations",
+    "description" : "the Organizations API"
+  }, {
+    "name" : "DebtPosition",
+    "description" : "the DebtPosition API"
+  } ],
+  "paths" : {
+    "/ipzs/notices/{nav}/setStatus" : {
+      "post" : {
+        "tags" : [ "ipzs" ],
+        "operationId" : "ipzsUpdateNoticeStatus",
+        "parameters" : [ {
+          "name" : "nav",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/IpzsUpdateNoticeStatusRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Ok"
+          },
+          "400" : {
+            "description" : "Invalid request"
+          },
+          "401" : {
+            "description" : "Unauthorized - Missing or invalid token"
+          },
+          "404" : {
+            "description" : "Not Found"
+          },
+          "409" : {
+            "description" : "Conflict"
+          },
+          "500" : {
+            "description" : "Internal Server Error"
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/debt-position" : {
+      "post" : {
+        "tags" : [ "DebtPosition" ],
+        "operationId" : "createDebtPositionCie",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/DebtPositionCieRequestDTO"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Created",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DebtPositionDTO"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DebtPositionDTO"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized - Missing or invalid token",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DebtPositionDTO"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DebtPositionDTO"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/debt-position/paid" : {
+      "post" : {
+        "tags" : [ "DebtPosition" ],
+        "operationId" : "notifyDebtPositionCiePayment",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/DebtPositionDTO"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Ok"
+          },
+          "400" : {
+            "description" : "Invalid request"
+          },
+          "401" : {
+            "description" : "Unauthorized - Missing or invalid token"
+          },
+          "500" : {
+            "description" : "Internal Server Error"
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/public/organizations" : {
+      "get" : {
+        "tags" : [ "Organizations" ],
+        "operationId" : "getOrganizations",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DynamicLabelDTO"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DynamicLabelDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/public/organizations/{orgFiscalCode}/amount" : {
+      "get" : {
+        "tags" : [ "Organizations" ],
+        "operationId" : "getAmountByOrgFiscalCodeAndDebtPositionTypeOrgCode",
+        "parameters" : [ {
+          "name" : "orgFiscalCode",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "debtPositionTypeOrgCode",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CurrencyDTO"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CurrencyDTO"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized - Missing or invalid token",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CurrencyDTO"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Not Found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CurrencyDTO"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CurrencyDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/mint/payments" : {
+      "get" : {
+        "tags" : [ "mint" ],
+        "summary" : "Retrieve a paged list of CIE payments",
+        "operationId" : "mintGetPayments",
+        "parameters" : [ {
+          "name" : "orgFiscalCode",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "completionDateFrom",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        }, {
+          "name" : "completionDateTo",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        }, {
+          "name" : "paymentDateFrom",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        }, {
+          "name" : "paymentDateTo",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "Zero-based page index (0..N)",
+          "required" : false,
+          "schema" : {
+            "type" : "integer",
+            "default" : 0,
+            "minimum" : 0
+          }
+        }, {
+          "name" : "size",
+          "in" : "query",
+          "description" : "The size of the page to be returned",
+          "required" : false,
+          "schema" : {
+            "type" : "integer",
+            "default" : 20,
+            "minimum" : 1
+          }
+        }, {
+          "name" : "sort",
+          "in" : "query",
+          "description" : "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+          "required" : false,
+          "schema" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PagedPaymentCieDTO"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PagedPaymentCieDTO"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized - Missing or invalid token",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PagedPaymentCieDTO"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PagedPaymentCieDTO"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/ipzs/notices" : {
+      "get" : {
+        "tags" : [ "ipzs" ],
+        "operationId" : "ipzsGetNotices",
+        "parameters" : [ {
+          "name" : "debtorFiscalCode",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "orgFiscalCode",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "Zero-based page index (0..N)",
+          "required" : false,
+          "schema" : {
+            "type" : "integer",
+            "default" : 0,
+            "minimum" : 0
+          }
+        }, {
+          "name" : "size",
+          "in" : "query",
+          "description" : "The size of the page to be returned",
+          "required" : false,
+          "schema" : {
+            "type" : "integer",
+            "default" : 20,
+            "minimum" : 1
+          }
+        }, {
+          "name" : "sort",
+          "in" : "query",
+          "description" : "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+          "required" : false,
+          "schema" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PagedNoticeCieDTO"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PagedNoticeCieDTO"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized - Missing or invalid token",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PagedNoticeCieDTO"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PagedNoticeCieDTO"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/ipzs/notice" : {
+      "get" : {
+        "tags" : [ "ipzs" ],
+        "operationId" : "ipzsGetNoticeByNavAndOrgFiscalCode",
+        "parameters" : [ {
+          "name" : "nav",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "orgFiscalCode",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/NoticeCieDTO"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/NoticeCieDTO"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized - Missing or invalid token",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/NoticeCieDTO"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Not Found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/NoticeCieDTO"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/NoticeCieDTO"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "IpzsUpdateNoticeStatusRequest" : {
+        "type" : "object",
+        "properties" : {
+          "status" : {
+            "$ref" : "#/components/schemas/StatusEnum"
+          }
+        },
+        "required" : [ "status" ]
+      },
+      "StatusEnum" : {
+        "type" : "string",
+        "enum" : [ "BURNED", "REFUNDED" ]
+      },
+      "Action" : {
+        "type" : "string",
+        "enum" : [ "I", "M", "A" ]
+      },
+      "DebtPositionDTO" : {
+        "type" : "object",
+        "properties" : {
+          "debtPositionId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "iupdOrg" : {
+            "type" : "string"
+          },
+          "description" : {
+            "type" : "string"
+          },
+          "status" : {
+            "$ref" : "#/components/schemas/DebtPositionStatus"
+          },
+          "debtPositionOrigin" : {
+            "$ref" : "#/components/schemas/DebtPositionOrigin"
+          },
+          "organizationId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "debtPositionTypeOrgId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "validityDate" : {
+            "type" : "string",
+            "format" : "date"
+          },
+          "multiDebtor" : {
+            "type" : "boolean"
+          },
+          "flagPuPagoPaPayment" : {
+            "type" : "boolean"
+          },
+          "creationDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "updateDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "updateOperatorExternalId" : {
+            "type" : "string"
+          },
+          "updateTraceId" : {
+            "type" : "string"
+          },
+          "paymentOptions" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/PaymentOptionDTO"
+            }
+          }
+        },
+        "required" : [ "debtPositionOrigin", "debtPositionTypeOrgId", "flagPuPagoPaPayment", "organizationId", "paymentOptions" ]
+      },
+      "DebtPositionOrigin" : {
+        "type" : "string",
+        "enum" : [ "ORDINARY", "ORDINARY_SIL", "SPONTANEOUS", "SPONTANEOUS_SIL", "SPONTANEOUS_MIXED", "SPONTANEOUS_PSP", "SECONDARY_ORG", "RECEIPT_FILE", "RECEIPT_PAGOPA", "REPORTING_PAGOPA" ]
+      },
+      "DebtPositionStatus" : {
+        "type" : "string",
+        "enum" : [ "TO_SYNC", "REPORTED", "PAID", "PARTIALLY_PAID", "CANCELLED", "EXPIRED", "UNPAID", "DRAFT" ]
+      },
+      "InstallmentDTO" : {
+        "type" : "object",
+        "properties" : {
+          "installmentId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "paymentOptionId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "status" : {
+            "$ref" : "#/components/schemas/InstallmentStatus"
+          },
+          "syncStatus" : {
+            "$ref" : "#/components/schemas/InstallmentSyncStatus"
+          },
+          "iupdPagopa" : {
+            "type" : "string"
+          },
+          "generateNotice" : {
+            "type" : "boolean"
+          },
+          "iud" : {
+            "type" : "string"
+          },
+          "iuv" : {
+            "type" : "string"
+          },
+          "iur" : {
+            "type" : "string"
+          },
+          "iuf" : {
+            "type" : "string"
+          },
+          "nav" : {
+            "type" : "string"
+          },
+          "iun" : {
+            "type" : "string"
+          },
+          "dueDate" : {
+            "type" : "string",
+            "format" : "date"
+          },
+          "switchToExpired" : {
+            "type" : "boolean"
+          },
+          "notificationFeeCents" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "amountCents" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "remittanceInformation" : {
+            "type" : "string"
+          },
+          "balance" : {
+            "type" : "string"
+          },
+          "legacyPaymentMetadata" : {
+            "type" : "string"
+          },
+          "debtor" : {
+            "$ref" : "#/components/schemas/PersonDTO"
+          },
+          "transfers" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/TransferDTO"
+            }
+          },
+          "notificationDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "ingestionFlowFileId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "ingestionFlowFileLineNumber" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "ingestionFlowFileAction" : {
+            "$ref" : "#/components/schemas/Action"
+          },
+          "sourceFlowName" : {
+            "type" : "string"
+          },
+          "receiptId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "creationDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "updateDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "updateOperatorExternalId" : {
+            "type" : "string"
+          },
+          "updateTraceId" : {
+            "type" : "string"
+          },
+          "originalRemittanceInformation" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "amountCents", "debtor", "remittanceInformation" ]
+      },
+      "InstallmentStatus" : {
+        "type" : "string",
+        "enum" : [ "TO_SYNC", "REPORTED", "PAID", "CANCELLED", "INVALID", "EXPIRED", "UNPAID", "UNPAYABLE", "DRAFT" ]
+      },
+      "InstallmentSyncStatus" : {
+        "type" : "object",
+        "properties" : {
+          "syncStatusFrom" : {
+            "$ref" : "#/components/schemas/InstallmentStatus"
+          },
+          "syncStatusTo" : {
+            "$ref" : "#/components/schemas/InstallmentStatus"
+          },
+          "syncError" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "syncStatusFrom", "syncStatusTo" ]
+      },
+      "PaymentOptionDTO" : {
+        "type" : "object",
+        "properties" : {
+          "paymentOptionId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "debtPositionId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "totalAmountCents" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "status" : {
+            "$ref" : "#/components/schemas/PaymentOptionStatus"
+          },
+          "description" : {
+            "type" : "string"
+          },
+          "paymentOptionType" : {
+            "$ref" : "#/components/schemas/PaymentOptionType"
+          },
+          "paymentOptionIndex" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "creationDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "updateDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "updateOperatorExternalId" : {
+            "type" : "string"
+          },
+          "updateTraceId" : {
+            "type" : "string"
+          },
+          "installments" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/InstallmentDTO"
+            }
+          }
+        },
+        "required" : [ "installments", "paymentOptionType", "totalAmountCents" ]
+      },
+      "PaymentOptionStatus" : {
+        "type" : "string",
+        "enum" : [ "TO_SYNC", "REPORTED", "PAID", "PARTIALLY_PAID", "CANCELLED", "INVALID", "EXPIRED", "UNPAID", "UNPAYABLE", "DRAFT" ]
+      },
+      "PaymentOptionType" : {
+        "type" : "string",
+        "enum" : [ "SINGLE_INSTALLMENT", "INSTALLMENTS", "DOWN_PAYMENT", "REDUCED_SINGLE_INSTALLMENT" ]
+      },
+      "PersonDTO" : {
+        "type" : "object",
+        "properties" : {
+          "entityType" : {
+            "$ref" : "#/components/schemas/PersonEntityType"
+          },
+          "fiscalCode" : {
+            "type" : "string"
+          },
+          "fullName" : {
+            "type" : "string"
+          },
+          "address" : {
+            "type" : "string"
+          },
+          "civic" : {
+            "type" : "string"
+          },
+          "postalCode" : {
+            "type" : "string"
+          },
+          "location" : {
+            "type" : "string"
+          },
+          "province" : {
+            "type" : "string"
+          },
+          "nation" : {
+            "type" : "string"
+          },
+          "email" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "entityType", "fiscalCode", "fullName" ]
+      },
+      "PersonEntityType" : {
+        "type" : "string",
+        "enum" : [ "F", "G" ]
+      },
+      "TransferDTO" : {
+        "type" : "object",
+        "properties" : {
+          "transferId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "installmentId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "orgFiscalCode" : {
+            "type" : "string"
+          },
+          "orgName" : {
+            "type" : "string"
+          },
+          "amountCents" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "remittanceInformation" : {
+            "type" : "string"
+          },
+          "stampType" : {
+            "type" : "string"
+          },
+          "stampHashDocument" : {
+            "type" : "string"
+          },
+          "stampProvincialResidence" : {
+            "type" : "string"
+          },
+          "iban" : {
+            "type" : "string"
+          },
+          "postalIban" : {
+            "type" : "string"
+          },
+          "category" : {
+            "type" : "string"
+          },
+          "transferIndex" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "creationDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "updateDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "updateOperatorExternalId" : {
+            "type" : "string"
+          },
+          "updateTraceId" : {
+            "type" : "string"
+          },
+          "mbdAttachment" : {
+            "type" : "string"
+          },
+          "flagOwner" : {
+            "type" : "boolean"
+          }
+        },
+        "required" : [ "amountCents", "category", "orgFiscalCode", "orgName", "remittanceInformation", "transferIndex" ]
+      },
+      "DebtPositionCieOriginAllowedEnum" : {
+        "type" : "string",
+        "enum" : [ "SPONTANEOUS", "SPONTANEOUS_PSP" ]
+      },
+      "DebtPositionCieRequestDTO" : {
+        "type" : "object",
+        "properties" : {
+          "origin" : {
+            "$ref" : "#/components/schemas/DebtPositionCieOriginAllowedEnum"
+          },
+          "debtor" : {
+            "$ref" : "#/components/schemas/PersonDTO"
+          },
+          "debtPositionTypeOrgCode" : {
+            "type" : "string"
+          },
+          "payer" : {
+            "$ref" : "#/components/schemas/PersonDTO"
+          },
+          "orgFiscalCode" : {
+            "type" : "string"
+          },
+          "remittanceInformation" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "debtPositionTypeOrgCode", "debtor", "orgFiscalCode", "origin", "remittanceInformation" ]
+      },
+      "DynamicLabelDTO" : {
+        "type" : "object",
+        "properties" : {
+          "result" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/LabelDTO"
+            }
+          }
+        },
+        "required" : [ "result" ]
+      },
+      "LabelDTO" : {
+        "type" : "object",
+        "properties" : {
+          "label" : {
+            "type" : "string"
+          },
+          "value" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "label", "value" ]
+      },
+      "CurrencyDTO" : {
+        "type" : "object",
+        "properties" : {
+          "result" : {
+            "type" : "integer",
+            "format" : "int64",
+            "description" : "result amount in cents"
+          }
+        },
+        "required" : [ "result" ]
+      },
+      "DebtPositionCieStatus" : {
+        "type" : "string",
+        "enum" : [ "UNPAID", "PAID", "BURNED", "REFUNDED" ]
+      },
+      "PagedPaymentCieDTO" : {
+        "type" : "object",
+        "properties" : {
+          "content" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/PaymentCieDTO"
+            }
+          },
+          "size" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "totalElements" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "totalPages" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "number" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        },
+        "required" : [ "content", "number", "size", "totalElements", "totalPages" ]
+      },
+      "PaymentCieDTO" : {
+        "type" : "object",
+        "properties" : {
+          "status" : {
+            "$ref" : "#/components/schemas/DebtPositionCieStatus"
+          },
+          "paymentDate" : {
+            "type" : "string",
+            "format" : "date-time",
+            "description" : "Payment date and time"
+          },
+          "completionDate" : {
+            "type" : "string",
+            "format" : "date-time",
+            "description" : "Date and time when the payment was consumed for the CIE issuance"
+          },
+          "nav" : {
+            "type" : "string",
+            "description" : "Unique payment identifier"
+          },
+          "reasonCode" : {
+            "type" : "string",
+            "description" : "Reason code"
+          },
+          "reasonDescription" : {
+            "type" : "string",
+            "description" : "Reason description"
+          },
+          "orgFiscalCode" : {
+            "type" : "string",
+            "description" : "Organization fiscal code"
+          },
+          "orgName" : {
+            "type" : "string",
+            "description" : "Organization name"
+          },
+          "orgAmountCents" : {
+            "type" : "integer",
+            "format" : "int64",
+            "description" : "Amount due to the organization"
+          },
+          "mefAmountCents" : {
+            "type" : "integer",
+            "format" : "int64",
+            "description" : "Amount due to MEF"
+          }
+        },
+        "required" : [ "mefAmountCents", "nav", "orgAmountCents", "orgFiscalCode", "orgName", "reasonCode", "reasonDescription", "status" ]
+      },
+      "NoticeCieDTO" : {
+        "type" : "object",
+        "properties" : {
+          "status" : {
+            "$ref" : "#/components/schemas/DebtPositionCieStatus"
+          },
+          "paymentDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "burnDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "nav" : {
+            "type" : "string"
+          },
+          "reasonCode" : {
+            "type" : "string"
+          },
+          "orgAmountCents" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "mefAmountCents" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        },
+        "required" : [ "mefAmountCents", "nav", "orgAmountCents", "reasonCode", "status" ]
+      },
+      "PagedNoticeCieDTO" : {
+        "type" : "object",
+        "properties" : {
+          "content" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/NoticeCieDTO"
+            }
+          },
+          "size" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "totalElements" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "totalPages" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "number" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        },
+        "required" : [ "content", "number", "size", "totalElements", "totalPages" ]
+      }
+    },
+    "securitySchemes" : {
+      "BearerAuth" : {
+        "type" : "http",
+        "scheme" : "bearer",
+        "bearerFormat" : "JWT"
+      }
+    }
+  }
+}
