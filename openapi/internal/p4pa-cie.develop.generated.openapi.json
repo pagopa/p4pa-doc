@@ -13,22 +13,22 @@
     "BearerAuth" : [ ]
   } ],
   "tags" : [ {
-    "name" : "ipzs",
-    "description" : "the ipzs API"
+    "name" : "OrganizationCie",
+    "description" : "the OrganizationCie API"
   }, {
-    "name" : "mint",
-    "description" : "Api for Ministero degli Interni"
+    "name" : "DebtPositionCie",
+    "description" : "the DebtPositionCie API"
   }, {
-    "name" : "Organizations",
-    "description" : "the Organizations API"
+    "name" : "ipzsCie",
+    "description" : "the ipzsCie API"
   }, {
-    "name" : "DebtPosition",
-    "description" : "the DebtPosition API"
+    "name" : "mintCie",
+    "description" : "the mintCie API"
   } ],
   "paths" : {
     "/ipzs/notices/{nav}/setStatus" : {
       "post" : {
-        "tags" : [ "ipzs" ],
+        "tags" : [ "ipzsCie" ],
         "operationId" : "ipzsUpdateNoticeStatus",
         "parameters" : [ {
           "name" : "nav",
@@ -75,7 +75,7 @@
     },
     "/debt-position" : {
       "post" : {
-        "tags" : [ "DebtPosition" ],
+        "tags" : [ "DebtPositionCie" ],
         "operationId" : "createDebtPositionCie",
         "requestBody" : {
           "content" : {
@@ -136,7 +136,7 @@
     },
     "/debt-position/paid" : {
       "post" : {
-        "tags" : [ "DebtPosition" ],
+        "tags" : [ "DebtPositionCie" ],
         "operationId" : "notifyDebtPositionCiePayment",
         "requestBody" : {
           "content" : {
@@ -169,7 +169,7 @@
     },
     "/public/organizations" : {
       "get" : {
-        "tags" : [ "Organizations" ],
+        "tags" : [ "OrganizationCie" ],
         "operationId" : "getOrganizations",
         "responses" : {
           "200" : {
@@ -197,7 +197,7 @@
     },
     "/public/organizations/{orgFiscalCode}/amount" : {
       "get" : {
-        "tags" : [ "Organizations" ],
+        "tags" : [ "OrganizationCie" ],
         "operationId" : "getAmountByOrgFiscalCodeAndDebtPositionTypeOrgCode",
         "parameters" : [ {
           "name" : "orgFiscalCode",
@@ -270,7 +270,7 @@
     },
     "/mint/payments" : {
       "get" : {
-        "tags" : [ "mint" ],
+        "tags" : [ "mintCie" ],
         "summary" : "Retrieve a paged list of CIE payments",
         "operationId" : "mintGetPayments",
         "parameters" : [ {
@@ -393,7 +393,7 @@
     },
     "/ipzs/notices" : {
       "get" : {
-        "tags" : [ "ipzs" ],
+        "tags" : [ "ipzsCie" ],
         "operationId" : "ipzsGetNotices",
         "parameters" : [ {
           "name" : "debtorFiscalCode",
@@ -490,7 +490,7 @@
     },
     "/ipzs/notice" : {
       "get" : {
-        "tags" : [ "ipzs" ],
+        "tags" : [ "ipzsCie" ],
         "operationId" : "ipzsGetNoticeByNavAndOrgFiscalCode",
         "parameters" : [ {
           "name" : "nav",
