@@ -1,0 +1,50 @@
+openapi: 3.1.0
+info:
+  title: p4pa-cie-batch
+  description: Api and Models
+  version: "1.0.0"
+paths:
+  /api/v1/greet:
+    get:
+      summary: "Hello World"
+      description: "Sample endpoint that return greetings"
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Hello, World!"
+        '500':
+          description: "Internal Server Error"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Internal Server Error"
+components:
+  schemas:
+    ErrorDTO:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          enum:
+            - NOT_FOUND
+            - BAD_REQUEST
+            - GENERIC_ERROR
+            - CONFLICT
+        message:
+          type: string
+        traceId:
+          type: string
