@@ -215,7 +215,7 @@ paths:
         "500":
           description: Internal Server Error
       x-spring-paginated: true
-  /ipzs/notices/{nav}/setStatus:
+  /ipzs/{orgFiscalCode}/notices/{nav}/setStatus:
     post:
       tags:
         - ipzsCie
@@ -223,6 +223,11 @@ paths:
       security:
         - BearerAuth: [ ]
       parameters:
+        - name: orgFiscalCode
+          in: path
+          required: true
+          schema:
+            type: string
         - name: nav
           in: path
           required: true
@@ -239,8 +244,12 @@ paths:
                 status:
                   type: string
                   enum:
-                    - BURNED
-                    - REFUNDED
+                    - BURN
+                    - REFUND
+                operationDate:
+                  type: string
+                  format: date-time
+                  example: 2025-01-01T00:00:00
         required: true
       responses:
         "200":
@@ -273,6 +282,7 @@ components:
             - NOT_FOUND
             - BAD_REQUEST
             - GENERIC_ERROR
+            - CONFLICT
         message:
           type: string
         traceId:

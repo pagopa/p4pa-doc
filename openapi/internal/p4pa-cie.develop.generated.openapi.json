@@ -26,11 +26,18 @@
     "description" : "the mintCie API"
   } ],
   "paths" : {
-    "/ipzs/notices/{nav}/setStatus" : {
+    "/ipzs/{orgFiscalCode}/notices/{nav}/setStatus" : {
       "post" : {
         "tags" : [ "ipzsCie" ],
         "operationId" : "ipzsUpdateNoticeStatus",
         "parameters" : [ {
+          "name" : "orgFiscalCode",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
           "name" : "nav",
           "in" : "path",
           "required" : true,
@@ -572,13 +579,17 @@
         "properties" : {
           "status" : {
             "$ref" : "#/components/schemas/StatusEnum"
+          },
+          "operationDate" : {
+            "type" : "string",
+            "format" : "date-time"
           }
         },
         "required" : [ "status" ]
       },
       "StatusEnum" : {
         "type" : "string",
-        "enum" : [ "BURNED", "REFUNDED" ]
+        "enum" : [ "BURN", "REFUND" ]
       },
       "Action" : {
         "type" : "string",
