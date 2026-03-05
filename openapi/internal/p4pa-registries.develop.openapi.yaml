@@ -1,0 +1,196 @@
+openapi: 3.0.1
+info:
+  title: API Documentation
+  description: OpenAPI documentation
+  version: 1.0.0
+servers:
+  - url: "http://localhost:8080"
+    description: Generated server url
+paths:
+  /pagopa-registries/{registryId}:
+    get:
+      tags:
+        - pagoPaRegistry
+      operationId: getPagoPaRegistry
+      parameters:
+        - name: registryId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagoPaRegistryDTO'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+  /sil-registries/{registryId}:
+    get:
+      tags:
+        - silRegistry
+      operationId: getSilRegistry
+      parameters:
+        - name: registryId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SilRegistryDTO'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+security:
+  - BearerAuth: [ ]
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+  schemas:
+    PagoPaRegistryDTO:
+      type: object
+      properties:
+        registryId:
+          type: string
+        dateTime:
+          type: string
+          format: date-time
+        traceId:
+          type: string
+        brokerStationId:
+          type: string
+        orgFiscalCode:
+          type: string
+        iuv:
+          type: string
+        nav:
+          type: string
+        ccp:
+          type: string
+        pspId:
+          type: string
+        pspChannelId:
+          type: string
+        paymentMethod:
+          type: string
+        eventCategory:
+          type: 'RegistryEventCategory'
+        eventType:
+          type: 'RegistryPagoPaEventType'
+        eventSubType:
+          type: 'RegistryEventSubType'
+        requestorId:
+          type: string
+        grantorId:
+          type: string
+        outcome:
+          type: 'RegistryOutcome'
+        body:
+          type: string
+      required:
+        - registryId
+        - dateTime
+        - eventCategory
+        - eventSubType
+        - eventType
+        - grantorId
+        - orgFiscalCode
+        - outcome
+        - requestorId
+        - traceId
+    SilRegistryDTO:
+      type: object
+      properties:
+        registryId:
+          type: string
+        dateTime:
+          type: string
+          format: date-time
+        traceId:
+          type: string
+        brokerFiscalCode:
+          type: string
+        orgFiscalCode:
+          type: string
+        iuv:
+          type: string
+        nav:
+          type: string
+        eventType:
+          type: 'RegistrySilEventType'
+        eventSubType:
+          type: 'RegistryEventSubType'
+        requestorId:
+          type: string
+        grantorId:
+          type: string
+        outcome:
+          type: 'RegistryOutcome'
+        body:
+          type: string
+      required:
+        - registryId
+        - dateTime
+        - eventSubType
+        - eventType
+        - grantorId
+        - orgFiscalCode
+        - outcome
+        - requestorId
+        - traceId
+    ErrorDTO:
+      type: object
+      required:
+        - category
+        - message
+      properties:
+        category:
+          type: string
+          enum:
+            - NOT_FOUND
+            - BAD_REQUEST
+            - GENERIC_ERROR
+        message:
+          type: string
+        traceId:
+          type: string
