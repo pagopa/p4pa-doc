@@ -150,21 +150,21 @@ paths:
         "500":
           description: Internal Server Error
       x-spring-paginated: true
-  /ipzs/notice:
+  /ipzs/{orgFiscalCode}/notice/{nav}:
     get:
       tags:
         - ipzsCie
-      operationId: ipzsGetNoticeByNavAndOrgFiscalCode
+      operationId: ipzsGetNoticeByOrgFiscalCodeAndNav
       security:
         - BearerAuth: [ ]
       parameters:
-        - name: nav
-          in: query
+        - name: orgFiscalCode
+          in: path
           required: true
           schema:
             type: string
-        - name: orgFiscalCode
-          in: query
+        - name: nav
+          in: path
           required: true
           schema:
             type: string
@@ -422,6 +422,8 @@ components:
         nav:
           type: string
         reasonCode:
+          type: string
+        reasonDescription:
           type: string
         orgAmountCents:
           type: integer

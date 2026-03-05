@@ -398,6 +398,82 @@
         } ]
       }
     },
+    "/ipzs/{orgFiscalCode}/notice/{nav}" : {
+      "get" : {
+        "tags" : [ "ipzsCie" ],
+        "operationId" : "ipzsGetNoticeByOrgFiscalCodeAndNav",
+        "parameters" : [ {
+          "name" : "orgFiscalCode",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "nav",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/NoticeCieDTO"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/NoticeCieDTO"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized - Missing or invalid token",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/NoticeCieDTO"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Not Found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/NoticeCieDTO"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/NoticeCieDTO"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
     "/ipzs/notices" : {
       "get" : {
         "tags" : [ "ipzsCie" ],
@@ -485,82 +561,6 @@
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/PagedNoticeCieDTO"
-                }
-              }
-            }
-          }
-        },
-        "security" : [ {
-          "BearerAuth" : [ ]
-        } ]
-      }
-    },
-    "/ipzs/notice" : {
-      "get" : {
-        "tags" : [ "ipzsCie" ],
-        "operationId" : "ipzsGetNoticeByNavAndOrgFiscalCode",
-        "parameters" : [ {
-          "name" : "nav",
-          "in" : "query",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "orgFiscalCode",
-          "in" : "query",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/NoticeCieDTO"
-                }
-              }
-            }
-          },
-          "400" : {
-            "description" : "Invalid request",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/NoticeCieDTO"
-                }
-              }
-            }
-          },
-          "401" : {
-            "description" : "Unauthorized - Missing or invalid token",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/NoticeCieDTO"
-                }
-              }
-            }
-          },
-          "404" : {
-            "description" : "Not Found",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/NoticeCieDTO"
-                }
-              }
-            }
-          },
-          "500" : {
-            "description" : "Internal Server Error",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/NoticeCieDTO"
                 }
               }
             }
@@ -1128,6 +1128,9 @@
             "type" : "string"
           },
           "reasonCode" : {
+            "type" : "string"
+          },
+          "reasonDescription" : {
             "type" : "string"
           },
           "orgAmountCents" : {
