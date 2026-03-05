@@ -1,0 +1,222 @@
+{
+  "asyncapi": "3.0.0",
+  "info": {
+    "title": "p4pa-pagopa-payments",
+    "version": "0.0.1",
+    "description": "AsyncAPI And Models",
+    "x-generator": "springwolf"
+  },
+  "defaultContentType": "application/json",
+  "servers": {
+    "kafka-server": {
+      "host": "localhost:9093",
+      "protocol": "kafka"
+    }
+  },
+  "channels": {
+    "p4pa-payhub-registries-evh": {
+      "address": "p4pa-payhub-registries-evh",
+      "messages": {
+        "RegistryEventDTO": {
+          "$ref": "#/components/messages/RegistryEventDTO"
+        }
+      },
+      "bindings": {
+        "kafka": { }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "HeadersNotDocumented": {
+        "title": "HeadersNotDocumented",
+        "type": "object",
+        "properties": { },
+        "description": "There can be headers, but they are not explicitly documented.",
+        "examples": [
+          { }
+        ]
+      },
+      "RegistryEventCategory": {
+        "title": "RegistryEventCategory",
+        "type": "string",
+        "enum": [
+          "INTERNO",
+          "INTERFACCIA"
+        ],
+        "examples": [
+          "\"INTERNO\""
+        ]
+      },
+      "RegistryEventDTO": {
+        "title": "RegistryEventDTO",
+        "type": "object",
+        "properties": {
+          "body": {
+            "type": "string"
+          },
+          "brokerStationId": {
+            "type": "string"
+          },
+          "ccp": {
+            "type": "string"
+          },
+          "dateTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "eventCategory": {
+            "$ref": "#/components/schemas/RegistryEventCategory"
+          },
+          "eventSubType": {
+            "$ref": "#/components/schemas/RegistryEventSubType"
+          },
+          "eventType": {
+            "$ref": "#/components/schemas/RegistryEventType"
+          },
+          "grantorId": {
+            "type": "string"
+          },
+          "iuv": {
+            "type": "string"
+          },
+          "nav": {
+            "type": "string"
+          },
+          "orgFiscalCode": {
+            "type": "string"
+          },
+          "outcome": {
+            "$ref": "#/components/schemas/RegistryOutcome"
+          },
+          "paymentMethod": {
+            "type": "string"
+          },
+          "pspChannelId": {
+            "type": "string"
+          },
+          "pspId": {
+            "type": "string"
+          },
+          "registryId": {
+            "type": "string"
+          },
+          "registryOrigin": {
+            "type": "string"
+          },
+          "registryType": {
+            "type": "string"
+          },
+          "requestorId": {
+            "type": "string"
+          },
+          "traceId": {
+            "type": "string"
+          }
+        },
+        "examples": [
+          {
+            "body": "string",
+            "brokerStationId": "string",
+            "ccp": "string",
+            "dateTime": "2015-07-20T15:49:04-07:00",
+            "eventCategory": "\"INTERNO\"",
+            "eventSubType": "REQ",
+            "eventType": "PaForNode_paVerifyPaymentNotice",
+            "grantorId": "string",
+            "iuv": "string",
+            "nav": "string",
+            "orgFiscalCode": "string",
+            "outcome": "OK",
+            "paymentMethod": "string",
+            "pspChannelId": "string",
+            "pspId": "string",
+            "registryId": "string",
+            "registryOrigin": "string",
+            "registryType": "string",
+            "requestorId": "string",
+            "traceId": "string"
+          }
+        ]
+      },
+      "RegistryEventSubType": {
+        "title": "RegistryEventSubType",
+        "type": "string",
+        "enum": [
+          "REQ",
+          "RESP"
+        ],
+        "examples": [
+          "\"REQ\""
+        ]
+      },
+      "RegistryEventType": {
+        "title": "RegistryEventType",
+        "type": "string",
+        "enum": [
+          "PaForNode_paVerifyPaymentNotice",
+          "PaForNode_paGetPaymentV2",
+          "PaForNode_paSendRTV2",
+          "PaForNode_paDemandPaymentNotice",
+          "ACA_newDebtPosition",
+          "ACA_createPosition",
+          "ACA_updatePosition",
+          "ACA_deletePosition",
+          "GPD_createPosition",
+          "GPD_updatePosition",
+          "GPD_deletePosition",
+          "NodeForPa_fetchPaymentReporting"
+        ],
+        "examples": [
+          "\"PaForNode_paVerifyPaymentNotice\""
+        ]
+      },
+      "RegistryOutcome": {
+        "title": "RegistryOutcome",
+        "type": "string",
+        "enum": [
+          "OK",
+          "KO"
+        ],
+        "examples": [
+          "\"OK\""
+        ]
+      }
+    },
+    "messages": {
+      "RegistryEventDTO": {
+        "headers": {
+          "$ref": "#/components/schemas/HeadersNotDocumented"
+        },
+        "payload": {
+          "schemaFormat": "application/vnd.aai.asyncapi+json;version=3.0.0",
+          "schema": {
+            "$ref": "#/components/schemas/RegistryEventDTO"
+          }
+        },
+        "name": "RegistryEventDTO",
+        "title": "RegistryEventDTO",
+        "bindings": {
+          "kafka": { }
+        }
+      }
+    }
+  },
+  "operations": {
+    "p4pa-payhub-registries-evh_send_registryProducer": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/p4pa-payhub-registries-evh"
+      },
+      "description": "Auto-generated description",
+      "bindings": {
+        "kafka": { }
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/p4pa-payhub-registries-evh/messages/RegistryEventDTO"
+        }
+      ]
+    }
+  }
+}
