@@ -1,0 +1,317 @@
+{
+  "openapi" : "3.1.0",
+  "info" : {
+    "title" : "p4pa-analytics-data-ingestion",
+    "description" : "Api and Models",
+    "version" : "0.0.1"
+  },
+  "servers" : [ {
+    "url" : "http://localhost",
+    "description" : "Generated server url"
+  } ],
+  "security" : [ {
+    "BearerAuth" : [ ]
+  } ],
+  "tags" : [ {
+    "name" : "DebtPositionTypeOrgsIngestion",
+    "description" : "the DebtPositionTypeOrgsIngestion API"
+  }, {
+    "name" : "Schedule",
+    "description" : "the Schedule API"
+  }, {
+    "name" : "Workflow",
+    "description" : "the Workflow API"
+  } ],
+  "paths" : {
+    "/workflow/debt-position-type-orgs-ingestion" : {
+      "post" : {
+        "tags" : [ "DebtPositionTypeOrgsIngestion" ],
+        "description" : "To start DebtPositionTypeOrgs ingestion",
+        "operationId" : "ingestDebtPositionTypeOrgs",
+        "responses" : {
+          "201" : {
+            "description" : "Workflow created successfully",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/WorkflowCreatedDTO"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/workflows/{workflowId}/status" : {
+      "get" : {
+        "tags" : [ "Workflow" ],
+        "summary" : "Get Workflow Status",
+        "description" : "Retrieve the current status of a Temporal workflow by its ID.",
+        "operationId" : "getWorkflowStatus",
+        "parameters" : [ {
+          "name" : "workflowId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Workflow status retrieved successfully",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/WorkflowStatusDTO"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Workflow not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/schedules/{scheduleId}/info" : {
+      "get" : {
+        "tags" : [ "Schedule" ],
+        "summary" : "Get Schedule info",
+        "description" : "Retrieve the info of a Temporal schedule by its ID.",
+        "operationId" : "getScheduleInfo",
+        "parameters" : [ {
+          "name" : "scheduleId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/components/schemas/ScheduleEnum"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Workflow status retrieved successfully",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ScheduleInfoDTO"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "WorkflowCreatedDTO" : {
+        "type" : "object",
+        "properties" : {
+          "workflowId" : {
+            "type" : "string"
+          },
+          "runId" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "runId", "workflowId" ]
+      },
+      "CodeEnum" : {
+        "type" : "string",
+        "enum" : [ "NOT_FOUND", "BAD_REQUEST", "GENERIC_ERROR", "CONFLICT" ]
+      },
+      "ErrorDTO" : {
+        "type" : "object",
+        "properties" : {
+          "code" : {
+            "$ref" : "#/components/schemas/CodeEnum"
+          },
+          "message" : {
+            "type" : "string"
+          },
+          "traceId" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "code", "message" ]
+      },
+      "WorkflowExecutionStatus" : {
+        "type" : "string",
+        "enum" : [ "WORKFLOW_EXECUTION_STATUS_UNSPECIFIED", "WORKFLOW_EXECUTION_STATUS_RUNNING", "WORKFLOW_EXECUTION_STATUS_COMPLETED", "WORKFLOW_EXECUTION_STATUS_FAILED", "WORKFLOW_EXECUTION_STATUS_CANCELED", "WORKFLOW_EXECUTION_STATUS_TERMINATED", "WORKFLOW_EXECUTION_STATUS_CONTINUED_AS_NEW", "WORKFLOW_EXECUTION_STATUS_TIMED_OUT", "UNRECOGNIZED" ]
+      },
+      "WorkflowStatusDTO" : {
+        "type" : "object",
+        "properties" : {
+          "workflowId" : {
+            "type" : "string"
+          },
+          "workflowType" : {
+            "type" : "string"
+          },
+          "status" : {
+            "$ref" : "#/components/schemas/WorkflowExecutionStatus"
+          },
+          "runId" : {
+            "type" : "string"
+          },
+          "taskQueue" : {
+            "type" : "string"
+          },
+          "startDateTime" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "executionDateTime" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "endDateTime" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "duration" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "runId", "status", "taskQueue", "workflowId", "workflowType" ]
+      },
+      "RecentScheduleExecutionInfoDTO" : {
+        "type" : "object",
+        "properties" : {
+          "workflowId" : {
+            "type" : "string"
+          },
+          "runId" : {
+            "type" : "string"
+          },
+          "scheduledAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "startedAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        },
+        "required" : [ "runId", "scheduledAt", "startedAt", "workflowId" ]
+      },
+      "ScheduleEnum" : {
+        "type" : "string",
+        "enum" : [ "SCHEDULE_DP_TYPE_ORGS_INGESTION_WF" ]
+      },
+      "ScheduleExecutionInfoDTO" : {
+        "type" : "object",
+        "properties" : {
+          "workflowId" : {
+            "type" : "string"
+          },
+          "runId" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "runId", "workflowId" ]
+      },
+      "ScheduleInfoDTO" : {
+        "type" : "object",
+        "properties" : {
+          "scheduleId" : {
+            "$ref" : "#/components/schemas/ScheduleEnum"
+          },
+          "numActions" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "numActionsMissedCatchupWindow" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "numActionsSkippedOverlap" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "runningActions" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ScheduleExecutionInfoDTO"
+            }
+          },
+          "recentActions" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/RecentScheduleExecutionInfoDTO"
+            }
+          },
+          "nextActionTimes" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string",
+              "format" : "date-time"
+            }
+          },
+          "createdAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "lastUpdatedAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        },
+        "required" : [ "createdAt", "lastUpdatedAt", "nextActionTimes", "numActions", "numActionsMissedCatchupWindow", "numActionsSkippedOverlap", "recentActions", "runningActions", "scheduleId" ]
+      }
+    },
+    "securitySchemes" : {
+      "BearerAuth" : {
+        "type" : "http",
+        "scheme" : "bearer",
+        "bearerFormat" : "JWT"
+      }
+    }
+  }
+}
