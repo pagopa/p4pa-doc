@@ -1,0 +1,89 @@
+{
+  "asyncapi": "3.0.0",
+  "info": {
+    "title": "p4pa-classification",
+    "version": "0.0.1",
+    "description": "AsyncAPI And Models",
+    "x-generator": "springwolf"
+  },
+  "defaultContentType": "application/json",
+  "servers": {
+    "kafka-server": {
+      "host": "localhost:9093",
+      "protocol": "kafka"
+    }
+  },
+  "channels": {
+    "p4pa-payhub-data-events-evh": {
+      "address": "p4pa-payhub-data-events-evh",
+      "messages": {
+        "DataEventType": {
+          "$ref": "#/components/messages/DataEventType"
+        }
+      },
+      "bindings": {
+        "kafka": { }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "DataEventType": {
+        "title": "DataEventType",
+        "type": "string",
+        "enum": [
+          "ASSESSMENTS_DETAIL",
+          "PAYMENT_ASSESSMENTS",
+          "TRANSFER_CLASSIFICATION_LABELS"
+        ],
+        "examples": [
+          "\"ASSESSMENTS_DETAIL\""
+        ]
+      },
+      "HeadersNotDocumented": {
+        "title": "HeadersNotDocumented",
+        "type": "object",
+        "properties": { },
+        "description": "There can be headers, but they are not explicitly documented.",
+        "examples": [
+          { }
+        ]
+      }
+    },
+    "messages": {
+      "DataEventType": {
+        "headers": {
+          "$ref": "#/components/schemas/HeadersNotDocumented"
+        },
+        "payload": {
+          "schemaFormat": "application/vnd.aai.asyncapi+json;version=3.0.0",
+          "schema": {
+            "$ref": "#/components/schemas/DataEventType"
+          }
+        },
+        "name": "DataEventType",
+        "title": "DataEventType",
+        "bindings": {
+          "kafka": { }
+        }
+      }
+    }
+  },
+  "operations": {
+    "p4pa-payhub-data-events-evh_send_dataEventsProducer": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/p4pa-payhub-data-events-evh"
+      },
+      "description": "Auto-generated description",
+      "bindings": {
+        "kafka": { }
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/p4pa-payhub-data-events-evh/messages/DataEventType"
+        }
+      ]
+    }
+  }
+}
