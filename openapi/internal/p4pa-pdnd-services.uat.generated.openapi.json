@@ -1,0 +1,242 @@
+{
+  "openapi" : "3.1.0",
+  "info" : {
+    "title" : "p4pa-pdnd-services",
+    "description" : "Api and Models",
+    "version" : "0.0.1"
+  },
+  "servers" : [ {
+    "url" : "http://localhost",
+    "description" : "Generated server url"
+  } ],
+  "security" : [ {
+    "BearerAuth" : [ ]
+  } ],
+  "tags" : [ {
+    "name" : "Anpr",
+    "description" : "the Anpr API"
+  }, {
+    "name" : "p4pa-pdnd",
+    "description" : "the p4pa-pdnd API"
+  } ],
+  "paths" : {
+    "/token" : {
+      "get" : {
+        "tags" : [ "p4pa-pdnd" ],
+        "summary" : "Retrieve voucher token",
+        "description" : "get voucher for specific service",
+        "operationId" : "getVoucherToken",
+        "parameters" : [ {
+          "name" : "service",
+          "in" : "query",
+          "description" : "The name of pdnd services",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/components/schemas/PdndServicesEnum"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PdndAuthData"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PdndAuthData"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PdndAuthData"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Service not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PdndAuthData"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PdndAuthData"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/anpr-service-e002/citizen" : {
+      "get" : {
+        "tags" : [ "Anpr" ],
+        "summary" : "Retrieve citizen data",
+        "description" : "Returns detailed information about a citizen based on their fiscal code.",
+        "operationId" : "getCitizenDataByFiscalCode",
+        "parameters" : [ {
+          "name" : "fiscalCode",
+          "in" : "query",
+          "description" : "The fiscal code of the citizen",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Citizen"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Citizen"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Citizen"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Citizen not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Citizen"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Citizen"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "PdndAuthData" : {
+        "type" : "object",
+        "properties" : {
+          "agidJwtTrackingEvidence" : {
+            "type" : "string"
+          },
+          "clientAssertion" : {
+            "type" : "string"
+          },
+          "accessToken" : {
+            "type" : "string"
+          },
+          "expiration" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        }
+      },
+      "PdndServicesEnum" : {
+        "type" : "string",
+        "enum" : [ "SEND", "C003", "C030" ]
+      },
+      "Address" : {
+        "type" : "object",
+        "properties" : {
+          "street" : {
+            "type" : "string",
+            "example" : "Via Roma 10"
+          },
+          "city" : {
+            "type" : "string",
+            "example" : "Roma"
+          },
+          "postalCode" : {
+            "type" : "string",
+            "example" : "64"
+          },
+          "country" : {
+            "type" : "string",
+            "example" : "Italy"
+          }
+        }
+      },
+      "Citizen" : {
+        "type" : "object",
+        "properties" : {
+          "firstName" : {
+            "type" : "string",
+            "example" : "Mario"
+          },
+          "lastName" : {
+            "type" : "string",
+            "example" : "Rossi"
+          },
+          "dateOfBirth" : {
+            "type" : "string",
+            "example" : "2021-11-15"
+          },
+          "address" : {
+            "$ref" : "#/components/schemas/Address"
+          }
+        }
+      }
+    },
+    "securitySchemes" : {
+      "BearerAuth" : {
+        "type" : "http",
+        "scheme" : "bearer",
+        "bearerFormat" : "JWT"
+      }
+    }
+  }
+}
