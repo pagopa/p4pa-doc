@@ -1,5 +1,5 @@
 {
-  "asyncapi": "3.0.0",
+  "asyncapi": "3.1.0",
   "info": {
     "title": "p4pa-iam-sync",
     "version": "0.0.1",
@@ -13,10 +13,464 @@
       "protocol": "kafka"
     }
   },
-  "channels": { },
-  "components": {
-    "schemas": { },
-    "messages": { }
+  "channels": {
+    "sc-contracts": {
+      "address": "sc-contracts",
+      "messages": {
+        "ScContractDTO": {
+          "$ref": "#/components/messages/ScContractDTO"
+        }
+      },
+      "bindings": {
+        "kafka": { }
+      }
+    },
+    "sc-users": {
+      "address": "sc-users",
+      "messages": {
+        "ScUsersNotificationDTO": {
+          "$ref": "#/components/messages/ScUsersNotificationDTO"
+        }
+      },
+      "bindings": {
+        "kafka": { }
+      }
+    }
   },
-  "operations": { }
+  "components": {
+    "schemas": {
+      "HeadersNotDocumented": {
+        "title": "HeadersNotDocumented",
+        "type": "object",
+        "properties": { },
+        "description": "There can be headers, but they are not explicitly documented.",
+        "examples": [
+          { }
+        ]
+      },
+      "ScBillingDTO": {
+        "title": "ScBillingDTO",
+        "type": "object",
+        "properties": {
+          "publicServices": {
+            "type": "boolean"
+          },
+          "recipientCode": {
+            "type": "string"
+          },
+          "taxCodeInvoicing": {
+            "type": "string"
+          },
+          "vatNumber": {
+            "type": "string"
+          }
+        },
+        "examples": [
+          {
+            "publicServices": true,
+            "recipientCode": "string",
+            "taxCodeInvoicing": "string",
+            "vatNumber": "string"
+          }
+        ]
+      },
+      "ScContractDTO": {
+        "title": "ScContractDTO",
+        "type": "object",
+        "properties": {
+          "billing": {
+            "$ref": "#/components/schemas/ScBillingDTO"
+          },
+          "closedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "contentType": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "fileName": {
+            "type": "string"
+          },
+          "filePath": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "institution": {
+            "$ref": "#/components/schemas/ScInstitutionDTO"
+          },
+          "institutionId": {
+            "type": "string"
+          },
+          "isAggregator": {
+            "type": "boolean"
+          },
+          "notificationType": {
+            "type": "string"
+          },
+          "onboardingTokenId": {
+            "type": "string"
+          },
+          "pricingPlan": {
+            "type": "string"
+          },
+          "product": {
+            "type": "string"
+          },
+          "rootAggregator": {
+            "$ref": "#/components/schemas/ScRootAggregatorDTO"
+          },
+          "state": {
+            "type": "string"
+          },
+          "testInstitution": {
+            "type": "boolean"
+          },
+          "type": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "examples": [
+          {
+            "billing": {
+              "publicServices": true,
+              "recipientCode": "string",
+              "taxCodeInvoicing": "string",
+              "vatNumber": "string"
+            },
+            "closedAt": "2015-07-20T15:49:04-07:00",
+            "contentType": "string",
+            "createdAt": "2015-07-20T15:49:04-07:00",
+            "fileName": "string",
+            "filePath": "string",
+            "id": "string",
+            "institution": {
+              "address": "string",
+              "category": "string",
+              "city": "string",
+              "country": "string",
+              "county": "string",
+              "description": "string",
+              "digitalAddress": "string",
+              "institutionType": "string",
+              "istatCode": "string",
+              "origin": "string",
+              "originId": "string",
+              "rootParent": {
+                "description": "string",
+                "id": "string",
+                "originId": "string"
+              },
+              "subUnitCode": "string",
+              "subUnitType": "string",
+              "taxCode": "string",
+              "zipCode": "string"
+            },
+            "institutionId": "string",
+            "isAggregator": true,
+            "notificationType": "string",
+            "onboardingTokenId": "string",
+            "pricingPlan": "string",
+            "product": "string",
+            "rootAggregator": {
+              "description": "string",
+              "institutionId": "string",
+              "originId": "string"
+            },
+            "state": "string",
+            "testInstitution": true,
+            "type": "string",
+            "updatedAt": "2015-07-20T15:49:04-07:00"
+          }
+        ]
+      },
+      "ScInstitutionDTO": {
+        "title": "ScInstitutionDTO",
+        "type": "object",
+        "properties": {
+          "address": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          },
+          "county": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "digitalAddress": {
+            "type": "string"
+          },
+          "institutionType": {
+            "type": "string"
+          },
+          "istatCode": {
+            "type": "string"
+          },
+          "origin": {
+            "type": "string"
+          },
+          "originId": {
+            "type": "string"
+          },
+          "rootParent": {
+            "$ref": "#/components/schemas/ScInstitutionParentDTO"
+          },
+          "subUnitCode": {
+            "type": "string"
+          },
+          "subUnitType": {
+            "type": "string"
+          },
+          "taxCode": {
+            "type": "string"
+          },
+          "zipCode": {
+            "type": "string"
+          }
+        },
+        "examples": [
+          {
+            "address": "string",
+            "category": "string",
+            "city": "string",
+            "country": "string",
+            "county": "string",
+            "description": "string",
+            "digitalAddress": "string",
+            "institutionType": "string",
+            "istatCode": "string",
+            "origin": "string",
+            "originId": "string",
+            "rootParent": {
+              "description": "string",
+              "id": "string",
+              "originId": "string"
+            },
+            "subUnitCode": "string",
+            "subUnitType": "string",
+            "taxCode": "string",
+            "zipCode": "string"
+          }
+        ]
+      },
+      "ScInstitutionParentDTO": {
+        "title": "ScInstitutionParentDTO",
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "originId": {
+            "type": "string"
+          }
+        },
+        "examples": [
+          {
+            "description": "string",
+            "id": "string",
+            "originId": "string"
+          }
+        ]
+      },
+      "ScRootAggregatorDTO": {
+        "title": "ScRootAggregatorDTO",
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "institutionId": {
+            "type": "string"
+          },
+          "originId": {
+            "type": "string"
+          }
+        },
+        "examples": [
+          {
+            "description": "string",
+            "institutionId": "string",
+            "originId": "string"
+          }
+        ]
+      },
+      "ScUsersDTO": {
+        "title": "ScUsersDTO",
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "familyName": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "productRole": {
+            "type": "string"
+          },
+          "relationshipStatus": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "string"
+          }
+        },
+        "examples": [
+          {
+            "email": "string",
+            "familyName": "string",
+            "name": "string",
+            "productRole": "string",
+            "relationshipStatus": "string",
+            "role": "string",
+            "userId": "string"
+          }
+        ]
+      },
+      "ScUsersNotificationDTO": {
+        "title": "ScUsersNotificationDTO",
+        "type": "object",
+        "properties": {
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "eventType": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "institutionId": {
+            "type": "string"
+          },
+          "onboardingTokenId": {
+            "type": "string"
+          },
+          "productId": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "user": {
+            "$ref": "#/components/schemas/ScUsersDTO"
+          }
+        },
+        "examples": [
+          {
+            "createdAt": "2015-07-20T15:49:04-07:00",
+            "eventType": "string",
+            "id": "string",
+            "institutionId": "string",
+            "onboardingTokenId": "string",
+            "productId": "string",
+            "updatedAt": "2015-07-20T15:49:04-07:00",
+            "user": {
+              "email": "string",
+              "familyName": "string",
+              "name": "string",
+              "productRole": "string",
+              "relationshipStatus": "string",
+              "role": "string",
+              "userId": "string"
+            }
+          }
+        ]
+      }
+    },
+    "messages": {
+      "ScContractDTO": {
+        "headers": {
+          "$ref": "#/components/schemas/HeadersNotDocumented"
+        },
+        "payload": {
+          "schemaFormat": "application/vnd.aai.asyncapi+json;version=3.1.0",
+          "schema": {
+            "$ref": "#/components/schemas/ScContractDTO"
+          }
+        },
+        "name": "ScContractDTO",
+        "title": "ScContractDTO",
+        "bindings": {
+          "kafka": { }
+        }
+      },
+      "ScUsersNotificationDTO": {
+        "headers": {
+          "$ref": "#/components/schemas/HeadersNotDocumented"
+        },
+        "payload": {
+          "schemaFormat": "application/vnd.aai.asyncapi+json;version=3.1.0",
+          "schema": {
+            "$ref": "#/components/schemas/ScUsersNotificationDTO"
+          }
+        },
+        "name": "ScUsersNotificationDTO",
+        "title": "ScUsersNotificationDTO",
+        "bindings": {
+          "kafka": { }
+        }
+      }
+    }
+  },
+  "operations": {
+    "sc-contracts_receive_IamOrganizationsConsumer": {
+      "action": "receive",
+      "channel": {
+        "$ref": "#/channels/sc-contracts"
+      },
+      "description": "Auto-generated description",
+      "bindings": {
+        "kafka": { }
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/sc-contracts/messages/ScContractDTO"
+        }
+      ]
+    },
+    "sc-users_receive_IamUsersConsumer": {
+      "action": "receive",
+      "channel": {
+        "$ref": "#/channels/sc-users"
+      },
+      "description": "Auto-generated description",
+      "bindings": {
+        "kafka": { }
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/sc-users/messages/ScUsersNotificationDTO"
+        }
+      ]
+    }
+  }
 }
