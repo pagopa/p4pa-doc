@@ -275,6 +275,23 @@
         }
       }
     },
+    "/organizations/sync" : {
+      "get" : {
+        "tags" : [ "OrganizationCie" ],
+        "operationId" : "syncOrganizationsCie",
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "401" : {
+            "description" : "Unauthorized - Missing or invalid token"
+          },
+          "500" : {
+            "description" : "Internal server error"
+          }
+        }
+      }
+    },
     "/mint/payments" : {
       "get" : {
         "tags" : [ "mintCie" ],
