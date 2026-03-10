@@ -189,19 +189,19 @@ paths:
           description: Not Found
         "500":
           description: Internal Server Error
-  /ipzs/notices:
+  /ipzs/{orgFiscalCode}/notices/{debtorFiscalCode}:
     get:
       tags:
         - ipzsCie
       operationId: ipzsGetNotices
       parameters:
-        - name: debtorFiscalCode
-          in: query
+        - name: orgFiscalCode
+          in: path
           required: true
           schema:
             type: string
-        - name: orgFiscalCode
-          in: query
+        - name: debtorFiscalCode
+          in: path
           required: true
           schema:
             type: string
