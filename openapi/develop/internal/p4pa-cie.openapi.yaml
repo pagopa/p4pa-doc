@@ -15,8 +15,6 @@ paths:
       tags:
         - DebtPositionCie
       operationId: createDebtPositionCie
-      security:
-        - BearerAuth: [ ]
       requestBody:
         content:
           application/json:
@@ -41,8 +39,6 @@ paths:
       tags:
         - DebtPositionCie
       operationId: notifyDebtPositionCiePayment
-      security:
-        - BearerAuth: [ ]
       requestBody:
         content:
           application/json:
@@ -63,6 +59,7 @@ paths:
       tags:
         - OrganizationCie
       operationId: getOrganizations
+      security: []
       responses:
         "200":
           description: OK
@@ -77,6 +74,7 @@ paths:
       tags:
         - OrganizationCie
       operationId: getAmountByOrgFiscalCodeAndDebtPositionTypeOrgCode
+      security: []
       parameters:
         - name: orgFiscalCode
           in: path
@@ -121,8 +119,6 @@ paths:
         - mintCie
       summary: "Retrieve a paged list of CIE payments"
       operationId: mintGetPayments
-      security:
-        - BearerAuth: [ ]
       parameters:
         - name: orgFiscalCode
           in: query
@@ -167,8 +163,6 @@ paths:
       tags:
         - ipzsCie
       operationId: ipzsGetNoticeByOrgFiscalCodeAndNav
-      security:
-        - BearerAuth: [ ]
       parameters:
         - name: orgFiscalCode
           in: path
@@ -200,8 +194,6 @@ paths:
       tags:
         - ipzsCie
       operationId: ipzsGetNotices
-      security:
-        - BearerAuth: [ ]
       parameters:
         - name: debtorFiscalCode
           in: query
@@ -232,8 +224,6 @@ paths:
       tags:
         - ipzsCie
       operationId: ipzsUpdateNoticeStatus
-      security:
-        - BearerAuth: [ ]
       parameters:
         - name: orgFiscalCode
           in: path
@@ -276,6 +266,8 @@ paths:
           description: Conflict
         "500":
           description: Internal Server Error
+security:
+  - BearerAuth: [ ]
 components:
   securitySchemes:
     BearerAuth:
