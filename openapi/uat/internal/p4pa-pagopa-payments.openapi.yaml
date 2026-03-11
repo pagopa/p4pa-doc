@@ -1,0 +1,404 @@
+openapi: 3.0.1
+info:
+  title: p4pa-pagopa-payments
+  description: Api and Models
+  version: 0.0.1
+servers:
+  - url: http://localhost:8080
+    description: Generated server url
+paths:
+  /aca/sync:
+    post:
+      tags:
+        - aca
+      operationId: syncAca
+      parameters:
+        - name: iud
+          in: query
+          description: iud of installment to sync with ACA
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: "DebtPositionDTO"
+        required: true
+      responses:
+        "204":
+          description: No content
+        "400":
+          description: Invalid request
+        "500":
+          description: Internal server error
+  /paymentsReporting/rest/{organizationId}:
+    get:
+      tags:
+        - payments-reporting
+      operationId: restGetPaymentsReportingList
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: latestFlowDate
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+      responses:
+        "200":
+          description: List of payments reporting
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PaymentsReportingIdDTO"
+        "400":
+          description: Invalid request
+        "500":
+          description: Internal server error
+  /paymentsReporting/rest/{organizationId}/fetch:
+    get:
+      tags:
+        - payments-reporting
+      operationId: restFetchPaymentReporting
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: flowId
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: fileName
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: revision
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: pspId
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: integer
+                format: int64
+        "400":
+          description: Invalid request
+        "500":
+          description: Internal server error
+  /paymentsReporting/soap/{organizationId}:
+    get:
+      tags:
+        - payments-reporting
+      operationId: soapGetPaymentsReportingList
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: List of payments reporting
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PaymentsReportingIdDTO"
+        "400":
+          description: Invalid request
+        "500":
+          description: Internal server error
+  /paymentsReporting/soap/{organizationId}/fetch:
+    get:
+      tags:
+        - payments-reporting
+      operationId: soapFetchPaymentReporting
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: flowId
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: fileName
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: integer
+                format: int64
+        "400":
+          description: Invalid request
+        "500":
+          description: Internal server error
+  /taxonomies/fetch:
+    get:
+      tags:
+        - taxonomies
+      operationId: fetchTaxonomies
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                    $ref: "#/components/schemas/TaxonomyDTO"
+        "400":
+          description: Invalid request
+        "500":
+          description: Internal server error
+  /gpd/sync:
+    post:
+      tags:
+        - gpd
+      operationId: syncGpd
+      parameters:
+        - name: iud
+          in: query
+          description: iud of installment to sync with GPD
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: "DebtPositionDTO"
+        required: true
+      responses:
+        "204":
+          description: No content
+        "400":
+          description: Invalid request
+        "500":
+          description: Internal server error
+  /printpaymentnotice/generate:
+    post:
+      tags:
+        - print-payment-notice
+      operationId: generateNotice
+      parameters:
+        - name: iuv
+          in: query
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: "DebtPositionDTO"
+        required: true
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        "204":
+          description: No content
+        "400":
+          description: Invalid request
+        "500":
+          description: Internal server error
+  /printpaymentnotice/generateMassive:
+    post:
+      tags:
+        - print-payment-notice
+      operationId: generateMassive
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NoticeRequestMassiveDTO'
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneratedNoticeMassiveFolderDTO'
+        "400":
+          description: Invalid request
+        "500":
+          description: Internal server error
+  /printpaymentnotice/{organizationId}/{folderId}/getSignedUrl:
+    get:
+      tags:
+        - print-payment-notice
+      operationId: getSignedUrl
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: folderId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SignedUrlResultDTO"
+        "204":
+          description: No content
+        "400":
+          description: Invalid request
+        "500":
+          description: Internal server error
+security:
+  - BearerAuth: []
+components:
+  schemas:
+    PaymentsReportingIdDTO:
+      required:
+        - pagopaPaymentsReportingId
+        - flowDateTime
+        - paymentsReportingFileName
+      type: object
+      properties:
+        pagopaPaymentsReportingId:
+          type: string
+        flowDateTime:
+          type: string
+          format: date-time
+        paymentsReportingFileName:
+          type: string
+        revision:
+          type: integer
+        pspId:
+          type: string
+    PagoPaPaymentsErrorDTO:
+      type: object
+      required:
+        - category
+        - message
+      properties:
+        category:
+          type: string
+          enum:
+            - PAGOPA_PAYMENTS_NOT_FOUND
+            - PAGOPA_PAYMENTS_BAD_REQUEST
+            - PAGOPA_PAYMENTS_GENERIC_ERROR
+            - PAGOPA_PAYMENTS_NOT_PAYABLE
+            - PAGOPA_PAYMENTS_CONFLICT
+        message:
+          type: string
+        traceId:
+          type: string
+    TaxonomyDTO:
+      properties:
+        organizationType:
+          type: string
+        organizationTypeDescription:
+          type: string
+        macroAreaCode:
+          type: string
+        macroAreaName:
+          type: string
+        macroAreaDescription:
+          type: string
+        serviceTypeCode:
+          type: string
+        serviceType:
+          type: string
+        serviceTypeDescription:
+          type: string
+        collectionReason:
+          type: string
+        startDateValidity:
+          type: string
+          format: date-time
+        endDateOfValidity:
+          type: string
+          format: date-time
+        taxonomyCode:
+          type: string
+        version:
+            type: string
+    NoticeRequestMassiveDTO:
+      required:
+        - debtPositions
+        - requestId
+      type: object
+      properties:
+        debtPositions:
+          type: array
+          items:
+            type: "DebtPositionDTO"
+        iuvList:
+          type: array
+          items:
+            type: string
+        requestId:
+          type: string
+    GeneratedNoticeMassiveFolderDTO:
+      required:
+        - folderId
+      properties:
+        folderId:
+          type: string
+    SignedUrlResultDTO:
+      type: object
+      properties:
+        noticesInError:
+          type: array
+          items:
+            type: string
+        processedNotices:
+          type: array
+          items:
+            type: string
+        signedUrl:
+          type: string
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
