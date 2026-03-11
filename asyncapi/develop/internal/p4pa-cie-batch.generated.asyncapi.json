@@ -1,0 +1,1073 @@
+{
+  "asyncapi": "3.0.0",
+  "info": {
+    "title": "p4pa-cie-batch",
+    "version": "0.0.1",
+    "description": "AsyncAPI And Models",
+    "x-generator": "springwolf"
+  },
+  "defaultContentType": "application/json",
+  "servers": {
+    "kafka-server": {
+      "host": "localhost:9093",
+      "protocol": "kafka"
+    }
+  },
+  "channels": {
+    "p4pa-payhub-payments-evh": {
+      "address": "p4pa-payhub-payments-evh",
+      "messages": {
+        "PaymentEventDTOObject": {
+          "$ref": "#/components/messages/PaymentEventDTOObject"
+        }
+      },
+      "bindings": {
+        "kafka": { }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Action": {
+        "title": "Action",
+        "type": "string",
+        "enum": [
+          "I",
+          "M",
+          "A"
+        ],
+        "examples": [
+          "\"I\""
+        ]
+      },
+      "DebtPositionDTO": {
+        "title": "DebtPositionDTO",
+        "type": "object",
+        "properties": {
+          "creationDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "debtPositionId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "debtPositionOrigin": {
+            "$ref": "#/components/schemas/DebtPositionOrigin"
+          },
+          "debtPositionTypeOrgId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "description": {
+            "type": "string"
+          },
+          "flagPuPagoPaPayment": {
+            "type": "boolean"
+          },
+          "iupdOrg": {
+            "type": "string"
+          },
+          "multiDebtor": {
+            "type": "boolean"
+          },
+          "organizationId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "paymentOptions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PaymentOptionDTO"
+            }
+          },
+          "status": {
+            "$ref": "#/components/schemas/DebtPositionStatus"
+          },
+          "updateDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updateOperatorExternalId": {
+            "type": "string"
+          },
+          "updateTraceId": {
+            "type": "string"
+          },
+          "validityDate": {
+            "type": "string",
+            "format": "date"
+          }
+        },
+        "examples": [
+          {
+            "creationDate": "2015-07-20T15:49:04-07:00",
+            "debtPositionId": 0,
+            "debtPositionOrigin": "ORDINARY",
+            "debtPositionTypeOrgId": 0,
+            "description": "string",
+            "flagPuPagoPaPayment": true,
+            "iupdOrg": "string",
+            "multiDebtor": true,
+            "organizationId": 0,
+            "paymentOptions": [
+              {
+                "creationDate": "2015-07-20T15:49:04-07:00",
+                "debtPositionId": 0,
+                "description": "string",
+                "installments": [
+                  {
+                    "amountCents": 0,
+                    "balance": "string",
+                    "creationDate": "2015-07-20T15:49:04-07:00",
+                    "debtor": {
+                      "address": "string",
+                      "civic": "string",
+                      "email": "string",
+                      "entityType": "F",
+                      "fiscalCode": "string",
+                      "fullName": "string",
+                      "location": "string",
+                      "nation": "string",
+                      "postalCode": "string",
+                      "province": "string"
+                    },
+                    "dueDate": "2015-07-20",
+                    "generateNotice": true,
+                    "ingestionFlowFileAction": "\"I\"",
+                    "ingestionFlowFileId": 0,
+                    "ingestionFlowFileLineNumber": 0,
+                    "installmentId": 0,
+                    "iud": "string",
+                    "iuf": "string",
+                    "iun": "string",
+                    "iupdPagopa": "string",
+                    "iur": "string",
+                    "iuv": "string",
+                    "legacyPaymentMetadata": "string",
+                    "nav": "string",
+                    "notificationDate": "2015-07-20T15:49:04-07:00",
+                    "notificationFeeCents": 0,
+                    "originalRemittanceInformation": "string",
+                    "paymentOptionId": 0,
+                    "receiptId": 0,
+                    "remittanceInformation": "string",
+                    "sourceFlowName": "string",
+                    "status": "TO_SYNC",
+                    "switchToExpired": true,
+                    "syncStatus": {
+                      "syncError": "string",
+                      "syncStatusFrom": "TO_SYNC",
+                      "syncStatusTo": "TO_SYNC"
+                    },
+                    "transfers": [
+                      {
+                        "amountCents": 0,
+                        "category": "string",
+                        "creationDate": "2015-07-20T15:49:04-07:00",
+                        "flagOwner": true,
+                        "iban": "string",
+                        "installmentId": 0,
+                        "mbdAttachment": "string",
+                        "orgFiscalCode": "string",
+                        "orgName": "string",
+                        "postalIban": "string",
+                        "remittanceInformation": "string",
+                        "stampHashDocument": "string",
+                        "stampProvincialResidence": "string",
+                        "stampType": "string",
+                        "transferId": 0,
+                        "transferIndex": 0,
+                        "updateDate": "2015-07-20T15:49:04-07:00",
+                        "updateOperatorExternalId": "string",
+                        "updateTraceId": "string"
+                      }
+                    ],
+                    "updateDate": "2015-07-20T15:49:04-07:00",
+                    "updateOperatorExternalId": "string",
+                    "updateTraceId": "string"
+                  }
+                ],
+                "paymentOptionId": 0,
+                "paymentOptionIndex": 0,
+                "paymentOptionType": "SINGLE_INSTALLMENT",
+                "status": "TO_SYNC",
+                "totalAmountCents": 0,
+                "updateDate": "2015-07-20T15:49:04-07:00",
+                "updateOperatorExternalId": "string",
+                "updateTraceId": "string"
+              }
+            ],
+            "status": "TO_SYNC",
+            "updateDate": "2015-07-20T15:49:04-07:00",
+            "updateOperatorExternalId": "string",
+            "updateTraceId": "string",
+            "validityDate": "2015-07-20"
+          }
+        ],
+        "required": [
+          "debtPositionOrigin",
+          "debtPositionTypeOrgId",
+          "flagPuPagoPaPayment",
+          "organizationId",
+          "paymentOptions"
+        ]
+      },
+      "DebtPositionEventDTO": {
+        "type": "object",
+        "examples": [
+          {
+            "eventDateTime": "2015-07-20T15:49:04-07:00",
+            "eventDescription": "string",
+            "eventId": "string",
+            "eventType": "DP_CREATED",
+            "payload": {
+              "creationDate": "2015-07-20T15:49:04-07:00",
+              "debtPositionId": 0,
+              "debtPositionOrigin": "ORDINARY",
+              "debtPositionTypeOrgId": 0,
+              "description": "string",
+              "flagPuPagoPaPayment": true,
+              "iupdOrg": "string",
+              "multiDebtor": true,
+              "organizationId": 0,
+              "paymentOptions": [
+                {
+                  "creationDate": "2015-07-20T15:49:04-07:00",
+                  "debtPositionId": 0,
+                  "description": "string",
+                  "installments": [
+                    {
+                      "amountCents": 0,
+                      "balance": "string",
+                      "creationDate": "2015-07-20T15:49:04-07:00",
+                      "debtor": {
+                        "address": "string",
+                        "civic": "string",
+                        "email": "string",
+                        "entityType": "F",
+                        "fiscalCode": "string",
+                        "fullName": "string",
+                        "location": "string",
+                        "nation": "string",
+                        "postalCode": "string",
+                        "province": "string"
+                      },
+                      "dueDate": "2015-07-20",
+                      "generateNotice": true,
+                      "ingestionFlowFileAction": "\"I\"",
+                      "ingestionFlowFileId": 0,
+                      "ingestionFlowFileLineNumber": 0,
+                      "installmentId": 0,
+                      "iud": "string",
+                      "iuf": "string",
+                      "iun": "string",
+                      "iupdPagopa": "string",
+                      "iur": "string",
+                      "iuv": "string",
+                      "legacyPaymentMetadata": "string",
+                      "nav": "string",
+                      "notificationDate": "2015-07-20T15:49:04-07:00",
+                      "notificationFeeCents": 0,
+                      "originalRemittanceInformation": "string",
+                      "paymentOptionId": 0,
+                      "receiptId": 0,
+                      "remittanceInformation": "string",
+                      "sourceFlowName": "string",
+                      "status": "TO_SYNC",
+                      "switchToExpired": true,
+                      "syncStatus": {
+                        "syncError": "string",
+                        "syncStatusFrom": "TO_SYNC",
+                        "syncStatusTo": "TO_SYNC"
+                      },
+                      "transfers": [
+                        {
+                          "amountCents": 0,
+                          "category": "string",
+                          "creationDate": "2015-07-20T15:49:04-07:00",
+                          "flagOwner": true,
+                          "iban": "string",
+                          "installmentId": 0,
+                          "mbdAttachment": "string",
+                          "orgFiscalCode": "string",
+                          "orgName": "string",
+                          "postalIban": "string",
+                          "remittanceInformation": "string",
+                          "stampHashDocument": "string",
+                          "stampProvincialResidence": "string",
+                          "stampType": "string",
+                          "transferId": 0,
+                          "transferIndex": 0,
+                          "updateDate": "2015-07-20T15:49:04-07:00",
+                          "updateOperatorExternalId": "string",
+                          "updateTraceId": "string"
+                        }
+                      ],
+                      "updateDate": "2015-07-20T15:49:04-07:00",
+                      "updateOperatorExternalId": "string",
+                      "updateTraceId": "string"
+                    }
+                  ],
+                  "paymentOptionId": 0,
+                  "paymentOptionIndex": 0,
+                  "paymentOptionType": "SINGLE_INSTALLMENT",
+                  "status": "TO_SYNC",
+                  "totalAmountCents": 0,
+                  "updateDate": "2015-07-20T15:49:04-07:00",
+                  "updateOperatorExternalId": "string",
+                  "updateTraceId": "string"
+                }
+              ],
+              "status": "TO_SYNC",
+              "updateDate": "2015-07-20T15:49:04-07:00",
+              "updateOperatorExternalId": "string",
+              "updateTraceId": "string",
+              "validityDate": "2015-07-20"
+            },
+            "traceId": "string"
+          }
+        ],
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/PaymentEventDTOObject"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "payload": {
+                "$ref": "#/components/schemas/DebtPositionDTO"
+              }
+            }
+          }
+        ]
+      },
+      "DebtPositionOrigin": {
+        "title": "DebtPositionOrigin",
+        "type": "string",
+        "enum": [
+          "ORDINARY",
+          "ORDINARY_SIL",
+          "SPONTANEOUS",
+          "SPONTANEOUS_SIL",
+          "SPONTANEOUS_MIXED",
+          "SPONTANEOUS_PSP",
+          "SECONDARY_ORG",
+          "RECEIPT_FILE",
+          "RECEIPT_PAGOPA",
+          "REPORTING_PAGOPA"
+        ],
+        "examples": [
+          "\"ORDINARY\""
+        ]
+      },
+      "DebtPositionStatus": {
+        "title": "DebtPositionStatus",
+        "type": "string",
+        "enum": [
+          "TO_SYNC",
+          "REPORTED",
+          "PAID",
+          "PARTIALLY_PAID",
+          "CANCELLED",
+          "EXPIRED",
+          "UNPAID",
+          "DRAFT"
+        ],
+        "examples": [
+          "\"TO_SYNC\""
+        ]
+      },
+      "HeadersNotDocumented": {
+        "title": "HeadersNotDocumented",
+        "type": "object",
+        "properties": { },
+        "description": "There can be headers, but they are not explicitly documented.",
+        "examples": [
+          { }
+        ]
+      },
+      "InstallmentDTO": {
+        "title": "InstallmentDTO",
+        "type": "object",
+        "properties": {
+          "amountCents": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "balance": {
+            "type": "string"
+          },
+          "creationDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "debtor": {
+            "$ref": "#/components/schemas/PersonDTO"
+          },
+          "dueDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "generateNotice": {
+            "type": "boolean"
+          },
+          "ingestionFlowFileAction": {
+            "$ref": "#/components/schemas/Action"
+          },
+          "ingestionFlowFileId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "ingestionFlowFileLineNumber": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "installmentId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "iud": {
+            "type": "string"
+          },
+          "iuf": {
+            "type": "string"
+          },
+          "iun": {
+            "type": "string"
+          },
+          "iupdPagopa": {
+            "type": "string"
+          },
+          "iur": {
+            "type": "string"
+          },
+          "iuv": {
+            "type": "string"
+          },
+          "legacyPaymentMetadata": {
+            "type": "string"
+          },
+          "nav": {
+            "type": "string"
+          },
+          "notificationDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "notificationFeeCents": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "originalRemittanceInformation": {
+            "type": "string"
+          },
+          "paymentOptionId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "receiptId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "remittanceInformation": {
+            "type": "string"
+          },
+          "sourceFlowName": {
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/InstallmentStatus"
+          },
+          "switchToExpired": {
+            "type": "boolean"
+          },
+          "syncStatus": {
+            "$ref": "#/components/schemas/InstallmentSyncStatus"
+          },
+          "transfers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TransferDTO"
+            }
+          },
+          "updateDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updateOperatorExternalId": {
+            "type": "string"
+          },
+          "updateTraceId": {
+            "type": "string"
+          }
+        },
+        "examples": [
+          {
+            "amountCents": 0,
+            "balance": "string",
+            "creationDate": "2015-07-20T15:49:04-07:00",
+            "debtor": {
+              "address": "string",
+              "civic": "string",
+              "email": "string",
+              "entityType": "F",
+              "fiscalCode": "string",
+              "fullName": "string",
+              "location": "string",
+              "nation": "string",
+              "postalCode": "string",
+              "province": "string"
+            },
+            "dueDate": "2015-07-20",
+            "generateNotice": true,
+            "ingestionFlowFileAction": "\"I\"",
+            "ingestionFlowFileId": 0,
+            "ingestionFlowFileLineNumber": 0,
+            "installmentId": 0,
+            "iud": "string",
+            "iuf": "string",
+            "iun": "string",
+            "iupdPagopa": "string",
+            "iur": "string",
+            "iuv": "string",
+            "legacyPaymentMetadata": "string",
+            "nav": "string",
+            "notificationDate": "2015-07-20T15:49:04-07:00",
+            "notificationFeeCents": 0,
+            "originalRemittanceInformation": "string",
+            "paymentOptionId": 0,
+            "receiptId": 0,
+            "remittanceInformation": "string",
+            "sourceFlowName": "string",
+            "status": "TO_SYNC",
+            "switchToExpired": true,
+            "syncStatus": {
+              "syncError": "string",
+              "syncStatusFrom": "TO_SYNC",
+              "syncStatusTo": "TO_SYNC"
+            },
+            "transfers": [
+              {
+                "amountCents": 0,
+                "category": "string",
+                "creationDate": "2015-07-20T15:49:04-07:00",
+                "flagOwner": true,
+                "iban": "string",
+                "installmentId": 0,
+                "mbdAttachment": "string",
+                "orgFiscalCode": "string",
+                "orgName": "string",
+                "postalIban": "string",
+                "remittanceInformation": "string",
+                "stampHashDocument": "string",
+                "stampProvincialResidence": "string",
+                "stampType": "string",
+                "transferId": 0,
+                "transferIndex": 0,
+                "updateDate": "2015-07-20T15:49:04-07:00",
+                "updateOperatorExternalId": "string",
+                "updateTraceId": "string"
+              }
+            ],
+            "updateDate": "2015-07-20T15:49:04-07:00",
+            "updateOperatorExternalId": "string",
+            "updateTraceId": "string"
+          }
+        ],
+        "required": [
+          "amountCents",
+          "debtor",
+          "remittanceInformation"
+        ]
+      },
+      "InstallmentStatus": {
+        "title": "InstallmentStatus",
+        "type": "string",
+        "enum": [
+          "TO_SYNC",
+          "REPORTED",
+          "PAID",
+          "CANCELLED",
+          "INVALID",
+          "EXPIRED",
+          "UNPAID",
+          "UNPAYABLE",
+          "DRAFT"
+        ],
+        "examples": [
+          "\"TO_SYNC\""
+        ]
+      },
+      "InstallmentSyncStatus": {
+        "title": "InstallmentSyncStatus",
+        "type": "object",
+        "properties": {
+          "syncError": {
+            "type": "string"
+          },
+          "syncStatusFrom": {
+            "$ref": "#/components/schemas/InstallmentStatus"
+          },
+          "syncStatusTo": {
+            "$ref": "#/components/schemas/InstallmentStatus"
+          }
+        },
+        "examples": [
+          {
+            "syncError": "string",
+            "syncStatusFrom": "\"TO_SYNC\"",
+            "syncStatusTo": "\"TO_SYNC\""
+          }
+        ],
+        "required": [
+          "syncStatusFrom",
+          "syncStatusTo"
+        ]
+      },
+      "PaymentEventDTOObject": {
+        "discriminator": "eventType",
+        "title": "PaymentEventDTO",
+        "type": "object",
+        "properties": {
+          "eventDateTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "eventDescription": {
+            "type": "string"
+          },
+          "eventId": {
+            "type": "string"
+          },
+          "eventType": {
+            "$ref": "#/components/schemas/PaymentEventType"
+          },
+          "payload": {
+            "type": "object"
+          },
+          "traceId": {
+            "type": "string"
+          }
+        },
+        "examples": [
+          {
+            "eventDateTime": "2015-07-20T15:49:04-07:00",
+            "eventDescription": "string",
+            "eventId": "string",
+            "eventType": "DP_CREATED",
+            "payload": { },
+            "traceId": "string"
+          }
+        ]
+      },
+      "PaymentEventType": {
+        "title": "PaymentEventType",
+        "type": "string",
+        "enum": [
+          "DP_CREATED",
+          "DP_UPDATED",
+          "DP_CANCELLED",
+          "DPI_ADDED",
+          "DPI_UPDATED",
+          "DPI_CANCELLED",
+          "DPI_EXPIRED",
+          "DPI_REPORTED",
+          "RT_RECEIVED",
+          "SYNC_ERROR",
+          "IO_NOTIFIED",
+          "SEND_NOTIFICATION_CREATED",
+          "SEND_NOTIFICATION_ERROR",
+          "SEND_NOTIFICATION_DATE"
+        ],
+        "examples": [
+          "\"DP_CREATED\""
+        ]
+      },
+      "PaymentOptionDTO": {
+        "title": "PaymentOptionDTO",
+        "type": "object",
+        "properties": {
+          "creationDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "debtPositionId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "description": {
+            "type": "string"
+          },
+          "installments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InstallmentDTO"
+            }
+          },
+          "paymentOptionId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "paymentOptionIndex": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "paymentOptionType": {
+            "$ref": "#/components/schemas/PaymentOptionType"
+          },
+          "status": {
+            "$ref": "#/components/schemas/PaymentOptionStatus"
+          },
+          "totalAmountCents": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "updateDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updateOperatorExternalId": {
+            "type": "string"
+          },
+          "updateTraceId": {
+            "type": "string"
+          }
+        },
+        "examples": [
+          {
+            "creationDate": "2015-07-20T15:49:04-07:00",
+            "debtPositionId": 0,
+            "description": "string",
+            "installments": [
+              {
+                "amountCents": 0,
+                "balance": "string",
+                "creationDate": "2015-07-20T15:49:04-07:00",
+                "debtor": {
+                  "address": "string",
+                  "civic": "string",
+                  "email": "string",
+                  "entityType": "F",
+                  "fiscalCode": "string",
+                  "fullName": "string",
+                  "location": "string",
+                  "nation": "string",
+                  "postalCode": "string",
+                  "province": "string"
+                },
+                "dueDate": "2015-07-20",
+                "generateNotice": true,
+                "ingestionFlowFileAction": "\"I\"",
+                "ingestionFlowFileId": 0,
+                "ingestionFlowFileLineNumber": 0,
+                "installmentId": 0,
+                "iud": "string",
+                "iuf": "string",
+                "iun": "string",
+                "iupdPagopa": "string",
+                "iur": "string",
+                "iuv": "string",
+                "legacyPaymentMetadata": "string",
+                "nav": "string",
+                "notificationDate": "2015-07-20T15:49:04-07:00",
+                "notificationFeeCents": 0,
+                "originalRemittanceInformation": "string",
+                "paymentOptionId": 0,
+                "receiptId": 0,
+                "remittanceInformation": "string",
+                "sourceFlowName": "string",
+                "status": "TO_SYNC",
+                "switchToExpired": true,
+                "syncStatus": {
+                  "syncError": "string",
+                  "syncStatusFrom": "TO_SYNC",
+                  "syncStatusTo": "TO_SYNC"
+                },
+                "transfers": [
+                  {
+                    "amountCents": 0,
+                    "category": "string",
+                    "creationDate": "2015-07-20T15:49:04-07:00",
+                    "flagOwner": true,
+                    "iban": "string",
+                    "installmentId": 0,
+                    "mbdAttachment": "string",
+                    "orgFiscalCode": "string",
+                    "orgName": "string",
+                    "postalIban": "string",
+                    "remittanceInformation": "string",
+                    "stampHashDocument": "string",
+                    "stampProvincialResidence": "string",
+                    "stampType": "string",
+                    "transferId": 0,
+                    "transferIndex": 0,
+                    "updateDate": "2015-07-20T15:49:04-07:00",
+                    "updateOperatorExternalId": "string",
+                    "updateTraceId": "string"
+                  }
+                ],
+                "updateDate": "2015-07-20T15:49:04-07:00",
+                "updateOperatorExternalId": "string",
+                "updateTraceId": "string"
+              }
+            ],
+            "paymentOptionId": 0,
+            "paymentOptionIndex": 0,
+            "paymentOptionType": "SINGLE_INSTALLMENT",
+            "status": "TO_SYNC",
+            "totalAmountCents": 0,
+            "updateDate": "2015-07-20T15:49:04-07:00",
+            "updateOperatorExternalId": "string",
+            "updateTraceId": "string"
+          }
+        ],
+        "required": [
+          "installments",
+          "paymentOptionType",
+          "totalAmountCents"
+        ]
+      },
+      "PaymentOptionStatus": {
+        "title": "PaymentOptionStatus",
+        "type": "string",
+        "enum": [
+          "TO_SYNC",
+          "REPORTED",
+          "PAID",
+          "PARTIALLY_PAID",
+          "CANCELLED",
+          "INVALID",
+          "EXPIRED",
+          "UNPAID",
+          "UNPAYABLE",
+          "DRAFT"
+        ],
+        "examples": [
+          "\"TO_SYNC\""
+        ]
+      },
+      "PaymentOptionType": {
+        "title": "PaymentOptionType",
+        "type": "string",
+        "enum": [
+          "SINGLE_INSTALLMENT",
+          "INSTALLMENTS",
+          "DOWN_PAYMENT",
+          "REDUCED_SINGLE_INSTALLMENT"
+        ],
+        "examples": [
+          "\"SINGLE_INSTALLMENT\""
+        ]
+      },
+      "PersonDTO": {
+        "title": "PersonDTO",
+        "type": "object",
+        "properties": {
+          "address": {
+            "type": "string"
+          },
+          "civic": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "entityType": {
+            "$ref": "#/components/schemas/PersonEntityType"
+          },
+          "fiscalCode": {
+            "type": "string"
+          },
+          "fullName": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "nation": {
+            "type": "string"
+          },
+          "postalCode": {
+            "type": "string"
+          },
+          "province": {
+            "type": "string"
+          }
+        },
+        "examples": [
+          {
+            "address": "string",
+            "civic": "string",
+            "email": "string",
+            "entityType": "F",
+            "fiscalCode": "string",
+            "fullName": "string",
+            "location": "string",
+            "nation": "string",
+            "postalCode": "string",
+            "province": "string"
+          }
+        ],
+        "required": [
+          "entityType",
+          "fiscalCode",
+          "fullName"
+        ]
+      },
+      "PersonEntityType": {
+        "title": "PersonEntityType",
+        "type": "string",
+        "enum": [
+          "F",
+          "G"
+        ],
+        "examples": [
+          "\"F\""
+        ]
+      },
+      "TransferDTO": {
+        "title": "TransferDTO",
+        "type": "object",
+        "properties": {
+          "amountCents": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "category": {
+            "type": "string"
+          },
+          "creationDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "flagOwner": {
+            "type": "boolean"
+          },
+          "iban": {
+            "type": "string"
+          },
+          "installmentId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "mbdAttachment": {
+            "type": "string"
+          },
+          "orgFiscalCode": {
+            "type": "string"
+          },
+          "orgName": {
+            "type": "string"
+          },
+          "postalIban": {
+            "type": "string"
+          },
+          "remittanceInformation": {
+            "type": "string"
+          },
+          "stampHashDocument": {
+            "type": "string"
+          },
+          "stampProvincialResidence": {
+            "type": "string"
+          },
+          "stampType": {
+            "type": "string"
+          },
+          "transferId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "transferIndex": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "updateDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updateOperatorExternalId": {
+            "type": "string"
+          },
+          "updateTraceId": {
+            "type": "string"
+          }
+        },
+        "examples": [
+          {
+            "amountCents": 0,
+            "category": "string",
+            "creationDate": "2015-07-20T15:49:04-07:00",
+            "flagOwner": true,
+            "iban": "string",
+            "installmentId": 0,
+            "mbdAttachment": "string",
+            "orgFiscalCode": "string",
+            "orgName": "string",
+            "postalIban": "string",
+            "remittanceInformation": "string",
+            "stampHashDocument": "string",
+            "stampProvincialResidence": "string",
+            "stampType": "string",
+            "transferId": 0,
+            "transferIndex": 0,
+            "updateDate": "2015-07-20T15:49:04-07:00",
+            "updateOperatorExternalId": "string",
+            "updateTraceId": "string"
+          }
+        ],
+        "required": [
+          "amountCents",
+          "category",
+          "orgFiscalCode",
+          "orgName",
+          "remittanceInformation",
+          "transferIndex"
+        ]
+      }
+    },
+    "messages": {
+      "PaymentEventDTOObject": {
+        "headers": {
+          "$ref": "#/components/schemas/HeadersNotDocumented"
+        },
+        "payload": {
+          "schemaFormat": "application/vnd.aai.asyncapi+json;version=3.0.0",
+          "schema": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/PaymentEventDTOObject"
+              },
+              {
+                "$ref": "#/components/schemas/DebtPositionEventDTO"
+              }
+            ]
+          }
+        },
+        "name": "PaymentEventDTOObject",
+        "title": "PaymentEventDTOObject",
+        "bindings": {
+          "kafka": { }
+        }
+      }
+    }
+  },
+  "operations": {
+    "p4pa-payhub-payments-evh_receive_PaymentsConsumer": {
+      "action": "receive",
+      "channel": {
+        "$ref": "#/channels/p4pa-payhub-payments-evh"
+      },
+      "description": "Auto-generated description",
+      "bindings": {
+        "kafka": { }
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/p4pa-payhub-payments-evh/messages/PaymentEventDTOObject"
+        }
+      ]
+    }
+  }
+}
