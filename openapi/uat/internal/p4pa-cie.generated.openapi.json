@@ -275,6 +275,26 @@
         }
       }
     },
+    "/organizations/sync" : {
+      "get" : {
+        "tags" : [ "OrganizationCie" ],
+        "operationId" : "syncOrganizationsCie",
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "401" : {
+            "description" : "Unauthorized - Missing or invalid token"
+          },
+          "500" : {
+            "description" : "Internal server error"
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
     "/mint/payments" : {
       "get" : {
         "tags" : [ "mintCie" ],
@@ -398,20 +418,20 @@
         } ]
       }
     },
-    "/ipzs/notices" : {
+    "/ipzs/{orgFiscalCode}/notices/{debtorFiscalCode}" : {
       "get" : {
         "tags" : [ "ipzsCie" ],
         "operationId" : "ipzsGetNotices",
         "parameters" : [ {
-          "name" : "debtorFiscalCode",
-          "in" : "query",
+          "name" : "orgFiscalCode",
+          "in" : "path",
           "required" : true,
           "schema" : {
             "type" : "string"
           }
         }, {
-          "name" : "orgFiscalCode",
-          "in" : "query",
+          "name" : "debtorFiscalCode",
+          "in" : "path",
           "required" : true,
           "schema" : {
             "type" : "string"
@@ -495,20 +515,20 @@
         } ]
       }
     },
-    "/ipzs/notice" : {
+    "/ipzs/{orgFiscalCode}/notice/{nav}" : {
       "get" : {
         "tags" : [ "ipzsCie" ],
-        "operationId" : "ipzsGetNoticeByNavAndOrgFiscalCode",
+        "operationId" : "ipzsGetNoticeByOrgFiscalCodeAndNav",
         "parameters" : [ {
-          "name" : "nav",
-          "in" : "query",
+          "name" : "orgFiscalCode",
+          "in" : "path",
           "required" : true,
           "schema" : {
             "type" : "string"
           }
         }, {
-          "name" : "orgFiscalCode",
-          "in" : "query",
+          "name" : "nav",
+          "in" : "path",
           "required" : true,
           "schema" : {
             "type" : "string"
@@ -1128,6 +1148,9 @@
             "type" : "string"
           },
           "reasonCode" : {
+            "type" : "string"
+          },
+          "reasonDescription" : {
             "type" : "string"
           },
           "orgAmountCents" : {
