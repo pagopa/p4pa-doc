@@ -4,31 +4,32 @@ info:
   description: Api and Models
   version: "1.0.0"
 paths:
-  /api/v1/greet:
-    get:
-      summary: "Hello World"
-      description: "Sample endpoint that return greetings"
+  /workflow/organizations-cie/sync:
+    post:
+      tags:
+        - OrganizationCie
+      operationId: syncOrganizationsCie
       responses:
         '200':
-          description: "Success"
+          description: "Organizations cie synchronized correctly"
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: "Hello, World!"
+                type: 'WorkflowCreatedDTO'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '500':
-          description: "Internal Server Error"
+          description: Server Error
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: "Internal Server Error"
+                $ref: '#/components/schemas/ErrorDTO'
+security:
+  - BearerAuth: [ ]
 components:
   schemas:
     ErrorDTO:

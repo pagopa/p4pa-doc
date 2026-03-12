@@ -13,6 +13,9 @@
     "BearerAuth" : [ ]
   } ],
   "tags" : [ {
+    "name" : "OrganizationCie",
+    "description" : "the OrganizationCie API"
+  }, {
     "name" : "Schedule",
     "description" : "the Schedule API"
   }, {
@@ -20,6 +23,44 @@
     "description" : "the Workflow API"
   } ],
   "paths" : {
+    "/workflow/organizations-cie/sync" : {
+      "post" : {
+        "tags" : [ "OrganizationCie" ],
+        "operationId" : "syncOrganizationsCie",
+        "responses" : {
+          "200" : {
+            "description" : "Organizations cie synchronized correctly",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/WorkflowCreatedDTO"
+                }
+              }
+            }
+          },
+          "409" : {
+            "description" : "Conflict",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/workflows/{workflowId}/status" : {
       "get" : {
         "tags" : [ "Workflow" ],
@@ -115,6 +156,37 @@
   },
   "components" : {
     "schemas" : {
+      "WorkflowCreatedDTO" : {
+        "type" : "object",
+        "properties" : {
+          "workflowId" : {
+            "type" : "string"
+          },
+          "runId" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "runId", "workflowId" ]
+      },
+      "CodeEnum" : {
+        "type" : "string",
+        "enum" : [ "NOT_FOUND", "BAD_REQUEST", "GENERIC_ERROR", "CONFLICT" ]
+      },
+      "ErrorDTO" : {
+        "type" : "object",
+        "properties" : {
+          "code" : {
+            "$ref" : "#/components/schemas/CodeEnum"
+          },
+          "message" : {
+            "type" : "string"
+          },
+          "traceId" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "code", "message" ]
+      },
       "WorkflowExecutionStatus" : {
         "type" : "string",
         "enum" : [ "WORKFLOW_EXECUTION_STATUS_UNSPECIFIED", "WORKFLOW_EXECUTION_STATUS_RUNNING", "WORKFLOW_EXECUTION_STATUS_COMPLETED", "WORKFLOW_EXECUTION_STATUS_FAILED", "WORKFLOW_EXECUTION_STATUS_CANCELED", "WORKFLOW_EXECUTION_STATUS_TERMINATED", "WORKFLOW_EXECUTION_STATUS_CONTINUED_AS_NEW", "WORKFLOW_EXECUTION_STATUS_TIMED_OUT", "UNRECOGNIZED" ]
@@ -157,25 +229,6 @@
           }
         },
         "required" : [ "runId", "status", "taskQueue", "workflowId", "workflowType" ]
-      },
-      "CodeEnum" : {
-        "type" : "string",
-        "enum" : [ "NOT_FOUND", "BAD_REQUEST", "GENERIC_ERROR", "CONFLICT" ]
-      },
-      "ErrorDTO" : {
-        "type" : "object",
-        "properties" : {
-          "code" : {
-            "$ref" : "#/components/schemas/CodeEnum"
-          },
-          "message" : {
-            "type" : "string"
-          },
-          "traceId" : {
-            "type" : "string"
-          }
-        },
-        "required" : [ "code", "message" ]
       },
       "RecentScheduleExecutionInfoDTO" : {
         "type" : "object",
