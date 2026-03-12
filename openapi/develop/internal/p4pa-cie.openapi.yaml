@@ -6,9 +6,6 @@ info:
 servers:
   - url: "http://localhost:8080"
     description: Generated server url
-tags:
-  - name: mint
-    description: "Api for Ministero degli Interni"
 paths:
   /debt-position:
     post:
@@ -48,6 +45,36 @@ paths:
       responses:
         "200":
           description: Ok
+        "400":
+          description: Invalid request
+        "401":
+          description: Unauthorized - Missing or invalid token
+        "500":
+          description: Internal Server Error
+  /debt-position/{nav}/payment-notice/generate:
+    get:
+      tags:
+        - DebtPositionCie
+      operationId: generateNoticeCie
+      parameters:
+        - name: nav
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: debtorFiscalCode
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
         "400":
           description: Invalid request
         "401":
