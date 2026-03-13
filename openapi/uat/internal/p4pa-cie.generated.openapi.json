@@ -13,11 +13,11 @@
     "BearerAuth" : [ ]
   } ],
   "tags" : [ {
-    "name" : "OrganizationCie",
-    "description" : "the OrganizationCie API"
-  }, {
     "name" : "DebtPositionCie",
     "description" : "the DebtPositionCie API"
+  }, {
+    "name" : "OrganizationCie",
+    "description" : "the OrganizationCie API"
   }, {
     "name" : "ipzsCie",
     "description" : "the ipzsCie API"
@@ -581,6 +581,76 @@
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/NoticeCieDTO"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/debt-position/{nav}/payment-notice/generate" : {
+      "get" : {
+        "tags" : [ "DebtPositionCie" ],
+        "operationId" : "generateNoticeCie",
+        "parameters" : [ {
+          "name" : "nav",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "debtorFiscalCode",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Ok",
+            "content" : {
+              "application/octet-stream" : {
+                "schema" : {
+                  "type" : "string",
+                  "format" : "binary"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid request",
+            "content" : {
+              "application/octet-stream" : {
+                "schema" : {
+                  "type" : "string",
+                  "format" : "binary"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized - Missing or invalid token",
+            "content" : {
+              "application/octet-stream" : {
+                "schema" : {
+                  "type" : "string",
+                  "format" : "binary"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/octet-stream" : {
+                "schema" : {
+                  "type" : "string",
+                  "format" : "binary"
                 }
               }
             }
