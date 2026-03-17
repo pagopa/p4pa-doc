@@ -1,6 +1,4 @@
-# p4pa-doc
-
-##Descrizione
+## Descrizione
 Piattaforma Unitaria è una soluzione sviluppata dalla collaborazione tra la Comunità SPAC Reload e PagoPA S.p.A., con l’obiettivo di centralizzare e rendere sostenibile la gestione della piattaforma dei pagamenti per enti intermediari (es. Regioni) ed enti intermediati (es. Comuni).
 
 La piattaforma consente di gestire in modo integrato il ciclo di vita delle posizioni debitorie, le notifiche a valore legale e i pagamenti digitali, garantendo un costante allineamento alle evoluzioni normative e tecniche (SANP, GDPR).
