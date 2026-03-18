@@ -35,6 +35,17 @@
       "bindings": {
         "kafka": { }
       }
+    },
+    "p4pa-payhub-registries-evh": {
+      "address": "p4pa-payhub-registries-evh",
+      "messages": {
+        "RegistryEventSendTimelineDTO": {
+          "$ref": "#/components/messages/RegistryEventSendTimelineDTO"
+        }
+      },
+      "bindings": {
+        "kafka": { }
+      }
     }
   },
   "components": {
@@ -1138,6 +1149,171 @@
           "\"F\""
         ]
       },
+      "RegistryEventSendTimelineDTO": {
+        "title": "RegistryEventSendTimelineDTO",
+        "type": "object",
+        "properties": {
+          "body": {
+            "type": "string"
+          },
+          "dateTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "eventId": {
+            "type": "string"
+          },
+          "eventSubType": {
+            "$ref": "#/components/schemas/RegistryEventSubType"
+          },
+          "eventType": {
+            "$ref": "#/components/schemas/TimelineElementCategoryV27DTO"
+          },
+          "grantorId": {
+            "type": "string"
+          },
+          "iun": {
+            "type": "string"
+          },
+          "newStatus": {
+            "type": "string"
+          },
+          "notificationRequestId": {
+            "type": "string"
+          },
+          "organizationId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "outcome": {
+            "$ref": "#/components/schemas/RegistryOutcome"
+          },
+          "registryId": {
+            "type": "string"
+          },
+          "registryOrigin": {
+            "type": "string"
+          },
+          "registryType": {
+            "type": "string"
+          },
+          "requestorId": {
+            "type": "string"
+          },
+          "streamId": {
+            "type": "string"
+          },
+          "traceId": {
+            "type": "string"
+          }
+        },
+        "examples": [
+          {
+            "body": "string",
+            "dateTime": "2015-07-20T15:49:04-07:00",
+            "eventId": "string",
+            "eventSubType": "REQ",
+            "eventType": "SENDER_ACK_CREATION_REQUEST",
+            "grantorId": "string",
+            "iun": "string",
+            "newStatus": "string",
+            "notificationRequestId": "string",
+            "organizationId": 0,
+            "outcome": "OK",
+            "registryId": "string",
+            "registryOrigin": "string",
+            "registryType": "string",
+            "requestorId": "string",
+            "streamId": "string",
+            "traceId": "string"
+          }
+        ],
+        "required": [
+          "dateTime",
+          "eventSubType",
+          "grantorId",
+          "registryId",
+          "registryType",
+          "requestorId",
+          "traceId"
+        ]
+      },
+      "RegistryEventSubType": {
+        "title": "RegistryEventSubType",
+        "type": "string",
+        "enum": [
+          "REQ",
+          "RESP"
+        ],
+        "examples": [
+          "\"REQ\""
+        ]
+      },
+      "RegistryOutcome": {
+        "title": "RegistryOutcome",
+        "type": "string",
+        "enum": [
+          "OK",
+          "KO"
+        ],
+        "examples": [
+          "\"OK\""
+        ]
+      },
+      "TimelineElementCategoryV27DTO": {
+        "title": "TimelineElementCategoryV27DTO",
+        "type": "string",
+        "enum": [
+          "SENDER_ACK_CREATION_REQUEST",
+          "VALIDATE_NORMALIZE_ADDRESSES_REQUEST",
+          "NORMALIZED_ADDRESS",
+          "REQUEST_ACCEPTED",
+          "SEND_COURTESY_MESSAGE",
+          "GET_ADDRESS",
+          "PUBLIC_REGISTRY_CALL",
+          "PUBLIC_REGISTRY_RESPONSE",
+          "SCHEDULE_ANALOG_WORKFLOW",
+          "SCHEDULE_DIGITAL_WORKFLOW",
+          "PREPARE_DIGITAL_DOMICILE",
+          "SEND_DIGITAL_DOMICILE",
+          "SEND_DIGITAL_PROGRESS",
+          "SEND_DIGITAL_FEEDBACK",
+          "REFINEMENT",
+          "SCHEDULE_REFINEMENT",
+          "DIGITAL_DELIVERY_CREATION_REQUEST",
+          "DIGITAL_SUCCESS_WORKFLOW",
+          "DIGITAL_FAILURE_WORKFLOW",
+          "ANALOG_SUCCESS_WORKFLOW",
+          "ANALOG_FAILURE_WORKFLOW",
+          "PREPARE_SIMPLE_REGISTERED_LETTER",
+          "SEND_SIMPLE_REGISTERED_LETTER",
+          "SEND_SIMPLE_REGISTERED_LETTER_PROGRESS",
+          "NOTIFICATION_VIEWED_CREATION_REQUEST",
+          "NOTIFICATION_VIEWED",
+          "PREPARE_ANALOG_DOMICILE",
+          "SEND_ANALOG_DOMICILE",
+          "SEND_ANALOG_PROGRESS",
+          "SEND_ANALOG_FEEDBACK",
+          "PAYMENT",
+          "COMPLETELY_UNREACHABLE",
+          "COMPLETELY_UNREACHABLE_CREATION_REQUEST",
+          "REQUEST_REFUSED",
+          "AAR_CREATION_REQUEST",
+          "AAR_GENERATION",
+          "NOT_HANDLED",
+          "PROBABLE_SCHEDULING_ANALOG_DATE",
+          "NOTIFICATION_CANCELLATION_REQUEST",
+          "NOTIFICATION_CANCELLED",
+          "PREPARE_ANALOG_DOMICILE_FAILURE",
+          "NOTIFICATION_RADD_RETRIEVED",
+          "ANALOG_WORKFLOW_RECIPIENT_DECEASED",
+          "PUBLIC_REGISTRY_VALIDATION_CALL",
+          "PUBLIC_REGISTRY_VALIDATION_RESPONSE"
+        ],
+        "examples": [
+          "\"SENDER_ACK_CREATION_REQUEST\""
+        ]
+      },
       "TransferDTO": {
         "title": "TransferDTO",
         "type": "object",
@@ -1284,6 +1460,22 @@
         "bindings": {
           "kafka": { }
         }
+      },
+      "RegistryEventSendTimelineDTO": {
+        "headers": {
+          "$ref": "#/components/schemas/HeadersNotDocumented"
+        },
+        "payload": {
+          "schemaFormat": "application/vnd.aai.asyncapi+json;version=3.0.0",
+          "schema": {
+            "$ref": "#/components/schemas/RegistryEventSendTimelineDTO"
+          }
+        },
+        "name": "RegistryEventSendTimelineDTO",
+        "title": "RegistryEventSendTimelineDTO",
+        "bindings": {
+          "kafka": { }
+        }
       }
     }
   },
@@ -1330,6 +1522,21 @@
       "messages": [
         {
           "$ref": "#/channels/p4pa-payhub-payments-evh/messages/PaymentEventDTOObject"
+        }
+      ]
+    },
+    "p4pa-payhub-registries-evh_send_registriesProducer": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/p4pa-payhub-registries-evh"
+      },
+      "description": "Auto-generated description",
+      "bindings": {
+        "kafka": { }
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/p4pa-payhub-registries-evh/messages/RegistryEventSendTimelineDTO"
         }
       ]
     }
