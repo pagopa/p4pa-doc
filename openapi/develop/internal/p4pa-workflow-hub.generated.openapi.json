@@ -16,26 +16,20 @@
     "name" : "DebtPositionFine",
     "description" : "the DebtPositionFine API"
   }, {
-    "name" : "IngestionFlow",
-    "description" : "the IngestionFlow API"
-  }, {
     "name" : "Assessments",
     "description" : "the Assessments API"
   }, {
+    "name" : "Notice",
+    "description" : "the Notice API"
+  }, {
     "name" : "PagoPaFetch",
     "description" : "the PagoPaFetch API"
-  }, {
-    "name" : "ExportFile",
-    "description" : "the ExportFile API"
   }, {
     "name" : "SendNotification",
     "description" : "the SendNotification API"
   }, {
     "name" : "Taxonomy",
     "description" : "the Taxonomy API"
-  }, {
-    "name" : "WorkflowTypeOrg",
-    "description" : "the WorkflowTypeOrg API"
   }, {
     "name" : "Classification",
     "description" : "the Classification API"
@@ -45,6 +39,15 @@
   }, {
     "name" : "Workflow",
     "description" : "the Workflow API"
+  }, {
+    "name" : "IngestionFlow",
+    "description" : "the IngestionFlow API"
+  }, {
+    "name" : "ExportFile",
+    "description" : "the ExportFile API"
+  }, {
+    "name" : "WorkflowTypeOrg",
+    "description" : "the WorkflowTypeOrg API"
   }, {
     "name" : "DebtPosition",
     "description" : "the DebtPosition API"
@@ -841,6 +844,57 @@
         "responses" : {
           "200" : {
             "description" : "Fetch correctly started",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/WorkflowCreatedDTO"
+                }
+              }
+            }
+          },
+          "409" : {
+            "description" : "Conflict",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/WorkflowErrorDTO"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/WorkflowErrorDTO"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/workflowhub/workflow/notice/massive/generate/{ingestionFlowFileId}" : {
+      "post" : {
+        "tags" : [ "Notice" ],
+        "operationId" : "generateMassive",
+        "parameters" : [ {
+          "name" : "ingestionFlowFileId",
+          "in" : "path",
+          "description" : "The unique identifier of the ingestion File.",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Massive notice generation started",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -1873,27 +1927,6 @@
           }
         }
       },
-      "PageMetadata" : {
-        "type" : "object",
-        "properties" : {
-          "size" : {
-            "type" : "integer",
-            "format" : "int64"
-          },
-          "totalElements" : {
-            "type" : "integer",
-            "format" : "int64"
-          },
-          "totalPages" : {
-            "type" : "integer",
-            "format" : "int64"
-          },
-          "number" : {
-            "type" : "integer",
-            "format" : "int64"
-          }
-        }
-      },
       "DebtPositionSyncWfName" : {
         "type" : "string",
         "enum" : [ "fineWf" ]
@@ -1948,6 +1981,27 @@
         "properties" : {
           "workflowTypeName" : {
             "$ref" : "#/components/schemas/DebtPositionSyncWfName"
+          }
+        }
+      },
+      "PageMetadata" : {
+        "type" : "object",
+        "properties" : {
+          "size" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "totalElements" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "totalPages" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "number" : {
+            "type" : "integer",
+            "format" : "int64"
           }
         }
       },
@@ -2617,63 +2671,6 @@
         },
         "required" : [ "createdAt", "lastExecution", "lastUpdatedAt", "nextActionTimes", "numActions", "numActionsMissedCatchupWindow", "numActionsSkippedOverlap", "recentActions", "runningActions", "scheduleId" ]
       },
-      "DebtPositionWorkflowType" : {
-        "type" : "object",
-        "properties" : {
-          "creationDate" : {
-            "type" : "string",
-            "format" : "date-time"
-          },
-          "updateDate" : {
-            "type" : "string",
-            "format" : "date-time"
-          },
-          "updateOperatorExternalId" : {
-            "type" : "string"
-          },
-          "updateTraceId" : {
-            "type" : "string"
-          },
-          "debtPositionId" : {
-            "type" : "integer",
-            "format" : "int64"
-          },
-          "workflowTypeOrgId" : {
-            "type" : "integer",
-            "format" : "int64"
-          },
-          "executionConfig" : {
-            "type" : "string",
-            "format" : "byte"
-          },
-          "_links" : {
-            "$ref" : "#/components/schemas/Links"
-          }
-        },
-        "required" : [ "debtPositionId", "executionConfig" ]
-      },
-      "PagedModelDebtPositionWorkflowType" : {
-        "type" : "object",
-        "properties" : {
-          "_embedded" : {
-            "type" : "object",
-            "properties" : {
-              "debtPositionWorkflowTypes" : {
-                "type" : "array",
-                "items" : {
-                  "$ref" : "#/components/schemas/DebtPositionWorkflowType"
-                }
-              }
-            }
-          },
-          "_links" : {
-            "$ref" : "#/components/schemas/Links"
-          },
-          "page" : {
-            "$ref" : "#/components/schemas/PageMetadata"
-          }
-        }
-      },
       "WorkflowType" : {
         "type" : "object",
         "properties" : {
@@ -2741,6 +2738,63 @@
                 "type" : "array",
                 "items" : {
                   "$ref" : "#/components/schemas/WorkflowTypeOrg"
+                }
+              }
+            }
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          },
+          "page" : {
+            "$ref" : "#/components/schemas/PageMetadata"
+          }
+        }
+      },
+      "DebtPositionWorkflowType" : {
+        "type" : "object",
+        "properties" : {
+          "creationDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "updateDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "updateOperatorExternalId" : {
+            "type" : "string"
+          },
+          "updateTraceId" : {
+            "type" : "string"
+          },
+          "debtPositionId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "workflowTypeOrgId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "executionConfig" : {
+            "type" : "string",
+            "format" : "byte"
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          }
+        },
+        "required" : [ "debtPositionId", "executionConfig" ]
+      },
+      "PagedModelDebtPositionWorkflowType" : {
+        "type" : "object",
+        "properties" : {
+          "_embedded" : {
+            "type" : "object",
+            "properties" : {
+              "debtPositionWorkflowTypes" : {
+                "type" : "array",
+                "items" : {
+                  "$ref" : "#/components/schemas/DebtPositionWorkflowType"
                 }
               }
             }
