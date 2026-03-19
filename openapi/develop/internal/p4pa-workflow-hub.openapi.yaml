@@ -741,6 +741,28 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/WorkflowErrorDTO'
+  /workflow/notice/massive/delete/{ingestionFlowFileId}:
+    delete:
+      tags:
+        - Notice
+      operationId: deleteMassive
+      parameters:
+        - name: ingestionFlowFileId
+          in: path
+          required: true
+          description: The unique identifier of the ingestion File.
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: "Workflow deleted successfully"
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkflowErrorDTO'
 security:
   - BearerAuth: [ ]
 components:
