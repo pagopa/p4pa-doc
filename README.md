@@ -69,10 +69,10 @@ Architettura progettata secondo i principi di security by design e privacy by de
 Interfaccia centralizzata e intuitiva, progettata per migliorare l’usabilità e semplificare l’accesso ai servizi di pagamento per gli enti intermediari e intermediati.
 
 ## Manualistica Utente
-La documentazione utente per l'uso del software è disponibile ai seguenti indirizzi:
-[Manuale Amministratore Ente Intermediario](reference/manualiUtente/Manuale_Amministratore_Ente_Intermediario.pdf)  
-[Manuale Amministratore Ente Intermediato](reference/manualiUtente/Manuale_Amministratore_Ente_Intermediato.pdf)  
-[Manuale Operatore Ente](reference/manualiUtente/Manuale_Operatore_Ente.pdf) 
+La documentazione utente per l'uso del software è disponibile ai seguenti indirizzi:  
+[Manuale Amministratore Ente Intermediario](reference/user-docs/Manuale_Amministratore_Ente_Intermediario.pdf)  
+[Manuale Amministratore Ente Intermediato](reference/user-docs/Manuale_Amministratore_Ente_Intermediato.pdf)  
+[Manuale Operatore Ente](reference/manualiUtente/user-docs.pdf) 
 
 
 
