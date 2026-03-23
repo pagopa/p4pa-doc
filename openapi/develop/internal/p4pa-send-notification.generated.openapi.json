@@ -135,24 +135,23 @@
         } ]
       }
     },
-    "/p4pasend/notification/by-sendNotificationId-status" : {
+    "/p4pasend/notification/by-notificationRequestId-status" : {
       "put" : {
         "tags" : [ "Notification" ],
         "operationId" : "updateNotificationStatus",
         "parameters" : [ {
-          "name" : "sendNotificationId",
+          "name" : "notificationRequestId",
           "in" : "query",
           "required" : true,
           "schema" : {
-            "type" : "integer",
-            "format" : "int64"
+            "type" : "string"
           }
         }, {
           "name" : "status",
           "in" : "query",
           "required" : true,
           "schema" : {
-            "type" : "string"
+            "$ref" : "#/components/schemas/NotificationStatus"
           }
         } ],
         "responses" : {
@@ -1352,6 +1351,10 @@
   },
   "components" : {
     "schemas" : {
+      "NotificationStatus" : {
+        "type" : "string",
+        "enum" : [ "WAITING_FILE", "SENDING", "REGISTERED", "UPLOADED", "IN_VALIDATION", "ACCEPTED", "REFUSED", "DELIVERING", "DELIVERED", "VIEWED", "EFFECTIVE_DATE", "PAID", "UNREACHABLE", "CANCELLED", "RETURNED_TO_SENDER" ]
+      },
       "CreateNotificationResponse" : {
         "type" : "object",
         "properties" : {
@@ -1599,10 +1602,6 @@
       "LegalFactCategoryDTO" : {
         "type" : "string",
         "enum" : [ "SENDER_ACK", "DIGITAL_DELIVERY", "ANALOG_DELIVERY", "RECIPIENT_ACCESS", "PEC_RECEIPT", "ANALOG_FAILURE_DELIVERY" ]
-      },
-      "NotificationStatus" : {
-        "type" : "string",
-        "enum" : [ "WAITING_FILE", "SENDING", "REGISTERED", "UPLOADED", "IN_VALIDATION", "ACCEPTED", "REFUSED", "DELIVERING", "DELIVERED", "VIEWED", "EFFECTIVE_DATE", "PAID", "UNREACHABLE", "CANCELLED", "RETURNED_TO_SENDER" ]
       },
       "SendNotificationDTO" : {
         "type" : "object",

@@ -187,31 +187,22 @@ paths:
           description: Wrong notification status
         '500':
           description: Internal server error
-  /notification/by-sendNotificationId-status:
+  /notification/by-notificationRequestId-status:
     put:
       tags:
         - Notification
       operationId: updateNotificationStatus
       parameters:
-        - name: sendNotificationId
-          in: query
-          required: true
-          schema:
-            type: integer
-            format: int64
-        - name: status
+        - name: notificationRequestId
           in: query
           required: true
           schema:
             type: string
-            enum:
-              - WAITING_FILE
-              - SENDING
-              - REGISTERED
-              - UPLOADED
-              - COMPLETE
-              - ACCEPTED
-              - ERROR
+        - name: status
+          in: query
+          required: true
+          schema:
+            type: 'NotificationStatus'
       responses:
         '200':
           description: OK
