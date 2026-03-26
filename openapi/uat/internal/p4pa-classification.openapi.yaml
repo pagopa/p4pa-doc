@@ -1106,9 +1106,14 @@ paths:
           application/json:
             schema:
               type: object
+              required:
+                - balance
               properties:
                 balance:
                   type: string
+                amountCents:
+                  type: integer
+                  format: int64
         required: true
       responses:
         "200":
