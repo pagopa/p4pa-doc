@@ -1,0 +1,2355 @@
+{
+  "openapi" : "3.1.0",
+  "info" : {
+    "title" : "p4pa-send-notification",
+    "description" : "Api and Models",
+    "version" : "0.0.1"
+  },
+  "servers" : [ {
+    "url" : "http://localhost",
+    "description" : "Generated server url"
+  } ],
+  "security" : [ {
+    "BearerAuth" : [ ]
+  } ],
+  "tags" : [ {
+    "name" : "Notification",
+    "description" : "the Notification API"
+  }, {
+    "name" : "Send",
+    "description" : "the Send API"
+  }, {
+    "name" : "Streams",
+    "description" : "the Streams API"
+  } ],
+  "paths" : {
+    "/p4pasend/send/streams/{streamId}" : {
+      "get" : {
+        "tags" : [ "Streams" ],
+        "summary" : "retrieve stream by stream id",
+        "description" : "get stream by specifying stream id",
+        "operationId" : "getStream",
+        "parameters" : [ {
+          "name" : "streamId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendStreamDTO"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendStreamDTO"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendStreamDTO"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Stream not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendStreamDTO"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendStreamDTO"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      },
+      "put" : {
+        "tags" : [ "Streams" ],
+        "summary" : "update stream LastEventId",
+        "description" : "update stream last event ID",
+        "operationId" : "updateStreamLastEventId",
+        "parameters" : [ {
+          "name" : "streamId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "lastEventId",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "400" : {
+            "description" : "Invalid request"
+          },
+          "403" : {
+            "description" : "Forbidden"
+          },
+          "404" : {
+            "description" : "Stream not found"
+          },
+          "500" : {
+            "description" : "Internal server error"
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/p4pasend/notification/by-notificationRequestId-status" : {
+      "put" : {
+        "tags" : [ "Notification" ],
+        "operationId" : "updateNotificationStatus",
+        "parameters" : [ {
+          "name" : "notificationRequestId",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "status",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/components/schemas/NotificationStatus"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/p4pasend/send/{sendNotificationId}/preload" : {
+      "post" : {
+        "tags" : [ "Send" ],
+        "summary" : "preload file to SEND process",
+        "description" : "request to authorize preload file to SEND",
+        "operationId" : "preloadSendFile",
+        "parameters" : [ {
+          "name" : "sendNotificationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "208" : {
+            "description" : "Already processed"
+          },
+          "400" : {
+            "description" : "Invalid request"
+          },
+          "403" : {
+            "description" : "Forbidden"
+          },
+          "404" : {
+            "description" : "Notification not found"
+          },
+          "409" : {
+            "description" : "Wrong notification status"
+          },
+          "500" : {
+            "description" : "Internal server error"
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/p4pasend/send/{sendNotificationId}/load" : {
+      "post" : {
+        "tags" : [ "Send" ],
+        "summary" : "load file to SEND archive process",
+        "description" : "request to load file to SEND archive",
+        "operationId" : "uploadSendFile",
+        "parameters" : [ {
+          "name" : "sendNotificationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "208" : {
+            "description" : "Already processed"
+          },
+          "400" : {
+            "description" : "Invalid request"
+          },
+          "403" : {
+            "description" : "Forbidden"
+          },
+          "404" : {
+            "description" : "Notification not found"
+          },
+          "409" : {
+            "description" : "Wrong notification status"
+          },
+          "500" : {
+            "description" : "Internal server error"
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/p4pasend/send/{sendNotificationId}/delivery" : {
+      "post" : {
+        "tags" : [ "Send" ],
+        "summary" : "delivery notification",
+        "description" : "delivery notification",
+        "operationId" : "deliveryNotification",
+        "parameters" : [ {
+          "name" : "sendNotificationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "208" : {
+            "description" : "Already processed"
+          },
+          "400" : {
+            "description" : "Invalid request"
+          },
+          "403" : {
+            "description" : "Forbidden"
+          },
+          "404" : {
+            "description" : "Notification not found"
+          },
+          "409" : {
+            "description" : "Wrong notification status"
+          },
+          "500" : {
+            "description" : "Internal server error"
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/p4pasend/notification" : {
+      "post" : {
+        "tags" : [ "Notification" ],
+        "summary" : "Create notification",
+        "description" : "Create initial notification",
+        "operationId" : "createSendNotification",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/CreateNotificationRequest"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CreateNotificationResponse"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CreateNotificationResponse"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CreateNotificationResponse"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CreateNotificationResponse"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/p4pasend/notification/{sendNotificationId}/start" : {
+      "post" : {
+        "tags" : [ "Notification" ],
+        "summary" : "start notification process",
+        "description" : "Start request to authorize preload file to SEND",
+        "operationId" : "startNotification",
+        "parameters" : [ {
+          "name" : "sendNotificationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/LoadFileRequest"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/StartNotificationResponse"
+                }
+              }
+            }
+          },
+          "202" : {
+            "description" : "Accepted and waiting for all files",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/StartNotificationResponse"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/StartNotificationResponse"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/StartNotificationResponse"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Notification or File not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/StartNotificationResponse"
+                }
+              }
+            }
+          },
+          "409" : {
+            "description" : "Wrong notification status",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/StartNotificationResponse"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/StartNotificationResponse"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/p4pasend/notification-request/{notificationRequestId}/legal-facts" : {
+      "post" : {
+        "tags" : [ "Send" ],
+        "summary" : "downloadAndArchiveSendLegalFact",
+        "description" : "Service to store a legal fact",
+        "operationId" : "downloadAndArchiveSendLegalFact",
+        "parameters" : [ {
+          "name" : "notificationRequestId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "category",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/components/schemas/LegalFactCategoryDTO"
+          }
+        }, {
+          "name" : "fileName",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "404" : {
+            "description" : "Notification not found"
+          },
+          "409" : {
+            "description" : "Legal-fact document already exists"
+          },
+          "500" : {
+            "description" : "Internal server error"
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/p4pasend/send/{sendNotificationId}/status" : {
+      "get" : {
+        "tags" : [ "Send" ],
+        "summary" : "notification status",
+        "description" : "notification status",
+        "operationId" : "notificationStatus",
+        "parameters" : [ {
+          "name" : "sendNotificationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendNotificationDTO"
+                }
+              }
+            }
+          },
+          "208" : {
+            "description" : "Already processed",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendNotificationDTO"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendNotificationDTO"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendNotificationDTO"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Notification not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendNotificationDTO"
+                }
+              }
+            }
+          },
+          "409" : {
+            "description" : "Wrong notification status",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendNotificationDTO"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendNotificationDTO"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/p4pasend/send/{sendNotificationId}/retrieveNotificationDate" : {
+      "get" : {
+        "tags" : [ "Send" ],
+        "summary" : "retrieve notification date",
+        "description" : "Retrieve notification date from send if exists",
+        "operationId" : "retrieveNotificationDate",
+        "parameters" : [ {
+          "name" : "sendNotificationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendNotificationDTO"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendNotificationDTO"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendNotificationDTO"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Notification not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendNotificationDTO"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendNotificationDTO"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/p4pasend/send/{sendNotificationId}/legal-facts" : {
+      "get" : {
+        "tags" : [ "Send" ],
+        "summary" : "retrieve list of legal facts for a given notification",
+        "description" : "legal facts",
+        "operationId" : "retrieveLegalFacts",
+        "parameters" : [ {
+          "name" : "sendNotificationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/LegalFactListElementDTO"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/LegalFactListElementDTO"
+                  }
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/LegalFactListElementDTO"
+                  }
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Legal facts not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/LegalFactListElementDTO"
+                  }
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/LegalFactListElementDTO"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/p4pasend/send/{sendNotificationId}/legal-facts/{legalFactId}" : {
+      "get" : {
+        "tags" : [ "Send" ],
+        "summary" : "retrieve legal fact metadata for downloading document content",
+        "description" : "legal fact metadata for downloading document content",
+        "operationId" : "retrieveLegalFactDownloadMetadata",
+        "parameters" : [ {
+          "name" : "sendNotificationId",
+          "in" : "path",
+          "description" : "notification id referenced by the legal fact",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "legalFactId",
+          "in" : "path",
+          "description" : "id of legal fact",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/LegalFactDownloadMetadataDTO"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/LegalFactDownloadMetadataDTO"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/LegalFactDownloadMetadataDTO"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Legal facts not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/LegalFactDownloadMetadataDTO"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/LegalFactDownloadMetadataDTO"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/p4pasend/send/streams/events" : {
+      "get" : {
+        "tags" : [ "Streams" ],
+        "summary" : "retrieve events by stream",
+        "description" : "get events from last stream, if streamid is specified return events from that stream",
+        "operationId" : "getStreamEvents",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }, {
+          "name" : "streamId",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/ProgressResponseElementV28DTO"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/ProgressResponseElementV28DTO"
+                  }
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/ProgressResponseElementV28DTO"
+                  }
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Streams not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/ProgressResponseElementV28DTO"
+                  }
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/ProgressResponseElementV28DTO"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/p4pasend/send/notificationprice" : {
+      "get" : {
+        "tags" : [ "Send" ],
+        "summary" : "retrieve notification price",
+        "description" : "notification price",
+        "operationId" : "retrieveNotificationPrice",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }, {
+          "name" : "nav",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/NotificationPriceResponseV23DTO"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/NotificationPriceResponseV23DTO"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/NotificationPriceResponseV23DTO"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Notification not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/NotificationPriceResponseV23DTO"
+                }
+              }
+            }
+          },
+          "409" : {
+            "description" : "Wrong notification status",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/NotificationPriceResponseV23DTO"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/NotificationPriceResponseV23DTO"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/p4pasend/notification/{sendNotificationId}" : {
+      "get" : {
+        "tags" : [ "Notification" ],
+        "summary" : "get send notification",
+        "description" : "get send notification",
+        "operationId" : "getSendNotification",
+        "parameters" : [ {
+          "name" : "sendNotificationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendNotificationDTO"
+                }
+              }
+            }
+          },
+          "204" : {
+            "description" : "NotificationDate not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendNotificationDTO"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendNotificationDTO"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendNotificationDTO"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Notification not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendNotificationDTO"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendNotificationDTO"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      },
+      "delete" : {
+        "tags" : [ "Notification" ],
+        "summary" : "delete send notification",
+        "description" : "delete send notification",
+        "operationId" : "deleteSendNotification",
+        "parameters" : [ {
+          "name" : "sendNotificationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "400" : {
+            "description" : "Invalid request"
+          },
+          "403" : {
+            "description" : "Forbidden"
+          },
+          "404" : {
+            "description" : "Notification not found"
+          },
+          "409" : {
+            "description" : "Wrong notification status"
+          },
+          "500" : {
+            "description" : "Internal server error"
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/p4pasend/notification/{sendNotificationId}/legal-facts" : {
+      "get" : {
+        "tags" : [ "Notification" ],
+        "summary" : "get legal-facts",
+        "description" : "Service retrieve legal facts",
+        "operationId" : "getLegalFacts",
+        "parameters" : [ {
+          "name" : "sendNotificationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/LegalFactDTO"
+                  }
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Notification not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/LegalFactDTO"
+                  }
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/LegalFactDTO"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/p4pasend/notification/findByOrgIdAndNav" : {
+      "get" : {
+        "tags" : [ "Notification" ],
+        "summary" : "get send notification by orgid and nav",
+        "description" : "get send notification by orgid and nav",
+        "operationId" : "findSendNotificationByOrgIdAndNav",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }, {
+          "name" : "nav",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendNotificationDTO"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendNotificationDTO"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendNotificationDTO"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Notification not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendNotificationDTO"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendNotificationDTO"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/p4pasend/notification/by-notification-request-id/{notificationRequestId}" : {
+      "get" : {
+        "tags" : [ "Notification" ],
+        "summary" : "get send notification by notificationRequestId",
+        "description" : "get send notification by notificationRequestId",
+        "operationId" : "getSendNotificationByNotificationRequestId",
+        "parameters" : [ {
+          "name" : "notificationRequestId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendNotificationDTO"
+                }
+              }
+            }
+          },
+          "204" : {
+            "description" : "NotificationDate not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendNotificationDTO"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendNotificationDTO"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendNotificationDTO"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Notification not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendNotificationDTO"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendNotificationDTO"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "NotificationStatus" : {
+        "type" : "string",
+        "enum" : [ "WAITING_FILE", "SENDING", "REGISTERED", "UPLOADED", "IN_VALIDATION", "ACCEPTED", "REFUSED", "DELIVERING", "DELIVERED", "VIEWED", "EFFECTIVE_DATE", "PAID", "UNREACHABLE", "CANCELLED", "RETURNED_TO_SENDER" ]
+      },
+      "CreateNotificationResponse" : {
+        "type" : "object",
+        "properties" : {
+          "sendNotificationId" : {
+            "type" : "string"
+          },
+          "preloadUrl" : {
+            "type" : "string"
+          },
+          "status" : {
+            "type" : "string"
+          }
+        }
+      },
+      "Address" : {
+        "type" : "object",
+        "properties" : {
+          "address" : {
+            "type" : "string"
+          },
+          "zip" : {
+            "type" : "string"
+          },
+          "municipality" : {
+            "type" : "string"
+          },
+          "province" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "address", "municipality" ]
+      },
+      "Attachment" : {
+        "type" : "object",
+        "properties" : {
+          "digest" : {
+            "type" : "string"
+          },
+          "contentType" : {
+            "type" : "string"
+          },
+          "fileName" : {
+            "type" : "string"
+          }
+        }
+      },
+      "CreateNotificationRequest" : {
+        "type" : "object",
+        "properties" : {
+          "organizationId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "paProtocolNumber" : {
+            "type" : "string"
+          },
+          "recipients" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Recipient"
+            }
+          },
+          "documents" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Document"
+            }
+          },
+          "notificationFeePolicy" : {
+            "$ref" : "#/components/schemas/NotificationFeePolicyEnum"
+          },
+          "physicalCommunicationType" : {
+            "$ref" : "#/components/schemas/PhysicalCommunicationTypeEnum"
+          },
+          "senderDenomination" : {
+            "type" : "string"
+          },
+          "senderTaxId" : {
+            "type" : "string"
+          },
+          "amount" : {
+            "type" : "number"
+          },
+          "paymentExpirationDate" : {
+            "type" : "string",
+            "format" : "date"
+          },
+          "taxonomyCode" : {
+            "type" : "string"
+          },
+          "paFee" : {
+            "type" : "integer",
+            "format" : "int32",
+            "maximum" : 100,
+            "minimum" : 0
+          },
+          "vat" : {
+            "type" : "integer",
+            "format" : "int32",
+            "maximum" : 100,
+            "minimum" : 0
+          }
+        },
+        "required" : [ "notificationFeePolicy", "organizationId", "paProtocolNumber", "physicalCommunicationType", "recipients" ]
+      },
+      "Document" : {
+        "type" : "object",
+        "properties" : {
+          "digest" : {
+            "type" : "string"
+          },
+          "contentType" : {
+            "type" : "string"
+          },
+          "fileName" : {
+            "type" : "string"
+          }
+        }
+      },
+      "F24Payment" : {
+        "type" : "object",
+        "properties" : {
+          "title" : {
+            "type" : "string"
+          },
+          "applyCost" : {
+            "type" : "boolean"
+          },
+          "metadataAttachment" : {
+            "$ref" : "#/components/schemas/Attachment"
+          }
+        },
+        "required" : [ "applyCost", "metadataAttachment", "title" ]
+      },
+      "NotificationDigitalAddress" : {
+        "type" : "object",
+        "properties" : {
+          "type" : {
+            "$ref" : "#/components/schemas/TypeEnum"
+          },
+          "address" : {
+            "type" : "string",
+            "maxLength" : 320,
+            "minLength" : 0,
+            "pattern" : "^(?:[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?|\\[(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?|[a-zA-Z0-9-]*[a-zA-Z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])$"
+          }
+        },
+        "required" : [ "address", "type" ]
+      },
+      "NotificationFeePolicyEnum" : {
+        "type" : "string",
+        "enum" : [ "FLAT_RATE", "DELIVERY_MODE" ]
+      },
+      "PagoPa" : {
+        "type" : "object",
+        "properties" : {
+          "noticeCode" : {
+            "type" : "string"
+          },
+          "creditorTaxId" : {
+            "type" : "string"
+          },
+          "applyCost" : {
+            "type" : "boolean"
+          },
+          "attachment" : {
+            "$ref" : "#/components/schemas/Attachment"
+          }
+        },
+        "required" : [ "applyCost", "creditorTaxId", "noticeCode" ]
+      },
+      "Payment" : {
+        "type" : "object",
+        "properties" : {
+          "pagoPa" : {
+            "$ref" : "#/components/schemas/PagoPa"
+          },
+          "f24" : {
+            "$ref" : "#/components/schemas/F24Payment"
+          }
+        }
+      },
+      "PhysicalCommunicationTypeEnum" : {
+        "type" : "string",
+        "enum" : [ "AR_REGISTERED_LETTER", "REGISTERED_LETTER_890" ]
+      },
+      "Recipient" : {
+        "type" : "object",
+        "properties" : {
+          "recipientType" : {
+            "$ref" : "#/components/schemas/RecipientTypeEnum"
+          },
+          "taxId" : {
+            "type" : "string"
+          },
+          "denomination" : {
+            "type" : "string"
+          },
+          "physicalAddress" : {
+            "$ref" : "#/components/schemas/Address"
+          },
+          "digitalDomicile" : {
+            "$ref" : "#/components/schemas/NotificationDigitalAddress"
+          },
+          "payments" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Payment"
+            }
+          }
+        },
+        "required" : [ "denomination", "physicalAddress", "recipientType", "taxId" ]
+      },
+      "RecipientTypeEnum" : {
+        "type" : "string",
+        "enum" : [ "PF", "PG" ]
+      },
+      "TypeEnum" : {
+        "type" : "string",
+        "enum" : [ "PEC" ]
+      },
+      "StartNotificationResponse" : {
+        "type" : "object",
+        "properties" : {
+          "workflowId" : {
+            "type" : "string"
+          },
+          "runId" : {
+            "type" : "string"
+          }
+        }
+      },
+      "LoadFileRequest" : {
+        "type" : "object",
+        "properties" : {
+          "digest" : {
+            "type" : "string"
+          },
+          "fileName" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "digest", "fileName" ]
+      },
+      "LegalFactCategoryDTO" : {
+        "type" : "string",
+        "enum" : [ "SENDER_ACK", "DIGITAL_DELIVERY", "ANALOG_DELIVERY", "RECIPIENT_ACCESS", "PEC_RECEIPT", "ANALOG_FAILURE_DELIVERY" ]
+      },
+      "SendNotificationDTO" : {
+        "type" : "object",
+        "properties" : {
+          "sendNotificationId" : {
+            "type" : "string"
+          },
+          "organizationId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "iun" : {
+            "type" : "string"
+          },
+          "payments" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/SendNotificationPaymentsDTO"
+            }
+          },
+          "status" : {
+            "$ref" : "#/components/schemas/NotificationStatus"
+          },
+          "errors" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        },
+        "required" : [ "organizationId", "payments", "sendNotificationId", "status" ]
+      },
+      "SendNotificationPaymentsDTO" : {
+        "type" : "object",
+        "properties" : {
+          "debtPositionId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "navList" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "notificationDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        },
+        "required" : [ "debtPositionId", "navList" ]
+      },
+      "LegalFactIdDTO" : {
+        "type" : "object",
+        "description" : "document keys generated during paper/physical delivery process",
+        "properties" : {
+          "key" : {
+            "type" : "string",
+            "description" : "legal fact identifier generated during delivery process"
+          },
+          "category" : {
+            "type" : "string",
+            "description" : "possible types for a legal fact:   - SENDER_ACK   - DIGITAL_DELIVERY   - ANALOG_DELIVERY   - RECIPIENT_ACCESS   - PEC_RECEIPT   - ANALOG_FAILURE_DELIVERY   - NOTIFICATION_CANCELLED"
+          }
+        },
+        "required" : [ "category", "key" ]
+      },
+      "LegalFactListElementDTO" : {
+        "type" : "object",
+        "description" : "legal fact related to a SEND notification",
+        "properties" : {
+          "taxId" : {
+            "type" : "string",
+            "description" : "value is set if legal fact relates to a particular recipient"
+          },
+          "iun" : {
+            "type" : "string",
+            "description" : "universal identifier of a notification related to a legal fact"
+          },
+          "legalFactId" : {
+            "$ref" : "#/components/schemas/LegalFactIdDTO"
+          }
+        },
+        "required" : [ "iun", "legalFactId" ]
+      },
+      "LegalFactDownloadMetadataDTO" : {
+        "type" : "object",
+        "properties" : {
+          "filename" : {
+            "type" : "string"
+          },
+          "contentLength" : {
+            "type" : "number",
+            "description" : "content dimension, in bytes.",
+            "example" : 54092
+          },
+          "url" : {
+            "type" : "string",
+            "description" : "preauthorized URL for making a GET request to obtain the document content. Present only if document is ready for download."
+          },
+          "retryAfter" : {
+            "type" : "number",
+            "description" : "Estimated wait time in seconds until the document content is available for download."
+          }
+        },
+        "required" : [ "contentLength", "filename" ]
+      },
+      "SendStreamDTO" : {
+        "type" : "object",
+        "description" : "stream related to a SEND notification",
+        "properties" : {
+          "streamId" : {
+            "type" : "string"
+          },
+          "organizationId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "title" : {
+            "type" : "string"
+          },
+          "eventType" : {
+            "type" : "string"
+          },
+          "lastEventId" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "eventType", "streamId", "title" ]
+      },
+      "AttachmentDetailsDTO" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "maxLength" : 128,
+            "minLength" : 0
+          },
+          "documentType" : {
+            "type" : "string",
+            "maxLength" : 20,
+            "minLength" : 0
+          },
+          "url" : {
+            "type" : "string",
+            "maxLength" : 128,
+            "minLength" : 0
+          },
+          "date" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        }
+      },
+      "ContactPhaseDTO" : {
+        "type" : "string",
+        "enum" : [ "CHOOSE_DELIVERY", "SEND_ATTEMPT" ]
+      },
+      "DelegateInfoDTO" : {
+        "type" : "object",
+        "properties" : {
+          "internalId" : {
+            "type" : "string",
+            "maxLength" : 128,
+            "minLength" : 0
+          },
+          "taxId" : {
+            "type" : "string",
+            "maxLength" : 128,
+            "minLength" : 0
+          },
+          "operatorUuid" : {
+            "type" : "string",
+            "maxLength" : 128,
+            "minLength" : 0
+          },
+          "mandateId" : {
+            "type" : "string",
+            "maxLength" : 128,
+            "minLength" : 0
+          },
+          "denomination" : {
+            "type" : "string",
+            "maxLength" : 128,
+            "minLength" : 0
+          },
+          "delegateType" : {
+            "$ref" : "#/components/schemas/RecipientTypeDTO"
+          }
+        }
+      },
+      "DeliveryModeDTO" : {
+        "type" : "string",
+        "enum" : [ "DIGITAL", "ANALOG" ]
+      },
+      "DigitalAddressDTO" : {
+        "type" : "object",
+        "properties" : {
+          "type" : {
+            "type" : "string"
+          },
+          "address" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "address", "type" ]
+      },
+      "DigitalAddressSourceDTO" : {
+        "type" : "string",
+        "enum" : [ "PLATFORM", "SPECIAL", "GENERAL" ]
+      },
+      "EndWorkflowStatusDTO" : {
+        "type" : "string",
+        "enum" : [ "SUCCESS", "FAILURE" ]
+      },
+      "IoSendMessageResultDTO" : {
+        "type" : "string",
+        "enum" : [ "NOT_SENT_OPTIN_ALREADY_SENT", "SENT_COURTESY", "SENT_OPTIN" ]
+      },
+      "LegalFactsIdV20DTO" : {
+        "type" : "object",
+        "properties" : {
+          "key" : {
+            "type" : "string",
+            "maxLength" : 512,
+            "minLength" : 0,
+            "pattern" : "^(safestorage://)?[A-Za-z0-9._-]+$"
+          },
+          "category" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "category", "key" ]
+      },
+      "NotificationRefusedErrorV27DTO" : {
+        "type" : "object",
+        "properties" : {
+          "errorCode" : {
+            "type" : "string",
+            "maxLength" : 128,
+            "minLength" : 0
+          },
+          "detail" : {
+            "type" : "string",
+            "maxLength" : 2048,
+            "minLength" : 0
+          },
+          "recIndex" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }
+      },
+      "NotificationStatusV26DTO" : {
+        "type" : "string",
+        "enum" : [ "IN_VALIDATION", "ACCEPTED", "REFUSED", "DELIVERING", "DELIVERED", "VIEWED", "EFFECTIVE_DATE", "PAID", "UNREACHABLE", "CANCELLED", "RETURNED_TO_SENDER" ]
+      },
+      "PhysicalAddressDTO" : {
+        "type" : "object",
+        "properties" : {
+          "at" : {
+            "type" : "string"
+          },
+          "address" : {
+            "type" : "string"
+          },
+          "addressDetails" : {
+            "type" : "string"
+          },
+          "zip" : {
+            "type" : "string"
+          },
+          "municipality" : {
+            "type" : "string"
+          },
+          "municipalityDetails" : {
+            "type" : "string"
+          },
+          "province" : {
+            "type" : "string"
+          },
+          "foreignState" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "address", "municipality" ]
+      },
+      "ProgressResponseElementV28DTO" : {
+        "type" : "object",
+        "properties" : {
+          "eventId" : {
+            "type" : "string"
+          },
+          "notificationRequestId" : {
+            "type" : "string"
+          },
+          "iun" : {
+            "type" : "string",
+            "maxLength" : 25,
+            "minLength" : 0,
+            "pattern" : "^[A-Z]{4}-[A-Z]{4}-[A-Z]{4}-[0-9]{6}-[A-Z]{1}-[0-9]{1}$"
+          },
+          "newStatus" : {
+            "$ref" : "#/components/schemas/NotificationStatusV26DTO"
+          },
+          "element" : {
+            "$ref" : "#/components/schemas/TimelineElementV27DTO"
+          }
+        },
+        "required" : [ "element", "eventId" ]
+      },
+      "RecipientTypeDTO" : {
+        "type" : "string",
+        "enum" : [ "PF", "PG" ]
+      },
+      "ResponseStatusDTO" : {
+        "type" : "string",
+        "enum" : [ "OK", "KO" ]
+      },
+      "SendingReceiptDTO" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "maxLength" : 1024,
+            "minLength" : 0
+          },
+          "system" : {
+            "type" : "string",
+            "maxLength" : 128,
+            "minLength" : 0
+          }
+        }
+      },
+      "ServiceLevelDTO" : {
+        "type" : "string",
+        "enum" : [ "AR_REGISTERED_LETTER", "REGISTERED_LETTER_890" ]
+      },
+      "TimelineElementCategoryV27DTO" : {
+        "type" : "string",
+        "enum" : [ "SENDER_ACK_CREATION_REQUEST", "VALIDATE_NORMALIZE_ADDRESSES_REQUEST", "NORMALIZED_ADDRESS", "REQUEST_ACCEPTED", "SEND_COURTESY_MESSAGE", "GET_ADDRESS", "PUBLIC_REGISTRY_CALL", "PUBLIC_REGISTRY_RESPONSE", "SCHEDULE_ANALOG_WORKFLOW", "SCHEDULE_DIGITAL_WORKFLOW", "PREPARE_DIGITAL_DOMICILE", "SEND_DIGITAL_DOMICILE", "SEND_DIGITAL_PROGRESS", "SEND_DIGITAL_FEEDBACK", "REFINEMENT", "SCHEDULE_REFINEMENT", "DIGITAL_DELIVERY_CREATION_REQUEST", "DIGITAL_SUCCESS_WORKFLOW", "DIGITAL_FAILURE_WORKFLOW", "ANALOG_SUCCESS_WORKFLOW", "ANALOG_FAILURE_WORKFLOW", "PREPARE_SIMPLE_REGISTERED_LETTER", "SEND_SIMPLE_REGISTERED_LETTER", "SEND_SIMPLE_REGISTERED_LETTER_PROGRESS", "NOTIFICATION_VIEWED_CREATION_REQUEST", "NOTIFICATION_VIEWED", "PREPARE_ANALOG_DOMICILE", "SEND_ANALOG_DOMICILE", "SEND_ANALOG_PROGRESS", "SEND_ANALOG_FEEDBACK", "PAYMENT", "COMPLETELY_UNREACHABLE", "COMPLETELY_UNREACHABLE_CREATION_REQUEST", "REQUEST_REFUSED", "AAR_CREATION_REQUEST", "AAR_GENERATION", "NOT_HANDLED", "PROBABLE_SCHEDULING_ANALOG_DATE", "NOTIFICATION_CANCELLATION_REQUEST", "NOTIFICATION_CANCELLED", "PREPARE_ANALOG_DOMICILE_FAILURE", "NOTIFICATION_RADD_RETRIEVED", "ANALOG_WORKFLOW_RECIPIENT_DECEASED", "PUBLIC_REGISTRY_VALIDATION_CALL", "PUBLIC_REGISTRY_VALIDATION_RESPONSE" ]
+      },
+      "TimelineElementDetailsV27DTO" : {
+        "type" : "object",
+        "properties" : {
+          "legalFactId" : {
+            "type" : "string",
+            "maxLength" : 128,
+            "minLength" : 0
+          },
+          "recIndex" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "oldAddress" : {
+            "$ref" : "#/components/schemas/PhysicalAddressDTO"
+          },
+          "normalizedAddress" : {
+            "$ref" : "#/components/schemas/PhysicalAddressDTO"
+          },
+          "notificationRequestId" : {
+            "type" : "string"
+          },
+          "paProtocolNumber" : {
+            "type" : "string",
+            "maxLength" : 256,
+            "minLength" : 0,
+            "pattern" : "^.*$"
+          },
+          "idempotenceToken" : {
+            "type" : "string",
+            "maxLength" : 256,
+            "minLength" : 0,
+            "pattern" : "^[ -~]*$"
+          },
+          "generatedAarUrl" : {
+            "type" : "string",
+            "maxLength" : 128,
+            "minLength" : 0
+          },
+          "physicalAddress" : {
+            "$ref" : "#/components/schemas/PhysicalAddressDTO"
+          },
+          "legalfactId" : {
+            "type" : "string",
+            "maxLength" : 128,
+            "minLength" : 0
+          },
+          "endWorkflowStatus" : {
+            "$ref" : "#/components/schemas/EndWorkflowStatusDTO"
+          },
+          "completionWorkflowDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "legalFactGenerationDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "digitalAddress" : {
+            "$ref" : "#/components/schemas/DigitalAddressDTO"
+          },
+          "digitalAddressSource" : {
+            "$ref" : "#/components/schemas/DigitalAddressSourceDTO"
+          },
+          "isAvailable" : {
+            "type" : "boolean"
+          },
+          "attemptDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "eventTimestamp" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "raddType" : {
+            "type" : "string"
+          },
+          "raddTransactionId" : {
+            "type" : "string",
+            "maxLength" : 512,
+            "minLength" : 0
+          },
+          "delegateInfo" : {
+            "$ref" : "#/components/schemas/DelegateInfoDTO"
+          },
+          "notificationCost" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "deliveryMode" : {
+            "$ref" : "#/components/schemas/DeliveryModeDTO"
+          },
+          "contactPhase" : {
+            "$ref" : "#/components/schemas/ContactPhaseDTO"
+          },
+          "sentAttemptMade" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "sendDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "refusalReasons" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/NotificationRefusedErrorV27DTO"
+            }
+          },
+          "schedulingDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "lastAttemptDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "ioSendMessageResult" : {
+            "$ref" : "#/components/schemas/IoSendMessageResultDTO"
+          },
+          "retryNumber" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "nextDigitalAddressSource" : {
+            "$ref" : "#/components/schemas/DigitalAddressSourceDTO"
+          },
+          "nextSourceAttemptsMade" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "nextLastAttemptMadeForSource" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "responseStatus" : {
+            "$ref" : "#/components/schemas/ResponseStatusDTO"
+          },
+          "notificationDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "deliveryFailureCause" : {
+            "type" : "string",
+            "maxLength" : 10,
+            "minLength" : 0
+          },
+          "deliveryDetailCode" : {
+            "type" : "string",
+            "maxLength" : 20,
+            "minLength" : 0
+          },
+          "sendingReceipts" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/SendingReceiptDTO"
+            }
+          },
+          "shouldRetry" : {
+            "type" : "boolean"
+          },
+          "serviceLevel" : {
+            "$ref" : "#/components/schemas/ServiceLevelDTO"
+          },
+          "relatedRequestId" : {
+            "type" : "string",
+            "maxLength" : 512,
+            "minLength" : 0
+          },
+          "productType" : {
+            "type" : "string",
+            "maxLength" : 10,
+            "minLength" : 0
+          },
+          "analogCost" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "numberOfPages" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "envelopeWeight" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "prepareRequestId" : {
+            "type" : "string",
+            "maxLength" : 512,
+            "minLength" : 0
+          },
+          "newAddress" : {
+            "$ref" : "#/components/schemas/PhysicalAddressDTO"
+          },
+          "attachments" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/AttachmentDetailsDTO"
+            }
+          },
+          "sendRequestId" : {
+            "type" : "string",
+            "maxLength" : 512,
+            "minLength" : 0
+          },
+          "registeredLetterCode" : {
+            "type" : "string",
+            "maxLength" : 128,
+            "minLength" : 0
+          },
+          "aarKey" : {
+            "type" : "string",
+            "maxLength" : 128,
+            "minLength" : 0
+          },
+          "reasonCode" : {
+            "type" : "string",
+            "maxLength" : 10,
+            "minLength" : 0
+          },
+          "reason" : {
+            "type" : "string",
+            "maxLength" : 2048,
+            "minLength" : 0
+          },
+          "recipientType" : {
+            "$ref" : "#/components/schemas/RecipientTypeDTO"
+          },
+          "amount" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "creditorTaxId" : {
+            "type" : "string",
+            "maxLength" : 11,
+            "minLength" : 11,
+            "pattern" : "^\\d+$"
+          },
+          "noticeCode" : {
+            "type" : "string",
+            "maxLength" : 18,
+            "minLength" : 18,
+            "pattern" : "^\\d+$"
+          },
+          "idF24" : {
+            "type" : "string",
+            "maxLength" : 512,
+            "minLength" : 0
+          },
+          "paymentSourceChannel" : {
+            "type" : "string",
+            "maxLength" : 512,
+            "minLength" : 0
+          },
+          "uncertainPaymentDate" : {
+            "type" : "boolean",
+            "deprecated" : true
+          },
+          "schedulingAnalogDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "cancellationRequestId" : {
+            "type" : "string",
+            "maxLength" : 512,
+            "minLength" : 0
+          },
+          "notRefinedRecipientIndexes" : {
+            "type" : "array",
+            "items" : {
+              "type" : "integer",
+              "format" : "int32"
+            }
+          },
+          "foundAddress" : {
+            "$ref" : "#/components/schemas/PhysicalAddressDTO"
+          },
+          "failureCause" : {
+            "type" : "string",
+            "maxLength" : 10,
+            "minLength" : 0
+          },
+          "recIndexes" : {
+            "type" : "array",
+            "items" : {
+              "type" : "integer",
+              "format" : "int32"
+            }
+          },
+          "registry" : {
+            "type" : "string",
+            "maxLength" : 128,
+            "minLength" : 0
+          }
+        },
+        "required" : [ "aarKey", "attemptDate", "cancellationRequestId", "contactPhase", "deliveryMode", "digitalAddress", "digitalAddressSource", "eventTimestamp", "generatedAarUrl", "isAvailable", "lastAttemptDate", "normalizedAddress", "notRefinedRecipientIndexes", "notificationCost", "notificationDate", "numberOfPages", "oldAddress", "paymentSourceChannel", "physicalAddress", "raddTransactionId", "raddType", "reason", "reasonCode", "recIndex", "recIndexes", "recipientType", "responseStatus", "retryNumber", "schedulingAnalogDate", "sendDate", "sentAttemptMade", "serviceLevel" ]
+      },
+      "TimelineElementV27DTO" : {
+        "type" : "object",
+        "properties" : {
+          "elementId" : {
+            "type" : "string",
+            "maxLength" : 512,
+            "minLength" : 0
+          },
+          "timestamp" : {
+            "type" : "string",
+            "format" : "date-time",
+            "deprecated" : true
+          },
+          "ingestionTimestamp" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "eventTimestamp" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "notificationSentAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "legalFactsIds" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/LegalFactsIdV20DTO"
+            }
+          },
+          "category" : {
+            "$ref" : "#/components/schemas/TimelineElementCategoryV27DTO"
+          },
+          "details" : {
+            "$ref" : "#/components/schemas/TimelineElementDetailsV27DTO"
+          }
+        }
+      },
+      "NotificationPriceResponseV23DTO" : {
+        "type" : "object",
+        "properties" : {
+          "iun" : {
+            "type" : "string",
+            "maxLength" : 25,
+            "minLength" : 25,
+            "pattern" : "^[A-Z]{4}-[A-Z]{4}-[A-Z]{4}-[0-9]{6}-[A-Z]{1}-[0-9]{1}$"
+          },
+          "partialPrice" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "totalPrice" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "vat" : {
+            "type" : "integer",
+            "format" : "int32",
+            "maximum" : 100,
+            "minimum" : 0
+          },
+          "paFee" : {
+            "type" : "integer",
+            "format" : "int32",
+            "maximum" : 100,
+            "minimum" : 0
+          },
+          "refinementDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "notificationViewDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "sendFee" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "analogCost" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }
+      },
+      "LegalFactDTO" : {
+        "type" : "object",
+        "description" : "legal fact related to a SEND notification",
+        "properties" : {
+          "fileName" : {
+            "type" : "string"
+          },
+          "category" : {
+            "$ref" : "#/components/schemas/LegalFactCategoryDTO"
+          },
+          "url" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "category", "fileName", "url" ]
+      }
+    },
+    "securitySchemes" : {
+      "BearerAuth" : {
+        "type" : "http",
+        "scheme" : "bearer",
+        "bearerFormat" : "JWT"
+      }
+    }
+  }
+}
