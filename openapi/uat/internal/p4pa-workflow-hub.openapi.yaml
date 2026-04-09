@@ -234,6 +234,39 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/WorkflowErrorDTO'
+  /workflow/debt-position/{orgId}/massive-iban-update:
+    post:
+      tags:
+        - DebtPosition
+      operationId: massiveDpIbanUpdate
+      description: Massive debt position Iban update
+      parameters:
+        - name: orgId
+          in: path
+          required: true
+          description: the unique identifier of the organization.
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MassiveDebtPositionIbanUpdateRequestDTO'
+      responses:
+        '200':
+          description: "Massive Debt position Iban update handled"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkflowCreatedDTO'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkflowErrorDTO'
   /workflow/debt-position/fine/{debtPositionId}/expire-reduction:
     post:
       tags:
@@ -933,5 +966,19 @@ components:
             startedAt:
               type: string
               format: date-time
+    MassiveDebtPositionIbanUpdateRequestDTO:
+      type: object
+      properties:
+        debtPositionTypeOrgId:
+          type: integer
+          format: int64
+        oldIban:
+          type: string
+        newIban:
+          type: string
+        oldPostalIban:
+          type: string
+        newPostalIban:
+          type: string
 
 
