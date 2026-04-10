@@ -981,6 +981,34 @@
         }
       }
     },
+    "/crud/profile/send-timeline-registries" : {
+      "get" : {
+        "tags" : [ "profile-controller" ],
+        "operationId" : "crud-profile-send-timeline-registries",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "application/alps+json" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "application/schema+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/JsonSchema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/crud/profile/sil-registries" : {
       "get" : {
         "tags" : [ "profile-controller" ],
@@ -1005,6 +1033,259 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/crud/send-timeline-registries" : {
+      "get" : {
+        "tags" : [ "send-timeline-registry-entity-controller" ],
+        "description" : "get-sendtimelineregistry",
+        "operationId" : "crud-get-sendtimelineregistrys",
+        "parameters" : [ {
+          "name" : "page",
+          "in" : "query",
+          "description" : "Zero-based page index (0..N)",
+          "required" : false,
+          "schema" : {
+            "type" : "integer",
+            "default" : 0,
+            "minimum" : 0
+          }
+        }, {
+          "name" : "size",
+          "in" : "query",
+          "description" : "The size of the page to be returned",
+          "required" : false,
+          "schema" : {
+            "type" : "integer",
+            "default" : 20,
+            "minimum" : 1
+          }
+        }, {
+          "name" : "sort",
+          "in" : "query",
+          "description" : "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+          "required" : false,
+          "schema" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/vnd.hal+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PagedModelSendTimelineRegistry"
+                }
+              },
+              "application/x-spring-data-compact+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PagedModelSendTimelineRegistry"
+                }
+              },
+              "text/uri-list" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "send-timeline-registry-entity-controller" ],
+        "description" : "create-sendtimelineregistry",
+        "operationId" : "crud-create-sendtimelineregistry",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/SendTimelineRegistryRequestBody"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Created",
+            "content" : {
+              "application/vnd.hal+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendTimelineRegistry"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/crud/send-timeline-registries/search/findByNotificationRequestId" : {
+      "get" : {
+        "tags" : [ "send-timeline-registry-search-controller" ],
+        "operationId" : "crud-send-timeline-registries-findByNotificationRequestId",
+        "parameters" : [ {
+          "name" : "notificationRequestId",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/vnd.hal+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CollectionModelSendTimelineRegistry"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Not Found"
+          }
+        }
+      }
+    },
+    "/crud/send-timeline-registries/{id}" : {
+      "get" : {
+        "tags" : [ "send-timeline-registry-entity-controller" ],
+        "description" : "get-sendtimelineregistry",
+        "operationId" : "crud-get-sendtimelineregistry",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/vnd.hal+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendTimelineRegistry"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Not Found"
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "send-timeline-registry-entity-controller" ],
+        "description" : "update-sendtimelineregistry",
+        "operationId" : "crud-update-sendtimelineregistry",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/SendTimelineRegistryRequestBody"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/vnd.hal+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendTimelineRegistry"
+                }
+              }
+            }
+          },
+          "201" : {
+            "description" : "Created",
+            "content" : {
+              "application/vnd.hal+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendTimelineRegistry"
+                }
+              }
+            }
+          },
+          "204" : {
+            "description" : "No Content"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "send-timeline-registry-entity-controller" ],
+        "description" : "delete-sendtimelineregistry",
+        "operationId" : "crud-delete-sendtimelineregistry",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "No Content"
+          },
+          "404" : {
+            "description" : "Not Found"
+          }
+        }
+      },
+      "patch" : {
+        "tags" : [ "send-timeline-registry-entity-controller" ],
+        "description" : "patch-sendtimelineregistry",
+        "operationId" : "crud-patch-sendtimelineregistry",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/SendTimelineRegistryRequestBody"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/vnd.hal+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendTimelineRegistry"
+                }
+              }
+            }
+          },
+          "204" : {
+            "description" : "No Content"
           }
         }
       }
@@ -1520,10 +1801,6 @@
           }
         }
       },
-      "PaymentEventType" : {
-        "type" : "string",
-        "enum" : [ "DP_CREATED", "DP_UPDATED", "DP_CANCELLED", "DPI_ADDED", "DPI_UPDATED", "DPI_CANCELLED", "DPI_EXPIRED", "DPI_REPORTED", "RT_RECEIVED", "SYNC_ERROR", "IO_NOTIFIED", "SEND_NOTIFICATION_CREATED", "SEND_NOTIFICATION_ERROR", "SEND_NOTIFICATION_DATE" ]
-      },
       "PageMetadata" : {
         "type" : "object",
         "properties" : {
@@ -1545,6 +1822,14 @@
           }
         }
       },
+      "PaymentEventType" : {
+        "type" : "string",
+        "enum" : [ "DP_CREATED", "DP_UPDATED", "DP_CANCELLED", "DPI_ADDED", "DPI_UPDATED", "DPI_CANCELLED", "DPI_EXPIRED", "DPI_REPORTED", "RT_RECEIVED", "SYNC_ERROR", "IO_NOTIFIED", "SEND_NOTIFICATION_CREATED", "SEND_NOTIFICATION_ERROR", "SEND_NOTIFICATION_DATE" ]
+      },
+      "RegistryEventCategory" : {
+        "type" : "string",
+        "enum" : [ "INTERNO", "INTERFACCIA" ]
+      },
       "RegistryEventSubType" : {
         "type" : "string",
         "enum" : [ "REQ", "RESP" ]
@@ -1553,17 +1838,13 @@
         "type" : "string",
         "enum" : [ "OK", "KO" ]
       },
-      "RegistrySilEventType" : {
-        "type" : "string",
-        "enum" : [ "PTDP_paaSILAutorizzaImportFlusso", "PTDP_paaSILImportaDovuto", "PTDP_paaSILInviaDovuti", "PTDP_paaSILInviaCarrelloDovuti", "PTDP_paaSILVerificaAvviso", "PTPR_pivotSILAutorizzaImportFlussoTesoreria", "PTPR_pivotSILAutorizzaImportFlusso", "SIL_attualizzazioneImporti", "SIL_notificaPagamento" ]
-      },
-      "RegistryEventCategory" : {
-        "type" : "string",
-        "enum" : [ "INTERNO", "INTERFACCIA" ]
-      },
       "RegistryPagoPaEventType" : {
         "type" : "string",
         "enum" : [ "PaForNode_paVerifyPaymentNotice", "PaForNode_paGetPaymentV2", "PaForNode_paSendRTV2", "PaForNode_paDemandPaymentNotice", "ACA_newDebtPosition", "ACA_createPosition", "ACA_updatePosition", "ACA_deletePosition", "GPD_createPosition", "GPD_updatePosition", "GPD_deletePosition", "NodeForPa_fetchPaymentReporting" ]
+      },
+      "RegistrySilEventType" : {
+        "type" : "string",
+        "enum" : [ "PTDP_paaSILAutorizzaImportFlusso", "PTDP_paaSILImportaDovuto", "PTDP_paaSILInviaDovuti", "PTDP_paaSILInviaCarrelloDovuti", "PTDP_paaSILVerificaAvviso", "PTPR_pivotSILAutorizzaImportFlussoTesoreria", "PTPR_pivotSILAutorizzaImportFlusso", "SIL_attualizzazioneImporti", "SIL_notificaPagamento" ]
       },
       "DebtPositionRegistryRequestBody" : {
         "type" : "object",
@@ -1738,6 +2019,81 @@
           }
         },
         "required" : [ "dateTime", "eventCategory", "eventSubType", "eventType", "grantorId", "orgFiscalCode", "outcome", "registryId", "registryOrigin", "requestorId", "traceId" ]
+      },
+      "SendTimelineRegistryRequestBody" : {
+        "type" : "object",
+        "properties" : {
+          "creationDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "updateDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "updateOperatorExternalId" : {
+            "type" : "string"
+          },
+          "updateTraceId" : {
+            "type" : "string"
+          },
+          "registryId" : {
+            "type" : "string"
+          },
+          "registryOrigin" : {
+            "type" : "string"
+          },
+          "dateTime" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "traceId" : {
+            "type" : "string"
+          },
+          "eventSubType" : {
+            "$ref" : "#/components/schemas/RegistryEventSubType"
+          },
+          "requestorId" : {
+            "type" : "string"
+          },
+          "grantorId" : {
+            "type" : "string"
+          },
+          "organizationId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "streamId" : {
+            "type" : "string"
+          },
+          "eventId" : {
+            "type" : "string"
+          },
+          "eventType" : {
+            "type" : "string"
+          },
+          "notificationRequestId" : {
+            "type" : "string"
+          },
+          "iun" : {
+            "type" : "string"
+          },
+          "recipientIndex" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "newStatus" : {
+            "type" : "string"
+          },
+          "outcome" : {
+            "$ref" : "#/components/schemas/RegistryOutcome"
+          },
+          "bodyCiphered" : {
+            "type" : "string",
+            "format" : "byte"
+          }
+        },
+        "required" : [ "dateTime", "eventId", "eventSubType", "eventType", "grantorId", "notificationRequestId", "organizationId", "outcome", "registryId", "registryOrigin", "requestorId", "streamId", "traceId" ]
       },
       "SilRegistryRequestBody" : {
         "type" : "object",
@@ -1928,188 +2284,6 @@
           }
         },
         "required" : [ "dateTime", "eventCategory", "eventSubType", "eventType", "grantorId", "orgFiscalCode", "outcome", "registryId", "requestorId", "traceId" ]
-      },
-      "InstallmentRegistry" : {
-        "type" : "object",
-        "properties" : {
-          "creationDate" : {
-            "type" : "string",
-            "format" : "date-time"
-          },
-          "updateDate" : {
-            "type" : "string",
-            "format" : "date-time"
-          },
-          "updateOperatorExternalId" : {
-            "type" : "string"
-          },
-          "updateTraceId" : {
-            "type" : "string"
-          },
-          "eventId" : {
-            "type" : "string"
-          },
-          "eventType" : {
-            "$ref" : "#/components/schemas/PaymentEventType"
-          },
-          "eventDateTime" : {
-            "type" : "string",
-            "format" : "date-time"
-          },
-          "eventDescription" : {
-            "type" : "string"
-          },
-          "operatorExternalUserId" : {
-            "type" : "string"
-          },
-          "traceId" : {
-            "type" : "string"
-          },
-          "debtPositionId" : {
-            "type" : "integer",
-            "format" : "int64"
-          },
-          "organizationId" : {
-            "type" : "integer",
-            "format" : "int64"
-          },
-          "nav" : {
-            "type" : "string"
-          },
-          "_links" : {
-            "$ref" : "#/components/schemas/Links"
-          }
-        }
-      },
-      "PagedModelInstallmentRegistry" : {
-        "type" : "object",
-        "properties" : {
-          "_embedded" : {
-            "type" : "object",
-            "properties" : {
-              "installmentRegistries" : {
-                "type" : "array",
-                "items" : {
-                  "$ref" : "#/components/schemas/InstallmentRegistry"
-                }
-              }
-            }
-          },
-          "_links" : {
-            "$ref" : "#/components/schemas/Links"
-          },
-          "page" : {
-            "$ref" : "#/components/schemas/PageMetadata"
-          }
-        }
-      },
-      "CollectionModelInstallmentRegistry" : {
-        "type" : "object",
-        "properties" : {
-          "_embedded" : {
-            "type" : "object",
-            "properties" : {
-              "installmentRegistries" : {
-                "type" : "array",
-                "items" : {
-                  "$ref" : "#/components/schemas/InstallmentRegistry"
-                }
-              }
-            }
-          },
-          "_links" : {
-            "$ref" : "#/components/schemas/Links"
-          }
-        }
-      },
-      "SilRegistry" : {
-        "type" : "object",
-        "properties" : {
-          "creationDate" : {
-            "type" : "string",
-            "format" : "date-time"
-          },
-          "updateDate" : {
-            "type" : "string",
-            "format" : "date-time"
-          },
-          "updateOperatorExternalId" : {
-            "type" : "string"
-          },
-          "updateTraceId" : {
-            "type" : "string"
-          },
-          "registryId" : {
-            "type" : "string"
-          },
-          "registryOrigin" : {
-            "type" : "string"
-          },
-          "dateTime" : {
-            "type" : "string",
-            "format" : "date-time"
-          },
-          "traceId" : {
-            "type" : "string"
-          },
-          "brokerFiscalCode" : {
-            "type" : "string"
-          },
-          "orgFiscalCode" : {
-            "type" : "string"
-          },
-          "iuv" : {
-            "type" : "string"
-          },
-          "nav" : {
-            "type" : "string"
-          },
-          "eventType" : {
-            "$ref" : "#/components/schemas/RegistrySilEventType"
-          },
-          "eventSubType" : {
-            "$ref" : "#/components/schemas/RegistryEventSubType"
-          },
-          "requestorId" : {
-            "type" : "string"
-          },
-          "grantorId" : {
-            "type" : "string"
-          },
-          "outcome" : {
-            "$ref" : "#/components/schemas/RegistryOutcome"
-          },
-          "bodyCiphered" : {
-            "type" : "string",
-            "format" : "byte"
-          },
-          "_links" : {
-            "$ref" : "#/components/schemas/Links"
-          }
-        },
-        "required" : [ "brokerFiscalCode", "dateTime", "eventSubType", "eventType", "grantorId", "orgFiscalCode", "outcome", "registryId", "registryOrigin", "requestorId", "traceId" ]
-      },
-      "PagedModelSilRegistry" : {
-        "type" : "object",
-        "properties" : {
-          "_embedded" : {
-            "type" : "object",
-            "properties" : {
-              "silRegistries" : {
-                "type" : "array",
-                "items" : {
-                  "$ref" : "#/components/schemas/SilRegistry"
-                }
-              }
-            }
-          },
-          "_links" : {
-            "$ref" : "#/components/schemas/Links"
-          },
-          "page" : {
-            "$ref" : "#/components/schemas/PageMetadata"
-          }
-        }
       },
       "DebtPositionRegistry" : {
         "type" : "object",
@@ -2302,6 +2476,307 @@
           },
           "page" : {
             "$ref" : "#/components/schemas/PageMetadata"
+          }
+        }
+      },
+      "SendTimelineRegistry" : {
+        "type" : "object",
+        "properties" : {
+          "creationDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "updateDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "updateOperatorExternalId" : {
+            "type" : "string"
+          },
+          "updateTraceId" : {
+            "type" : "string"
+          },
+          "registryId" : {
+            "type" : "string"
+          },
+          "registryOrigin" : {
+            "type" : "string"
+          },
+          "dateTime" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "traceId" : {
+            "type" : "string"
+          },
+          "eventSubType" : {
+            "$ref" : "#/components/schemas/RegistryEventSubType"
+          },
+          "requestorId" : {
+            "type" : "string"
+          },
+          "grantorId" : {
+            "type" : "string"
+          },
+          "organizationId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "streamId" : {
+            "type" : "string"
+          },
+          "eventId" : {
+            "type" : "string"
+          },
+          "eventType" : {
+            "type" : "string"
+          },
+          "notificationRequestId" : {
+            "type" : "string"
+          },
+          "iun" : {
+            "type" : "string"
+          },
+          "recipientIndex" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "newStatus" : {
+            "type" : "string"
+          },
+          "outcome" : {
+            "$ref" : "#/components/schemas/RegistryOutcome"
+          },
+          "bodyCiphered" : {
+            "type" : "string",
+            "format" : "byte"
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          }
+        },
+        "required" : [ "dateTime", "eventId", "eventSubType", "eventType", "grantorId", "notificationRequestId", "organizationId", "outcome", "registryId", "registryOrigin", "requestorId", "streamId", "traceId" ]
+      },
+      "PagedModelSendTimelineRegistry" : {
+        "type" : "object",
+        "properties" : {
+          "_embedded" : {
+            "type" : "object",
+            "properties" : {
+              "sendTimelineRegistries" : {
+                "type" : "array",
+                "items" : {
+                  "$ref" : "#/components/schemas/SendTimelineRegistry"
+                }
+              }
+            }
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          },
+          "page" : {
+            "$ref" : "#/components/schemas/PageMetadata"
+          }
+        }
+      },
+      "CollectionModelSendTimelineRegistry" : {
+        "type" : "object",
+        "properties" : {
+          "_embedded" : {
+            "type" : "object",
+            "properties" : {
+              "sendTimelineRegistries" : {
+                "type" : "array",
+                "items" : {
+                  "$ref" : "#/components/schemas/SendTimelineRegistry"
+                }
+              }
+            }
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          }
+        }
+      },
+      "SilRegistry" : {
+        "type" : "object",
+        "properties" : {
+          "creationDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "updateDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "updateOperatorExternalId" : {
+            "type" : "string"
+          },
+          "updateTraceId" : {
+            "type" : "string"
+          },
+          "registryId" : {
+            "type" : "string"
+          },
+          "registryOrigin" : {
+            "type" : "string"
+          },
+          "dateTime" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "traceId" : {
+            "type" : "string"
+          },
+          "brokerFiscalCode" : {
+            "type" : "string"
+          },
+          "orgFiscalCode" : {
+            "type" : "string"
+          },
+          "iuv" : {
+            "type" : "string"
+          },
+          "nav" : {
+            "type" : "string"
+          },
+          "eventType" : {
+            "$ref" : "#/components/schemas/RegistrySilEventType"
+          },
+          "eventSubType" : {
+            "$ref" : "#/components/schemas/RegistryEventSubType"
+          },
+          "requestorId" : {
+            "type" : "string"
+          },
+          "grantorId" : {
+            "type" : "string"
+          },
+          "outcome" : {
+            "$ref" : "#/components/schemas/RegistryOutcome"
+          },
+          "bodyCiphered" : {
+            "type" : "string",
+            "format" : "byte"
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          }
+        },
+        "required" : [ "brokerFiscalCode", "dateTime", "eventSubType", "eventType", "grantorId", "orgFiscalCode", "outcome", "registryId", "registryOrigin", "requestorId", "traceId" ]
+      },
+      "PagedModelSilRegistry" : {
+        "type" : "object",
+        "properties" : {
+          "_embedded" : {
+            "type" : "object",
+            "properties" : {
+              "silRegistries" : {
+                "type" : "array",
+                "items" : {
+                  "$ref" : "#/components/schemas/SilRegistry"
+                }
+              }
+            }
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          },
+          "page" : {
+            "$ref" : "#/components/schemas/PageMetadata"
+          }
+        }
+      },
+      "InstallmentRegistry" : {
+        "type" : "object",
+        "properties" : {
+          "creationDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "updateDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "updateOperatorExternalId" : {
+            "type" : "string"
+          },
+          "updateTraceId" : {
+            "type" : "string"
+          },
+          "eventId" : {
+            "type" : "string"
+          },
+          "eventType" : {
+            "$ref" : "#/components/schemas/PaymentEventType"
+          },
+          "eventDateTime" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "eventDescription" : {
+            "type" : "string"
+          },
+          "operatorExternalUserId" : {
+            "type" : "string"
+          },
+          "traceId" : {
+            "type" : "string"
+          },
+          "debtPositionId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "organizationId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "nav" : {
+            "type" : "string"
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          }
+        }
+      },
+      "PagedModelInstallmentRegistry" : {
+        "type" : "object",
+        "properties" : {
+          "_embedded" : {
+            "type" : "object",
+            "properties" : {
+              "installmentRegistries" : {
+                "type" : "array",
+                "items" : {
+                  "$ref" : "#/components/schemas/InstallmentRegistry"
+                }
+              }
+            }
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          },
+          "page" : {
+            "$ref" : "#/components/schemas/PageMetadata"
+          }
+        }
+      },
+      "CollectionModelInstallmentRegistry" : {
+        "type" : "object",
+        "properties" : {
+          "_embedded" : {
+            "type" : "object",
+            "properties" : {
+              "installmentRegistries" : {
+                "type" : "array",
+                "items" : {
+                  "$ref" : "#/components/schemas/InstallmentRegistry"
+                }
+              }
+            }
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
           }
         }
       },
