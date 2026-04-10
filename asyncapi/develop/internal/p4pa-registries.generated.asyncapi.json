@@ -1233,6 +1233,88 @@
           }
         ]
       },
+      "RegistryEventSendTimelineDTO": {
+        "type": "object",
+        "examples": [
+          {
+            "body": "string",
+            "dateTime": "2015-07-20T15:49:04-07:00",
+            "eventId": "string",
+            "eventSubType": "REQ",
+            "eventType": "string",
+            "grantorId": "string",
+            "iun": "string",
+            "newStatus": "string",
+            "notificationRequestId": "string",
+            "organizationId": 0,
+            "outcome": "OK",
+            "recipientIndex": 0,
+            "registryId": "string",
+            "registryOrigin": "string",
+            "registryType": "REGISTRY_PAGOPA",
+            "requestorId": "string",
+            "streamId": "string",
+            "traceId": "string"
+          }
+        ],
+        "required": [
+          "dateTime",
+          "eventId",
+          "eventSubType",
+          "eventType",
+          "grantorId",
+          "notificationRequestId",
+          "organizationId",
+          "outcome",
+          "registryId",
+          "registryType",
+          "requestorId",
+          "streamId",
+          "traceId"
+        ],
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/RegistryInterfaceEventDTO"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "body": {
+                "type": "string"
+              },
+              "eventId": {
+                "type": "string"
+              },
+              "eventType": {
+                "type": "string"
+              },
+              "iun": {
+                "type": "string"
+              },
+              "newStatus": {
+                "type": "string"
+              },
+              "notificationRequestId": {
+                "type": "string"
+              },
+              "organizationId": {
+                "type": "integer",
+                "format": "int64"
+              },
+              "outcome": {
+                "$ref": "#/components/schemas/RegistryOutcome"
+              },
+              "recipientIndex": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "streamId": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
       "RegistryEventSilDTO": {
         "type": "object",
         "examples": [
@@ -1418,7 +1500,8 @@
         "type": "string",
         "enum": [
           "REGISTRY_PAGOPA",
-          "REGISTRY_SIL"
+          "REGISTRY_SIL",
+          "REGISTRY_SEND"
         ],
         "examples": [
           "\"REGISTRY_PAGOPA\""
@@ -1568,6 +1651,9 @@
               },
               {
                 "$ref": "#/components/schemas/RegistryEventPagoPaDTO"
+              },
+              {
+                "$ref": "#/components/schemas/RegistryEventSendTimelineDTO"
               },
               {
                 "$ref": "#/components/schemas/RegistryEventSilDTO"
