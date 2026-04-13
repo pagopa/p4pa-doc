@@ -1034,6 +1034,84 @@
         } ]
       }
     },
+    "/brokers/{brokerId}/organizations/{orgFiscalCode}/logo" : {
+      "get" : {
+        "tags" : [ "Organization" ],
+        "summary" : "Retrieves the logo of an organization",
+        "operationId" : "getOrganizationLogo",
+        "parameters" : [ {
+          "name" : "brokerId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }, {
+          "name" : "orgFiscalCode",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/OrganizationLogoDTO"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized - Missing or invalid token",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/OrganizationLogoDTO"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden - Access denied",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/OrganizationLogoDTO"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Not Found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/OrganizationLogoDTO"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/OrganizationLogoDTO"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
     "/brokers/{brokerId}/organization/{organizationId}/debt-position/{debtPositionId}/payment-option/{paymentOptionId}/receipts" : {
       "get" : {
         "tags" : [ "Receipt" ],
@@ -2479,6 +2557,15 @@
           }
         },
         "required" : [ "category", "message" ]
+      },
+      "OrganizationLogoDTO" : {
+        "type" : "object",
+        "properties" : {
+          "orgLogo" : {
+            "type" : "string",
+            "description" : "Base64 encoded logo of the organization"
+          }
+        }
       },
       "InstallmentDebtorExtendedDTO" : {
         "type" : "object",

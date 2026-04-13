@@ -740,6 +740,39 @@ paths:
           description: Not Found
         "500":
           description: Internal server error
+  /brokers/{brokerId}/organizations/{orgFiscalCode}/logo:
+    get:
+      tags:
+        - Organization
+      summary: "Retrieves the logo of an organization"
+      operationId: getOrganizationLogo
+      parameters:
+        - name: brokerId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: orgFiscalCode
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrganizationLogoDTO"
+        '401':
+          description: Unauthorized - Missing or invalid token
+        '403':
+          description: Forbidden - Access denied
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
 security:
   - BearerAuth: [ ]
 components:
@@ -1246,3 +1279,10 @@ components:
           type: string
         city:
           type: string
+    OrganizationLogoDTO:
+      type: object
+      properties:
+        orgLogo:
+          type: string
+          format: base64
+          description: Base64 encoded logo of the organization
