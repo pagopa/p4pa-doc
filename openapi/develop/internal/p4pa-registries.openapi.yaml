@@ -89,6 +89,17 @@ components:
   schemas:
     PagoPaRegistryDTO:
       type: object
+      required:
+        - registryId
+        - dateTime
+        - eventCategory
+        - eventSubType
+        - eventType
+        - grantorId
+        - orgFiscalCode
+        - outcome
+        - requestorId
+        - traceId
       properties:
         registryId:
           type: string
@@ -127,10 +138,11 @@ components:
           type: 'RegistryOutcome'
         body:
           type: string
+    SilRegistryDTO:
+      type: object
       required:
         - registryId
         - dateTime
-        - eventCategory
         - eventSubType
         - eventType
         - grantorId
@@ -138,8 +150,6 @@ components:
         - outcome
         - requestorId
         - traceId
-    SilRegistryDTO:
-      type: object
       properties:
         registryId:
           type: string
@@ -168,20 +178,11 @@ components:
           type: 'RegistryOutcome'
         body:
           type: string
-      required:
-        - registryId
-        - dateTime
-        - eventSubType
-        - eventType
-        - grantorId
-        - orgFiscalCode
-        - outcome
-        - requestorId
-        - traceId
     ErrorDTO:
       type: object
       required:
         - category
+        - code
         - message
       properties:
         category:
@@ -190,6 +191,8 @@ components:
             - NOT_FOUND
             - BAD_REQUEST
             - GENERIC_ERROR
+        code:
+          type: string
         message:
           type: string
         traceId:
