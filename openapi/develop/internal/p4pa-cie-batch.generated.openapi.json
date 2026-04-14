@@ -168,15 +168,18 @@
         },
         "required" : [ "runId", "workflowId" ]
       },
-      "CodeEnum" : {
+      "CategoryEnum" : {
         "type" : "string",
         "enum" : [ "NOT_FOUND", "BAD_REQUEST", "GENERIC_ERROR", "CONFLICT" ]
       },
       "ErrorDTO" : {
         "type" : "object",
         "properties" : {
+          "category" : {
+            "$ref" : "#/components/schemas/CategoryEnum"
+          },
           "code" : {
-            "$ref" : "#/components/schemas/CodeEnum"
+            "type" : "string"
           },
           "message" : {
             "type" : "string"
@@ -185,7 +188,7 @@
             "type" : "string"
           }
         },
-        "required" : [ "code", "message" ]
+        "required" : [ "category", "code", "message" ]
       },
       "WorkflowExecutionStatus" : {
         "type" : "string",

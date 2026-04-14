@@ -35,16 +35,19 @@ components:
     ErrorDTO:
       type: object
       required:
+        - category
         - code
         - message
       properties:
-        code:
+        category:
           type: string
           enum:
             - NOT_FOUND
             - BAD_REQUEST
             - GENERIC_ERROR
             - CONFLICT
+        code:
+          type: string
         message:
           type: string
         traceId:
