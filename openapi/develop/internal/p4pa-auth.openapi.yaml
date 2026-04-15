@@ -897,6 +897,7 @@ components:
       type: object
       required:
         - error
+        - code
       properties:
         error:
           type: string
@@ -909,6 +910,8 @@ components:
             - invalid_scope
             - invalid_grant
             - unsupported_grant_type
+        code:
+          type: string
         error_description:
           type: string
           x-field-extra-annotation: "@com.fasterxml.jackson.annotation.JsonProperty(\"error_description\")"
