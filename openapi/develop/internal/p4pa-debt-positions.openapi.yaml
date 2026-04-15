@@ -1970,6 +1970,33 @@ paths:
           description: Invalid request parameters
         "500":
           description: Internal server error
+  /transfers/postal-iban/verify:
+    get:
+      tags:
+        - transfer
+      operationId: verifyPostalIban
+      parameters:
+        - name: installmentIds
+          in: query
+          required: true
+          schema:
+            type: array
+            items:
+              type: integer
+              format: int64
+      responses:
+        "200":
+          description: Map of installmentId to boolean indicating if all transfers have a non-null postalIban (true if all are valid, false if at least one is null)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostalIbanVerifyResponse'
+        "400":
+          description: Invalid request parameters
+        "404":
+          description: No transfers found
+        "500":
+          description: Internal server error
 security:
   - BearerAuth: [ ]
 components:
@@ -3193,3 +3220,13 @@ components:
           type: string
         newPostalIban:
           type: string
+    PostalIbanVerifyResponse:
+      type: object
+      required:
+        - installmentPostalIbanCheck
+      properties:
+        installmentPostalIbanCheck:
+          type: object
+          additionalProperties:
+            type: boolean
+
