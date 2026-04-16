@@ -1,0 +1,420 @@
+openapi: 3.0.1
+info:
+  title: p4pa-io-notification
+  description: Api and Models
+  version: 0.0.1
+servers:
+  - url: "http://localhost:8080/ionotification"
+paths:
+  /service/{organizationId}/{debtPositionTypeOrgId}:
+    post:
+      tags:
+        - ioNotification
+      operationId: createService
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: debtPositionTypeOrgId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceRequestDTO'
+      responses:
+        '201':
+          description: Created
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IoNotificationErrorDTO'
+        '400':
+          description: Invalid Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IoNotificationErrorDTO'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IoNotificationErrorDTO'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IoNotificationErrorDTO'
+    get:
+      tags:
+        - ioNotification
+      operationId: getService
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: debtPositionTypeOrgId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IoNotificationErrorDTO'
+        '404':
+          description: Service not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IoNotificationErrorDTO'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IoNotificationErrorDTO'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IoNotificationErrorDTO'
+  /service/{serviceId}:
+    delete:
+      tags:
+        - ioNotification
+      operationId: deleteService
+      parameters:
+        - name: serviceId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IoNotificationErrorDTO'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IoNotificationErrorDTO'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IoNotificationErrorDTO'
+  /message:
+    post:
+      tags:
+        - ioNotification
+      operationId: sendMessage
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NotificationRequestDTO'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponseDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IoNotificationErrorDTO'
+        '400':
+          description: Invalid Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IoNotificationErrorDTO'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IoNotificationErrorDTO'
+        '404':
+          description: Service not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IoNotificationErrorDTO'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IoNotificationErrorDTO'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IoNotificationErrorDTO'
+  /{notificationId}/message:
+    delete:
+      tags:
+        - ioNotification
+      operationId: deleteNotification
+      parameters:
+        - name: notificationId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IoNotificationErrorDTO'
+        '400':
+          description: Invalid Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IoNotificationErrorDTO'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IoNotificationErrorDTO'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IoNotificationErrorDTO'
+security:
+  - BearerAuth: []
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+  schemas:
+    ServiceDTO:
+      type: object
+      properties:
+        serviceId:
+          type: string
+        status:
+          type: string
+        serviceName:
+          type: string
+        serviceDescription:
+          type: string
+        organizationName:
+          type: string
+        organizationDepartmentName:
+          type: string
+        organizationFiscalCode:
+          type: string
+        creationRequestDate:
+          type: string
+        creationServiceDate:
+          type: string
+    ServiceRequestDTO:
+      type: object
+      required:
+        - name
+        - description
+        - organization
+        - metadata
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        organization:
+          $ref: '#/components/schemas/OrganizationRequestDTO'
+        require_secure_channel:
+          type: boolean
+          x-field-extra-annotation: |-
+            @JsonProperty("require_secure_channel")
+        authorized_cidrs:
+          type: array
+          x-field-extra-annotation: |-
+            @JsonProperty("authorized_cidrs")
+          items:
+            type: string
+        authorized_recipients:
+          type: array
+          x-field-extra-annotation: |-
+            @JsonProperty("authorized_recipients")
+          items:
+            type: string
+        metadata:
+          $ref: '#/components/schemas/ServiceRequestMetadataDTO'
+    OrganizationRequestDTO:
+      type: object
+      required:
+        - name
+        - fiscal_code
+      properties:
+        name:
+          type: string
+        fiscal_code:
+          type: string
+          x-field-extra-annotation: |-
+            @JsonProperty("fiscal_code")
+        department_name:
+          type: string
+          x-field-extra-annotation: |-
+            @JsonProperty("department_name")
+    ServiceRequestMetadataDTO:
+      type: object
+      required:
+        - scope
+        - topic_id
+      properties:
+        web_url:
+          type: string
+          x-field-extra-annotation: |-
+            @JsonProperty("web_url")
+        app_ios:
+          type: string
+          x-field-extra-annotation: |-
+            @JsonProperty("app_ios")
+        app_android:
+          type: string
+          x-field-extra-annotation: |-
+            @JsonProperty("app_android")
+        tos_url:
+          type: string
+          x-field-extra-annotation: |-
+            @JsonProperty("tos_url")
+        privacy_url:
+          type: string
+          x-field-extra-annotation: |-
+            @JsonProperty("privacy_url")
+        address:
+          type: string
+        phone:
+          type: string
+        email:
+          type: string
+        pec:
+          type: string
+        cta:
+          type: string
+        token_name:
+          type: string
+          x-field-extra-annotation: |-
+            @JsonProperty("token_name")
+        support_url:
+          type: string
+          x-field-extra-annotation: |-
+            @JsonProperty("support_url")
+        scope:
+          type: string
+        topic_id:
+          type: number
+          x-field-extra-annotation: |-
+            @JsonProperty("topic_id")
+    NotificationRequestDTO:
+      type: object
+      required:
+        - serviceId
+        - subject
+        - markdown
+      properties:
+        serviceId:
+          type: string
+        orgId:
+          type: integer
+          format: int64
+        debtPositionTypeOrgId:
+          type: integer
+          format: int64
+        nav:
+          type: string
+        subject:
+          type: string
+        markdown:
+          type: string
+        personEntityType:
+          type: string
+          enum:
+            - F
+            - G
+        fiscalCode:
+          type: string
+        orgFiscalCode:
+          type: string
+        amount:
+          type: integer
+          format: int64
+    MessageResponseDTO:
+      type: object
+      properties:
+        notificationId:
+          type: string
+    IoNotificationErrorDTO:
+      type: object
+      required:
+        - category
+        - code
+        - message
+      properties:
+        category:
+          type: string
+          enum:
+            - IO_NOTIFICATION_SERVICE_NOT_FOUND
+            - IO_NOTIFICATION_SERVICE_ALREADY_DELETED
+            - IO_NOTIFICATION_WRONG_PAYLOAD
+            - IO_NOTIFICATION_GENERIC_ERROR
+            - IO_NOTIFICATION_NOT_FOUND
+            - IO_NOTIFICATION_TOO_MANY_REQUESTS
+            - IO_NOTIFICATION_INVALID_REQUEST
+            - IO_NOTIFICATION_BAD_REQUEST
+        code:
+          type: string
+        message:
+          type: string
+        traceId:
+          type: string
