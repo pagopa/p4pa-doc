@@ -298,7 +298,7 @@ paths:
           content:
             application/json:
               schema:
-                type: 'DebtPositionDTO'
+                type: 'DebtPositionExtendedDTO'
         '401':
           description: Unauthorized - Missing or invalid token
         '403':
@@ -965,6 +965,8 @@ components:
           format: int64
         remittanceInformation:
           type: string
+        allCCP:
+          type: boolean
     PagedDebtorReceiptsDTO:
       type: object
       required:
@@ -1197,6 +1199,8 @@ components:
           type: string
         orgName:
           type: string
+        allCCP:
+          type: boolean
     DebtorInstallmentsOverviewDTO:
       type: object
       required:
@@ -1204,6 +1208,7 @@ components:
         - status
         - amount
         - remittanceInformation
+        - allCCP
       properties:
         installmentId:
           type: integer
@@ -1228,6 +1233,8 @@ components:
         paymentDateTime:
           type: string
           format: date-time
+        allCCP:
+          type: boolean
     ErrorDTO:
       type: object
       required:
