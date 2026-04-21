@@ -230,6 +230,25 @@ paths:
           description: Notification not found
         '500':
           description: Internal server error
+    delete:
+      tags:
+        - Notification
+      operationId: deleteExpiredLegalFacts
+      parameters:
+        - name: sendNotificationId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileExpirationResponseDTO'
+        '404':
+          description: Not found
   /notification-request/{notificationRequestId}/legal-facts:
     post:
       tags:
@@ -809,6 +828,7 @@ components:
       type: object
       required:
         - category
+        - code
         - message
       properties:
         category:
@@ -818,6 +838,9 @@ components:
             - SEND_NOTIFICATION_BAD_REQUEST
             - SEND_NOTIFICATION_GENERIC_ERROR
             - SEND_NOTIFICATION_ALREADY_PROCESSED
+            - SEND_NOTIFICATION_CONFLICT
+        code:
+          type: string
         message:
           type: string
         traceId:
@@ -880,6 +903,11 @@ components:
           type: 'LegalFactCategoryDTO'
         url:
           type: string
+        status:
+          type: 'FileStatus'
+        downloadDate:
+          type: string
+          format: date-time
     LegalFactListDTO:
       description: legal fact list related to a SEND notification
       type: array
@@ -939,3 +967,9 @@ components:
         retryAfter:
           description: Estimated wait time in seconds until the document content is available for download.
           type: number
+    FileExpirationResponseDTO:
+      type: object
+      properties:
+        nextFileExpirationDate:
+          type: string
+          format: date-time
