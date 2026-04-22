@@ -63,30 +63,30 @@ Architettura progettata secondo i principi di security by design e privacy by de
 Interfaccia centralizzata e intuitiva, progettata per migliorare l’usabilità e semplificare l’accesso ai servizi di pagamento per gli enti intermediari e intermediati.
 
 ## Repository collegati
-**Front-End**
-[p4pa-pu-fe](https://github.com/pagopa/p4pa-pu-fe)
+**Front-End**  
+[p4pa-pu-fe](https://github.com/pagopa/p4pa-pu-fe)  
 
-**Back-End**
-[p4pa-debt-positions](https://github.com/pagopa/p4pa-debt-positions)
-[p4pa-pagopa-payments](https://github.com/pagopa/p4pa-pagopa-payments)
-[p4pa-pu-sil](https://github.com/pagopa/p4pa-pu-sil)
-[p4pa-workflow-hub](https://github.com/pagopa/p4pa-workflow-hub)
-[p4pa-organization](https://github.com/pagopa/p4pa-organization)
-[p4pa-classification](https://github.com/pagopa/p4pa-classification)
-[p4pa-process-executions](https://github.com/pagopa/p4pa-process-executions)
-[p4pa-iam-sync](https://github.com/pagopa/p4pa-iam-sync)
-[p4pa-analytics-data-ingestion](https://github.com/pagopa/p4pa-analytics-data-ingestion)
-[p4pa-workflow-worker](https://github.com/pagopa/p4pa-workflow-worker)
-[p4pa-auth](https://github.com/pagopa/p4pa-auth)
-[p4pa-pu-bff](https://github.com/pagopa/p4pa-pu-bff)
-[p4pa-fileshare](https://github.com/pagopa/p4pa-fileshare)
-[p4pa-registries](https://github.com/pagopa/p4pa-registries)
-[p4pa-pdnd-services](https://github.com/pagopa/p4pa-pdnd-services)
-[p4pa-io-notification](https://github.com/pagopa/p4pa-io-notification)
-[p4pa-superset](https://github.com/pagopa/p4pa-superset)
-[p4pa-send-notification](https://github.com/pagopa/p4pa-send-notification)
-[p4pa-payhub-activities](https://github.com/pagopa/p4pa-payhub-activities)
-[data-processing](https://github.com/pagopa/p4pa-analytics-data-processing)
+**Back-End**  
+[p4pa-debt-positions](https://github.com/pagopa/p4pa-debt-positions)  
+[p4pa-pagopa-payments](https://github.com/pagopa/p4pa-pagopa-payments)  
+[p4pa-pu-sil](https://github.com/pagopa/p4pa-pu-sil)  
+[p4pa-workflow-hub](https://github.com/pagopa/p4pa-workflow-hub)  
+[p4pa-organization](https://github.com/pagopa/p4pa-organization)  
+[p4pa-classification](https://github.com/pagopa/p4pa-classification)  
+[p4pa-process-executions](https://github.com/pagopa/p4pa-process-executions)  
+[p4pa-iam-sync](https://github.com/pagopa/p4pa-iam-sync)  
+[p4pa-analytics-data-ingestion](https://github.com/pagopa/p4pa-analytics-data-ingestion)  
+[p4pa-workflow-worker](https://github.com/pagopa/p4pa-workflow-worker)  
+[p4pa-auth](https://github.com/pagopa/p4pa-auth)  
+[p4pa-pu-bff](https://github.com/pagopa/p4pa-pu-bff)  
+[p4pa-fileshare](https://github.com/pagopa/p4pa-fileshare)  
+[p4pa-registries](https://github.com/pagopa/p4pa-registries)  
+[p4pa-pdnd-services](https://github.com/pagopa/p4pa-pdnd-services)  
+[p4pa-io-notification](https://github.com/pagopa/p4pa-io-notification)  
+[p4pa-superset](https://github.com/pagopa/p4pa-superset)  
+[p4pa-send-notification](https://github.com/pagopa/p4pa-send-notification)  
+[p4pa-payhub-activities](https://github.com/pagopa/p4pa-payhub-activities)  
+[data-processing](https://github.com/pagopa/p4pa-analytics-data-processing)  
 
 ## Manualistica Utente
 La documentazione utente per l'uso del software è disponibile ai seguenti indirizzi:  
