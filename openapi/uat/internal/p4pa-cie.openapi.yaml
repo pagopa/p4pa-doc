@@ -293,6 +293,43 @@ paths:
           description: Conflict
         "500":
           description: Internal Server Error
+  /assistance/notices/by-debtor:
+    post:
+      tags:
+        - assistanceCie
+      operationId: assistanceGetNoticesByDebtorFiscalCode
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - debtorFiscalCode
+              properties:
+                debtorFiscalCode:
+                  type: string
+                orgFiscalCode:
+                  type: string
+                paymentDate:
+                  type: string
+                  format: date
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PagedAssistanceNoticesCieDTO"
+        "400":
+          description: Invalid request
+        "401":
+          description: Unauthorized - Missing or invalid token
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+      x-spring-paginated: true
 security:
   - BearerAuth: [ ]
 components:
@@ -314,11 +351,12 @@ components:
             - BAD_REQUEST
             - GENERIC_ERROR
             - CONFLICT
+            - FORBIDDEN
+        code:
+          type: string
         message:
           type: string
         traceId:
-          type: string
-        code:
           type: string
     DebtPositionCieStatus:
       type: string
@@ -505,4 +543,60 @@ components:
         label:
           type: string
         value:
+          type: string
+    PagedAssistanceNoticesCieDTO:
+      type: object
+      required:
+        - content
+        - size
+        - totalElements
+        - totalPages
+        - number
+      properties:
+        content:
+          type: array
+          items:
+            $ref: "#/components/schemas/AssistanceNoticesCieDTO"
+        size:
+          type: integer
+          format: int64
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int64
+        number:
+          type: integer
+          format: int64
+    AssistanceNoticesCieDTO:
+      type: object
+      required:
+        - nav
+        - amountCents
+        - status
+        - orgFiscalCode
+        - orgName
+        - remittanceInformation
+      properties:
+        nav:
+          type: string
+        amountCents:
+          type: integer
+          format: int64
+        status:
+          $ref: "#/components/schemas/DebtPositionCieStatus"
+        paymentDate:
+          type: string
+          format: date-time
+        completionDate:
+          type: string
+          format: date-time
+        orgFiscalCode:
+          type: string
+        orgName:
+          type: string
+        reasonCode:
+          type: string
+        reasonDescription:
           type: string

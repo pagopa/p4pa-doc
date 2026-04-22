@@ -19,6 +19,9 @@
     "name" : "OrganizationCie",
     "description" : "the OrganizationCie API"
   }, {
+    "name" : "assistanceCie",
+    "description" : "the assistanceCie API"
+  }, {
     "name" : "ipzsCie",
     "description" : "the ipzsCie API"
   }, {
@@ -167,6 +170,109 @@
           },
           "500" : {
             "description" : "Internal Server Error"
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/assistance/notices/by-debtor" : {
+      "post" : {
+        "tags" : [ "assistanceCie" ],
+        "operationId" : "assistanceGetNoticesByDebtorFiscalCode",
+        "parameters" : [ {
+          "name" : "page",
+          "in" : "query",
+          "description" : "Zero-based page index (0..N)",
+          "required" : false,
+          "schema" : {
+            "type" : "integer",
+            "default" : 0,
+            "minimum" : 0
+          }
+        }, {
+          "name" : "size",
+          "in" : "query",
+          "description" : "The size of the page to be returned",
+          "required" : false,
+          "schema" : {
+            "type" : "integer",
+            "default" : 20,
+            "minimum" : 1
+          }
+        }, {
+          "name" : "sort",
+          "in" : "query",
+          "description" : "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+          "required" : false,
+          "schema" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/AssistanceGetNoticesByDebtorFiscalCodeRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PagedAssistanceNoticesCieDTO"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PagedAssistanceNoticesCieDTO"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized - Missing or invalid token",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PagedAssistanceNoticesCieDTO"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Not Found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PagedAssistanceNoticesCieDTO"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PagedAssistanceNoticesCieDTO"
+                }
+              }
+            }
           }
         },
         "security" : [ {
@@ -1084,6 +1190,90 @@
         },
         "required" : [ "debtPositionTypeOrgCode", "debtor", "orgFiscalCode", "origin", "remittanceInformation" ]
       },
+      "AssistanceNoticesCieDTO" : {
+        "type" : "object",
+        "properties" : {
+          "nav" : {
+            "type" : "string"
+          },
+          "amountCents" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "status" : {
+            "$ref" : "#/components/schemas/DebtPositionCieStatus"
+          },
+          "paymentDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "completionDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "orgFiscalCode" : {
+            "type" : "string"
+          },
+          "orgName" : {
+            "type" : "string"
+          },
+          "reasonCode" : {
+            "type" : "string"
+          },
+          "reasonDescription" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "amountCents", "nav", "orgFiscalCode", "orgName", "status" ]
+      },
+      "DebtPositionCieStatus" : {
+        "type" : "string",
+        "enum" : [ "UNPAID", "PAID", "BURNED", "REFUNDED" ]
+      },
+      "PagedAssistanceNoticesCieDTO" : {
+        "type" : "object",
+        "properties" : {
+          "content" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/AssistanceNoticesCieDTO"
+            }
+          },
+          "size" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "totalElements" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "totalPages" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "number" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        },
+        "required" : [ "content", "number", "size", "totalElements", "totalPages" ]
+      },
+      "AssistanceGetNoticesByDebtorFiscalCodeRequest" : {
+        "type" : "object",
+        "properties" : {
+          "debtorFiscalCode" : {
+            "type" : "string"
+          },
+          "orgFiscalCode" : {
+            "type" : "string"
+          },
+          "paymentDate" : {
+            "type" : "string",
+            "format" : "date"
+          }
+        },
+        "required" : [ "debtorFiscalCode" ]
+      },
       "DynamicLabelDTO" : {
         "type" : "object",
         "properties" : {
@@ -1118,10 +1308,6 @@
           }
         },
         "required" : [ "result" ]
-      },
-      "DebtPositionCieStatus" : {
-        "type" : "string",
-        "enum" : [ "UNPAID", "PAID", "BURNED", "REFUNDED" ]
       },
       "PagedPaymentCieDTO" : {
         "type" : "object",
