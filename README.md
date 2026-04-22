@@ -5,7 +5,6 @@ La piattaforma consente di gestire in modo integrato il ciclo di vita delle posi
 
 È progettata per offrire agli Enti Pubblici Creditori e ai loro Intermediari Tecnologici un unico punto di accesso per l’interazione con i prodotti dell’ecosistema pagoPA (SEND, IO, pagoPA, PDND), permettendo il monitoraggio, l’integrazione e l’automazione dei processi digitali connessi ai pagamenti.
 
-
 ## Obiettivo
 
 L’obiettivo del progetto è evolvere tecnologicamente e normativamente le soluzioni MyPay/MyPivot, attraverso:
@@ -18,8 +17,6 @@ L’obiettivo del progetto è evolvere tecnologicamente e normativamente le solu
 
 La finalità è garantire maggiore efficienza operativa, evolvibilità della piattaforma e piena conformità alle SANP e alla normativa GDPR, semplificando le integrazioni con le soluzioni centrali dell’ecosistema pagoPA.
 
-
-
 ## Valore aggiunto
 
 Architettura moderna e scalabile**: progettata per evolvere nel tempo  
@@ -27,8 +24,6 @@ Integrazione nativa con l’ecosistema pagoPA**: inclusi SEND, IO, pagoPA, PDND
 Allineamento continuo alle evoluzioni normative**: SANP, GDPR  
 Esperienza utente rinnovata**: conforme alle Linee guida di design AgID  
 Interoperabilità e automazione dei processi**: a supporto della trasformazione digitale della PA  
-
-
 
 ## Benefici per la Pubblica Amministrazione
 
@@ -43,7 +38,6 @@ Integrazione nativa con l’ecosistema pagoPA che limita sviluppi personalizzati
 
 **Esperienza utente sicura e conforme**  
 Security by design, privacy by design, autenticazione OAuth2/OIDC, conformità GDPR e rispetto delle Linee guida AgID.
-
 
 ## Funzionalità principali
 
