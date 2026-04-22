@@ -92,5 +92,5 @@ Interfaccia centralizzata e intuitiva, progettata per migliorare l’usabilità 
 La documentazione utente per l'uso del software è disponibile ai seguenti indirizzi:  
 [Manuale Amministratore Ente Intermediario](reference/user-docs/Manuale_Amministratore_Ente_Intermediario.pdf)  
 [Manuale Amministratore Ente Intermediato](reference/user-docs/Manuale_Amministratore_Ente_Intermediato.pdf)  
-[Manuale Operatore Ente](reference/user-docs/user-docs.pdf) 
+[Manuale Operatore Ente](reference/user-docs/Manuale_Operatore_Ente.pdf) 
 
