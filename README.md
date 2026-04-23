@@ -19,11 +19,11 @@ La finalità è garantire maggiore efficienza operativa, evolvibilità della pia
 
 ## Valore aggiunto
 
-Architettura moderna e scalabile**: progettata per evolvere nel tempo  
-Integrazione nativa con l’ecosistema pagoPA**: inclusi SEND, IO, pagoPA, PDND 
-Allineamento continuo alle evoluzioni normative**: SANP, GDPR  
-Esperienza utente rinnovata**: conforme alle Linee guida di design AgID  
-Interoperabilità e automazione dei processi**: a supporto della trasformazione digitale della PA  
+**Architettura moderna e scalabile**: progettata per evolvere nel tempo  
+**Integrazione nativa con l’ecosistema pagoPA**: inclusi SEND, IO, pagoPA, PDND 
+**Allineamento continuo alle evoluzioni normative**: SANP, GDPR  
+**Esperienza utente rinnovata**: conforme alle Linee guida di design AgID  
+**Interoperabilità e automazione dei processi**: a supporto della trasformazione digitale della PA  
 
 ## Benefici per la Pubblica Amministrazione
 
