@@ -1,21 +1,17 @@
 ## Descrizione
-Piattaforma Unitaria è una soluzione sviluppata dalla collaborazione tra la Comunità SPAC Reload e PagoPA S.p.A., con l’obiettivo di centralizzare e rendere sostenibile la gestione della piattaforma dei pagamenti per enti intermediari (es. Regioni) ed enti intermediati (es. Comuni).
+Piattaforma Unitaria è una soluzione ideata e sviluppata da PagoPA per supportare gli EC nella gestione del ciclo di vita delle proprie Posizioni Debitorie.
 
-La piattaforma consente di gestire in modo integrato il ciclo di vita delle posizioni debitorie, le notifiche a valore legale e i pagamenti digitali, garantendo un costante allineamento alle evoluzioni normative e tecniche (SANP, GDPR).
+L’idea è quella di garantire agli EC un applicativo consistente con i processi e i modelli dati attualmente presenti nella piattaforma pagoPA in modo da garantire un’integrazione con tutte le funzionalità esposte, facilmente manutenibile ed evolvibile in accordo con le novità che verranno introdotte nelle SANP.
 
-È progettata per offrire agli Enti Pubblici Creditori e ai loro Intermediari Tecnologici un unico punto di accesso per l’interazione con i prodotti dell’ecosistema pagoPA (SEND, IO, pagoPA, PDND), permettendo il monitoraggio, l’integrazione e l’automazione dei processi digitali connessi ai pagamenti.
+Supportare gli EC nel ciclo di vita delle proprie Posizioni Debitorie necessita inoltre di integrare all’interno di Piattaforma Unitaria anche gli altri prodotti dell’ecosistema PagoPA: SEND, AppIO e PDND. L’applicativo quindi presenta e implementa i layer deputati alla comunicazione con questi applicativi.
 
-## Obiettivo
+Il prodotto si identifica con un’architettura moderna e scalabile, frutto dell’esperienza dei team tecnici di PagoPA.
 
-L’obiettivo del progetto è evolvere tecnologicamente e normativamente le soluzioni MyPay/MyPivot, attraverso:
+Il modello implementato si basa sul concetto di EC “Intermediario” ed EC “intermediati”; tuttavia, in assenza di intermediazione e nel caso di erogazione a un singolo EC, tale schema non è vincolante. In questi casi, il singolo EC assumerà di fatto il ruolo di EC intermediario.
 
-- Una nuova architettura applicativa
-- Un modello di autenticazione ottimizzato e conforme agli standard OAuth2 e OIDC
-- Una UX/UI completamente ridisegnata
-- Processi riorganizzati a supporto del ciclo di vita della Posizione Debitoria
-- Una suite strutturata di test funzionali end-to-end
+PU consente di gestire, all’interno di una singola istanza, più EC Intermediari, ciascuno con il proprio insieme di EC Intermediati. Attualmente, ogni EC Intermediato è associato a un unico EC Intermediario all’interno di PU.
 
-La finalità è garantire maggiore efficienza operativa, evolvibilità della piattaforma e piena conformità alle SANP e alla normativa GDPR, semplificando le integrazioni con le soluzioni centrali dell’ecosistema pagoPA.
+PU non include il modulo di autenticazione, fornisce un apposito connettore (p4pa-auth) verso lo IAM dell’erogatore o dell’EC Intermediario.
 
 ## Valore aggiunto
 
