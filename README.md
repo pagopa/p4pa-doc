@@ -1,5 +1,5 @@
 ## Descrizione
-Piattaforma Unitaria è una soluzione ideata e sviluppata da PagoPA per supportare gli EC nella gestione del ciclo di vita delle proprie Posizioni Debitorie.
+Piattaforma Unitaria* (di seguito PU) è una soluzione ideata e sviluppata da PagoPA per supportare gli EC nella gestione del ciclo di vita delle proprie Posizioni Debitorie.
 
 L’idea è quella di garantire agli EC un applicativo consistente con i processi e i modelli dati attualmente presenti nella piattaforma pagoPA in modo da garantire un’integrazione con tutte le funzionalità esposte, facilmente manutenibile ed evolvibile in accordo con le novità che verranno introdotte nelle SANP.
 
