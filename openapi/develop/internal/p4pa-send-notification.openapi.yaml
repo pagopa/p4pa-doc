@@ -249,6 +249,26 @@ paths:
                 $ref: '#/components/schemas/FileExpirationResponseDTO'
         '404':
           description: Not found
+  /notification/{sendNotificationId}/documents:
+    delete:
+      tags:
+        - Notification
+      operationId: deleteExpiredDocuments
+      parameters:
+        - name: sendNotificationId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileExpirationResponseDTO'
+        '404':
+          description: Not found
   /notification-request/{notificationRequestId}/legal-facts:
     post:
       tags:
