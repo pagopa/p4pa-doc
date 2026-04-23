@@ -1186,6 +1186,43 @@
         "security" : [ {
           "BearerAuth" : [ ]
         } ]
+      },
+      "delete" : {
+        "tags" : [ "Notification" ],
+        "operationId" : "deleteExpiredLegalFacts",
+        "parameters" : [ {
+          "name" : "sendNotificationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/FileExpirationResponseDTO"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/FileExpirationResponseDTO"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
       }
     },
     "/p4pasend/notification/findByOrgIdAndNav" : {
@@ -2327,6 +2364,10 @@
           }
         }
       },
+      "FileStatus" : {
+        "type" : "string",
+        "enum" : [ "WAITING", "READY", "UPLOADED", "EXPIRED" ]
+      },
       "LegalFactDTO" : {
         "type" : "object",
         "description" : "legal fact related to a SEND notification",
@@ -2339,9 +2380,25 @@
           },
           "url" : {
             "type" : "string"
+          },
+          "status" : {
+            "$ref" : "#/components/schemas/FileStatus"
+          },
+          "downloadDate" : {
+            "type" : "string",
+            "format" : "date-time"
           }
         },
         "required" : [ "category", "fileName", "url" ]
+      },
+      "FileExpirationResponseDTO" : {
+        "type" : "object",
+        "properties" : {
+          "nextFileExpirationDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        }
       }
     },
     "securitySchemes" : {
