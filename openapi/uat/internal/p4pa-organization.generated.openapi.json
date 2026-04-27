@@ -2827,6 +2827,31 @@
   },
   "components" : {
     "schemas" : {
+      "OrgSilServiceType" : {
+        "type" : "string",
+        "enum" : [ "PAID_NOTIFICATION_OUTCOME", "ACTUALIZATION" ]
+      },
+      "PageMetadata" : {
+        "type" : "object",
+        "properties" : {
+          "size" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "totalElements" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "totalPages" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "number" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }
+      },
       "AbstractJsonSchemaPropertyObject" : {
         "type" : "object",
         "properties" : {
@@ -2898,125 +2923,6 @@
         "properties" : {
           "_links" : {
             "$ref" : "#/components/schemas/Links"
-          }
-        }
-      },
-      "JwtAlgorithm" : {
-        "type" : "string",
-        "enum" : [ "HS256", "HS384", "HS512", "RS256", "RS384", "RS512", "ES256", "ES384", "ES512" ]
-      },
-      "OrgSilServiceType" : {
-        "type" : "string",
-        "enum" : [ "PAID_NOTIFICATION_OUTCOME", "ACTUALIZATION" ]
-      },
-      "PageMetadata" : {
-        "type" : "object",
-        "properties" : {
-          "size" : {
-            "type" : "integer",
-            "format" : "int64"
-          },
-          "totalElements" : {
-            "type" : "integer",
-            "format" : "int64"
-          },
-          "totalPages" : {
-            "type" : "integer",
-            "format" : "int64"
-          },
-          "number" : {
-            "type" : "integer",
-            "format" : "int64"
-          }
-        }
-      },
-      "SilServiceAuthConfig" : {
-        "discriminator" : {
-          "propertyName" : "authConfig",
-          "mapping" : {
-            "legacyJwt" : "#/components/schemas/SilServiceLegacyJwtAuthConfig",
-            "legacyBasic" : "#/components/schemas/SilServiceLegacyBasicAuthConfig"
-          }
-        },
-        "properties" : {
-          "authConfig" : {
-            "type" : "string"
-          }
-        },
-        "required" : [ "authConfig" ]
-      },
-      "SilServiceLegacyBasicAuthConfig" : {
-        "allOf" : [ {
-          "$ref" : "#/components/schemas/SilServiceAuthConfig"
-        }, {
-          "type" : "object",
-          "properties" : {
-            "authUrl" : {
-              "type" : "string"
-            },
-            "user" : {
-              "type" : "string",
-              "format" : "byte"
-            },
-            "psw" : {
-              "type" : "string",
-              "format" : "byte"
-            }
-          }
-        } ]
-      },
-      "SilServiceLegacyJwtAuthConfig" : {
-        "allOf" : [ {
-          "$ref" : "#/components/schemas/SilServiceAuthConfig"
-        }, {
-          "type" : "object",
-          "properties" : {
-            "kid" : {
-              "type" : "string"
-            },
-            "subject" : {
-              "type" : "string"
-            },
-            "issuer" : {
-              "type" : "string"
-            },
-            "algorithm" : {
-              "$ref" : "#/components/schemas/JwtAlgorithm"
-            },
-            "signingKey" : {
-              "type" : "string",
-              "format" : "byte"
-            }
-          }
-        } ]
-      },
-      "PagoPaInteractionModel" : {
-        "type" : "string",
-        "enum" : [ "SYNC", "SYNC_ACA", "SYNC$GPDPRELOAD", "SYNC_ACA$GPDPRELOAD", "ASYNC_GPD" ]
-      },
-      "PersonalisationFe" : {
-        "type" : "object",
-        "properties" : {
-          "headerAssistanceUrl" : {
-            "type" : "string"
-          },
-          "logoFooterImg" : {
-            "type" : "string"
-          },
-          "footerDescText" : {
-            "type" : "string"
-          },
-          "footerPrivacyInfoUrl" : {
-            "type" : "string"
-          },
-          "footerGDPRUrl" : {
-            "type" : "string"
-          },
-          "footerTermsCondUrl" : {
-            "type" : "string"
-          },
-          "footerAccessibilityUrl" : {
-            "type" : "string"
           }
         }
       },
@@ -3148,6 +3054,100 @@
         "type" : "string",
         "enum" : [ "ACTIVE", "CANCELLED", "DRAFT" ]
       },
+      "JwtAlgorithm" : {
+        "type" : "string",
+        "enum" : [ "HS256", "HS384", "HS512", "RS256", "RS384", "RS512", "ES256", "ES384", "ES512" ]
+      },
+      "SilServiceAuthConfig" : {
+        "discriminator" : {
+          "propertyName" : "authConfig",
+          "mapping" : {
+            "legacyJwt" : "#/components/schemas/SilServiceLegacyJwtAuthConfig",
+            "legacyBasic" : "#/components/schemas/SilServiceLegacyBasicAuthConfig"
+          }
+        },
+        "properties" : {
+          "authConfig" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "authConfig" ]
+      },
+      "SilServiceLegacyBasicAuthConfig" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/SilServiceAuthConfig"
+        }, {
+          "type" : "object",
+          "properties" : {
+            "authUrl" : {
+              "type" : "string"
+            },
+            "user" : {
+              "type" : "string",
+              "format" : "byte"
+            },
+            "psw" : {
+              "type" : "string",
+              "format" : "byte"
+            }
+          }
+        } ]
+      },
+      "SilServiceLegacyJwtAuthConfig" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/SilServiceAuthConfig"
+        }, {
+          "type" : "object",
+          "properties" : {
+            "kid" : {
+              "type" : "string"
+            },
+            "subject" : {
+              "type" : "string"
+            },
+            "issuer" : {
+              "type" : "string"
+            },
+            "algorithm" : {
+              "$ref" : "#/components/schemas/JwtAlgorithm"
+            },
+            "signingKey" : {
+              "type" : "string",
+              "format" : "byte"
+            }
+          }
+        } ]
+      },
+      "PersonalisationFe" : {
+        "type" : "object",
+        "properties" : {
+          "headerAssistanceUrl" : {
+            "type" : "string"
+          },
+          "logoFooterImg" : {
+            "type" : "string"
+          },
+          "footerDescText" : {
+            "type" : "string"
+          },
+          "footerPrivacyInfoUrl" : {
+            "type" : "string"
+          },
+          "footerGDPRUrl" : {
+            "type" : "string"
+          },
+          "footerTermsCondUrl" : {
+            "type" : "string"
+          },
+          "footerAccessibilityUrl" : {
+            "type" : "string"
+          }
+        }
+      },
+      "PagoPaInteractionModel" : {
+        "type" : "string",
+        "enum" : [ "SYNC", "SYNC_ACA", "SYNC$GPDPRELOAD", "SYNC_ACA$GPDPRELOAD", "ASYNC_GPD" ]
+      },
       "BrokerConfigurationRequestBody" : {
         "type" : "object",
         "properties" : {
@@ -3252,23 +3252,17 @@
             "type" : "string",
             "format" : "byte"
           },
-          "personalisationFe" : {
-            "$ref" : "#/components/schemas/PersonalisationFe"
-          },
           "flagDelegate" : {
             "type" : "boolean"
           },
           "flagPaymentsReporting" : {
             "type" : "boolean"
           },
-          "arpuConfig" : {
-            "type" : "string"
-          },
           "externalId" : {
             "type" : "string"
           }
         },
-        "required" : [ "brokerFiscalCode", "brokerName", "externalId", "flagDelegate", "flagPaymentsReporting", "organizationId", "pagoPaInteractionModel", "personalisationFe" ]
+        "required" : [ "brokerFiscalCode", "brokerName", "externalId", "flagDelegate", "flagPaymentsReporting", "organizationId", "pagoPaInteractionModel" ]
       },
       "OrgSilServiceRequestBody" : {
         "type" : "object",
@@ -3757,198 +3751,6 @@
           }
         }
       },
-      "CollectionModelTaxonomyMacroAreaCodeDTO" : {
-        "type" : "object",
-        "properties" : {
-          "_embedded" : {
-            "type" : "object",
-            "properties" : {
-              "taxonomyMacroAreaCodeDTOes" : {
-                "type" : "array",
-                "items" : {
-                  "$ref" : "#/components/schemas/TaxonomyMacroAreaCodeDTO"
-                }
-              }
-            }
-          },
-          "_links" : {
-            "$ref" : "#/components/schemas/Links"
-          }
-        }
-      },
-      "TaxonomyMacroAreaCodeDTO" : {
-        "type" : "object",
-        "properties" : {
-          "organizationType" : {
-            "type" : "string"
-          },
-          "organizationTypeDescription" : {
-            "type" : "string"
-          },
-          "macroAreaCode" : {
-            "type" : "string"
-          },
-          "macroAreaName" : {
-            "type" : "string"
-          },
-          "macroAreaDescription" : {
-            "type" : "string"
-          },
-          "_links" : {
-            "$ref" : "#/components/schemas/Links"
-          }
-        },
-        "required" : [ "macroAreaCode", "macroAreaDescription", "macroAreaName", "organizationType", "organizationTypeDescription" ]
-      },
-      "CollectionModelTaxonomyCodeDTO" : {
-        "type" : "object",
-        "properties" : {
-          "_embedded" : {
-            "type" : "object",
-            "properties" : {
-              "taxonomyCodeDTOes" : {
-                "type" : "array",
-                "items" : {
-                  "$ref" : "#/components/schemas/TaxonomyCodeDTO"
-                }
-              }
-            }
-          },
-          "_links" : {
-            "$ref" : "#/components/schemas/Links"
-          }
-        }
-      },
-      "TaxonomyCodeDTO" : {
-        "type" : "object",
-        "properties" : {
-          "organizationType" : {
-            "type" : "string"
-          },
-          "organizationTypeDescription" : {
-            "type" : "string"
-          },
-          "macroAreaCode" : {
-            "type" : "string"
-          },
-          "macroAreaName" : {
-            "type" : "string"
-          },
-          "macroAreaDescription" : {
-            "type" : "string"
-          },
-          "serviceTypeCode" : {
-            "type" : "string"
-          },
-          "serviceType" : {
-            "type" : "string"
-          },
-          "serviceTypeDescription" : {
-            "type" : "string"
-          },
-          "collectionReason" : {
-            "type" : "string"
-          },
-          "taxonomyCode" : {
-            "type" : "string"
-          },
-          "_links" : {
-            "$ref" : "#/components/schemas/Links"
-          }
-        },
-        "required" : [ "collectionReason", "macroAreaCode", "macroAreaDescription", "macroAreaName", "organizationType", "organizationTypeDescription", "serviceType", "serviceTypeCode", "serviceTypeDescription", "taxonomyCode" ]
-      },
-      "OrgSilService" : {
-        "type" : "object",
-        "properties" : {
-          "creationDate" : {
-            "type" : "string",
-            "format" : "date-time"
-          },
-          "updateDate" : {
-            "type" : "string",
-            "format" : "date-time"
-          },
-          "updateOperatorExternalId" : {
-            "type" : "string"
-          },
-          "updateTraceId" : {
-            "type" : "string"
-          },
-          "orgSilServiceId" : {
-            "type" : "integer",
-            "format" : "int64"
-          },
-          "organizationId" : {
-            "type" : "integer",
-            "format" : "int64"
-          },
-          "applicationName" : {
-            "type" : "string"
-          },
-          "serviceUrl" : {
-            "type" : "string"
-          },
-          "serviceType" : {
-            "$ref" : "#/components/schemas/OrgSilServiceType"
-          },
-          "flagLegacy" : {
-            "type" : "boolean"
-          },
-          "authConfig" : {
-            "oneOf" : [ {
-              "$ref" : "#/components/schemas/SilServiceLegacyBasicAuthConfig"
-            }, {
-              "$ref" : "#/components/schemas/SilServiceLegacyJwtAuthConfig"
-            } ]
-          },
-          "_links" : {
-            "$ref" : "#/components/schemas/Links"
-          }
-        },
-        "required" : [ "applicationName", "organizationId", "serviceType", "serviceUrl" ]
-      },
-      "PagedModelOrgSilService" : {
-        "type" : "object",
-        "properties" : {
-          "_embedded" : {
-            "type" : "object",
-            "properties" : {
-              "orgSilServices" : {
-                "type" : "array",
-                "items" : {
-                  "$ref" : "#/components/schemas/OrgSilService"
-                }
-              }
-            }
-          },
-          "_links" : {
-            "$ref" : "#/components/schemas/Links"
-          },
-          "page" : {
-            "$ref" : "#/components/schemas/PageMetadata"
-          }
-        }
-      },
-      "CollectionModelOrgSilService" : {
-        "type" : "object",
-        "properties" : {
-          "_embedded" : {
-            "type" : "object",
-            "properties" : {
-              "orgSilServices" : {
-                "type" : "array",
-                "items" : {
-                  "$ref" : "#/components/schemas/OrgSilService"
-                }
-              }
-            }
-          },
-          "_links" : {
-            "$ref" : "#/components/schemas/Links"
-          }
-        }
-      },
       "OrgSilServiceView" : {
         "type" : "object",
         "properties" : {
@@ -3992,109 +3794,6 @@
                 "type" : "array",
                 "items" : {
                   "$ref" : "#/components/schemas/OrgSilServiceView"
-                }
-              }
-            }
-          },
-          "_links" : {
-            "$ref" : "#/components/schemas/Links"
-          },
-          "page" : {
-            "$ref" : "#/components/schemas/PageMetadata"
-          }
-        }
-      },
-      "Broker" : {
-        "type" : "object",
-        "properties" : {
-          "creationDate" : {
-            "type" : "string",
-            "format" : "date-time"
-          },
-          "updateDate" : {
-            "type" : "string",
-            "format" : "date-time"
-          },
-          "updateOperatorExternalId" : {
-            "type" : "string"
-          },
-          "updateTraceId" : {
-            "type" : "string"
-          },
-          "brokerId" : {
-            "type" : "integer",
-            "format" : "int64"
-          },
-          "organizationId" : {
-            "type" : "integer",
-            "format" : "int64"
-          },
-          "brokerFiscalCode" : {
-            "type" : "string"
-          },
-          "brokerName" : {
-            "type" : "string"
-          },
-          "pagoPaInteractionModel" : {
-            "$ref" : "#/components/schemas/PagoPaInteractionModel"
-          },
-          "stationId" : {
-            "type" : "string"
-          },
-          "broadcastStationId" : {
-            "type" : "string"
-          },
-          "syncPaymentsReportingKey" : {
-            "type" : "string",
-            "format" : "byte"
-          },
-          "syncKey" : {
-            "type" : "string",
-            "format" : "byte"
-          },
-          "gpdKey" : {
-            "type" : "string",
-            "format" : "byte"
-          },
-          "generateNoticeKey" : {
-            "type" : "string",
-            "format" : "byte"
-          },
-          "acaKey" : {
-            "type" : "string",
-            "format" : "byte"
-          },
-          "personalisationFe" : {
-            "$ref" : "#/components/schemas/PersonalisationFe"
-          },
-          "flagDelegate" : {
-            "type" : "boolean"
-          },
-          "flagPaymentsReporting" : {
-            "type" : "boolean"
-          },
-          "arpuConfig" : {
-            "type" : "string"
-          },
-          "externalId" : {
-            "type" : "string"
-          },
-          "_links" : {
-            "$ref" : "#/components/schemas/Links"
-          }
-        },
-        "required" : [ "brokerFiscalCode", "brokerName", "externalId", "flagDelegate", "flagPaymentsReporting", "organizationId", "pagoPaInteractionModel", "personalisationFe" ]
-      },
-      "PagedModelBroker" : {
-        "type" : "object",
-        "properties" : {
-          "_embedded" : {
-            "type" : "object",
-            "properties" : {
-              "brokers" : {
-                "type" : "array",
-                "items" : {
-                  "$ref" : "#/components/schemas/Broker"
                 }
               }
             }
@@ -4194,47 +3893,6 @@
           }
         }
       },
-      "PagedModelOrganization" : {
-        "type" : "object",
-        "properties" : {
-          "_embedded" : {
-            "type" : "object",
-            "properties" : {
-              "organizations" : {
-                "type" : "array",
-                "items" : {
-                  "$ref" : "#/components/schemas/Organization"
-                }
-              }
-            }
-          },
-          "_links" : {
-            "$ref" : "#/components/schemas/Links"
-          },
-          "page" : {
-            "$ref" : "#/components/schemas/PageMetadata"
-          }
-        }
-      },
-      "CollectionModelOrganization" : {
-        "type" : "object",
-        "properties" : {
-          "_embedded" : {
-            "type" : "object",
-            "properties" : {
-              "organizations" : {
-                "type" : "array",
-                "items" : {
-                  "$ref" : "#/components/schemas/Organization"
-                }
-              }
-            }
-          },
-          "_links" : {
-            "$ref" : "#/components/schemas/Links"
-          }
-        }
-      },
       "CollectionModelTaxonomyCollectionReasonDTO" : {
         "type" : "object",
         "properties" : {
@@ -4290,16 +3948,16 @@
         },
         "required" : [ "collectionReason", "macroAreaCode", "macroAreaDescription", "macroAreaName", "organizationType", "organizationTypeDescription", "serviceType", "serviceTypeCode", "serviceTypeDescription" ]
       },
-      "CollectionModelTaxonomyServiceTypeCodeDTO" : {
+      "CollectionModelTaxonomyMacroAreaCodeDTO" : {
         "type" : "object",
         "properties" : {
           "_embedded" : {
             "type" : "object",
             "properties" : {
-              "taxonomyServiceTypeCodeDTOes" : {
+              "taxonomyMacroAreaCodeDTOes" : {
                 "type" : "array",
                 "items" : {
-                  "$ref" : "#/components/schemas/TaxonomyServiceTypeCodeDTO"
+                  "$ref" : "#/components/schemas/TaxonomyMacroAreaCodeDTO"
                 }
               }
             }
@@ -4309,7 +3967,7 @@
           }
         }
       },
-      "TaxonomyServiceTypeCodeDTO" : {
+      "TaxonomyMacroAreaCodeDTO" : {
         "type" : "object",
         "properties" : {
           "organizationType" : {
@@ -4327,20 +3985,11 @@
           "macroAreaDescription" : {
             "type" : "string"
           },
-          "serviceTypeCode" : {
-            "type" : "string"
-          },
-          "serviceType" : {
-            "type" : "string"
-          },
-          "serviceTypeDescription" : {
-            "type" : "string"
-          },
           "_links" : {
             "$ref" : "#/components/schemas/Links"
           }
         },
-        "required" : [ "macroAreaCode", "macroAreaDescription", "macroAreaName", "organizationType", "organizationTypeDescription", "serviceType", "serviceTypeCode", "serviceTypeDescription" ]
+        "required" : [ "macroAreaCode", "macroAreaDescription", "macroAreaName", "organizationType", "organizationTypeDescription" ]
       },
       "CollectionModelTaxonomyOrganizationTypeDTO" : {
         "type" : "object",
@@ -4375,6 +4024,196 @@
           }
         },
         "required" : [ "organizationType", "organizationTypeDescription" ]
+      },
+      "CollectionModelTaxonomyCodeDTO" : {
+        "type" : "object",
+        "properties" : {
+          "_embedded" : {
+            "type" : "object",
+            "properties" : {
+              "taxonomyCodeDTOes" : {
+                "type" : "array",
+                "items" : {
+                  "$ref" : "#/components/schemas/TaxonomyCodeDTO"
+                }
+              }
+            }
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          }
+        }
+      },
+      "TaxonomyCodeDTO" : {
+        "type" : "object",
+        "properties" : {
+          "organizationType" : {
+            "type" : "string"
+          },
+          "organizationTypeDescription" : {
+            "type" : "string"
+          },
+          "macroAreaCode" : {
+            "type" : "string"
+          },
+          "macroAreaName" : {
+            "type" : "string"
+          },
+          "macroAreaDescription" : {
+            "type" : "string"
+          },
+          "serviceTypeCode" : {
+            "type" : "string"
+          },
+          "serviceType" : {
+            "type" : "string"
+          },
+          "serviceTypeDescription" : {
+            "type" : "string"
+          },
+          "collectionReason" : {
+            "type" : "string"
+          },
+          "taxonomyCode" : {
+            "type" : "string"
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          }
+        },
+        "required" : [ "collectionReason", "macroAreaCode", "macroAreaDescription", "macroAreaName", "organizationType", "organizationTypeDescription", "serviceType", "serviceTypeCode", "serviceTypeDescription", "taxonomyCode" ]
+      },
+      "PagedModelOrganization" : {
+        "type" : "object",
+        "properties" : {
+          "_embedded" : {
+            "type" : "object",
+            "properties" : {
+              "organizations" : {
+                "type" : "array",
+                "items" : {
+                  "$ref" : "#/components/schemas/Organization"
+                }
+              }
+            }
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          },
+          "page" : {
+            "$ref" : "#/components/schemas/PageMetadata"
+          }
+        }
+      },
+      "CollectionModelOrganization" : {
+        "type" : "object",
+        "properties" : {
+          "_embedded" : {
+            "type" : "object",
+            "properties" : {
+              "organizations" : {
+                "type" : "array",
+                "items" : {
+                  "$ref" : "#/components/schemas/Organization"
+                }
+              }
+            }
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          }
+        }
+      },
+      "OrgSilService" : {
+        "type" : "object",
+        "properties" : {
+          "creationDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "updateDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "updateOperatorExternalId" : {
+            "type" : "string"
+          },
+          "updateTraceId" : {
+            "type" : "string"
+          },
+          "orgSilServiceId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "organizationId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "applicationName" : {
+            "type" : "string"
+          },
+          "serviceUrl" : {
+            "type" : "string"
+          },
+          "serviceType" : {
+            "$ref" : "#/components/schemas/OrgSilServiceType"
+          },
+          "flagLegacy" : {
+            "type" : "boolean"
+          },
+          "authConfig" : {
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/SilServiceLegacyBasicAuthConfig"
+            }, {
+              "$ref" : "#/components/schemas/SilServiceLegacyJwtAuthConfig"
+            } ]
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          }
+        },
+        "required" : [ "applicationName", "organizationId", "serviceType", "serviceUrl" ]
+      },
+      "PagedModelOrgSilService" : {
+        "type" : "object",
+        "properties" : {
+          "_embedded" : {
+            "type" : "object",
+            "properties" : {
+              "orgSilServices" : {
+                "type" : "array",
+                "items" : {
+                  "$ref" : "#/components/schemas/OrgSilService"
+                }
+              }
+            }
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          },
+          "page" : {
+            "$ref" : "#/components/schemas/PageMetadata"
+          }
+        }
+      },
+      "CollectionModelOrgSilService" : {
+        "type" : "object",
+        "properties" : {
+          "_embedded" : {
+            "type" : "object",
+            "properties" : {
+              "orgSilServices" : {
+                "type" : "array",
+                "items" : {
+                  "$ref" : "#/components/schemas/OrgSilService"
+                }
+              }
+            }
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          }
+        }
       },
       "BrokerConfiguration" : {
         "type" : "object",
@@ -4444,6 +4283,155 @@
             "$ref" : "#/components/schemas/PageMetadata"
           }
         }
+      },
+      "Broker" : {
+        "type" : "object",
+        "properties" : {
+          "creationDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "updateDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "updateOperatorExternalId" : {
+            "type" : "string"
+          },
+          "updateTraceId" : {
+            "type" : "string"
+          },
+          "brokerId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "organizationId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "brokerFiscalCode" : {
+            "type" : "string"
+          },
+          "brokerName" : {
+            "type" : "string"
+          },
+          "pagoPaInteractionModel" : {
+            "$ref" : "#/components/schemas/PagoPaInteractionModel"
+          },
+          "stationId" : {
+            "type" : "string"
+          },
+          "broadcastStationId" : {
+            "type" : "string"
+          },
+          "syncPaymentsReportingKey" : {
+            "type" : "string",
+            "format" : "byte"
+          },
+          "syncKey" : {
+            "type" : "string",
+            "format" : "byte"
+          },
+          "gpdKey" : {
+            "type" : "string",
+            "format" : "byte"
+          },
+          "generateNoticeKey" : {
+            "type" : "string",
+            "format" : "byte"
+          },
+          "acaKey" : {
+            "type" : "string",
+            "format" : "byte"
+          },
+          "flagDelegate" : {
+            "type" : "boolean"
+          },
+          "flagPaymentsReporting" : {
+            "type" : "boolean"
+          },
+          "externalId" : {
+            "type" : "string"
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          }
+        },
+        "required" : [ "brokerFiscalCode", "brokerName", "externalId", "flagDelegate", "flagPaymentsReporting", "organizationId", "pagoPaInteractionModel" ]
+      },
+      "PagedModelBroker" : {
+        "type" : "object",
+        "properties" : {
+          "_embedded" : {
+            "type" : "object",
+            "properties" : {
+              "brokers" : {
+                "type" : "array",
+                "items" : {
+                  "$ref" : "#/components/schemas/Broker"
+                }
+              }
+            }
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          },
+          "page" : {
+            "$ref" : "#/components/schemas/PageMetadata"
+          }
+        }
+      },
+      "CollectionModelTaxonomyServiceTypeCodeDTO" : {
+        "type" : "object",
+        "properties" : {
+          "_embedded" : {
+            "type" : "object",
+            "properties" : {
+              "taxonomyServiceTypeCodeDTOes" : {
+                "type" : "array",
+                "items" : {
+                  "$ref" : "#/components/schemas/TaxonomyServiceTypeCodeDTO"
+                }
+              }
+            }
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          }
+        }
+      },
+      "TaxonomyServiceTypeCodeDTO" : {
+        "type" : "object",
+        "properties" : {
+          "organizationType" : {
+            "type" : "string"
+          },
+          "organizationTypeDescription" : {
+            "type" : "string"
+          },
+          "macroAreaCode" : {
+            "type" : "string"
+          },
+          "macroAreaName" : {
+            "type" : "string"
+          },
+          "macroAreaDescription" : {
+            "type" : "string"
+          },
+          "serviceTypeCode" : {
+            "type" : "string"
+          },
+          "serviceType" : {
+            "type" : "string"
+          },
+          "serviceTypeDescription" : {
+            "type" : "string"
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          }
+        },
+        "required" : [ "macroAreaCode", "macroAreaDescription", "macroAreaName", "organizationType", "organizationTypeDescription", "serviceType", "serviceTypeCode", "serviceTypeDescription" ]
       },
       "Link" : {
         "type" : "object",
