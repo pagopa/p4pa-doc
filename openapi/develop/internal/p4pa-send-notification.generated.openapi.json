@@ -1,5 +1,5 @@
 {
-  "openapi" : "3.1.0",
+  "openapi" : "3.0.1",
   "info" : {
     "title" : "p4pa-send-notification",
     "description" : "Api and Models",
@@ -846,7 +846,8 @@
           "in" : "query",
           "required" : false,
           "schema" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           }
         } ],
         "responses" : {
@@ -1435,49 +1436,58 @@
         "type" : "object",
         "properties" : {
           "sendNotificationId" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "preloadUrl" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "status" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           }
         }
       },
       "Address" : {
+        "required" : [ "address", "municipality" ],
         "type" : "object",
         "properties" : {
           "address" : {
             "type" : "string"
           },
           "zip" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "municipality" : {
             "type" : "string"
           },
           "province" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           }
-        },
-        "required" : [ "address", "municipality" ]
+        }
       },
       "Attachment" : {
         "type" : "object",
         "properties" : {
           "digest" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "contentType" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "fileName" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           }
         }
       },
       "CreateNotificationRequest" : {
+        "required" : [ "notificationFeePolicy", "organizationId", "paProtocolNumber", "physicalCommunicationType", "recipients" ],
         "type" : "object",
         "properties" : {
           "organizationId" : {
@@ -1506,51 +1516,62 @@
             "$ref" : "#/components/schemas/PhysicalCommunicationTypeEnum"
           },
           "senderDenomination" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "senderTaxId" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "amount" : {
-            "type" : "number"
+            "type" : "number",
+            "nullable" : true
           },
           "paymentExpirationDate" : {
             "type" : "string",
-            "format" : "date"
+            "format" : "date",
+            "nullable" : true
           },
           "taxonomyCode" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "paFee" : {
+            "maximum" : 100,
+            "minimum" : 0,
             "type" : "integer",
             "format" : "int32",
-            "maximum" : 100,
-            "minimum" : 0
+            "nullable" : true
           },
           "vat" : {
+            "maximum" : 100,
+            "minimum" : 0,
             "type" : "integer",
             "format" : "int32",
-            "maximum" : 100,
-            "minimum" : 0
+            "nullable" : true
           }
         },
-        "required" : [ "notificationFeePolicy", "organizationId", "paProtocolNumber", "physicalCommunicationType", "recipients" ]
+        "nullable" : true
       },
       "Document" : {
         "type" : "object",
         "properties" : {
           "digest" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "contentType" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "fileName" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           }
         }
       },
       "F24Payment" : {
+        "required" : [ "applyCost", "metadataAttachment", "title" ],
         "type" : "object",
         "properties" : {
           "title" : {
@@ -1563,28 +1584,30 @@
             "$ref" : "#/components/schemas/Attachment"
           }
         },
-        "required" : [ "applyCost", "metadataAttachment", "title" ]
+        "nullable" : true
       },
       "NotificationDigitalAddress" : {
+        "required" : [ "address", "type" ],
         "type" : "object",
         "properties" : {
           "type" : {
             "$ref" : "#/components/schemas/TypeEnum"
           },
           "address" : {
-            "type" : "string",
             "maxLength" : 320,
             "minLength" : 0,
-            "pattern" : "^(?:[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?|\\[(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?|[a-zA-Z0-9-]*[a-zA-Z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])$"
+            "pattern" : "^(?:[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?|\\[(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?|[a-zA-Z0-9-]*[a-zA-Z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])$",
+            "type" : "string"
           }
         },
-        "required" : [ "address", "type" ]
+        "nullable" : true
       },
       "NotificationFeePolicyEnum" : {
         "type" : "string",
         "enum" : [ "FLAT_RATE", "DELIVERY_MODE" ]
       },
       "PagoPa" : {
+        "required" : [ "applyCost", "creditorTaxId", "noticeCode" ],
         "type" : "object",
         "properties" : {
           "noticeCode" : {
@@ -1600,7 +1623,7 @@
             "$ref" : "#/components/schemas/Attachment"
           }
         },
-        "required" : [ "applyCost", "creditorTaxId", "noticeCode" ]
+        "nullable" : true
       },
       "Payment" : {
         "type" : "object",
@@ -1618,6 +1641,7 @@
         "enum" : [ "AR_REGISTERED_LETTER", "REGISTERED_LETTER_890" ]
       },
       "Recipient" : {
+        "required" : [ "denomination", "physicalAddress", "recipientType", "taxId" ],
         "type" : "object",
         "properties" : {
           "recipientType" : {
@@ -1641,8 +1665,7 @@
               "$ref" : "#/components/schemas/Payment"
             }
           }
-        },
-        "required" : [ "denomination", "physicalAddress", "recipientType", "taxId" ]
+        }
       },
       "RecipientTypeEnum" : {
         "type" : "string",
@@ -1656,14 +1679,17 @@
         "type" : "object",
         "properties" : {
           "workflowId" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "runId" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           }
         }
       },
       "LoadFileRequest" : {
+        "required" : [ "digest", "fileName" ],
         "type" : "object",
         "properties" : {
           "digest" : {
@@ -1673,13 +1699,14 @@
             "type" : "string"
           }
         },
-        "required" : [ "digest", "fileName" ]
+        "nullable" : true
       },
       "LegalFactCategoryDTO" : {
         "type" : "string",
         "enum" : [ "SENDER_ACK", "DIGITAL_DELIVERY", "ANALOG_DELIVERY", "RECIPIENT_ACCESS", "PEC_RECEIPT", "ANALOG_FAILURE_DELIVERY" ]
       },
       "SendNotificationDTO" : {
+        "required" : [ "organizationId", "payments", "sendNotificationId", "status" ],
         "type" : "object",
         "properties" : {
           "sendNotificationId" : {
@@ -1690,7 +1717,8 @@
             "format" : "int64"
           },
           "iun" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "payments" : {
             "type" : "array",
@@ -1707,15 +1735,16 @@
               "type" : "string"
             }
           }
-        },
-        "required" : [ "organizationId", "payments", "sendNotificationId", "status" ]
+        }
       },
       "SendNotificationPaymentsDTO" : {
+        "required" : [ "navList" ],
         "type" : "object",
         "properties" : {
           "debtPositionId" : {
             "type" : "integer",
-            "format" : "int64"
+            "format" : "int64",
+            "nullable" : true
           },
           "navList" : {
             "type" : "array",
@@ -1725,14 +1754,14 @@
           },
           "notificationDate" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "date-time",
+            "nullable" : true
           }
-        },
-        "required" : [ "navList" ]
+        }
       },
       "LegalFactIdDTO" : {
+        "required" : [ "category", "key" ],
         "type" : "object",
-        "description" : "document keys generated during paper/physical delivery process",
         "properties" : {
           "key" : {
             "type" : "string",
@@ -1743,15 +1772,16 @@
             "description" : "possible types for a legal fact:   - SENDER_ACK   - DIGITAL_DELIVERY   - ANALOG_DELIVERY   - RECIPIENT_ACCESS   - PEC_RECEIPT   - ANALOG_FAILURE_DELIVERY   - NOTIFICATION_CANCELLED"
           }
         },
-        "required" : [ "category", "key" ]
+        "description" : "document keys generated during paper/physical delivery process"
       },
       "LegalFactListElementDTO" : {
+        "required" : [ "iun", "legalFactId" ],
         "type" : "object",
-        "description" : "legal fact related to a SEND notification",
         "properties" : {
           "taxId" : {
             "type" : "string",
-            "description" : "value is set if legal fact relates to a particular recipient"
+            "description" : "value is set if legal fact relates to a particular recipient",
+            "nullable" : true
           },
           "iun" : {
             "type" : "string",
@@ -1761,9 +1791,10 @@
             "$ref" : "#/components/schemas/LegalFactIdDTO"
           }
         },
-        "required" : [ "iun", "legalFactId" ]
+        "description" : "legal fact related to a SEND notification"
       },
       "LegalFactDownloadMetadataDTO" : {
+        "required" : [ "contentLength", "filename" ],
         "type" : "object",
         "properties" : {
           "filename" : {
@@ -1776,25 +1807,27 @@
           },
           "url" : {
             "type" : "string",
-            "description" : "preauthorized URL for making a GET request to obtain the document content. Present only if document is ready for download."
+            "description" : "preauthorized URL for making a GET request to obtain the document content. Present only if document is ready for download.",
+            "nullable" : true
           },
           "retryAfter" : {
             "type" : "number",
-            "description" : "Estimated wait time in seconds until the document content is available for download."
+            "description" : "Estimated wait time in seconds until the document content is available for download.",
+            "nullable" : true
           }
-        },
-        "required" : [ "contentLength", "filename" ]
+        }
       },
       "SendStreamDTO" : {
+        "required" : [ "eventType", "streamId", "title" ],
         "type" : "object",
-        "description" : "stream related to a SEND notification",
         "properties" : {
           "streamId" : {
             "type" : "string"
           },
           "organizationId" : {
             "type" : "integer",
-            "format" : "int64"
+            "format" : "int64",
+            "nullable" : true
           },
           "title" : {
             "type" : "string"
@@ -1803,32 +1836,37 @@
             "type" : "string"
           },
           "lastEventId" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           }
         },
-        "required" : [ "eventType", "streamId", "title" ]
+        "description" : "stream related to a SEND notification"
       },
       "AttachmentDetailsDTO" : {
         "type" : "object",
         "properties" : {
           "id" : {
-            "type" : "string",
             "maxLength" : 128,
-            "minLength" : 0
+            "minLength" : 0,
+            "type" : "string",
+            "nullable" : true
           },
           "documentType" : {
-            "type" : "string",
             "maxLength" : 20,
-            "minLength" : 0
+            "minLength" : 0,
+            "type" : "string",
+            "nullable" : true
           },
           "url" : {
-            "type" : "string",
             "maxLength" : 128,
-            "minLength" : 0
+            "minLength" : 0,
+            "type" : "string",
+            "nullable" : true
           },
           "date" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "date-time",
+            "nullable" : true
           }
         }
       },
@@ -1840,40 +1878,47 @@
         "type" : "object",
         "properties" : {
           "internalId" : {
-            "type" : "string",
             "maxLength" : 128,
-            "minLength" : 0
+            "minLength" : 0,
+            "type" : "string",
+            "nullable" : true
           },
           "taxId" : {
-            "type" : "string",
             "maxLength" : 128,
-            "minLength" : 0
+            "minLength" : 0,
+            "type" : "string",
+            "nullable" : true
           },
           "operatorUuid" : {
-            "type" : "string",
             "maxLength" : 128,
-            "minLength" : 0
+            "minLength" : 0,
+            "type" : "string",
+            "nullable" : true
           },
           "mandateId" : {
-            "type" : "string",
             "maxLength" : 128,
-            "minLength" : 0
+            "minLength" : 0,
+            "type" : "string",
+            "nullable" : true
           },
           "denomination" : {
-            "type" : "string",
             "maxLength" : 128,
-            "minLength" : 0
+            "minLength" : 0,
+            "type" : "string",
+            "nullable" : true
           },
           "delegateType" : {
             "$ref" : "#/components/schemas/RecipientTypeDTO"
           }
-        }
+        },
+        "nullable" : true
       },
       "DeliveryModeDTO" : {
         "type" : "string",
         "enum" : [ "DIGITAL", "ANALOG" ]
       },
       "DigitalAddressDTO" : {
+        "required" : [ "address", "type" ],
         "type" : "object",
         "properties" : {
           "type" : {
@@ -1882,103 +1927,119 @@
           "address" : {
             "type" : "string"
           }
-        },
-        "required" : [ "address", "type" ]
+        }
       },
       "DigitalAddressSourceDTO" : {
         "type" : "string",
+        "nullable" : true,
         "enum" : [ "PLATFORM", "SPECIAL", "GENERAL" ]
       },
       "EndWorkflowStatusDTO" : {
         "type" : "string",
+        "nullable" : true,
         "enum" : [ "SUCCESS", "FAILURE" ]
       },
       "IoSendMessageResultDTO" : {
         "type" : "string",
+        "nullable" : true,
         "enum" : [ "NOT_SENT_OPTIN_ALREADY_SENT", "SENT_COURTESY", "SENT_OPTIN" ]
       },
       "LegalFactsIdV20DTO" : {
+        "required" : [ "category", "key" ],
         "type" : "object",
         "properties" : {
           "key" : {
-            "type" : "string",
             "maxLength" : 512,
             "minLength" : 0,
-            "pattern" : "^(safestorage://)?[A-Za-z0-9._-]+$"
+            "pattern" : "^(safestorage://)?[A-Za-z0-9._-]+$",
+            "type" : "string"
           },
           "category" : {
             "type" : "string"
           }
-        },
-        "required" : [ "category", "key" ]
+        }
       },
       "NotificationRefusedErrorV27DTO" : {
         "type" : "object",
         "properties" : {
           "errorCode" : {
-            "type" : "string",
             "maxLength" : 128,
-            "minLength" : 0
+            "minLength" : 0,
+            "type" : "string",
+            "nullable" : true
           },
           "detail" : {
-            "type" : "string",
             "maxLength" : 2048,
-            "minLength" : 0
+            "minLength" : 0,
+            "type" : "string",
+            "nullable" : true
           },
           "recIndex" : {
             "type" : "integer",
-            "format" : "int32"
+            "format" : "int32",
+            "nullable" : true
           }
         }
       },
       "NotificationStatusV26DTO" : {
         "type" : "string",
+        "nullable" : true,
         "enum" : [ "IN_VALIDATION", "ACCEPTED", "REFUSED", "DELIVERING", "DELIVERED", "VIEWED", "EFFECTIVE_DATE", "PAID", "UNREACHABLE", "CANCELLED", "RETURNED_TO_SENDER" ]
       },
       "PhysicalAddressDTO" : {
+        "required" : [ "address", "municipality" ],
         "type" : "object",
         "properties" : {
           "at" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "address" : {
             "type" : "string"
           },
           "addressDetails" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "zip" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "municipality" : {
             "type" : "string"
           },
           "municipalityDetails" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "province" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "foreignState" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           }
         },
-        "required" : [ "address", "municipality" ]
+        "nullable" : true
       },
       "ProgressResponseElementV28DTO" : {
+        "required" : [ "element", "eventId" ],
         "type" : "object",
         "properties" : {
           "eventId" : {
             "type" : "string"
           },
           "notificationRequestId" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "iun" : {
-            "type" : "string",
             "maxLength" : 25,
             "minLength" : 0,
-            "pattern" : "^[A-Z]{4}-[A-Z]{4}-[A-Z]{4}-[0-9]{6}-[A-Z]{1}-[0-9]{1}$"
+            "pattern" : "^[A-Z]{4}-[A-Z]{4}-[A-Z]{4}-[0-9]{6}-[A-Z]{1}-[0-9]{1}$",
+            "type" : "string",
+            "nullable" : true
           },
           "newStatus" : {
             "$ref" : "#/components/schemas/NotificationStatusV26DTO"
@@ -1986,8 +2047,7 @@
           "element" : {
             "$ref" : "#/components/schemas/TimelineElementV27DTO"
           }
-        },
-        "required" : [ "element", "eventId" ]
+        }
       },
       "RecipientTypeDTO" : {
         "type" : "string",
@@ -2001,14 +2061,16 @@
         "type" : "object",
         "properties" : {
           "id" : {
-            "type" : "string",
             "maxLength" : 1024,
-            "minLength" : 0
+            "minLength" : 0,
+            "type" : "string",
+            "nullable" : true
           },
           "system" : {
-            "type" : "string",
             "maxLength" : 128,
-            "minLength" : 0
+            "minLength" : 0,
+            "type" : "string",
+            "nullable" : true
           }
         }
       },
@@ -2018,15 +2080,18 @@
       },
       "TimelineElementCategoryV27DTO" : {
         "type" : "string",
+        "nullable" : true,
         "enum" : [ "SENDER_ACK_CREATION_REQUEST", "VALIDATE_NORMALIZE_ADDRESSES_REQUEST", "NORMALIZED_ADDRESS", "REQUEST_ACCEPTED", "SEND_COURTESY_MESSAGE", "GET_ADDRESS", "PUBLIC_REGISTRY_CALL", "PUBLIC_REGISTRY_RESPONSE", "SCHEDULE_ANALOG_WORKFLOW", "SCHEDULE_DIGITAL_WORKFLOW", "PREPARE_DIGITAL_DOMICILE", "SEND_DIGITAL_DOMICILE", "SEND_DIGITAL_PROGRESS", "SEND_DIGITAL_FEEDBACK", "REFINEMENT", "SCHEDULE_REFINEMENT", "DIGITAL_DELIVERY_CREATION_REQUEST", "DIGITAL_SUCCESS_WORKFLOW", "DIGITAL_FAILURE_WORKFLOW", "ANALOG_SUCCESS_WORKFLOW", "ANALOG_FAILURE_WORKFLOW", "PREPARE_SIMPLE_REGISTERED_LETTER", "SEND_SIMPLE_REGISTERED_LETTER", "SEND_SIMPLE_REGISTERED_LETTER_PROGRESS", "NOTIFICATION_VIEWED_CREATION_REQUEST", "NOTIFICATION_VIEWED", "PREPARE_ANALOG_DOMICILE", "SEND_ANALOG_DOMICILE", "SEND_ANALOG_PROGRESS", "SEND_ANALOG_FEEDBACK", "PAYMENT", "COMPLETELY_UNREACHABLE", "COMPLETELY_UNREACHABLE_CREATION_REQUEST", "REQUEST_REFUSED", "AAR_CREATION_REQUEST", "AAR_GENERATION", "NOT_HANDLED", "PROBABLE_SCHEDULING_ANALOG_DATE", "NOTIFICATION_CANCELLATION_REQUEST", "NOTIFICATION_CANCELLED", "PREPARE_ANALOG_DOMICILE_FAILURE", "NOTIFICATION_RADD_RETRIEVED", "ANALOG_WORKFLOW_RECIPIENT_DECEASED", "PUBLIC_REGISTRY_VALIDATION_CALL", "PUBLIC_REGISTRY_VALIDATION_RESPONSE" ]
       },
       "TimelineElementDetailsV27DTO" : {
+        "required" : [ "aarKey", "attemptDate", "cancellationRequestId", "contactPhase", "deliveryMode", "digitalAddress", "digitalAddressSource", "eventTimestamp", "generatedAarUrl", "isAvailable", "lastAttemptDate", "normalizedAddress", "notRefinedRecipientIndexes", "notificationCost", "notificationDate", "numberOfPages", "oldAddress", "paymentSourceChannel", "physicalAddress", "raddTransactionId", "raddType", "reason", "reasonCode", "recIndex", "recIndexes", "recipientType", "responseStatus", "retryNumber", "schedulingAnalogDate", "sendDate", "sentAttemptMade", "serviceLevel" ],
         "type" : "object",
         "properties" : {
           "legalFactId" : {
-            "type" : "string",
             "maxLength" : 128,
-            "minLength" : 0
+            "minLength" : 0,
+            "type" : "string",
+            "nullable" : true
           },
           "recIndex" : {
             "type" : "integer",
@@ -2039,43 +2104,49 @@
             "$ref" : "#/components/schemas/PhysicalAddressDTO"
           },
           "notificationRequestId" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "paProtocolNumber" : {
-            "type" : "string",
             "maxLength" : 256,
             "minLength" : 0,
-            "pattern" : "^.*$"
+            "pattern" : "^.*$",
+            "type" : "string",
+            "nullable" : true
           },
           "idempotenceToken" : {
-            "type" : "string",
             "maxLength" : 256,
             "minLength" : 0,
-            "pattern" : "^[ -~]*$"
+            "pattern" : "^[ -~]*$",
+            "type" : "string",
+            "nullable" : true
           },
           "generatedAarUrl" : {
-            "type" : "string",
             "maxLength" : 128,
-            "minLength" : 0
+            "minLength" : 0,
+            "type" : "string"
           },
           "physicalAddress" : {
             "$ref" : "#/components/schemas/PhysicalAddressDTO"
           },
           "legalfactId" : {
-            "type" : "string",
             "maxLength" : 128,
-            "minLength" : 0
+            "minLength" : 0,
+            "type" : "string",
+            "nullable" : true
           },
           "endWorkflowStatus" : {
             "$ref" : "#/components/schemas/EndWorkflowStatusDTO"
           },
           "completionWorkflowDate" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "date-time",
+            "nullable" : true
           },
           "legalFactGenerationDate" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "date-time",
+            "nullable" : true
           },
           "digitalAddress" : {
             "$ref" : "#/components/schemas/DigitalAddressDTO"
@@ -2098,9 +2169,9 @@
             "type" : "string"
           },
           "raddTransactionId" : {
-            "type" : "string",
             "maxLength" : 512,
-            "minLength" : 0
+            "minLength" : 0,
+            "type" : "string"
           },
           "delegateInfo" : {
             "$ref" : "#/components/schemas/DelegateInfoDTO"
@@ -2125,13 +2196,15 @@
           },
           "refusalReasons" : {
             "type" : "array",
+            "nullable" : true,
             "items" : {
               "$ref" : "#/components/schemas/NotificationRefusedErrorV27DTO"
             }
           },
           "schedulingDate" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "date-time",
+            "nullable" : true
           },
           "lastAttemptDate" : {
             "type" : "string",
@@ -2149,11 +2222,13 @@
           },
           "nextSourceAttemptsMade" : {
             "type" : "integer",
-            "format" : "int32"
+            "format" : "int32",
+            "nullable" : true
           },
           "nextLastAttemptMadeForSource" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "date-time",
+            "nullable" : true
           },
           "responseStatus" : {
             "$ref" : "#/components/schemas/ResponseStatusDTO"
@@ -2163,40 +2238,47 @@
             "format" : "date-time"
           },
           "deliveryFailureCause" : {
-            "type" : "string",
             "maxLength" : 10,
-            "minLength" : 0
+            "minLength" : 0,
+            "type" : "string",
+            "nullable" : true
           },
           "deliveryDetailCode" : {
-            "type" : "string",
             "maxLength" : 20,
-            "minLength" : 0
+            "minLength" : 0,
+            "type" : "string",
+            "nullable" : true
           },
           "sendingReceipts" : {
             "type" : "array",
+            "nullable" : true,
             "items" : {
               "$ref" : "#/components/schemas/SendingReceiptDTO"
             }
           },
           "shouldRetry" : {
-            "type" : "boolean"
+            "type" : "boolean",
+            "nullable" : true
           },
           "serviceLevel" : {
             "$ref" : "#/components/schemas/ServiceLevelDTO"
           },
           "relatedRequestId" : {
-            "type" : "string",
             "maxLength" : 512,
-            "minLength" : 0
+            "minLength" : 0,
+            "type" : "string",
+            "nullable" : true
           },
           "productType" : {
-            "type" : "string",
             "maxLength" : 10,
-            "minLength" : 0
+            "minLength" : 0,
+            "type" : "string",
+            "nullable" : true
           },
           "analogCost" : {
             "type" : "integer",
-            "format" : "int32"
+            "format" : "int32",
+            "nullable" : true
           },
           "numberOfPages" : {
             "type" : "integer",
@@ -2204,78 +2286,88 @@
           },
           "envelopeWeight" : {
             "type" : "integer",
-            "format" : "int32"
+            "format" : "int32",
+            "nullable" : true
           },
           "prepareRequestId" : {
-            "type" : "string",
             "maxLength" : 512,
-            "minLength" : 0
+            "minLength" : 0,
+            "type" : "string",
+            "nullable" : true
           },
           "newAddress" : {
             "$ref" : "#/components/schemas/PhysicalAddressDTO"
           },
           "attachments" : {
             "type" : "array",
+            "nullable" : true,
             "items" : {
               "$ref" : "#/components/schemas/AttachmentDetailsDTO"
             }
           },
           "sendRequestId" : {
-            "type" : "string",
             "maxLength" : 512,
-            "minLength" : 0
+            "minLength" : 0,
+            "type" : "string",
+            "nullable" : true
           },
           "registeredLetterCode" : {
-            "type" : "string",
             "maxLength" : 128,
-            "minLength" : 0
+            "minLength" : 0,
+            "type" : "string",
+            "nullable" : true
           },
           "aarKey" : {
-            "type" : "string",
             "maxLength" : 128,
-            "minLength" : 0
+            "minLength" : 0,
+            "type" : "string"
           },
           "reasonCode" : {
-            "type" : "string",
             "maxLength" : 10,
-            "minLength" : 0
+            "minLength" : 0,
+            "type" : "string"
           },
           "reason" : {
-            "type" : "string",
             "maxLength" : 2048,
-            "minLength" : 0
+            "minLength" : 0,
+            "type" : "string"
           },
           "recipientType" : {
             "$ref" : "#/components/schemas/RecipientTypeDTO"
           },
           "amount" : {
             "type" : "integer",
-            "format" : "int32"
+            "format" : "int32",
+            "nullable" : true
           },
           "creditorTaxId" : {
-            "type" : "string",
             "maxLength" : 11,
             "minLength" : 11,
-            "pattern" : "^\\d+$"
+            "pattern" : "^\\d+$",
+            "type" : "string",
+            "nullable" : true
           },
           "noticeCode" : {
-            "type" : "string",
             "maxLength" : 18,
             "minLength" : 18,
-            "pattern" : "^\\d+$"
+            "pattern" : "^\\d+$",
+            "type" : "string",
+            "nullable" : true
           },
           "idF24" : {
-            "type" : "string",
             "maxLength" : 512,
-            "minLength" : 0
+            "minLength" : 0,
+            "type" : "string",
+            "nullable" : true
           },
           "paymentSourceChannel" : {
-            "type" : "string",
             "maxLength" : 512,
-            "minLength" : 0
+            "minLength" : 0,
+            "type" : "string"
           },
           "uncertainPaymentDate" : {
             "type" : "boolean",
+            "nullable" : true,
             "deprecated" : true
           },
           "schedulingAnalogDate" : {
@@ -2283,9 +2375,9 @@
             "format" : "date-time"
           },
           "cancellationRequestId" : {
-            "type" : "string",
             "maxLength" : 512,
-            "minLength" : 0
+            "minLength" : 0,
+            "type" : "string"
           },
           "notRefinedRecipientIndexes" : {
             "type" : "array",
@@ -2298,9 +2390,10 @@
             "$ref" : "#/components/schemas/PhysicalAddressDTO"
           },
           "failureCause" : {
-            "type" : "string",
             "maxLength" : 10,
-            "minLength" : 0
+            "minLength" : 0,
+            "type" : "string",
+            "nullable" : true
           },
           "recIndexes" : {
             "type" : "array",
@@ -2310,40 +2403,47 @@
             }
           },
           "registry" : {
-            "type" : "string",
             "maxLength" : 128,
-            "minLength" : 0
+            "minLength" : 0,
+            "type" : "string",
+            "nullable" : true
           }
         },
-        "required" : [ "aarKey", "attemptDate", "cancellationRequestId", "contactPhase", "deliveryMode", "digitalAddress", "digitalAddressSource", "eventTimestamp", "generatedAarUrl", "isAvailable", "lastAttemptDate", "normalizedAddress", "notRefinedRecipientIndexes", "notificationCost", "notificationDate", "numberOfPages", "oldAddress", "paymentSourceChannel", "physicalAddress", "raddTransactionId", "raddType", "reason", "reasonCode", "recIndex", "recIndexes", "recipientType", "responseStatus", "retryNumber", "schedulingAnalogDate", "sendDate", "sentAttemptMade", "serviceLevel" ]
+        "nullable" : true
       },
       "TimelineElementV27DTO" : {
         "type" : "object",
         "properties" : {
           "elementId" : {
-            "type" : "string",
             "maxLength" : 512,
-            "minLength" : 0
+            "minLength" : 0,
+            "type" : "string",
+            "nullable" : true
           },
           "timestamp" : {
             "type" : "string",
             "format" : "date-time",
+            "nullable" : true,
             "deprecated" : true
           },
           "ingestionTimestamp" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "date-time",
+            "nullable" : true
           },
           "eventTimestamp" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "date-time",
+            "nullable" : true
           },
           "notificationSentAt" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "date-time",
+            "nullable" : true
           },
           "legalFactsIds" : {
             "type" : "array",
+            "nullable" : true,
             "items" : {
               "$ref" : "#/components/schemas/LegalFactsIdV20DTO"
             }
@@ -2360,46 +2460,55 @@
         "type" : "object",
         "properties" : {
           "iun" : {
-            "type" : "string",
             "maxLength" : 25,
             "minLength" : 25,
-            "pattern" : "^[A-Z]{4}-[A-Z]{4}-[A-Z]{4}-[0-9]{6}-[A-Z]{1}-[0-9]{1}$"
+            "pattern" : "^[A-Z]{4}-[A-Z]{4}-[A-Z]{4}-[0-9]{6}-[A-Z]{1}-[0-9]{1}$",
+            "type" : "string",
+            "nullable" : true
           },
           "partialPrice" : {
             "type" : "integer",
-            "format" : "int32"
+            "format" : "int32",
+            "nullable" : true
           },
           "totalPrice" : {
             "type" : "integer",
-            "format" : "int32"
+            "format" : "int32",
+            "nullable" : true
           },
           "vat" : {
+            "maximum" : 100,
+            "minimum" : 0,
             "type" : "integer",
             "format" : "int32",
-            "maximum" : 100,
-            "minimum" : 0
+            "nullable" : true
           },
           "paFee" : {
+            "maximum" : 100,
+            "minimum" : 0,
             "type" : "integer",
             "format" : "int32",
-            "maximum" : 100,
-            "minimum" : 0
+            "nullable" : true
           },
           "refinementDate" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "date-time",
+            "nullable" : true
           },
           "notificationViewDate" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "date-time",
+            "nullable" : true
           },
           "sendFee" : {
             "type" : "integer",
-            "format" : "int32"
+            "format" : "int32",
+            "nullable" : true
           },
           "analogCost" : {
             "type" : "integer",
-            "format" : "int32"
+            "format" : "int32",
+            "nullable" : true
           }
         }
       },
@@ -2408,8 +2517,8 @@
         "enum" : [ "WAITING", "READY", "UPLOADED", "EXPIRED" ]
       },
       "LegalFactDTO" : {
+        "required" : [ "category", "fileName", "url" ],
         "type" : "object",
-        "description" : "legal fact related to a SEND notification",
         "properties" : {
           "fileName" : {
             "type" : "string"
@@ -2425,17 +2534,19 @@
           },
           "downloadDate" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "date-time",
+            "nullable" : true
           }
         },
-        "required" : [ "category", "fileName", "url" ]
+        "description" : "legal fact related to a SEND notification"
       },
       "FileExpirationResponseDTO" : {
         "type" : "object",
         "properties" : {
           "nextFileExpirationDate" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "date-time",
+            "nullable" : true
           }
         }
       }
