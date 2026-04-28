@@ -1,5 +1,5 @@
 {
-  "openapi" : "3.1.0",
+  "openapi" : "3.0.1",
   "info" : {
     "title" : "p4pa-citizen",
     "description" : "Api and Models",
@@ -133,14 +133,16 @@
           "required" : false,
           "schema" : {
             "type" : "integer",
-            "format" : "int64"
+            "format" : "int64",
+            "nullable" : true
           }
         }, {
           "name" : "externalId",
           "in" : "query",
           "required" : false,
           "schema" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           }
         } ],
         "responses" : {
@@ -484,9 +486,9 @@
           "description" : "Zero-based page index (0..N)",
           "required" : false,
           "schema" : {
+            "minimum" : 0,
             "type" : "integer",
-            "default" : 0,
-            "minimum" : 0
+            "default" : 0
           }
         }, {
           "name" : "size",
@@ -494,9 +496,9 @@
           "description" : "The size of the page to be returned",
           "required" : false,
           "schema" : {
+            "minimum" : 1,
             "type" : "integer",
-            "default" : 20,
-            "minimum" : 1
+            "default" : 20
           }
         }, {
           "name" : "sort",
@@ -606,14 +608,16 @@
           "in" : "query",
           "required" : false,
           "schema" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           }
         }, {
           "name" : "noticeNumberOrIuv",
           "in" : "query",
           "required" : false,
           "schema" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           }
         }, {
           "name" : "paymentDateTimeFrom",
@@ -621,7 +625,8 @@
           "required" : false,
           "schema" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "date-time",
+            "nullable" : true
           }
         }, {
           "name" : "paymentDateTimeTo",
@@ -629,7 +634,8 @@
           "required" : false,
           "schema" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "date-time",
+            "nullable" : true
           }
         }, {
           "name" : "page",
@@ -637,9 +643,9 @@
           "description" : "Zero-based page index (0..N)",
           "required" : false,
           "schema" : {
+            "minimum" : 0,
             "type" : "integer",
-            "default" : 0,
-            "minimum" : 0
+            "default" : 0
           }
         }, {
           "name" : "size",
@@ -647,9 +653,9 @@
           "description" : "The size of the page to be returned",
           "required" : false,
           "schema" : {
+            "minimum" : 1,
             "type" : "integer",
-            "default" : 20,
-            "minimum" : 1
+            "default" : 20
           }
         }, {
           "name" : "sort",
@@ -1239,14 +1245,16 @@
           "in" : "header",
           "required" : false,
           "schema" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           }
         }, {
           "name" : "orgFiscalCode",
           "in" : "query",
           "required" : false,
           "schema" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           }
         }, {
           "name" : "statuses",
@@ -1254,6 +1262,7 @@
           "required" : false,
           "schema" : {
             "type" : "array",
+            "nullable" : true,
             "items" : {
               "$ref" : "#/components/schemas/InstallmentStatus"
             }
@@ -1530,14 +1539,16 @@
           "in" : "query",
           "required" : false,
           "schema" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           }
         }, {
           "name" : "orgFiscalCode",
           "in" : "query",
           "required" : false,
           "schema" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           }
         }, {
           "name" : "page",
@@ -1545,9 +1556,9 @@
           "description" : "Zero-based page index (0..N)",
           "required" : false,
           "schema" : {
+            "minimum" : 0,
             "type" : "integer",
-            "default" : 0,
-            "minimum" : 0
+            "default" : 0
           }
         }, {
           "name" : "size",
@@ -1555,9 +1566,9 @@
           "description" : "The size of the page to be returned",
           "required" : false,
           "schema" : {
+            "minimum" : 1,
             "type" : "integer",
-            "default" : 20,
-            "minimum" : 1
+            "default" : 20
           }
         }, {
           "name" : "sort",
@@ -1818,6 +1829,7 @@
   "components" : {
     "schemas" : {
       "DebtPositionResponseDTO" : {
+        "required" : [ "debtPositionId", "orgFiscalCode", "orgName", "organizationId", "paymentDetails" ],
         "type" : "object",
         "properties" : {
           "debtPositionId" : {
@@ -1837,31 +1849,37 @@
           "paymentDetails" : {
             "$ref" : "#/components/schemas/PaymentDetailsDTO"
           }
-        },
-        "required" : [ "debtPositionId", "orgFiscalCode", "orgName", "organizationId", "paymentDetails" ]
+        }
       },
       "PaymentDetailsDTO" : {
+        "required" : [ "allCCP", "amountCents", "remittanceInformation" ],
         "type" : "object",
         "properties" : {
           "iupdPagopa" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "iud" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "iuv" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "nav" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "dueDate" : {
             "type" : "string",
-            "format" : "date"
+            "format" : "date",
+            "nullable" : true
           },
           "notificationFeeCents" : {
             "type" : "integer",
-            "format" : "int64"
+            "format" : "int64",
+            "nullable" : true
           },
           "amountCents" : {
             "type" : "integer",
@@ -1873,10 +1891,10 @@
           "allCCP" : {
             "type" : "boolean"
           }
-        },
-        "required" : [ "allCCP", "amountCents", "remittanceInformation" ]
+        }
       },
       "DebtPositionRequestDTO" : {
+        "required" : [ "debtPositionTypeOrgId", "organizationId", "paymentOptions" ],
         "type" : "object",
         "properties" : {
           "organizationId" : {
@@ -1895,21 +1913,25 @@
           },
           "fieldValues" : {
             "type" : "object",
-            "additionalProperties" : { }
+            "additionalProperties" : {
+              "type" : "object"
+            }
           }
-        },
-        "required" : [ "debtPositionTypeOrgId", "organizationId", "paymentOptions" ]
+        }
       },
       "InstallmentRequestDTO" : {
+        "required" : [ "debtor", "remittanceInformation" ],
         "type" : "object",
         "properties" : {
           "notificationFeeCents" : {
             "type" : "integer",
-            "format" : "int64"
+            "format" : "int64",
+            "nullable" : true
           },
           "amountCents" : {
             "type" : "integer",
-            "format" : "int64"
+            "format" : "int64",
+            "nullable" : true
           },
           "remittanceInformation" : {
             "type" : "string"
@@ -1918,17 +1940,19 @@
             "$ref" : "#/components/schemas/PersonDTO"
           },
           "userRemittanceInformation" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           }
-        },
-        "required" : [ "debtor", "remittanceInformation" ]
+        }
       },
       "PaymentOptionRequestDTO" : {
+        "required" : [ "installments" ],
         "type" : "object",
         "properties" : {
           "totalAmountCents" : {
             "type" : "integer",
-            "format" : "int64"
+            "format" : "int64",
+            "nullable" : true
           },
           "installments" : {
             "type" : "array",
@@ -1936,10 +1960,10 @@
               "$ref" : "#/components/schemas/InstallmentRequestDTO"
             }
           }
-        },
-        "required" : [ "installments" ]
+        }
       },
       "PersonDTO" : {
+        "required" : [ "entityType", "fiscalCode", "fullName" ],
         "type" : "object",
         "properties" : {
           "entityType" : {
@@ -1952,34 +1976,41 @@
             "type" : "string"
           },
           "address" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "civic" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "postalCode" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "location" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "province" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "nation" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "email" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           }
-        },
-        "required" : [ "entityType", "fiscalCode", "fullName" ]
+        }
       },
       "PersonEntityType" : {
         "type" : "string",
         "enum" : [ "F", "G" ]
       },
       "BrokerInfoDTO" : {
+        "required" : [ "brokerFiscalCode", "brokerId", "brokerName", "externalId" ],
         "type" : "object",
         "properties" : {
           "brokerId" : {
@@ -1997,24 +2028,29 @@
           },
           "brokerLogo" : {
             "type" : "string",
-            "description" : "Base64 encoded logo of the organization"
+            "description" : "Base64 encoded logo of the organization",
+            "nullable" : true
           },
           "config" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "address" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "zipCode" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "city" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           }
-        },
-        "required" : [ "brokerFiscalCode", "brokerId", "brokerName", "externalId" ]
+        }
       },
       "OrganizationsWithSpontaneousDTO" : {
+        "required" : [ "ipaCode", "orgFiscalCode", "orgName", "organizationId" ],
         "type" : "object",
         "properties" : {
           "organizationId" : {
@@ -2030,10 +2066,10 @@
           "ipaCode" : {
             "type" : "string"
           }
-        },
-        "required" : [ "ipaCode", "orgFiscalCode", "orgName", "organizationId" ]
+        }
       },
       "DebtPositionTypeOrgsWithSpontaneousDTO" : {
+        "required" : [ "code", "debtPositionTypeOrgId", "description", "organizationId" ],
         "type" : "object",
         "properties" : {
           "debtPositionTypeOrgId" : {
@@ -2056,10 +2092,10 @@
               "type" : "string"
             }
           }
-        },
-        "required" : [ "code", "debtPositionTypeOrgId", "description", "organizationId" ]
+        }
       },
       "DebtPositionTypeOrgsWithSpontaneousDetailsDTO" : {
+        "required" : [ "code", "debtPositionTypeId", "debtPositionTypeOrgId", "description", "flagAnonymousFiscalCode", "formType", "organizationId" ],
         "type" : "object",
         "properties" : {
           "debtPositionTypeOrgId" : {
@@ -2091,10 +2127,12 @@
           },
           "amountCents" : {
             "type" : "integer",
-            "format" : "int64"
+            "format" : "int64",
+            "nullable" : true
           },
           "externalPaymentUrl" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "descriptionI18n" : {
             "type" : "object",
@@ -2105,8 +2143,7 @@
           "formCustom" : {
             "$ref" : "#/components/schemas/SpontaneousForm"
           }
-        },
-        "required" : [ "code", "debtPositionTypeId", "debtPositionTypeOrgId", "description", "flagAnonymousFiscalCode", "formType", "organizationId" ]
+        }
       },
       "FormTypeEnum" : {
         "type" : "string",
@@ -2116,28 +2153,36 @@
         "type" : "object",
         "properties" : {
           "href" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "hreflang" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "title" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "type" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "deprecation" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "profile" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "name" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "templated" : {
-            "type" : "boolean"
+            "type" : "boolean",
+            "nullable" : true
           }
         }
       },
@@ -2146,25 +2191,31 @@
         "enum" : [ "TEXT", "INTEGER", "DOUBLE", "BOOLEAN", "DATE", "DATETIME", "TEXTAREA", "HTMLAREA", "IMAGE", "SELECT", "MULTILINK", "FILE", "NONE", "SINGLESELECT", "MULTISELECT", "MULTIFIELD", "ASSOCIATION", "LINKGENERATOR", "TAGS", "TAB", "LABEL", "CURRENCY", "CURRENCY_LABEL", "DYNAMIC_SELECT", "DYNAMIC_AMOUNT_LABEL" ]
       },
       "SpontaneousForm" : {
+        "required" : [ "code", "organizationId", "structure" ],
         "type" : "object",
         "properties" : {
           "creationDate" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "date-time",
+            "nullable" : true
           },
           "updateDate" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "date-time",
+            "nullable" : true
           },
           "updateOperatorExternalId" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "updateTraceId" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "spontaneousFormId" : {
             "type" : "integer",
-            "format" : "int64"
+            "format" : "int64",
+            "nullable" : true
           },
           "organizationId" : {
             "type" : "integer",
@@ -2175,7 +2226,8 @@
           },
           "debtPositionTypeOrgCount" : {
             "type" : "integer",
-            "format" : "int32"
+            "format" : "int32",
+            "nullable" : true
           },
           "structure" : {
             "$ref" : "#/components/schemas/SpontaneousFormStructure"
@@ -2190,46 +2242,55 @@
                   "type" : "string"
                 }
               }
-            }
+            },
+            "nullable" : true
           },
           "_links" : {
             "type" : "object",
             "additionalProperties" : {
               "$ref" : "#/components/schemas/Link"
-            }
+            },
+            "nullable" : true
           }
-        },
-        "required" : [ "code", "organizationId", "structure" ]
+        }
       },
       "SpontaneousFormField" : {
+        "required" : [ "association", "detailLink", "htmlRender", "indexable", "insertable", "insertableOrder", "listable", "listableOrder", "maxOccurences", "minOccurences", "name", "renderable", "renderableOrder", "searchable", "searchableOrder" ],
         "type" : "object",
         "properties" : {
           "name" : {
             "type" : "string"
           },
           "required" : {
-            "type" : "boolean"
+            "type" : "boolean",
+            "nullable" : true
           },
           "regex" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "htmlRender" : {
             "$ref" : "#/components/schemas/RenderType"
           },
           "htmlClass" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "htmlLabel" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "htmlPlaceholder" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "bindCms" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "defaultValue" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "insertableOrder" : {
             "type" : "integer",
@@ -2269,7 +2330,8 @@
             "type" : "boolean"
           },
           "associationField" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "minOccurences" : {
             "type" : "integer",
@@ -2280,82 +2342,101 @@
             "format" : "int32"
           },
           "groupBy" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "extraAttr" : {
             "type" : "object",
             "additionalProperties" : {
               "type" : "string"
-            }
+            },
+            "nullable" : true
           },
           "enumerationList" : {
             "type" : "array",
+            "nullable" : true,
             "items" : {
               "type" : "string"
             }
           },
           "subfields" : {
             "type" : "array",
+            "nullable" : true,
             "items" : {
               "$ref" : "#/components/schemas/SpontaneousFormField"
             }
           },
           "validDependsOn" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "validDependsOnUids" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "valueDependsOn" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "valueDependsOnUids" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "hiddenDependsOn" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "hiddenDependsOnUids" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "mandatoryDependsOn" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "mandatoryDependsOnUids" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "enabledDependsOn" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "enabledDependsOnUids" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "errorMessage" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "helpMessage" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "source" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "sourceParams" : {
             "type" : "array",
+            "nullable" : true,
             "items" : {
               "$ref" : "#/components/schemas/SpontaneousFormItemDTO"
             }
           }
-        },
-        "required" : [ "association", "detailLink", "htmlRender", "indexable", "insertable", "insertableOrder", "listable", "listableOrder", "maxOccurences", "minOccurences", "name", "renderable", "renderableOrder", "searchable", "searchableOrder" ]
+        }
       },
       "SpontaneousFormItemDTO" : {
         "type" : "object",
         "properties" : {
           "name" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "key" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           }
         }
       },
@@ -2364,21 +2445,25 @@
         "properties" : {
           "fields" : {
             "type" : "array",
+            "nullable" : true,
             "items" : {
               "$ref" : "#/components/schemas/SpontaneousFormField"
             }
           },
           "amountFieldName" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "summaryFields" : {
             "type" : "array",
+            "nullable" : true,
             "items" : {
               "type" : "string"
             }
           },
           "submitFields" : {
             "type" : "array",
+            "nullable" : true,
             "items" : {
               "$ref" : "#/components/schemas/SpontaneousFormItemDTO"
             }
@@ -2386,6 +2471,7 @@
         }
       },
       "DebtorReceiptDTO" : {
+        "required" : [ "debtPositionTypeDescription", "debtPositionTypeOrgDescription", "installmentId", "orgFiscalCode", "orgName", "organizationId", "paymentAmountCents", "paymentDateTime", "receiptId", "receiptOrigin", "remittanceInformation", "serviceType" ],
         "type" : "object",
         "properties" : {
           "receiptId" : {
@@ -2429,10 +2515,10 @@
           "serviceType" : {
             "type" : "string"
           }
-        },
-        "required" : [ "debtPositionTypeDescription", "debtPositionTypeOrgDescription", "installmentId", "orgFiscalCode", "orgName", "organizationId", "paymentAmountCents", "paymentDateTime", "receiptId", "receiptOrigin", "remittanceInformation", "serviceType" ]
+        }
       },
       "PagedDebtorReceiptsDTO" : {
+        "required" : [ "content", "number", "size", "totalElements", "totalPages" ],
         "type" : "object",
         "properties" : {
           "content" : {
@@ -2457,8 +2543,7 @@
             "type" : "integer",
             "format" : "int64"
           }
-        },
-        "required" : [ "content", "number", "size", "totalElements", "totalPages" ]
+        }
       },
       "ReceiptOriginType" : {
         "type" : "string",
@@ -2469,6 +2554,7 @@
         "enum" : [ "ORDINARY", "ORDINARY_SIL", "SPONTANEOUS", "SPONTANEOUS_SIL", "SPONTANEOUS_MIXED", "SPONTANEOUS_PSP", "SECONDARY_ORG", "RECEIPT_FILE", "RECEIPT_PAGOPA", "REPORTING_PAGOPA" ]
       },
       "ReceiptDetailExtendedDTO" : {
+        "required" : [ "debtPositionOrigin", "debtPositionTypeOrgDescription", "debtor", "iud", "paymentAmountCents", "pspCompanyName", "receiptId", "receiptOrigin", "remittanceInformation" ],
         "type" : "object",
         "properties" : {
           "receiptId" : {
@@ -2476,10 +2562,12 @@
             "format" : "int64"
           },
           "iuv" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "nav" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "paymentAmountCents" : {
             "type" : "integer",
@@ -2496,7 +2584,8 @@
           },
           "paymentDateTime" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "date-time",
+            "nullable" : true
           },
           "pspCompanyName" : {
             "type" : "string"
@@ -2505,15 +2594,18 @@
             "type" : "string"
           },
           "iur" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "feeCents" : {
             "type" : "integer",
-            "format" : "int64"
+            "format" : "int64",
+            "nullable" : true
           },
           "notificationFeeCents" : {
             "type" : "integer",
-            "format" : "int64"
+            "format" : "int64",
+            "nullable" : true
           },
           "receiptOrigin" : {
             "$ref" : "#/components/schemas/ReceiptOriginType"
@@ -2522,7 +2614,8 @@
             "$ref" : "#/components/schemas/DebtPositionOrigin"
           },
           "originalRemittanceInformation" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "organizationId" : {
             "type" : "integer",
@@ -2534,43 +2627,46 @@
           "orgFiscalCode" : {
             "type" : "string"
           }
-        },
-        "required" : [ "debtPositionOrigin", "debtPositionTypeOrgDescription", "debtor", "iud", "paymentAmountCents", "pspCompanyName", "receiptId", "receiptOrigin", "remittanceInformation" ]
+        }
       },
       "CategoryEnum" : {
         "type" : "string",
+        "description" : "The title describing the error",
         "enum" : [ "NOT_FOUND", "BAD_REQUEST", "GENERIC_ERROR", "FORBIDDEN", "CONFLICT" ]
       },
       "ErrorDTO" : {
+        "required" : [ "category", "message" ],
         "type" : "object",
         "properties" : {
           "category" : {
-            "$ref" : "#/components/schemas/CategoryEnum",
-            "description" : "The title describing the error"
+            "$ref" : "#/components/schemas/CategoryEnum"
           },
           "message" : {
             "type" : "string",
             "description" : "Description of the error"
           },
           "traceId" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "code" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           }
-        },
-        "required" : [ "category", "message" ]
+        }
       },
       "OrganizationLogoDTO" : {
         "type" : "object",
         "properties" : {
           "orgLogo" : {
             "type" : "string",
-            "description" : "Base64 encoded logo of the organization"
+            "description" : "Base64 encoded logo of the organization",
+            "nullable" : true
           }
         }
       },
       "InstallmentDebtorExtendedDTO" : {
+        "required" : [ "amountCents", "debtPositionTypeOrgDescription", "debtor", "installmentId", "organizationId", "remittanceInformation", "status" ],
         "type" : "object",
         "properties" : {
           "installmentId" : {
@@ -2578,10 +2674,12 @@
             "format" : "int64"
           },
           "iuv" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "nav" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "organizationId" : {
             "type" : "integer",
@@ -2596,7 +2694,8 @@
           },
           "dueDate" : {
             "type" : "string",
-            "format" : "date"
+            "format" : "date",
+            "nullable" : true
           },
           "status" : {
             "$ref" : "#/components/schemas/InstallmentStatus"
@@ -2606,7 +2705,8 @@
           },
           "receiptId" : {
             "type" : "integer",
-            "format" : "int64"
+            "format" : "int64",
+            "nullable" : true
           },
           "debtPositionTypeOrgDescription" : {
             "type" : "string"
@@ -2620,8 +2720,7 @@
           "allCCP" : {
             "type" : "boolean"
           }
-        },
-        "required" : [ "amountCents", "debtPositionTypeOrgDescription", "debtor", "installmentId", "organizationId", "remittanceInformation", "status" ]
+        }
       },
       "InstallmentStatus" : {
         "type" : "string",
@@ -2629,6 +2728,7 @@
       },
       "Action" : {
         "type" : "string",
+        "nullable" : true,
         "enum" : [ "I", "M", "A" ]
       },
       "DebtPositionExtendedDTO" : {
@@ -2691,15 +2791,18 @@
         }
       },
       "InstallmentExtendedDTO" : {
+        "required" : [ "amountCents", "debtor", "remittanceInformation" ],
         "type" : "object",
         "properties" : {
           "installmentId" : {
             "type" : "integer",
-            "format" : "int64"
+            "format" : "int64",
+            "nullable" : true
           },
           "paymentOptionId" : {
             "type" : "integer",
-            "format" : "int64"
+            "format" : "int64",
+            "nullable" : true
           },
           "status" : {
             "$ref" : "#/components/schemas/InstallmentStatus"
@@ -2708,39 +2811,50 @@
             "$ref" : "#/components/schemas/InstallmentSyncStatus"
           },
           "iupdPagopa" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "generateNotice" : {
-            "type" : "boolean"
+            "type" : "boolean",
+            "nullable" : true
           },
           "iud" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "iuv" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "iur" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "iuf" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "nav" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "iun" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "dueDate" : {
             "type" : "string",
-            "format" : "date"
+            "format" : "date",
+            "nullable" : true
           },
           "switchToExpired" : {
-            "type" : "boolean"
+            "type" : "boolean",
+            "nullable" : true
           },
           "notificationFeeCents" : {
             "type" : "integer",
-            "format" : "int64"
+            "format" : "int64",
+            "nullable" : true
           },
           "amountCents" : {
             "type" : "integer",
@@ -2750,66 +2864,80 @@
             "type" : "string"
           },
           "balance" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "legacyPaymentMetadata" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "debtor" : {
             "$ref" : "#/components/schemas/PersonDTO"
           },
           "transfers" : {
             "type" : "array",
+            "nullable" : true,
             "items" : {
               "$ref" : "#/components/schemas/TransferDTO"
             }
           },
           "notificationDate" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "date-time",
+            "nullable" : true
           },
           "ingestionFlowFileId" : {
             "type" : "integer",
-            "format" : "int64"
+            "format" : "int64",
+            "nullable" : true
           },
           "ingestionFlowFileLineNumber" : {
             "type" : "integer",
-            "format" : "int64"
+            "format" : "int64",
+            "nullable" : true
           },
           "ingestionFlowFileAction" : {
             "$ref" : "#/components/schemas/Action"
           },
           "sourceFlowName" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "receiptId" : {
             "type" : "integer",
-            "format" : "int64"
+            "format" : "int64",
+            "nullable" : true
           },
           "creationDate" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "date-time",
+            "nullable" : true
           },
           "updateDate" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "date-time",
+            "nullable" : true
           },
           "updateOperatorExternalId" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "updateTraceId" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "originalRemittanceInformation" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "allCCP" : {
-            "type" : "boolean"
+            "type" : "boolean",
+            "nullable" : true
           }
-        },
-        "required" : [ "amountCents", "debtor", "remittanceInformation" ]
+        }
       },
       "InstallmentSyncStatus" : {
+        "required" : [ "syncStatusFrom", "syncStatusTo" ],
         "type" : "object",
         "properties" : {
           "syncStatusFrom" : {
@@ -2819,10 +2947,11 @@
             "$ref" : "#/components/schemas/InstallmentStatus"
           },
           "syncError" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           }
         },
-        "required" : [ "syncStatusFrom", "syncStatusTo" ]
+        "nullable" : true
       },
       "PaymentOptionExtendedDTO" : {
         "type" : "object",
@@ -2836,15 +2965,18 @@
         }
       },
       "TransferDTO" : {
+        "required" : [ "amountCents", "category", "orgFiscalCode", "orgName", "remittanceInformation", "transferIndex" ],
         "type" : "object",
         "properties" : {
           "transferId" : {
             "type" : "integer",
-            "format" : "int64"
+            "format" : "int64",
+            "nullable" : true
           },
           "installmentId" : {
             "type" : "integer",
-            "format" : "int64"
+            "format" : "int64",
+            "nullable" : true
           },
           "orgFiscalCode" : {
             "type" : "string"
@@ -2860,19 +2992,24 @@
             "type" : "string"
           },
           "stampType" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "stampHashDocument" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "stampProvincialResidence" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "iban" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "postalIban" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "category" : {
             "type" : "string"
@@ -2883,32 +3020,38 @@
           },
           "creationDate" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "date-time",
+            "nullable" : true
           },
           "updateDate" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "date-time",
+            "nullable" : true
           },
           "updateOperatorExternalId" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "updateTraceId" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "mbdAttachment" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "flagOwner" : {
-            "type" : "boolean"
+            "type" : "boolean",
+            "nullable" : true
           }
-        },
-        "required" : [ "amountCents", "category", "orgFiscalCode", "orgName", "remittanceInformation", "transferIndex" ]
+        }
       },
       "DebtPositionStatus" : {
         "type" : "string",
         "enum" : [ "TO_SYNC", "REPORTED", "PAID", "PARTIALLY_PAID", "CANCELLED", "EXPIRED", "UNPAID", "DRAFT" ]
       },
       "DebtorPaymentOptionDTO" : {
+        "required" : [ "paymentOptionId", "paymentOptionType", "status" ],
         "type" : "object",
         "properties" : {
           "paymentOptionId" : {
@@ -2923,16 +3066,18 @@
           },
           "totalAmountCents" : {
             "type" : "integer",
-            "format" : "int64"
+            "format" : "int64",
+            "nullable" : true
           },
           "dueDate" : {
             "type" : "string",
-            "format" : "date"
+            "format" : "date",
+            "nullable" : true
           }
-        },
-        "required" : [ "paymentOptionId", "paymentOptionType", "status" ]
+        }
       },
       "DebtorUnpaidDebtPositionDTO" : {
+        "required" : [ "debtPositionDescription", "debtPositionId", "debtPositionTypeOrgDescription", "orgFiscalCode", "orgName", "organizationId", "paymentOptions" ],
         "type" : "object",
         "properties" : {
           "debtPositionId" : {
@@ -2964,10 +3109,10 @@
               "$ref" : "#/components/schemas/DebtorPaymentOptionDTO"
             }
           }
-        },
-        "required" : [ "debtPositionDescription", "debtPositionId", "debtPositionTypeOrgDescription", "orgFiscalCode", "orgName", "organizationId", "paymentOptions" ]
+        }
       },
       "PagedDebtorDebtPositionDTO" : {
+        "required" : [ "content", "number", "size", "totalElements", "totalPages" ],
         "type" : "object",
         "properties" : {
           "content" : {
@@ -2992,8 +3137,7 @@
             "type" : "integer",
             "format" : "int64"
           }
-        },
-        "required" : [ "content", "number", "size", "totalElements", "totalPages" ]
+        }
       },
       "PaymentOptionStatus" : {
         "type" : "string",
@@ -3008,49 +3152,61 @@
         "properties" : {
           "debtPositionId" : {
             "type" : "integer",
-            "format" : "int64"
+            "format" : "int64",
+            "nullable" : true
           },
           "paymentOptionId" : {
             "type" : "integer",
-            "format" : "int64"
+            "format" : "int64",
+            "nullable" : true
           },
           "installmentId" : {
             "type" : "integer",
-            "format" : "int64"
+            "format" : "int64",
+            "nullable" : true
           },
           "status" : {
             "$ref" : "#/components/schemas/InstallmentStatus"
           },
           "iuv" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "remittanceInformation" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "amountCents" : {
             "type" : "integer",
-            "format" : "int64"
+            "format" : "int64",
+            "nullable" : true
           },
           "dueDate" : {
             "type" : "string",
-            "format" : "date"
+            "format" : "date",
+            "nullable" : true
           },
           "organizationId" : {
             "type" : "integer",
-            "format" : "int64"
+            "format" : "int64",
+            "nullable" : true
           },
           "orgFiscalCode" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "orgName" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "allCCP" : {
-            "type" : "boolean"
+            "type" : "boolean",
+            "nullable" : true
           }
         }
       },
       "DebtorInstallmentsOverviewDTO" : {
+        "required" : [ "allCCP", "installmentId", "remittanceInformation", "status" ],
         "type" : "object",
         "properties" : {
           "installmentId" : {
@@ -3062,36 +3218,42 @@
           },
           "dueDate" : {
             "type" : "string",
-            "format" : "date"
+            "format" : "date",
+            "nullable" : true
           },
           "iuv" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "nav" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "amountCents" : {
             "type" : "integer",
-            "format" : "int64"
+            "format" : "int64",
+            "nullable" : true
           },
           "remittanceInformation" : {
             "type" : "string"
           },
           "receiptId" : {
             "type" : "integer",
-            "format" : "int64"
+            "format" : "int64",
+            "nullable" : true
           },
           "paymentDateTime" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "date-time",
+            "nullable" : true
           },
           "allCCP" : {
             "type" : "boolean"
           }
-        },
-        "required" : [ "allCCP", "installmentId", "remittanceInformation", "status" ]
+        }
       },
       "DebtorPaymentOptionOverviewDTO" : {
+        "required" : [ "installments", "paymentOptionId", "paymentOptionType", "status" ],
         "type" : "object",
         "properties" : {
           "paymentOptionId" : {
@@ -3106,7 +3268,8 @@
           },
           "totalAmountCents" : {
             "type" : "integer",
-            "format" : "int64"
+            "format" : "int64",
+            "nullable" : true
           },
           "installments" : {
             "type" : "array",
@@ -3114,10 +3277,10 @@
               "$ref" : "#/components/schemas/DebtorInstallmentsOverviewDTO"
             }
           }
-        },
-        "required" : [ "installments", "paymentOptionId", "paymentOptionType", "status" ]
+        }
       },
       "DebtorUnpaidDebtPositionOverviewDTO" : {
+        "required" : [ "debtPositionDescription", "debtPositionId", "debtPositionTypeOrgDescription", "orgFiscalCode", "orgName", "organizationId", "paymentOptions" ],
         "type" : "object",
         "properties" : {
           "debtPositionId" : {
@@ -3134,7 +3297,8 @@
             "$ref" : "#/components/schemas/DebtPositionStatus"
           },
           "iupd" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "organizationId" : {
             "type" : "integer",
@@ -3152,8 +3316,7 @@
               "$ref" : "#/components/schemas/DebtorPaymentOptionOverviewDTO"
             }
           }
-        },
-        "required" : [ "debtPositionDescription", "debtPositionId", "debtPositionTypeOrgDescription", "orgFiscalCode", "orgName", "organizationId", "paymentOptions" ]
+        }
       }
     },
     "securitySchemes" : {
