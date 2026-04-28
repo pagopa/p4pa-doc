@@ -1,5 +1,5 @@
 {
-  "openapi" : "3.1.0",
+  "openapi" : "3.0.1",
   "info" : {
     "title" : "p4pa-fileshare",
     "description" : "Api and Models",
@@ -52,7 +52,8 @@
           "in" : "query",
           "required" : false,
           "schema" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           }
         } ],
         "responses" : {
@@ -142,14 +143,14 @@
           "content" : {
             "multipart/form-data" : {
               "schema" : {
+                "required" : [ "sendFile" ],
                 "type" : "object",
                 "properties" : {
                   "sendFile" : {
                     "type" : "string",
                     "format" : "binary"
                   }
-                },
-                "required" : [ "sendFile" ]
+                }
               }
             }
           }
@@ -224,7 +225,8 @@
           "in" : "query",
           "required" : false,
           "schema" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           }
         }, {
           "name" : "ingestionFlowFileId",
@@ -232,7 +234,8 @@
           "required" : false,
           "schema" : {
             "type" : "integer",
-            "format" : "int64"
+            "format" : "int64",
+            "nullable" : true
           }
         } ],
         "requestBody" : {
@@ -611,10 +614,12 @@
         "type" : "object",
         "properties" : {
           "workflowId" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "runId" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           }
         }
       },
@@ -623,6 +628,7 @@
         "enum" : [ "INVALID_FILE", "INVALID_FILE_TYPE", "FILE_UPLOAD_ERROR", "NOT_FOUND", "CONFLICT", "BAD_REQUEST", "UNAUTHORIZED", "GENERIC_ERROR" ]
       },
       "FileshareErrorDTO" : {
+        "required" : [ "category", "message" ],
         "type" : "object",
         "properties" : {
           "category" : {
@@ -632,23 +638,24 @@
             "type" : "string"
           },
           "traceId" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "code" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           }
-        },
-        "required" : [ "category", "message" ]
+        }
       },
       "UploadIngestionFlowFileResponseDTO" : {
+        "required" : [ "ingestionFlowFileId" ],
         "type" : "object",
         "properties" : {
           "ingestionFlowFileId" : {
             "type" : "integer",
             "format" : "int64"
           }
-        },
-        "required" : [ "ingestionFlowFileId" ]
+        }
       },
       "IngestionFlowFileType" : {
         "type" : "string",
