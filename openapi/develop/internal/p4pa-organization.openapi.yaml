@@ -321,6 +321,55 @@ paths:
           description: Invalid request
         "500":
           description: Internal server error
+  /brokers/{brokerId}/email-server/config:
+    put:
+      tags:
+        - BrokerConfiguration
+      summary: Save encrypted email server config
+      operationId: saveBrokerEmailServerConfig
+      parameters:
+        - name: brokerId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmailServerConfigRequestDTO'
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Broker Not Found
+        '500':
+          description: Internal Server Error
+    get:
+      tags:
+        - BrokerConfiguration
+      summary: Retrieve email server config
+      operationId: getBrokerEmailServerConfig
+      parameters:
+        - name: brokerId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmailServerConfigDTO'
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
 components:
   schemas:
     BrokerApiKeys:
@@ -505,3 +554,23 @@ components:
           example: false
         authConfig:
           type: 'SilServiceAuthConfigDTO'
+    EmailServerConfigRequestDTO:
+      type: object
+      required:
+        - mailSenderAddress
+      properties:
+        mailSenderAddress:
+          type: string
+        mailServerConfig:
+          type: 'EmailServerConfig'
+    EmailServerConfigDTO:
+      type: object
+      required:
+        - brokerExternalId
+        - mailSenderAddress
+      allOf:
+        - $ref: "#/components/schemas/EmailServerConfigRequestDTO"
+        - type: object
+          properties:
+            brokerExternalId:
+              type: string
