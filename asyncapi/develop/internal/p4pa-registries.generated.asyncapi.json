@@ -41,11 +41,15 @@
     "schemas": {
       "Action": {
         "title": "Action",
-        "type": "string",
+        "type": [
+          "string",
+          "null"
+        ],
         "enum": [
           "I",
           "M",
-          "A"
+          "A",
+          null
         ],
         "examples": [
           "\"I\""
@@ -56,11 +60,17 @@
         "type": "object",
         "properties": {
           "creationDate": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "format": "date-time"
           },
           "debtPositionId": {
-            "type": "integer",
+            "type": [
+              "null",
+              "integer"
+            ],
             "format": "int64"
           },
           "debtPositionOrigin": {
@@ -71,16 +81,25 @@
             "format": "int64"
           },
           "description": {
-            "type": "string"
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "flagPuPagoPaPayment": {
             "type": "boolean"
           },
           "iupdOrg": {
-            "type": "string"
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "multiDebtor": {
-            "type": "boolean"
+            "type": [
+              "boolean",
+              "null"
+            ]
           },
           "organizationId": {
             "type": "integer",
@@ -96,17 +115,29 @@
             "$ref": "#/components/schemas/DebtPositionStatus"
           },
           "updateDate": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "format": "date-time"
           },
           "updateOperatorExternalId": {
-            "type": "string"
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "updateTraceId": {
-            "type": "string"
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "validityDate": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "format": "date"
           }
         },
@@ -543,7 +574,10 @@
       },
       "DebtPositionStatus": {
         "title": "DebtPositionStatus",
-        "type": "string",
+        "type": [
+          "string",
+          "null"
+        ],
         "enum": [
           "TO_SYNC",
           "REPORTED",
@@ -552,7 +586,8 @@
           "CANCELLED",
           "EXPIRED",
           "UNPAID",
-          "DRAFT"
+          "DRAFT",
+          null
         ],
         "examples": [
           "\"TO_SYNC\""
@@ -576,110 +611,188 @@
             "format": "int64"
           },
           "balance": {
-            "type": "string"
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "creationDate": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "format": "date-time"
           },
           "debtor": {
             "$ref": "#/components/schemas/PersonDTO"
           },
           "dueDate": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "format": "date"
           },
           "generateNotice": {
-            "type": "boolean"
+            "type": [
+              "boolean",
+              "null"
+            ]
           },
           "ingestionFlowFileAction": {
             "$ref": "#/components/schemas/Action"
           },
           "ingestionFlowFileId": {
-            "type": "integer",
+            "type": [
+              "null",
+              "integer"
+            ],
             "format": "int64"
           },
           "ingestionFlowFileLineNumber": {
-            "type": "integer",
+            "type": [
+              "null",
+              "integer"
+            ],
             "format": "int64"
           },
           "installmentId": {
-            "type": "integer",
+            "type": [
+              "null",
+              "integer"
+            ],
             "format": "int64"
           },
           "iud": {
-            "type": "string"
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "iuf": {
-            "type": "string"
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "iun": {
-            "type": "string"
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "iupdPagopa": {
-            "type": "string"
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "iur": {
-            "type": "string"
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "iuv": {
-            "type": "string"
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "legacyPaymentMetadata": {
-            "type": "string"
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "nav": {
-            "type": "string"
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "notificationDate": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "format": "date-time"
           },
           "notificationFeeCents": {
-            "type": "integer",
+            "type": [
+              "null",
+              "integer"
+            ],
             "format": "int64"
           },
           "originalRemittanceInformation": {
-            "type": "string"
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "paymentOptionId": {
-            "type": "integer",
+            "type": [
+              "null",
+              "integer"
+            ],
             "format": "int64"
           },
           "receiptId": {
-            "type": "integer",
+            "type": [
+              "null",
+              "integer"
+            ],
             "format": "int64"
           },
           "remittanceInformation": {
             "type": "string"
           },
           "sourceFlowName": {
-            "type": "string"
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "status": {
             "$ref": "#/components/schemas/InstallmentStatus"
           },
           "switchToExpired": {
-            "type": "boolean"
+            "type": [
+              "boolean",
+              "null"
+            ]
           },
           "syncStatus": {
             "$ref": "#/components/schemas/InstallmentSyncStatus"
           },
           "transfers": {
-            "type": "array",
+            "type": [
+              "null",
+              "array"
+            ],
             "items": {
               "$ref": "#/components/schemas/TransferDTO"
             }
           },
           "updateDate": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "format": "date-time"
           },
           "updateOperatorExternalId": {
-            "type": "string"
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "updateTraceId": {
-            "type": "string"
+            "type": [
+              "string",
+              "null"
+            ]
           }
         },
         "examples": [
@@ -784,7 +897,10 @@
         "type": "object",
         "properties": {
           "syncError": {
-            "type": "string"
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "syncStatusFrom": {
             "$ref": "#/components/schemas/InstallmentStatus"
@@ -895,15 +1011,24 @@
         "type": "object",
         "properties": {
           "creationDate": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "format": "date-time"
           },
           "debtPositionId": {
-            "type": "integer",
+            "type": [
+              "null",
+              "integer"
+            ],
             "format": "int64"
           },
           "description": {
-            "type": "string"
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "installments": {
             "type": "array",
@@ -912,11 +1037,17 @@
             }
           },
           "paymentOptionId": {
-            "type": "integer",
+            "type": [
+              "null",
+              "integer"
+            ],
             "format": "int64"
           },
           "paymentOptionIndex": {
-            "type": "integer",
+            "type": [
+              "null",
+              "integer"
+            ],
             "format": "int32"
           },
           "paymentOptionType": {
@@ -930,14 +1061,23 @@
             "format": "int64"
           },
           "updateDate": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "format": "date-time"
           },
           "updateOperatorExternalId": {
-            "type": "string"
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "updateTraceId": {
-            "type": "string"
+            "type": [
+              "string",
+              "null"
+            ]
           }
         },
         "examples": [
@@ -1036,7 +1176,10 @@
       },
       "PaymentOptionStatus": {
         "title": "PaymentOptionStatus",
-        "type": "string",
+        "type": [
+          "string",
+          "null"
+        ],
         "enum": [
           "TO_SYNC",
           "REPORTED",
@@ -1047,7 +1190,8 @@
           "EXPIRED",
           "UNPAID",
           "UNPAYABLE",
-          "DRAFT"
+          "DRAFT",
+          null
         ],
         "examples": [
           "\"TO_SYNC\""
@@ -1071,13 +1215,22 @@
         "type": "object",
         "properties": {
           "address": {
-            "type": "string"
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "civic": {
-            "type": "string"
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "email": {
-            "type": "string"
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "entityType": {
             "$ref": "#/components/schemas/PersonEntityType"
@@ -1089,16 +1242,28 @@
             "type": "string"
           },
           "location": {
-            "type": "string"
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "nation": {
-            "type": "string"
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "postalCode": {
-            "type": "string"
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "province": {
-            "type": "string"
+            "type": [
+              "string",
+              "null"
+            ]
           }
         },
         "examples": [
@@ -1519,21 +1684,36 @@
             "type": "string"
           },
           "creationDate": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "format": "date-time"
           },
           "flagOwner": {
-            "type": "boolean"
+            "type": [
+              "boolean",
+              "null"
+            ]
           },
           "iban": {
-            "type": "string"
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "installmentId": {
-            "type": "integer",
+            "type": [
+              "null",
+              "integer"
+            ],
             "format": "int64"
           },
           "mbdAttachment": {
-            "type": "string"
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "orgFiscalCode": {
             "type": "string"
@@ -1542,22 +1722,37 @@
             "type": "string"
           },
           "postalIban": {
-            "type": "string"
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "remittanceInformation": {
             "type": "string"
           },
           "stampHashDocument": {
-            "type": "string"
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "stampProvincialResidence": {
-            "type": "string"
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "stampType": {
-            "type": "string"
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "transferId": {
-            "type": "integer",
+            "type": [
+              "null",
+              "integer"
+            ],
             "format": "int64"
           },
           "transferIndex": {
@@ -1565,14 +1760,23 @@
             "format": "int32"
           },
           "updateDate": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "format": "date-time"
           },
           "updateOperatorExternalId": {
-            "type": "string"
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "updateTraceId": {
-            "type": "string"
+            "type": [
+              "string",
+              "null"
+            ]
           }
         },
         "examples": [
