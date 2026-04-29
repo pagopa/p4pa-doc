@@ -1,0 +1,399 @@
+openapi: 3.0.1
+info:
+  title: p4pa-fileshare
+  description: Api and Models
+  version: "1.0.0"
+paths:
+  /organization/{organizationId}/ingestionflowfiles:
+    post:
+      tags:
+        - ingestion-flow-file
+      summary: uploadIngestionFlowFile
+      description: Service to store an ingestion flow file
+      operationId: uploadIngestionFlowFile
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: ingestionFlowFileType
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/IngestionFlowFileType"
+        - name: fileOrigin
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/FileOrigin"
+        - name: fileName
+          in: query
+          schema:
+            type: string
+        - name: ingestionFlowFileId
+          in: query
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          'multipart/form-data':
+            schema:
+              type: object
+              properties:
+                ingestionFlowFile:
+                  type: string
+                  format: binary
+                fileName:
+                  type: string
+                  format: binary
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadIngestionFlowFileResponseDTO'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileshareErrorDTO'
+  /organization/{organizationId}/ingestionflowfiles/{ingestionFlowFileId}:
+    get:
+      tags:
+        - ingestion-flow-file
+      summary: downloadIngestionFlowFile
+      description: Service to retrieve an ingestion flow file
+      operationId: downloadIngestionFlowFile
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: ingestionFlowFileId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+  /organization/{organizationId}/ingestionflowfiles/{ingestionFlowFileId}/errors:
+    get:
+      tags:
+        - ingestion-flow-file
+      summary: downloadIngestionFlowErrorsFile
+      description: Service to retrieve an ingestion flow error file
+      operationId: downloadIngestionFlowErrorsFile
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: ingestionFlowFileId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '404':
+          description: Not Found
+  /organization/{organizationId}/ingestionflowfiles/{ingestionFlowFileId}/notice:
+    get:
+      tags:
+        - ingestion-flow-file
+      summary: downloadNotice
+      description: Service to retrieve a notice file
+      operationId: downloadNotice
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: ingestionFlowFileId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '404':
+          description: Not Found
+        '500':
+          description: Server Error
+  /organization/{organizationId}/ingestionflowfiles/{ingestionFlowFileId}/iuv:
+    get:
+      tags:
+        - ingestion-flow-file
+      summary: downloadIUVFile
+      description: Service to retrieve a iuv file
+      operationId: downloadIuvFile
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: ingestionFlowFileId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '404':
+          description: Not Found
+        '500':
+          description: Server Error
+  /organization/{organizationId}/exportfiles/{exportFileId}:
+    get:
+      tags:
+        - export-file
+      summary: downloadExportFile
+      description: Service to retrieve an export file
+      operationId: downloadExportFile
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: exportFileId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '404':
+          description: Not Found
+  /organization/{organizationId}/send-files/{sendNotificationId}:
+    get:
+      tags:
+        - send-files
+      summary: downloadSendFile
+      description: Service to download a send file
+      operationId: downloadSendFile
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: sendNotificationId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: filePath
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '404':
+          description: Not Found
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileshareErrorDTO'
+    post:
+      tags:
+        - send-files
+      summary: uploadSendFile
+      description: Service to store a send file
+      operationId: uploadSendFile
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: sendNotificationId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          'multipart/form-data':
+            schema:
+              required:
+                - digest
+                - sendFile
+              type: object
+              properties:
+                digest:
+                  type: string
+                sendFile:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: 'StartNotificationResponse'
+        '202':
+          description: Accepted and waiting for all files
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileshareErrorDTO'
+  /organization/{organizationId}/rt/{receiptId}:
+    get:
+      tags:
+        - receipt
+      summary: download RT
+      description: Service to retrieve the XML RT file
+      operationId: downloadRt
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: receiptId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '404':
+          description: Not Found
+security:
+  - BearerAuth: []
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+  schemas:
+    IngestionFlowFileType:
+      type: string
+      enum:
+        - RECEIPT
+        - RECEIPT_PAGOPA
+        - PAYMENT_NOTIFICATION
+        - PAYMENTS_REPORTING
+        - PAYMENTS_REPORTING_PAGOPA
+        - TREASURY_OPI
+        - TREASURY_CSV
+        - TREASURY_XLS
+        - TREASURY_POSTE
+        - TREASURY_CSV_COMPLETE
+        - DP_INSTALLMENTS
+        - ORGANIZATIONS
+        - ORGANIZATIONS_SIL_SERVICE
+        - DEBT_POSITIONS_TYPE
+        - DEBT_POSITIONS_TYPE_ORG
+        - DEBT_POSITIONS_TYPE_ORG_OPERATORS
+        - ASSESSMENTS
+        - ASSESSMENTS_REGISTRY
+        - SEND_NOTIFICATION
+    FileshareErrorDTO:
+      type: object
+      required:
+        - category
+        - message
+      properties:
+        category:
+          type: string
+          enum:
+            - INVALID_FILE
+            - INVALID_FILE_TYPE
+            - FILE_UPLOAD_ERROR
+            - NOT_FOUND
+            - CONFLICT
+            - BAD_REQUEST
+            - UNAUTHORIZED
+            - GENERIC_ERROR
+        message:
+          type: string
+        traceId:
+          type: string
+        code:
+          type: string
+    FileOrigin:
+      type: string
+      enum:
+        - PORTAL
+        - SIL
+        - PAGOPA
+    UploadIngestionFlowFileResponseDTO:
+      type: object
+      required:
+        - ingestionFlowFileId
+      properties:
+        ingestionFlowFileId:
+          type: integer
+          format: int64
