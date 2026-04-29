@@ -1,5 +1,5 @@
 {
-  "openapi" : "3.1.0",
+  "openapi" : "3.0.1",
   "info" : {
     "title" : "p4pa-cie-batch",
     "description" : "Api and Models",
@@ -157,6 +157,7 @@
   "components" : {
     "schemas" : {
       "WorkflowCreatedDTO" : {
+        "required" : [ "runId", "workflowId" ],
         "type" : "object",
         "properties" : {
           "workflowId" : {
@@ -165,14 +166,14 @@
           "runId" : {
             "type" : "string"
           }
-        },
-        "required" : [ "runId", "workflowId" ]
+        }
       },
       "CategoryEnum" : {
         "type" : "string",
         "enum" : [ "NOT_FOUND", "BAD_REQUEST", "GENERIC_ERROR", "CONFLICT" ]
       },
       "ErrorDTO" : {
+        "required" : [ "category", "code", "message" ],
         "type" : "object",
         "properties" : {
           "category" : {
@@ -185,16 +186,17 @@
             "type" : "string"
           },
           "traceId" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           }
-        },
-        "required" : [ "category", "code", "message" ]
+        }
       },
       "WorkflowExecutionStatus" : {
         "type" : "string",
         "enum" : [ "WORKFLOW_EXECUTION_STATUS_UNSPECIFIED", "WORKFLOW_EXECUTION_STATUS_RUNNING", "WORKFLOW_EXECUTION_STATUS_COMPLETED", "WORKFLOW_EXECUTION_STATUS_FAILED", "WORKFLOW_EXECUTION_STATUS_CANCELED", "WORKFLOW_EXECUTION_STATUS_TERMINATED", "WORKFLOW_EXECUTION_STATUS_CONTINUED_AS_NEW", "WORKFLOW_EXECUTION_STATUS_TIMED_OUT", "WORKFLOW_EXECUTION_STATUS_PAUSED", "UNRECOGNIZED" ]
       },
       "WorkflowStatusDTO" : {
+        "required" : [ "runId", "status", "taskQueue", "workflowId", "workflowType" ],
         "type" : "object",
         "properties" : {
           "workflowId" : {
@@ -214,26 +216,32 @@
           },
           "startDateTime" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "date-time",
+            "nullable" : true
           },
           "executionDateTime" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "date-time",
+            "nullable" : true
           },
           "endDateTime" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "date-time",
+            "nullable" : true
           },
           "duration" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "result" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           }
         },
-        "required" : [ "runId", "status", "taskQueue", "workflowId", "workflowType" ]
+        "nullable" : true
       },
       "RecentScheduleExecutionInfoDTO" : {
+        "required" : [ "runId", "scheduledAt", "startedAt", "workflowId" ],
         "type" : "object",
         "properties" : {
           "workflowId" : {
@@ -250,14 +258,14 @@
             "type" : "string",
             "format" : "date-time"
           }
-        },
-        "required" : [ "runId", "scheduledAt", "startedAt", "workflowId" ]
+        }
       },
       "ScheduleEnum" : {
         "type" : "string",
         "enum" : [ "SCHEDULE_ORGANIZATION_CIE_SYNC_WF" ]
       },
       "ScheduleExecutionInfoDTO" : {
+        "required" : [ "runId", "workflowId" ],
         "type" : "object",
         "properties" : {
           "workflowId" : {
@@ -266,10 +274,10 @@
           "runId" : {
             "type" : "string"
           }
-        },
-        "required" : [ "runId", "workflowId" ]
+        }
       },
       "ScheduleInfoDTO" : {
+        "required" : [ "createdAt", "lastUpdatedAt", "nextActionTimes", "numActions", "numActionsMissedCatchupWindow", "numActionsSkippedOverlap", "recentActions", "runningActions", "scheduleId" ],
         "type" : "object",
         "properties" : {
           "scheduleId" : {
@@ -319,10 +327,10 @@
           },
           "lastExecution" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "date-time",
+            "nullable" : true
           }
-        },
-        "required" : [ "createdAt", "lastUpdatedAt", "nextActionTimes", "numActions", "numActionsMissedCatchupWindow", "numActionsSkippedOverlap", "recentActions", "runningActions", "scheduleId" ]
+        }
       }
     },
     "securitySchemes" : {
