@@ -2046,6 +2046,10 @@
           "city" : {
             "type" : "string",
             "nullable" : true
+          },
+          "favicon" : {
+            "type" : "string",
+            "nullable" : true
           }
         }
       },
@@ -2745,10 +2749,10 @@
             "type" : "string"
           },
           "status" : {
-            "type" : "string"
+            "$ref" : "#/components/schemas/DebtPositionStatus"
           },
           "debtPositionOrigin" : {
-            "type" : "string"
+            "$ref" : "#/components/schemas/DebtPositionOrigin"
           },
           "organizationId" : {
             "type" : "integer",
@@ -2789,6 +2793,10 @@
             }
           }
         }
+      },
+      "DebtPositionStatus" : {
+        "type" : "string",
+        "enum" : [ "TO_SYNC", "REPORTED", "PAID", "PARTIALLY_PAID", "CANCELLED", "EXPIRED", "UNPAID", "DRAFT" ]
       },
       "InstallmentExtendedDTO" : {
         "required" : [ "amountCents", "debtor", "remittanceInformation" ],
@@ -3045,10 +3053,6 @@
             "nullable" : true
           }
         }
-      },
-      "DebtPositionStatus" : {
-        "type" : "string",
-        "enum" : [ "TO_SYNC", "REPORTED", "PAID", "PARTIALLY_PAID", "CANCELLED", "EXPIRED", "UNPAID", "DRAFT" ]
       },
       "DebtorPaymentOptionDTO" : {
         "required" : [ "paymentOptionId", "paymentOptionType", "status" ],
