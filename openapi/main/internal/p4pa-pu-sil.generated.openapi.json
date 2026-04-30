@@ -1,0 +1,580 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "p4pa-pu-sil",
+    "description" : "Api and Models",
+    "version" : "0.0.1"
+  },
+  "servers" : [ {
+    "url" : "http://localhost",
+    "description" : "Generated server url"
+  } ],
+  "security" : [ {
+    "BearerAuth" : [ ]
+  } ],
+  "tags" : [ {
+    "name" : "Actualization",
+    "description" : "the Actualization API"
+  }, {
+    "name" : "notifyPayment",
+    "description" : "the notifyPayment API"
+  } ],
+  "paths" : {
+    "/internal/orgSilService/{orgSilServiceId}/notify-payment" : {
+      "post" : {
+        "tags" : [ "notifyPayment" ],
+        "summary" : "notifyPayment",
+        "description" : "notifies the payment details executed",
+        "operationId" : "notifyPayment",
+        "parameters" : [ {
+          "name" : "orgSilServiceId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/InstallmentDTO"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "400" : {
+            "description" : "Invalid request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PuSilErrorDTO"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PuSilErrorDTO"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Notification not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PuSilErrorDTO"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PuSilErrorDTO"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/internal/orgSilService/{orgSilServiceId}/actualization" : {
+      "get" : {
+        "tags" : [ "Actualization" ],
+        "summary" : "actualize amount",
+        "description" : "actualize amount",
+        "operationId" : "actualize",
+        "parameters" : [ {
+          "name" : "orgSilServiceId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }, {
+          "name" : "nav",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ActualizationResultDTO"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PuSilErrorDTO"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PuSilErrorDTO"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PuSilErrorDTO"
+                }
+              }
+            }
+          },
+          "412" : {
+            "description" : "Precondition Failed",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PuSilErrorDTO"
+                }
+              }
+            }
+          },
+          "409" : {
+            "description" : "Conflict",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PuSilErrorDTO"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PuSilErrorDTO"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "CategoryEnum" : {
+        "type" : "string",
+        "enum" : [ "NOT_FOUND", "BAD_REQUEST", "INVALID_FILE", "FILE_UPLOAD_ERROR", "CONFLICT", "UNAUTHORIZED", "GENERIC_ERROR" ]
+      },
+      "PuSilErrorDTO" : {
+        "required" : [ "category", "message" ],
+        "type" : "object",
+        "properties" : {
+          "category" : {
+            "$ref" : "#/components/schemas/CategoryEnum"
+          },
+          "message" : {
+            "type" : "string"
+          },
+          "traceId" : {
+            "type" : "string",
+            "nullable" : true
+          }
+        }
+      },
+      "Action" : {
+        "type" : "string",
+        "nullable" : true,
+        "enum" : [ "I", "M", "A" ]
+      },
+      "InstallmentDTO" : {
+        "required" : [ "amountCents", "debtor", "remittanceInformation" ],
+        "type" : "object",
+        "properties" : {
+          "installmentId" : {
+            "type" : "integer",
+            "format" : "int64",
+            "nullable" : true
+          },
+          "paymentOptionId" : {
+            "type" : "integer",
+            "format" : "int64",
+            "nullable" : true
+          },
+          "status" : {
+            "$ref" : "#/components/schemas/InstallmentStatus"
+          },
+          "syncStatus" : {
+            "$ref" : "#/components/schemas/InstallmentSyncStatus"
+          },
+          "iupdPagopa" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "generateNotice" : {
+            "type" : "boolean",
+            "nullable" : true
+          },
+          "iud" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "iuv" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "iur" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "iuf" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "nav" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "iun" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "dueDate" : {
+            "type" : "string",
+            "format" : "date",
+            "nullable" : true
+          },
+          "switchToExpired" : {
+            "type" : "boolean",
+            "nullable" : true
+          },
+          "notificationFeeCents" : {
+            "type" : "integer",
+            "format" : "int64",
+            "nullable" : true
+          },
+          "amountCents" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "remittanceInformation" : {
+            "type" : "string"
+          },
+          "balance" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "legacyPaymentMetadata" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "debtor" : {
+            "$ref" : "#/components/schemas/PersonDTO"
+          },
+          "transfers" : {
+            "type" : "array",
+            "nullable" : true,
+            "items" : {
+              "$ref" : "#/components/schemas/TransferDTO"
+            }
+          },
+          "notificationDate" : {
+            "type" : "string",
+            "format" : "date-time",
+            "nullable" : true
+          },
+          "ingestionFlowFileId" : {
+            "type" : "integer",
+            "format" : "int64",
+            "nullable" : true
+          },
+          "ingestionFlowFileLineNumber" : {
+            "type" : "integer",
+            "format" : "int64",
+            "nullable" : true
+          },
+          "ingestionFlowFileAction" : {
+            "$ref" : "#/components/schemas/Action"
+          },
+          "sourceFlowName" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "receiptId" : {
+            "type" : "integer",
+            "format" : "int64",
+            "nullable" : true
+          },
+          "creationDate" : {
+            "type" : "string",
+            "format" : "date-time",
+            "nullable" : true
+          },
+          "updateDate" : {
+            "type" : "string",
+            "format" : "date-time",
+            "nullable" : true
+          },
+          "updateOperatorExternalId" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "updateTraceId" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "originalRemittanceInformation" : {
+            "type" : "string",
+            "nullable" : true
+          }
+        },
+        "nullable" : true
+      },
+      "InstallmentStatus" : {
+        "type" : "string",
+        "enum" : [ "TO_SYNC", "REPORTED", "PAID", "CANCELLED", "INVALID", "EXPIRED", "UNPAID", "UNPAYABLE", "DRAFT" ]
+      },
+      "InstallmentSyncStatus" : {
+        "required" : [ "syncStatusFrom", "syncStatusTo" ],
+        "type" : "object",
+        "properties" : {
+          "syncStatusFrom" : {
+            "$ref" : "#/components/schemas/InstallmentStatus"
+          },
+          "syncStatusTo" : {
+            "$ref" : "#/components/schemas/InstallmentStatus"
+          },
+          "syncError" : {
+            "type" : "string",
+            "nullable" : true
+          }
+        },
+        "nullable" : true
+      },
+      "PersonDTO" : {
+        "required" : [ "entityType", "fiscalCode", "fullName" ],
+        "type" : "object",
+        "properties" : {
+          "entityType" : {
+            "$ref" : "#/components/schemas/PersonEntityType"
+          },
+          "fiscalCode" : {
+            "type" : "string"
+          },
+          "fullName" : {
+            "type" : "string"
+          },
+          "address" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "civic" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "postalCode" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "location" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "province" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "nation" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "email" : {
+            "type" : "string",
+            "nullable" : true
+          }
+        }
+      },
+      "PersonEntityType" : {
+        "type" : "string",
+        "enum" : [ "F", "G" ]
+      },
+      "TransferDTO" : {
+        "required" : [ "amountCents", "category", "orgFiscalCode", "orgName", "remittanceInformation", "transferIndex" ],
+        "type" : "object",
+        "properties" : {
+          "transferId" : {
+            "type" : "integer",
+            "format" : "int64",
+            "nullable" : true
+          },
+          "installmentId" : {
+            "type" : "integer",
+            "format" : "int64",
+            "nullable" : true
+          },
+          "orgFiscalCode" : {
+            "type" : "string"
+          },
+          "orgName" : {
+            "type" : "string"
+          },
+          "amountCents" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "remittanceInformation" : {
+            "type" : "string"
+          },
+          "stampType" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "stampHashDocument" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "stampProvincialResidence" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "iban" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "postalIban" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "category" : {
+            "type" : "string"
+          },
+          "transferIndex" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "creationDate" : {
+            "type" : "string",
+            "format" : "date-time",
+            "nullable" : true
+          },
+          "updateDate" : {
+            "type" : "string",
+            "format" : "date-time",
+            "nullable" : true
+          },
+          "updateOperatorExternalId" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "updateTraceId" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "mbdAttachment" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "flagOwner" : {
+            "type" : "boolean",
+            "nullable" : true
+          }
+        }
+      },
+      "ActualizationResultDTO" : {
+        "type" : "object",
+        "properties" : {
+          "updatedAmountCents" : {
+            "type" : "integer",
+            "description" : "updated amount (in euro cents), if the invocation was successful",
+            "format" : "int64",
+            "nullable" : true
+          },
+          "balance" : {
+            "type" : "string",
+            "description" : "updated balance envelope string, if service active, if successful invocation and balance envelope returned from discounting service",
+            "nullable" : true
+          },
+          "errorCode" : {
+            "type" : "string",
+            "description" : "Error code in case of KO outcome",
+            "nullable" : true
+          },
+          "errorDescription" : {
+            "type" : "string",
+            "description" : "Error description in case of KO outcome",
+            "nullable" : true
+          },
+          "nav" : {
+            "type" : "string",
+            "description" : "Debt Position unique number",
+            "nullable" : true
+          },
+          "iun" : {
+            "type" : "string",
+            "description" : "Unique identifier of the notification",
+            "nullable" : true
+          },
+          "notificationFeeCents" : {
+            "type" : "integer",
+            "description" : "Notification fee amount (in euro cents)",
+            "format" : "int64",
+            "nullable" : true
+          },
+          "displayDate" : {
+            "type" : "string",
+            "description" : "date of ISO 8601 display of the notification by the recipient",
+            "format" : "date-time",
+            "nullable" : true
+          },
+          "completionDeadlineDate" : {
+            "type" : "string",
+            "description" : "ISO 8601 date of completion due to expiry of deadline",
+            "format" : "date-time",
+            "nullable" : true
+          }
+        }
+      }
+    },
+    "securitySchemes" : {
+      "BearerAuth" : {
+        "type" : "http",
+        "scheme" : "bearer",
+        "bearerFormat" : "JWT"
+      }
+    }
+  }
+}

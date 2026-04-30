@@ -1,0 +1,422 @@
+openapi: 3.0.1
+info:
+  title: p4pa-process-executions
+  description: Api and Models
+  version: 0.0.1
+servers:
+  - url: http://localhost:8080
+    description: Generated server url
+paths:
+  /crud-ext/ingestion-flow-files/{ingestionFlowFileId}/set-status:
+    post:
+      tags:
+        - ingestion-flow-file-entity-extended-controller
+      operationId: updateStatus
+      parameters:
+        - name: ingestionFlowFileId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IngestionFlowFileUpdateStatusRequestDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int32
+        '404':
+          description: NotFound
+  /crud-ext/ingestion-flow-files/{ingestionFlowFileId}/set-file-names:
+    patch:
+      tags:
+        - ingestion-flow-file-entity-extended-controller
+      operationId: updateFileNames
+      parameters:
+        - name: ingestionFlowFileId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: fileName
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: discardFileName
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int32
+        '404':
+          description: NotFound
+  /crud-ext/ingestion-flow-files/{ingestionFlowFileId}/set-pdf-generated:
+    patch:
+      tags:
+        - ingestion-flow-file-entity-extended-controller
+      operationId: updatePdfGenerated
+      parameters:
+        - name: ingestionFlowFileId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: pdfGenerated
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: folderId
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int32
+        '404':
+          description: NotFound
+  /ingestion-flow-files:
+    post:
+      summary: create-ingestion-flow-file
+      tags:
+        - ingestion-flow-file-controller
+      operationId: createIngestionFlowFile
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IngestionFlowFileRequestDTO'
+        required: true
+      responses:
+        '201':
+          description: OK
+        '400':
+          description: BadRequest
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProcessExecutionsErrorDTO'
+  /ingestion-flow-files/reservation:
+    post:
+      summary: create-ingestion-flow-file-reservation
+      tags:
+        - ingestion-flow-file-controller
+      operationId: createIngestionFlowFileReservation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IngestionFlowFileRequestDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int64
+  /ingestion-flow-files/{ingestionFlowFileType}/versions:
+    get:
+      summary: get-ingestion-flow-file-versions
+      tags:
+        - ingestion-flow-file-controller
+      operationId: getIngestionFlowFileVersion
+      parameters:
+        - name: ingestionFlowFileType
+          in: path
+          required: true
+          schema:
+            type: 'IngestionFlowFileType'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+  /export-files/paid:
+    post:
+      summary: create-paid-export-file
+      tags:
+        - export-file-controller
+      operationId: createPaidExportFile
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: 'PaidExportFileRequestDTO'
+        required: true
+      responses:
+        '201':
+          description: OK
+        '400':
+          description: BadRequest
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProcessExecutionsErrorDTO'
+  /export-files/classifications:
+    post:
+      summary: create-classifications-export-file
+      tags:
+        - export-file-controller
+      operationId: createClassificationsExportFile
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: 'ClassificationsExportFileRequestDTO'
+        required: true
+      responses:
+        '201':
+          description: OK
+        '400':
+          description: BadRequest
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProcessExecutionsErrorDTO'
+  /export-files/payments-reporting:
+    post:
+      summary: create-payments-reporting-export-file
+      tags:
+        - export-file-controller
+      operationId: createPaymentsReportingExportFile
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: 'PaymentsReportingExportFileRequestDTO'
+        required: true
+      responses:
+        '201':
+          description: OK
+        '400':
+          description: BadRequest
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProcessExecutionsErrorDTO'
+  /export-files/receipts-archiving:
+    post:
+      summary: create-receipts-archiving-export-file
+      tags:
+        - export-file-controller
+      operationId: createReceiptsArchivingExportFile
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: 'ReceiptsArchivingExportFileRequestDTO'
+        required: true
+      responses:
+        '201':
+          description: OK
+        '400':
+          description: BadRequest
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProcessExecutionsErrorDTO'
+  /export-files/{exportFileType}:
+    get:
+      summary: get-export-file-type-versions
+      tags:
+        - export-file-controller
+      operationId: getExportFileTypeVersions
+      parameters:
+        - name: exportFileType
+          in: path
+          required: true
+          schema:
+            type: 'ExportFileType'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: 'ExportFileTypeVersions'
+  /crud-ext/export-files/{exportFileId}/set-status:
+    post:
+      tags:
+        - export-file-entity-extended-controller
+      operationId: updateExportFileStatus
+      parameters:
+        - name: exportFileId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: oldStatus
+          in: query
+          required: true
+          schema:
+            type: "ExportFileStatusEnum"
+        - name: newStatus
+          in: query
+          required: true
+          schema:
+            type: "ExportFileStatusEnum"
+        - name: filePathName
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: fileName
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: fileSize
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: numTotalRows
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: errorDescription
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: expirationDate
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int32
+        '404':
+          description: NotFound
+security:
+  - BearerAuth: []
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+  schemas:
+    IngestionFlowFileRequestDTO:
+      type: object
+      required:
+        - organizationId
+        - filePathName
+        - fileName
+        - fileSize
+        - ingestionFlowFileType
+        - fileOrigin
+      properties:
+        ingestionFlowFileId:
+          type: integer
+          format: int64
+        organizationId:
+          type: integer
+          format: int64
+        filePathName:
+          type: string
+        fileName:
+          type: string
+        fileSize:
+          type: integer
+          format: int64
+        ingestionFlowFileType:
+          type: 'IngestionFlowFileType'
+        flowDateTime:
+          type: string
+          format: date-time
+        pspIdentifier:
+          type: string
+        fileOrigin:
+          type: string
+        fileVersion:
+          type: string
+    IngestionFlowFileUpdateStatusRequestDTO:
+      type: object
+      required:
+        - oldStatus
+        - newStatus
+        - processedRows
+        - totalRows
+      properties:
+        fileVersion:
+          type: string
+        oldStatus:
+          type: "IngestionFlowFileStatusEnum"
+        newStatus:
+          type: "IngestionFlowFileStatusEnum"
+        processedRows:
+          type: integer
+          format: int64
+        totalRows:
+          type: integer
+          format: int64
+        errorDescription:
+          type: string
+        discardFile:
+          type: string
+    ProcessExecutionsErrorDTO:
+      type: object
+      required:
+        - category
+        - code
+        - message
+      properties:
+        category:
+          type: string
+          enum:
+            - PROCESS_EXECUTIONS_NOT_FOUND
+            - PROCESS_EXECUTIONS_CONFLICT
+            - PROCESS_EXECUTIONS_BAD_REQUEST
+            - PROCESS_EXECUTIONS_GENERIC_ERROR
+            - PROCESS_EXECUTIONS_INVALID_FILE_VERSION
+            - PROCESS_EXECUTIONS_INVALID_TIME_RANGE
+        code:
+          type: string
+        message:
+          type: string
+        traceId:
+          type: string

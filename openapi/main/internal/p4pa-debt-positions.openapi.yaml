@@ -1,0 +1,3234 @@
+openapi: 3.0.1
+info:
+  title: p4pa-debt-positions
+  description: Api and Models
+  version: 0.0.1
+servers:
+  - url: http://localhost:8080
+    description: Generated server url
+paths:
+  /debt-positions:
+    post:
+      tags:
+        - debt-position
+      operationId: createDebtPosition
+      parameters:
+        - name: massive
+          in: query
+          description: Indicates if the operation is massive (true) or single (false).
+          required: false
+          schema:
+            type: boolean
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DebtPositionDTO"
+        required: true
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionDTO"
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
+        "409":
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
+        "500":
+          description: Internal server error
+  /debt-positions/{debtPositionId}:
+    get:
+      tags:
+        - debt-position
+      operationId: getDebtPosition
+      parameters:
+        - name: debtPositionId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: The ID of the debt position
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionDTO"
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+    delete:
+      tags:
+        - debt-position
+      operationId: deleteDebtPosition
+      parameters:
+        - name: debtPositionId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: The ID of the debt position
+      responses:
+        "204":
+          description: No content
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+        "409":
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+  /debt-positions/by-installmentId/{installmentId}:
+    get:
+      tags:
+        - debt-position
+      operationId: getDebtPositionByInstallmentId
+      parameters:
+        - name: installmentId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: The ID of the installment
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionDTO"
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+  /debt-positions/by-nav/{organizationId}/{nav}:
+    get:
+      tags:
+        - debt-position
+      operationId: getDebtPositionsByOrganizationIdAndNav
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: nav
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: debtPositionOrigin
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/DebtPositionOrigin"
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DebtPositionDTO"
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+  /debt-positions/by-iuv/{organizationId}/{iuv}:
+    get:
+      tags:
+        - debt-position
+      operationId: getDebtPositionsByOrganizationIdAndIuv
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: The ID of the organization
+        - name: iuv
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The iuv of the installments
+        - name: debtPositionOrigin
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/DebtPositionOrigin"
+            description: An array of debt position origins to filter by; if null, no filter is applied
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DebtPositionDTO"
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+  /debt-positions/by-iud/{organizationId}/{iud}:
+    get:
+      tags:
+        - debt-position
+      operationId: getDebtPositionsByOrganizationIdAndIud
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: The ID of the organization
+        - name: iud
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The iud of the installments
+        - name: debtPositionOrigin
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/DebtPositionOrigin"
+            description: An array of debt position origins to filter by; if null, no filter is applied
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DebtPositionDTO"
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+  /debt-positions/by-debtor/{fiscalCode}/{entityType}:
+    get:
+      tags:
+        - debt-position
+      operationId: getDebtPositionsByDebtorFiscalCodeAndDebtorEntityType
+      parameters:
+        - name: fiscalCode
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The fiscal code of the debtor
+        - name: entityType
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/PersonEntityType"
+          description: The entity type of the debtor
+        - name: status
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/InstallmentStatus"
+            description: An array of statuses of the installments; if null, no filter is applied
+        - name: debtPositionOrigin
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/DebtPositionOrigin"
+            description: An array of debt position origins to filter by; if null, no filter is applied
+        - name: debtPositionTypeOrgCodesToExclude
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: organizationIds
+          in: query
+          required: true
+          schema:
+            type: array
+            items:
+              type: integer
+              format: int64
+          description: The IDs of the organizations
+        - name: dateFrom
+          in: query
+          description: Start date (inclusive)
+          required: false
+          schema:
+            type: string
+            format: date-time
+            example: 2025-01-01T00:00:00
+        - name: dateTo
+          in: query
+          description: End date (inclusive)
+          required: false
+          schema:
+            type: string
+            format: date-time
+            example: 2025-01-01T00:00:00
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DebtPositionDTO"
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+  /debt-positions/{debtPositionId}/publish:
+    put:
+      tags:
+        - debt-position
+      operationId: publishDebtPosition
+      parameters:
+        - name: debtPositionId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: The ID of the debt position
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionDTO"
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+        "409":
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+  /debt-positions/ingestion-flow-file/{ingestionFlowFileId}:
+    get:
+      tags:
+        - debt-position
+      operationId: getDebtPositionsByIngestionFlowFileId
+      parameters:
+        - name: ingestionFlowFileId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: The ID of the ingestion flow file
+        - name: statusToExclude
+          in: query
+          description: Indicates the list of status to be excluded
+          required: false
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/InstallmentStatus"
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PagedDebtPositions"
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+      x-spring-paginated: true
+  /debt-positions/{debtPositionId}/massive/transfer-ibans:
+    put:
+      tags:
+        - debt-position
+      operationId: updateTransferIbansAndSyncDebtPosition
+      parameters:
+        - name: debtPositionId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UpdateTransferIbansAndSyncDebtPositionRequestDTO"
+          required: true
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized - Missing or invalid token
+        '403':
+          description: Forbidden - Access denied
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+  /installments:
+    get:
+      tags:
+        - installment
+      summary: "Retrieve the list of paginated Installments filtered by params"
+      operationId: getInstallmentsByFilters
+      parameters:
+        - name: organizationId
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: operatorExternalUserId
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: dueDateTimeFrom
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: dueDateTimeTo
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: iuv
+          in: query
+          schema:
+            type: string
+        - name: iud
+          in: query
+          schema:
+            type: string
+        - name: fiscalCode
+          in: query
+          schema:
+            type: string
+        - name: debtPositionOrigins
+          in: query
+          schema:
+            type: array
+            items:
+              type: 'DebtPositionOrigin'
+        - name: debtPositionTypeOrgId
+          in: query
+          schema:
+            type: integer
+            format: int64
+        - name: status
+          in: query
+          schema:
+            type: 'InstallmentStatus'
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagedInstallmentsView'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+      x-spring-paginated: true
+  /installments/debtor:
+    get:
+      tags:
+        - installment
+      operationId: getInstallmentsByIuvOrNav
+      parameters:
+        - name: iuvOrNav
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: X-fiscal-code
+          in: header
+          required: false
+          schema:
+            type: string
+        - name: organizationId
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: statuses
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/InstallmentStatus"
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/InstallmentDebtorDTO"
+        "400":
+          description: Invalid request
+        "500":
+          description: Internal server error
+  /installments/{organizationId}/{nav}:
+    get:
+      tags:
+        - installment
+      operationId: getInstallmentsByOrganizationIdAndNav
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: The ID of the organization
+        - name: nav
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The nav of the installments
+        - name: debtPositionOrigin
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/DebtPositionOrigin"
+            description: An array of debt position origins to filter by; if null, no filter is applied
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/InstallmentDTO"
+        "400":
+          description: Invalid request
+        "500":
+          description: Internal server error
+  /installments/by-organizationId-and-receiptId:
+    get:
+      tags:
+        - installment
+      operationId: getInstallmentsByOrganizationIdAndReceiptId
+      parameters:
+        - name: organizationId
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: The ID of the organization
+        - name: receiptId
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: receipt id
+        - name: debtPositionOrigin
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/DebtPositionOrigin"
+            description: An array of debt position origins to filter by; if null, no filter is applied
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/InstallmentDTO"
+        "400":
+          description: Invalid request
+        "500":
+          description: Internal server error
+  /export/organization/{organizationId}/installments/paid:
+    get:
+      tags:
+        - data-exports
+      operationId: exportPaidInstallments
+      description: "|
+      The API returns a list of paid installments.
+      **Note:** At least one of `paymentDate` or `installmentUpdateDateTime` must be provided.
+      **Error:** If the size of the requested export is too large, the API will return an error."
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: The ID of the organization
+        - name: operatorExternalUserId
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: paymentDateTimeFrom
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: paymentDateTimeTo
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: installmentUpdateDateTimeFrom
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: installmentUpdateDateTimeTo
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: debtPositionTypeOrgId
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: debtPositionOrigins
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/DebtPositionOrigin"
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagedInstallmentsPaidView'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+              example:
+                code: "DEBT_POSITION_BAD_REQUEST"
+                message: "The number of InstallmentPaidViewNoPII records returned exceeds the maximum allowed"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+      x-spring-paginated: true
+  /export/organization/{organizationId}/receipts/archiving:
+    get:
+      tags:
+        - data-exports
+      operationId: exportArchivingReceipts
+      description: "|
+      The API returns a list of archiving receipts.
+      **Error:** If the size of the requested export is too large, the API will return an error."
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: The ID of the organization
+        - name: operatorExternalUserId
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: paymentDateFrom
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date-time
+        - name: paymentDateTo
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date-time
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagedReceiptsArchivingView'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+              example:
+                code: "DEBT_POSITION_BAD_REQUEST"
+                message: "The number of ReceiptsArchivingViewNOPII records returned exceeds the maximum allowed"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+      x-spring-paginated: true
+  /receipts:
+    post:
+      tags:
+        - receipt
+      operationId: createReceipt
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReceiptWithAdditionalNodeDataDTO"
+        required: true
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReceiptDTO"
+        "400":
+          description: Invalid request
+        "409":
+          description: Debt position already exists and cannot be changed
+        "500":
+          description: Internal server error
+  /receipts/{receiptId}:
+    get:
+      tags:
+        - receipt
+      operationId: getReceipt
+      parameters:
+        - name: receiptId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: The ID of the receipt
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReceiptDTO"
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+  /receipts/{receiptId}/detail:
+    get:
+      tags:
+        - receipt
+      operationId: getReceiptDetail
+      parameters:
+        - name: receiptId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: The ID of the receipt
+        - name: operatorExternalUserId
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: organizationId
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: iud
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReceiptDetailDTO"
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+  /receipts/{receiptId}/pdf:
+    get:
+      tags:
+        - receipt
+      operationId: getReceiptPdf
+      parameters:
+        - name: receiptId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: organizationId
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        "400":
+          description: Invalid request
+        "404":
+          description: Not Found
+        "500":
+          description: Internal server error
+  /installments/{installmentId}:
+    get:
+      tags:
+        - installment
+      operationId: getInstallmentDetail
+      parameters:
+        - name: installmentId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: operatorExternalUserId
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InstallmentDetailDTO"
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+  /crud-ext/installments/by-installmentId-dueDate:
+    put:
+      tags:
+        - installments-entity-extended-controller
+      operationId: updateDueDate
+      parameters:
+        - name: installmentId
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: dueDate
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: OK
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+  /crud-ext/installments/by-installmentId-status-syncStatus:
+    put:
+      tags:
+        - installments-entity-extended-controller
+      operationId: updateStatusAndToSyncStatus
+      parameters:
+        - name: installmentId
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: status
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/InstallmentStatus"
+        - name: syncStatusFrom
+          in: query
+          schema:
+            $ref: "#/components/schemas/InstallmentStatus"
+        - name: syncStatusTo
+          in: query
+          schema:
+            $ref: "#/components/schemas/InstallmentStatus"
+      responses:
+        '200':
+          description: OK
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+  /crud-ext/payment-option/by-paymentOptionId-status:
+    put:
+      tags:
+        - payment-option-entity-extended-controller
+      operationId: updateStatus
+      parameters:
+        - name: paymentOptionId
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: status
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/PaymentOptionStatus"
+      responses:
+        '200':
+          description: OK
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+  /crud-ext/installments/set-iun-by-debtPositionId:
+    put:
+      tags:
+        - installments-entity-extended-controller
+      operationId: updateIunByDebtPositionId
+      parameters:
+        - name: debtPositionId
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: iun
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+  /debt-positions/{debtPositionId}/finalize-sync-status:
+    put:
+      tags:
+        - debt-position
+      operationId: finalizeSyncStatus
+      parameters:
+        - name: debtPositionId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: The ID of the debt position
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SyncStatusUpdateRequestDTO"
+        required: true
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionDTO'
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+  /debt-positions/{debtPositionId}/check-installment-expiration:
+    put:
+      tags:
+        - debt-position
+      operationId: checkAndUpdateInstallmentExpiration
+      parameters:
+        - name: debtPositionId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: The ID of the debt position
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionDTO'
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+  /debt-positions/installment-synchronize:
+    put:
+      tags:
+        - debt-position
+      operationId: installmentSynchronize
+      parameters:
+        - name: origin
+          in: query
+          description: Indicates the origin of debt position to synchronize
+          required: true
+          schema:
+            $ref: "#/components/schemas/DebtPositionOrigin"
+        - name: massive
+          in: query
+          description: Indicates if the operation is massive (true) or single (false).
+          required: false
+          schema:
+            type: boolean
+            default: false
+        - name: partialChange
+          in: query
+          description: Indicates if the operation is a cumulative operation (true), which at the end of the process will invoke again the API with the parameter set to false, or complete (false).
+          required: false
+          schema:
+            type: boolean
+            default: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InstallmentSynchronizeDTO"
+        required: true
+      responses:
+        "201":
+          description: Ok
+          headers:
+            x-workflow-id:
+              schema:
+                type: string
+              description: The workflow id created.
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+        "409":
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
+        "500":
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+  /debt-positions/update-installment-notification-date:
+    put:
+      tags:
+        - debt-position
+      operationId: updateInstallmentNotificationDate
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                debtPositionId:
+                  type: integer
+                  format: int64
+                notificationDate:
+                  type: string
+                  format: date-time
+                nav:
+                  type: array
+                  items:
+                    type: string
+        required: true
+      responses:
+        "201":
+          description: Ok
+          headers:
+            x-workflow-id:
+              schema:
+                type: string
+              description: The workflow id created.
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+        "409":
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
+        "500":
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+  /debt-positions/{debtPositionId}/manage-installments:
+    put:
+      tags:
+        - debt-position
+      operationId: manageDebtPositionInstallments
+      parameters:
+        - name: debtPositionId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: The ID of the debt position
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ManageDebtPositionDTO"
+        required: true
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionDTO'
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+        "409":
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+  /debt-positions/update-notification-fee:
+    put:
+      tags:
+        - debt-position
+      operationId: updateInstallmentNotificationFee
+      requestBody:
+        content:
+          application/json:
+            schema:
+                  $ref: '#/components/schemas/ActualizeAmountRequestDTO'
+        required: true
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InstallmentDTO'
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+        "409":
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
+        "500":
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+  /transfers/{transferId}/reported:
+    put:
+      tags:
+        - transfer
+      operationId: notifyReportedTransferId
+      parameters:
+        - name: transferId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: The ID of the transfer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransferReportedRequest'
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionDTO'
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+  /debt-position-type-org:
+    post:
+      tags:
+        - debt-position-type-org
+      operationId: saveDebtPositionTypeOrg
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SaveDebtPositionTypeOrgDTO"
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: 'DebtPositionTypeOrg'
+        '404':
+          description: Not Found
+        "500":
+          description: Internal server error
+  /debt-position-type-org/{debtPositionTypeOrgId}:
+    delete:
+      tags:
+        - debt-position-type-org
+      operationId: deleteDebtPositionTypeOrg
+      parameters:
+        - name: debtPositionTypeOrgId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Ok
+        '404':
+          description: Not Found
+        "500":
+          description: Internal server error
+    patch:
+      tags:
+        - debt-position-type-org
+      operationId: updateFlagActiveDebtPositionTypeOrg
+      parameters:
+        - name: debtPositionTypeOrgId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: flagActive
+          in: query
+          required: true
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: Ok
+        '404':
+          description: Not Found
+        "500":
+          description: Internal server error
+  /debt-position-type-org/{debtPositionTypeOrgId}/io-notification/details:
+    get:
+      tags:
+        - debt-position-type-org
+      description: Returns the serviceId, subject, and markdown message if the DebtPositionTypeOrg is enabled for AppIO notifications.
+      operationId: getIONotificationDetails
+      parameters:
+        - name: debtPositionTypeOrgId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: The ID of the debt position type organization.
+        - name: context
+          in: query
+          required: true
+          schema:
+            type: PaymentEventType
+          description: The context for which to retrieve the notification details.
+      responses:
+        "200":
+          description: Successfully retrieved notification details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IONotificationDTO"
+        "400":
+          description: Invalid request parameters
+        "404":
+          description: No notification details found for the specified DebtPositionTypeOrgId or notifications are not enabled
+        "500":
+          description: Internal server error
+  /debt-position-type-org/{organizationId}/technical:
+    post:
+      tags:
+        - debt-position-type-org
+      operationId: createTechnicalDebtPositionTypeOrg
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
+        "409":
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
+        "500":
+          description: Internal server error
+  /debt-position-type-org-operators/{debtPositionTypeOrgId}:
+    delete:
+      tags:
+        - debt-position-type-org-operators
+      operationId: deleteOperators
+      parameters:
+        - name: debtPositionTypeOrgId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: externalOperatorUserIds
+          in: query
+          required: true
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: string
+      responses:
+        '200':
+          description: Number of operators successfully deleted
+          content:
+            application/json:
+              schema:
+                type: integer
+        '400':
+          description: Invalid request
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found
+        '500':
+          description: Internal server error
+  /debt-position-type-org-operators:
+    post:
+      tags:
+        - debt-position-type-org-operators
+      operationId: saveDebtPositionTypeOrgOperatorsForOperator
+      parameters:
+        - name: operatorExternalUserId
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: debtPositionTypeOrgIds
+          in: query
+          required: true
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: integer
+              format: int64
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Invalid request
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal server error
+  /debt-positions/mixed:
+    post:
+      tags:
+        - debt-position
+      operationId: createMixedDebtPosition
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MixedDebtPositionDTO"
+        required: true
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionDTO"
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
+        "409":
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
+        "500":
+          description: Internal server error
+  /debt-positions/debtor/unpaid:
+    get:
+      tags:
+        - debt-position
+      operationId: getPagedDebtorUnpaidDebtPositions
+      parameters:
+        - name: X-fiscal-code
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: organizationIds
+          in: query
+          required: true
+          schema:
+            type: array
+            items:
+              type: integer
+              format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PagedDebtorUnpaidDebtPositionDTO"
+        '401':
+          description: Unauthorized - Missing or invalid token
+        '403':
+          description: Forbidden - Access denied
+        '500':
+          description: Internal Server Error
+      x-spring-paginated: true
+  /debt-positions/debtor/unpaid/{debtPositionId}/overview:
+    get:
+      tags:
+        - debt-position
+      operationId: getDebtorUnpaidDebtPositionOverview
+      parameters:
+        - name: debtPositionId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: X-fiscal-code
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: organizationId
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: "DebtorDebtPositionDTO"
+        '401':
+          description: Unauthorized - Missing or invalid token
+        '403':
+          description: Forbidden - Access denied
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+  /spontaneous-forms:
+    post:
+      tags:
+        - spontaneous-form
+      operationId: createSpontaneousForm
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: 'SpontaneousForm'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: 'SpontaneousForm'
+        '400':
+          description: Invalid request
+        '403':
+          description: Forbidden
+        '409':
+          description: Conflict
+        '500':
+          description: Internal server error
+    put:
+      tags:
+        - spontaneous-form
+      operationId: updateSpontaneousForm
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: 'SpontaneousForm'
+        required: true
+      responses:
+        '200':
+          description: Ok
+        '400':
+          description: Invalid request
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found
+        '500':
+          description: Internal server error
+  /spontaneous-forms/{spontaneousFormId}:
+    delete:
+      tags:
+        - spontaneous-form
+      operationId: deleteSpontaneousForm
+      parameters:
+        - name: spontaneousFormId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Ok
+        '404':
+          description: Not Found
+        '409':
+          description: Conflict
+        "500":
+          description: Internal server error
+  /transfers/taxonomy-category/validate:
+    get:
+      tags:
+        - transfer
+      operationId: validateTaxonomyCategory
+      parameters:
+        - name: taxonomyCategory
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: orgFiscalCode
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: boolean
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+  /crud-ext/debt-positions/{debtPositionId}:
+    get:
+      tags:
+        - debt-position-entity-extended-controller
+      description: Returns the DebtPosition without PII
+      operationId: getDebtPositionNoPiiById
+      parameters:
+        - name: debtPositionId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: DebtPosition without PII
+          content:
+            application/json:
+              schema:
+                type: 'BaseDebtPosition'
+        "400":
+          description: Invalid request parameters
+        "500":
+          description: Internal server error
+  /crud-ext/debt-positions/organization/{organizationId}/iuv/{iuv}:
+    get:
+      tags:
+        - debt-position-entity-extended-controller
+      description: Returns the DebtPosition without PII
+      operationId: getDebtPositionsNoPiiByOrganizationIdAndInstallmentIuv
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: iuv
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: debtPositionOrigins
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: 'DebtPositionOrigin'
+      responses:
+        "200":
+          description: DebtPositions without PII
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: 'BaseDebtPosition'
+        "400":
+          description: Invalid request parameters
+        "500":
+          description: Internal server error
+  /transfers/postal-iban/verify:
+    get:
+      tags:
+        - transfer
+      operationId: verifyPostalIban
+      parameters:
+        - name: installmentIds
+          in: query
+          required: true
+          schema:
+            type: array
+            items:
+              type: integer
+              format: int64
+      responses:
+        "200":
+          description: Map of installmentId to boolean indicating if all transfers have a non-null postalIban (true if all are valid, false if at least one is null)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostalIbanVerifyResponse'
+        "400":
+          description: Invalid request parameters
+        "404":
+          description: No transfers found
+        "500":
+          description: Internal server error
+security:
+  - BearerAuth: [ ]
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+  schemas:
+    DebtPositionDTO:
+      required:
+        - debtPositionOrigin
+        - organizationId
+        - debtPositionTypeOrgId
+        - paymentOptions
+        - flagPuPagoPaPayment
+      type: object
+      x-implements: [ "it.gov.pagopa.pu.debtpositions.dto.BaseDebtPosition" ]
+      properties:
+        debtPositionId:
+          type: integer
+          format: int64
+        iupdOrg:
+          type: string
+        description:
+          type: string
+        status:
+          $ref: "#/components/schemas/DebtPositionStatus"
+        debtPositionOrigin:
+          $ref: "#/components/schemas/DebtPositionOrigin"
+        organizationId:
+          type: integer
+          format: int64
+        debtPositionTypeOrgId:
+          type: integer
+          format: int64
+        validityDate:
+          type: string
+          format: date
+        multiDebtor:
+          type: boolean
+        flagPuPagoPaPayment:
+          type: boolean
+        creationDate:
+          type: string
+          format: date-time
+        updateDate:
+          type: string
+          format: date-time
+        updateOperatorExternalId:
+          type: string
+        updateTraceId:
+          type: string
+        paymentOptions:
+          type: array
+          items:
+            $ref: "#/components/schemas/PaymentOptionDTO"
+    PaymentOptionDTO:
+      required:
+        - installments
+        - totalAmountCents
+        - paymentOptionType
+      type: object
+      x-implements: [ "it.gov.pagopa.pu.debtpositions.dto.BasePaymentOption" ]
+      properties:
+        paymentOptionId:
+          type: integer
+          format: int64
+        debtPositionId:
+          type: integer
+          format: int64
+        totalAmountCents:
+          type: integer
+          format: int64
+        status:
+          $ref: "#/components/schemas/PaymentOptionStatus"
+        description:
+          type: string
+        paymentOptionType:
+          type: 'PaymentOptionType'
+        paymentOptionIndex:
+          type: integer
+          format: int32
+        creationDate:
+          type: string
+          format: date-time
+        updateDate:
+          type: string
+          format: date-time
+        updateOperatorExternalId:
+          type: string
+        updateTraceId:
+          type: string
+        installments:
+          type: array
+          items:
+            $ref: "#/components/schemas/InstallmentDTO"
+    InstallmentDTO:
+      required:
+        - amountCents
+        - debtor
+        - remittanceInformation
+      type: object
+      x-implements: [
+        "it.gov.pagopa.pu.debtpositions.dto.BaseInstallment",
+        "it.gov.pagopa.pu.common.pii.dto.FullEntityPIIDTO<it.gov.pagopa.pu.debtpositions.model.InstallmentNoPII, it.gov.pagopa.pu.debtpositions.dto.pii.InstallmentPIIDTO>"
+      ]
+      x-class-extra-annotation: "@com.fasterxml.jackson.annotation.JsonIgnoreProperties(\"noPII\")"
+      properties:
+        installmentId:
+          type: integer
+          format: int64
+        paymentOptionId:
+          type: integer
+          format: int64
+        status:
+          $ref: "#/components/schemas/InstallmentStatus"
+        syncStatus:
+          type: "InstallmentSyncStatus"
+        iupdPagopa:
+          type: string
+        generateNotice:
+          type: boolean
+        iud:
+          type: string
+        iuv:
+          type: string
+        iur:
+          type: string
+        iuf:
+          type: string
+        nav:
+          type: string
+        iun:
+          type: string
+        dueDate:
+          type: string
+          format: date
+        switchToExpired:
+          type: boolean
+        notificationFeeCents:
+          type: integer
+          format: int64
+        amountCents:
+          type: integer
+          format: int64
+        remittanceInformation:
+          type: string
+        balance:
+          type: string
+        legacyPaymentMetadata:
+          type: string
+        debtor:
+          $ref: "#/components/schemas/PersonDTO"
+        transfers:
+          type: array
+          items:
+            $ref: "#/components/schemas/TransferDTO"
+        notificationDate:
+          type: string
+          format: date-time
+        ingestionFlowFileId:
+          type: integer
+          format: int64
+        ingestionFlowFileLineNumber:
+          type: integer
+          format: int64
+        ingestionFlowFileAction:
+          $ref: "#/components/schemas/Action"
+        sourceFlowName:
+          type: string
+        receiptId:
+          type: integer
+          format: int64
+        creationDate:
+          type: string
+          format: date-time
+        updateDate:
+          type: string
+          format: date-time
+        updateOperatorExternalId:
+          type: string
+        updateTraceId:
+          type: string
+        originalRemittanceInformation:
+          type: string
+        noPII:
+          x-field-extra-annotation: "@com.fasterxml.jackson.annotation.JsonIgnore @io.swagger.v3.oas.annotations.media.Schema(hidden = true)"
+          x-setter-extra-annotation: "@io.swagger.v3.oas.annotations.media.Schema(hidden = true)"
+          type: 'InstallmentNoPII'
+    TransferDTO:
+      required:
+        - amountCents
+        - category
+        - orgFiscalCode
+        - orgName
+        - remittanceInformation
+        - transferIndex
+      type: object
+      properties:
+        transferId:
+          type: integer
+          format: int64
+        installmentId:
+          type: integer
+          format: int64
+        orgFiscalCode:
+          type: string
+        orgName:
+          type: string
+        amountCents:
+          type: integer
+          format: int64
+        remittanceInformation:
+          type: string
+        stampType:
+          type: string
+        stampHashDocument:
+          type: string
+        stampProvincialResidence:
+          type: string
+        iban:
+          type: string
+        postalIban:
+          type: string
+        category:
+          type: string
+        transferIndex:
+          type: integer
+          format: int32
+        creationDate:
+          type: string
+          format: date-time
+        updateDate:
+          type: string
+          format: date-time
+        updateOperatorExternalId:
+          type: string
+        updateTraceId:
+          type: string
+        mbdAttachment:
+          type: string
+        flagOwner:
+          type: boolean
+    ReceiptDTO:
+      type: object
+      x-implements: [
+        "it.gov.pagopa.pu.common.pii.dto.FullEntityPIIDTO<it.gov.pagopa.pu.debtpositions.model.ReceiptNoPII, it.gov.pagopa.pu.debtpositions.dto.pii.ReceiptPIIDTO>"
+      ]
+      x-class-extra-annotation: "@com.fasterxml.jackson.annotation.JsonIgnoreProperties(\"noPII\")"
+      required:
+        - receiptOrigin
+        - paymentReceiptId
+        - noticeNumber
+        - orgFiscalCode
+        - outcome
+        - creditorReferenceId
+        - paymentAmountCents
+        - description
+        - companyName
+        - idPsp
+        - pspCompanyName
+        - debtor
+      properties:
+        receiptId:
+          type: integer
+          format: int64
+        ingestionFlowFileId:
+          type: integer
+          format: int64
+        receiptOrigin:
+          type: ReceiptOrigin
+        rtFilePath:
+          type: string
+        paymentReceiptId:
+          type: string
+        noticeNumber:
+          type: string
+        paymentNote:
+          type: string
+        orgFiscalCode:
+          type: string
+        outcome:
+          type: string
+        creditorReferenceId:
+          type: string
+        paymentAmountCents:
+          type: integer
+          format: int64
+        description:
+          type: string
+        companyName:
+          type: string
+        officeName:
+          type: string
+        idPsp:
+          type: string
+        pspFiscalCode:
+          type: string
+        pspPartitaIva:
+          type: string
+        pspCompanyName:
+          type: string
+        idChannel:
+          type: string
+        channelDescription:
+          type: string
+        paymentMethod:
+          type: string
+        feeCents:
+          type: integer
+          format: int64
+        paymentDateTime:
+          type: string
+          format: date-time
+        applicationDate:
+          type: string
+          format: date-time
+        transferDate:
+          type: string
+          format: date-time
+        standin:
+          type: boolean
+        debtor:
+          $ref: "#/components/schemas/PersonDTO"
+        payer:
+          $ref: "#/components/schemas/PersonDTO"
+        creationDate:
+          type: string
+          format: date-time
+        updateDate:
+          type: string
+          format: date-time
+        updateOperatorExternalId:
+          type: string
+        updateTraceId:
+          type: string
+        noPII:
+          x-field-extra-annotation: "@com.fasterxml.jackson.annotation.JsonIgnore @io.swagger.v3.oas.annotations.media.Schema(hidden = true)"
+          x-setter-extra-annotation: "@io.swagger.v3.oas.annotations.media.Schema(hidden = true)"
+          type: 'ReceiptNoPII'
+    PagedDebtorUnpaidDebtPositionDTO:
+      type: object
+      required:
+        - content
+        - size
+        - totalElements
+        - totalPages
+        - number
+      properties:
+        content:
+          type: array
+          items:
+            type: "DebtorDebtPositionDTO"
+        size:
+          type: integer
+          format: int64
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int64
+        number:
+          type: integer
+          format: int64
+    InstallmentDetailDTO:
+      type: object
+      x-implements: [
+        "it.gov.pagopa.pu.common.pii.dto.Full2PIIDTO<it.gov.pagopa.pu.debtpositions.model.view.installment.InstallmentDetailNoPIIView, it.gov.pagopa.pu.debtpositions.dto.pii.InstallmentPIIDTO, it.gov.pagopa.pu.debtpositions.dto.pii.ReceiptPIIDTO>"
+      ]
+      required:
+        - installmentId
+        - status
+        - iuv
+        - amountCents
+        - debtor
+        - debtPositionTypeOrgDescription
+        - debtPositionId
+        - debtPositionOrigin
+      properties:
+        installmentId:
+          type: integer
+          format: int64
+        receiptId:
+          type: integer
+          format: int64
+        paymentOptionId:
+          type: integer
+          format: int64
+        status:
+          $ref: "#/components/schemas/InstallmentStatus"
+        iuv:
+          type: string
+        nav:
+          type: string
+        amountCents:
+          type: integer
+          format: int64
+        dueDate:
+          type: string
+          format: date
+        debtor:
+          $ref: "#/components/schemas/PersonDTO"
+        debtPositionTypeOrgDescription:
+          type: string
+        debtPositionDescription:
+          type: string
+        debtPositionId:
+          type: integer
+          format: int64
+        debtPositionOrigin:
+          type: 'DebtPositionOrigin'
+        paymentDateTime:
+          type: string
+          format: date-time
+        payer:
+          $ref: "#/components/schemas/PersonDTO"
+        pspCompanyName:
+          type: string
+        iud:
+          type: string
+        iur:
+          type: string
+        iun:
+          type: string
+        notificationDate:
+          type: string
+          format: date-time
+        notificationFeeCents:
+          type: integer
+          format: int64
+        originalRemittanceInformation:
+          type: string
+    ReceiptDetailDTO:
+      type: object
+      x-implements: [
+        "it.gov.pagopa.pu.common.pii.dto.FullPIIDTO<it.gov.pagopa.pu.debtpositions.model.view.receipt.ReceiptDetailNoPIIView, it.gov.pagopa.pu.debtpositions.dto.pii.InstallmentPIIDTO>"
+      ]
+      required:
+        - receiptId
+        - paymentAmountCents
+        - remittanceInformation
+        - debtPositionTypeOrgDescription
+        - debtor
+        - pspCompanyName
+        - iud
+        - receiptOrigin
+        - debtPositionOrigin
+      properties:
+        receiptId:
+          type: integer
+          format: int64
+        iuv:
+          type: string
+        nav:
+          type: string
+        paymentAmountCents:
+          type: integer
+          format: int64
+        remittanceInformation:
+          type: string
+        debtPositionTypeOrgDescription:
+          type: string
+        debtor:
+          $ref: "#/components/schemas/PersonDTO"
+        paymentDateTime:
+          type: string
+          format: date-time
+        pspCompanyName:
+          type: string
+        iud:
+          type: string
+        iur:
+          type: string
+        feeCents:
+          type: integer
+          format: int64
+        notificationFeeCents:
+          type: integer
+          format: int64
+        receiptOrigin:
+          type: 'ReceiptOrigin'
+        debtPositionOrigin:
+          type: 'DebtPositionOrigin'
+        originalRemittanceInformation:
+          type: string
+    ReceiptTransferDTO:
+      required:
+        - idTransfer
+        - transferAmountCents
+        - fiscalCodePA
+        - remittanceInformation
+        - transferCategory
+      type: object
+      properties:
+        idTransfer:
+          type: integer
+          format: int32
+        transferAmountCents:
+          type: integer
+          format: int64
+        fiscalCodePA:
+          type: string
+        companyName:
+          type: string
+        mbdAttachment:
+          type: string
+        iban:
+          type: string
+        remittanceInformation:
+          type: string
+        transferCategory:
+          type: string
+        metadata:
+          type: object
+          additionalProperties:
+            type: string
+    ReceiptWithAdditionalNodeDataDTO:
+      allOf:
+        - $ref: "#/components/schemas/ReceiptDTO"
+        - type: object
+          required:
+            - organizationId
+            - transfers
+          properties:
+            organizationId:
+              type: integer
+              format: int64
+            transfers:
+              type: array
+              minItems: 1
+              items:
+                $ref: "#/components/schemas/ReceiptTransferDTO"
+            metadata:
+              type: object
+              additionalProperties:
+                type: string
+            sourceFlowName:
+              type: string
+            iud:
+              type: string
+            debtPositionTypeOrgCode:
+              type: string
+            balance:
+              type: string
+    PersonDTO:
+      required:
+        - fullName
+        - entityType
+        - fiscalCode
+      type: object
+      properties:
+        entityType:
+          $ref: "#/components/schemas/PersonEntityType"
+        fiscalCode:
+          type: string
+        fullName:
+          type: string
+        address:
+          type: string
+        civic:
+          type: string
+        postalCode:
+          type: string
+        location:
+          type: string
+        province:
+          type: string
+        nation:
+          type: string
+        email:
+          type: string
+    DebtPositionStatus:
+      type: string
+      enum:
+        - TO_SYNC
+        - REPORTED
+        - PAID
+        - PARTIALLY_PAID
+        - CANCELLED
+        - EXPIRED
+        - UNPAID
+        - DRAFT
+    DebtPositionOrigin:
+      type: string
+      enum:
+        - ORDINARY
+        - ORDINARY_SIL
+        - SPONTANEOUS
+        - SPONTANEOUS_SIL
+        - SPONTANEOUS_MIXED
+        - SPONTANEOUS_PSP
+        - SECONDARY_ORG
+        - RECEIPT_FILE
+        - RECEIPT_PAGOPA
+        - REPORTING_PAGOPA
+    PaymentOptionStatus:
+      type: string
+      enum:
+        - TO_SYNC
+        - REPORTED
+        - PAID
+        - PARTIALLY_PAID
+        - CANCELLED
+        - INVALID
+        - EXPIRED
+        - UNPAID
+        - UNPAYABLE
+        - DRAFT
+    InstallmentStatus:
+      type: string
+      enum:
+        - TO_SYNC
+        - REPORTED
+        - PAID
+        - CANCELLED
+        - INVALID
+        - EXPIRED
+        - UNPAID
+        - UNPAYABLE
+        - DRAFT
+    PersonEntityType:
+      type: string
+      enum:
+        - F
+        - G
+    Action:
+      type: string
+      enum:
+        - I
+        - M
+        - A
+    SyncStatusUpdateRequestDTO:
+      type: object
+      required:
+        - iupd2finalize
+        - iupdSyncError
+      properties:
+        iupd2finalize:
+          type: object
+          additionalProperties:
+            $ref: "#/components/schemas/SyncCompleteDTO"
+        iupdSyncError:
+          type: object
+          additionalProperties:
+            $ref: "#/components/schemas/SyncErrorDTO"
+    SyncCompleteDTO:
+      type: object
+      required:
+        - newStatus
+      properties:
+        newStatus:
+          $ref: "#/components/schemas/InstallmentStatus"
+    SyncErrorDTO:
+      type: object
+      required:
+        - error_description
+      properties:
+        error_description:
+          type: string
+    DebtPositionErrorDTO:
+      type: object
+      required:
+        - category
+        - code
+        - message
+      properties:
+        category:
+          type: string
+          enum:
+            - DEBT_POSITION_BAD_REQUEST
+            - DEBT_POSITION_CONFLICT
+            - DEBT_POSITION_FORBIDDEN
+            - DEBT_POSITION_GENERIC_ERROR
+            - DEBT_POSITION_NOT_FOUND
+        code:
+          type: string
+        message:
+          type: string
+        traceId:
+          type: string
+    DebtPositionTypeOrgDTO:
+      required:
+        - debtPositionTypeId
+        - organizationId
+        - code
+        - description
+        - iban
+      type: object
+      properties:
+        debtPositionTypeOrgId:
+          type: integer
+          format: int64
+        debtPositionTypeId:
+          type: integer
+          format: int64
+        organizationId:
+          type: integer
+          format: int64
+        balance:
+          type: string
+        code:
+          type: string
+        description:
+          type: string
+        iban:
+          type: string
+        postalIban:
+          type: string
+        postalAccountCode:
+          type: string
+        holderPostalCc:
+          type: string
+        orgSector:
+          type: string
+        amountCents:
+          type: integer
+          format: int64
+        externalPaymentUrl:
+          type: string
+        flagAnonymousFiscalCode:
+          type: boolean
+        flagMandatoryDueDate:
+          type: boolean
+        flagSpontaneous:
+          type: boolean
+        flagNotifyIo:
+          type: boolean
+        serviceId:
+          type: string
+        ioTemplateSubject:
+          type: string
+        ioTemplateMessage:
+          type: string
+        flagActive:
+          type: boolean
+        flagNotifyOutcomePush:
+          type: boolean
+        notifyOutcomePushOrgSilServiceId:
+          type: integer
+          format: int64
+        flagAmountActualization:
+          type: boolean
+        amountActualizationOrgSilServiceId:
+          type: integer
+          format: int64
+        flagExternal:
+          type: boolean
+    InstallmentSynchronizeDTO:
+      required:
+        - action
+        - ingestionFlowFileId
+        - ingestionFlowFileLineNumber
+        - organizationId
+        - description
+        - paymentOptionIndex
+        - paymentOptionType
+        - entityType
+        - fiscalCode
+        - fullName
+        - amountCents
+        - debtPositionTypeCode
+        - remittanceInformation
+        - flagPuPagoPaPayment
+        - ingestionFlowFileName
+      type: object
+      x-class-extra-annotation: '@io.swagger.v3.oas.annotations.media.SchemaProperty(name = "executionConfig", schema = @Schema(name = "JsonNode", type = "object", implementation = com.fasterxml.jackson.databind.JsonNode.class))'
+      properties:
+        ingestionFlowFileId:
+          type: integer
+          format: int64
+        ingestionFlowFileLineNumber:
+          type: integer
+          format: int64
+        organizationId:
+          type: integer
+          format: int64
+        action:
+          $ref: "#/components/schemas/Action"
+        draft:
+          type: boolean
+        iupdOrg:
+          type: string
+        description:
+          type: string
+        validityDate:
+          type: string
+          format: date
+        multiDebtor:
+          type: boolean
+        notificationDate:
+          type: string
+          format: date-time
+        paymentOptionIndex:
+          type: integer
+          format: int32
+        paymentOptionType:
+          type: string
+        paymentOptionDescription:
+          type: string
+        iud:
+          type: string
+        iuv:
+          type: string
+        entityType:
+          $ref: "#/components/schemas/PersonEntityType"
+        fiscalCode:
+          type: string
+        fullName:
+          type: string
+        address:
+          type: string
+        civic:
+          type: string
+        postalCode:
+          type: string
+        location:
+          type: string
+        province:
+          type: string
+        nation:
+          type: string
+        email:
+          type: string
+        dueDate:
+          type: string
+          format: date
+        amountCents:
+          type: integer
+          format: int64
+        debtPositionTypeCode:
+          type: string
+        remittanceInformation:
+          type: string
+        legacyPaymentMetadata:
+          type: string
+        flagPuPagoPaPayment:
+          type: boolean
+        generateNotice:
+          type: boolean
+        balance:
+          type: string
+        flagMultibeneficiary:
+          type: boolean
+        numberBeneficiary:
+          type: integer
+          format: int32
+        additionalTransfers:
+          type: array
+          items:
+            $ref: "#/components/schemas/TransferSynchronizeDTO"
+        executionConfig:
+          type: object
+          x-field-extra-annotation: '@io.swagger.v3.oas.annotations.Hidden'
+        ingestionFlowFileName:
+          type: string
+    TransferSynchronizeDTO:
+      required:
+        - orgFiscalCode
+        - orgName
+        - amountCents
+        - remittanceInformation
+        - iban
+        - category
+        - transferIndex
+      type: object
+      properties:
+        orgFiscalCode:
+          type: string
+        orgName:
+          type: string
+        amountCents:
+          type: integer
+          format: int64
+        remittanceInformation:
+          type: string
+        iban:
+          type: string
+        postalIban:
+          type: string
+        category:
+          type: string
+        transferIndex:
+          type: integer
+          format: int32
+    PagedInstallmentsView:
+      type: object
+      required:
+        - content
+        - size
+        - totalElements
+        - totalPages
+        - number
+      properties:
+        content:
+          type: array
+          items:
+            type: 'InstallmentViewDTO'
+        size:
+          type: integer
+          format: int64
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int64
+        number:
+          type: integer
+          format: int64
+    PagedInstallmentsPaidView:
+      type: object
+      required:
+        - content
+        - size
+        - totalElements
+        - totalPages
+        - number
+      properties:
+        content:
+          type: array
+          items:
+            type: 'InstallmentPaidView'
+        size:
+          type: integer
+          format: int64
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int64
+        number:
+          type: integer
+          format: int64
+    PagedReceiptsArchivingView:
+      type: object
+      required:
+        - content
+        - size
+        - totalElements
+        - totalPages
+        - number
+      properties:
+        content:
+          type: array
+          items:
+            $ref: "#/components/schemas/ReceiptArchivingView"
+        size:
+          type: integer
+          format: int64
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int64
+        number:
+          type: integer
+          format: int64
+    IONotificationDTO:
+      type: object
+      properties:
+        serviceId:
+          type: string
+        ioTemplateSubject:
+          type: string
+        ioTemplateMessage:
+          type: string
+    ReceiptArchivingView:
+      type: object
+      x-implements: [
+        "it.gov.pagopa.pu.common.pii.dto.Full2PIIDTO<it.gov.pagopa.pu.debtpositions.model.view.receipt.ReceiptArchivingNoPIIView, it.gov.pagopa.pu.debtpositions.dto.pii.InstallmentPIIDTO, it.gov.pagopa.pu.debtpositions.dto.pii.ReceiptPIIDTO>"
+      ]
+      required:
+        - paymentReceiptId
+        - creditorReferenceId
+        - remittanceInformation
+        - organizationId
+        - orgFiscalCode
+      properties:
+        receiptId:
+          type: integer
+          format: int64
+        paymentReceiptId:
+          type: string
+        paymentDateTime:
+          type: string
+          format: date-time
+        creditorReferenceId:
+          type: string
+        iuv:
+          type: string
+        remittanceInformation:
+          type: string
+        organizationId:
+          type: integer
+          format: int64
+        orgFiscalCode:
+          type: string
+        rtFilePath:
+          type: string
+        debtor:
+          $ref: "#/components/schemas/PersonDTO"
+        payer:
+          $ref: "#/components/schemas/PersonDTO"
+        originalRemittanceInformation:
+            type: string
+    PagedDebtPositions:
+      type: object
+      required:
+        - content
+        - size
+        - totalElements
+        - totalPages
+        - number
+      properties:
+        content:
+          type: array
+          items:
+            $ref: "#/components/schemas/DebtPositionDTO"
+        size:
+          type: integer
+          format: int64
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int64
+        number:
+          type: integer
+          format: int64
+    TransferReportedRequest:
+      type: object
+      required:
+        - iuf
+      properties:
+        iuf:
+          type: string
+    ManageDebtPositionDTO:
+      type: object
+      required:
+        - paymentOptionId
+        - installments
+      properties:
+        debtPositionDescription:
+          type: string
+        validityDate:
+          type: string
+          format: date
+        paymentOptionId:
+          type: integer
+          format: int64
+        paymentOptionDescription:
+          type: string
+        installments:
+          type: array
+          items:
+            $ref: "#/components/schemas/ManageInstallmentDTO"
+    ManageInstallmentDTO:
+      type: object
+      required:
+        - action
+        - installment
+      properties:
+        action:
+          $ref: "#/components/schemas/Action"
+        installment:
+          $ref: "#/components/schemas/InstallmentDTO"
+    SaveDebtPositionTypeOrgDTO:
+      type: object
+      required:
+        - debtPositionTypeOrg
+      properties:
+        debtPositionTypeOrg:
+          type: 'DebtPositionTypeOrg'
+        enabledOperators:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+        disabledOperators:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+        removeEnabledOperators:
+          type: boolean
+    MixedDebtPositionDTO:
+      type: object
+      required:
+        - organizationId
+        - debtPositionOrigin
+        - sourceFlowName
+        - debtor
+        - transfers
+      properties:
+        organizationId:
+          type: integer
+          format: int64
+        debtPositionOrigin:
+          type: 'DebtPositionOrigin'
+        sourceFlowName:
+          type: string
+        description:
+          type: string
+        dueDate:
+          type: string
+          format: date
+        debtor:
+          $ref: "#/components/schemas/PersonDTO"
+        transfers:
+          type: array
+          items:
+            $ref: "#/components/schemas/MixedTransferDTO"
+    MixedTransferDTO:
+      type: object
+      required:
+        - iud
+        - debtPositionTypeOrgId
+        - remittanceInformation
+        - amountCents
+      properties:
+        iud:
+          type: string
+        debtPositionTypeOrgId:
+          type: integer
+          format: int64
+        amountCents:
+          type: integer
+          format: int64
+        balance:
+          type: string
+        stampType:
+          type: string
+        stampHashDocument:
+          type: string
+        stampProvincialResidence:
+          type: string
+        iban:
+          type: string
+        postalIban:
+          type: string
+        legacyPaymentMetadata:
+          type: string
+        remittanceInformation:
+          type: string
+    ActualizeAmountRequestDTO:
+      type: object
+      required:
+        - organizationId
+        - nav
+        - newFeeCents
+        - actualizedFromPuSil
+      properties:
+        organizationId:
+          type: integer
+          format: int64
+        nav:
+          type: string
+        newFeeCents:
+          type: integer
+          format: int64
+        actualizedFromPuSil:
+          type: boolean
+        iun:
+          type: string
+        balance:
+          type: string
+        notificationDate:
+          type: string
+          format: date-time
+    InstallmentDebtorDTO:
+      type: object
+      required:
+        - installmentId
+        - organizationId
+        - debtor
+        - amountCents
+        - status
+        - remittanceInformation
+        - debtPositionTypeOrgDescription
+      properties:
+        installmentId:
+          type: integer
+          format: int64
+        iuv:
+          type: string
+        nav:
+          type: string
+        organizationId:
+          type: integer
+          format: int64
+        debtor:
+          $ref: "#/components/schemas/PersonDTO"
+        amountCents:
+          type: integer
+          format: int64
+        dueDate:
+          type: string
+          format: date
+        status:
+          $ref: "#/components/schemas/InstallmentStatus"
+        remittanceInformation:
+          type: string
+        receiptId:
+          type: integer
+          format: int64
+        debtPositionTypeOrgDescription:
+          type: string
+    UpdateTransferIbansAndSyncDebtPositionRequestDTO:
+      type: object
+      required:
+        - oldIban
+        - newIban
+      properties:
+        oldIban:
+          type: string
+        newIban:
+          type: string
+        oldPostalIban:
+          type: string
+        newPostalIban:
+          type: string
+    PostalIbanVerifyResponse:
+      type: object
+      required:
+        - installmentPostalIbanCheck
+      properties:
+        installmentPostalIbanCheck:
+          type: object
+          additionalProperties:
+            type: boolean
+

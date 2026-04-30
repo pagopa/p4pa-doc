@@ -1,0 +1,54 @@
+openapi: 3.1.0
+info:
+  title: p4pa-cie-batch
+  description: Api and Models
+  version: "1.0.0"
+paths:
+  /workflow/organizations-cie/sync:
+    post:
+      tags:
+        - OrganizationCie
+      operationId: syncOrganizationsCie
+      responses:
+        '200':
+          description: "Organizations cie synchronized correctly"
+          content:
+            application/json:
+              schema:
+                type: 'WorkflowCreatedDTO'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+security:
+  - BearerAuth: [ ]
+components:
+  schemas:
+    ErrorDTO:
+      type: object
+      required:
+        - category
+        - code
+        - message
+      properties:
+        category:
+          type: string
+          enum:
+            - NOT_FOUND
+            - BAD_REQUEST
+            - GENERIC_ERROR
+            - CONFLICT
+        code:
+          type: string
+        message:
+          type: string
+        traceId:
+          type: string

@@ -1,0 +1,602 @@
+openapi: 3.0.1
+info:
+  title: p4pa-cie
+  description: Api and Models
+  version: 0.0.1
+servers:
+  - url: "http://localhost:8080"
+    description: Generated server url
+paths:
+  /debt-position:
+    post:
+      tags:
+        - DebtPositionCie
+      operationId: createDebtPositionCie
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DebtPositionCieRequestDTO"
+        required: true
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: 'DebtPositionDTO'
+        "400":
+          description: Invalid request
+        "401":
+          description: Unauthorized - Missing or invalid token
+        "500":
+          description: Internal Server Error
+  /debt-position/paid:
+    post:
+      tags:
+        - DebtPositionCie
+      operationId: notifyDebtPositionCiePayment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: "DebtPositionDTO"
+        required: true
+      responses:
+        "200":
+          description: Ok
+        "400":
+          description: Invalid request
+        "401":
+          description: Unauthorized - Missing or invalid token
+        "500":
+          description: Internal Server Error
+  /debt-position/{nav}/payment-notice/generate:
+    get:
+      tags:
+        - DebtPositionCie
+      operationId: generateNoticeCie
+      parameters:
+        - name: nav
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: debtorFiscalCode
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        "400":
+          description: Invalid request
+        "401":
+          description: Unauthorized - Missing or invalid token
+        "500":
+          description: Internal Server Error
+  /public/organizations:
+    get:
+      tags:
+        - OrganizationCie
+      operationId: getOrganizations
+      security: []
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DynamicLabelDTO"
+        "500":
+          description: Internal Server Error
+  /public/organizations/{orgFiscalCode}/amount:
+    get:
+      tags:
+        - OrganizationCie
+      operationId: getAmountByOrgFiscalCodeAndDebtPositionTypeOrgCode
+      security: []
+      parameters:
+        - name: orgFiscalCode
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: debtPositionTypeOrgCode
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CurrencyDTO"
+        "400":
+          description: Invalid request
+        "401":
+          description: Unauthorized - Missing or invalid token
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+  /organizations/sync:
+    get:
+      tags:
+        - OrganizationCie
+      operationId: syncOrganizationsCie
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized - Missing or invalid token
+        "500":
+          description: Internal server error
+  /mint/payments:
+    get:
+      tags:
+        - mintCie
+      summary: "Retrieve a paged list of CIE payments"
+      operationId: mintGetPayments
+      parameters:
+        - name: orgFiscalCode
+          in: query
+          schema:
+            type: string
+        - name: completionDateFrom
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: completionDateTo
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: paymentDateFrom
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: paymentDateTo
+          in: query
+          schema:
+            type: string
+            format: date-time
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PagedPaymentCieDTO"
+        "400":
+          description: Invalid request
+        "401":
+          description: Unauthorized - Missing or invalid token
+        "500":
+          description: Internal Server Error
+      x-spring-paginated: true
+  /ipzs/{orgFiscalCode}/notice/{nav}:
+    get:
+      tags:
+        - ipzsCie
+      operationId: ipzsGetNoticeByOrgFiscalCodeAndNav
+      parameters:
+        - name: orgFiscalCode
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: nav
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NoticeCieDTO"
+        "400":
+          description: Invalid request
+        "401":
+          description: Unauthorized - Missing or invalid token
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+  /ipzs/{orgFiscalCode}/notices/{debtorFiscalCode}:
+    get:
+      tags:
+        - ipzsCie
+      operationId: ipzsGetNotices
+      parameters:
+        - name: orgFiscalCode
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: debtorFiscalCode
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PagedNoticeCieDTO"
+        "400":
+          description: Invalid request
+        "401":
+          description: Unauthorized - Missing or invalid token
+        "500":
+          description: Internal Server Error
+      x-spring-paginated: true
+  /ipzs/{orgFiscalCode}/notices/{nav}/setStatus:
+    post:
+      tags:
+        - ipzsCie
+      operationId: ipzsUpdateNoticeStatus
+      parameters:
+        - name: orgFiscalCode
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: nav
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - status
+              properties:
+                status:
+                  type: string
+                  enum:
+                    - BURN
+                    - REFUND
+                operationDate:
+                  type: string
+                  format: date-time
+                  example: 2025-01-01T00:00:00
+        required: true
+      responses:
+        "200":
+          description: Ok
+        "400":
+          description: Invalid request
+        "401":
+          description: Unauthorized - Missing or invalid token
+        "404":
+          description: Not Found
+        "409":
+          description: Conflict
+        "500":
+          description: Internal Server Error
+  /assistance/notices/by-debtor:
+    post:
+      tags:
+        - assistanceCie
+      operationId: assistanceGetNoticesByDebtorFiscalCode
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - debtorFiscalCode
+              properties:
+                debtorFiscalCode:
+                  type: string
+                orgFiscalCode:
+                  type: string
+                paymentDate:
+                  type: string
+                  format: date
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PagedAssistanceNoticesCieDTO"
+        "400":
+          description: Invalid request
+        "401":
+          description: Unauthorized - Missing or invalid token
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+      x-spring-paginated: true
+security:
+  - BearerAuth: [ ]
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+  schemas:
+    ErrorDTO:
+      type: object
+      required:
+        - category
+        - message
+      properties:
+        category:
+          type: string
+          enum:
+            - NOT_FOUND
+            - BAD_REQUEST
+            - GENERIC_ERROR
+            - CONFLICT
+            - FORBIDDEN
+        code:
+          type: string
+        message:
+          type: string
+        traceId:
+          type: string
+    DebtPositionCieStatus:
+      type: string
+      enum:
+        - UNPAID
+        - PAID
+        - BURNED
+        - REFUNDED
+    PagedPaymentCieDTO:
+      type: object
+      required:
+        - content
+        - size
+        - totalElements
+        - totalPages
+        - number
+      properties:
+        content:
+          type: array
+          items:
+            $ref: "#/components/schemas/PaymentCieDTO"
+        size:
+          type: integer
+          format: int64
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int64
+        number:
+          type: integer
+          format: int64
+    PaymentCieDTO:
+      type: object
+      required:
+        - status
+        - nav
+        - reasonCode
+        - reasonDescription
+        - orgFiscalCode
+        - orgName
+        - orgAmountCents
+        - mefAmountCents
+      properties:
+        status:
+          $ref: "#/components/schemas/DebtPositionCieStatus"
+          description: "Payment status"
+        paymentDate:
+          type: string
+          format: date-time
+          description: "Payment date and time"
+        completionDate:
+          type: string
+          format: date-time
+          description: "Date and time when the payment was consumed for the CIE issuance"
+        nav:
+          type: string
+          description: "Unique payment identifier"
+        reasonCode:
+          type: string
+          description: "Reason code"
+        reasonDescription:
+          type: string
+          description: "Reason description"
+        orgFiscalCode:
+          type: string
+          description: "Organization fiscal code"
+        orgName:
+          type: string
+          description: "Organization name"
+        orgAmountCents:
+          type: integer
+          format: int64
+          description: "Amount due to the organization"
+        mefAmountCents:
+          type: integer
+          format: int64
+          description: "Amount due to MEF"
+    DebtPositionCieRequestDTO:
+      type: object
+      required:
+        - origin
+        - debtor
+        - debtPositionTypeOrgCode
+        - orgFiscalCode
+        - remittanceInformation
+      properties:
+        origin:
+          $ref: "#/components/schemas/DebtPositionCieOriginAllowedEnum"
+        debtor:
+          type: PersonDTO
+        debtPositionTypeOrgCode:
+          type: string
+        payer:
+          type: PersonDTO
+        orgFiscalCode:
+          type: string
+        remittanceInformation:
+          type: string
+    DebtPositionCieOriginAllowedEnum:
+      type: string
+      enum:
+        - SPONTANEOUS
+        - SPONTANEOUS_PSP
+    CurrencyDTO:
+      type: object
+      required:
+        - result
+      properties:
+        result:
+          description: 'result amount in cents'
+          type: integer
+          format: int64
+    NoticeCieDTO:
+      type: object
+      required:
+        - status
+        - nav
+        - reasonCode
+        - orgAmountCents
+        - mefAmountCents
+      properties:
+        status:
+          $ref: "#/components/schemas/DebtPositionCieStatus"
+        paymentDate:
+          type: string
+          format: date-time
+        burnDate:
+          type: string
+          format: date-time
+        nav:
+          type: string
+        reasonCode:
+          type: string
+        reasonDescription:
+          type: string
+        orgAmountCents:
+          type: integer
+          format: int64
+        mefAmountCents:
+          type: integer
+          format: int64
+    PagedNoticeCieDTO:
+      type: object
+      required:
+        - content
+        - size
+        - totalElements
+        - totalPages
+        - number
+      properties:
+        content:
+          type: array
+          items:
+            $ref: "#/components/schemas/NoticeCieDTO"
+        size:
+          type: integer
+          format: int64
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int64
+        number:
+          type: integer
+          format: int64
+    DynamicLabelDTO:
+      type: object
+      required:
+        - result
+      properties:
+        result:
+          type: array
+          items:
+            $ref: "#/components/schemas/LabelDTO"
+    LabelDTO:
+      type: object
+      required:
+        - label
+        - value
+      properties:
+        label:
+          type: string
+        value:
+          type: string
+    PagedAssistanceNoticesCieDTO:
+      type: object
+      required:
+        - content
+        - size
+        - totalElements
+        - totalPages
+        - number
+      properties:
+        content:
+          type: array
+          items:
+            $ref: "#/components/schemas/AssistanceNoticesCieDTO"
+        size:
+          type: integer
+          format: int64
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int64
+        number:
+          type: integer
+          format: int64
+    AssistanceNoticesCieDTO:
+      type: object
+      required:
+        - nav
+        - amountCents
+        - status
+        - orgFiscalCode
+        - orgName
+        - remittanceInformation
+      properties:
+        nav:
+          type: string
+        amountCents:
+          type: integer
+          format: int64
+        status:
+          $ref: "#/components/schemas/DebtPositionCieStatus"
+        paymentDate:
+          type: string
+          format: date-time
+        completionDate:
+          type: string
+          format: date-time
+        orgFiscalCode:
+          type: string
+        orgName:
+          type: string
+        reasonCode:
+          type: string
+        reasonDescription:
+          type: string
