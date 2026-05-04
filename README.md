@@ -14,7 +14,7 @@ PU non include il modulo di autenticazione ma fornisce un apposito connettore (p
 ## Valore aggiunto
 
 **Architettura moderna e scalabile**: progettata per evolvere nel tempo  
-**Integrazione nativa con l’ecosistema pagoPA**: inclusi SEND, IO, pagoPA, PDND 
+**Integrazione nativa con l’ecosistema pagoPA**: inclusi SEND, IO, pagoPA, PDND   
 **Allineamento continuo alle evoluzioni normative**: SANP, GDPR  
 **Esperienza utente rinnovata**: conforme alle Linee guida di design AgID  
 **Interoperabilità e automazione dei processi**: a supporto della trasformazione digitale della PA  
