@@ -1,17 +1,15 @@
 ## Descrizione
 Piattaforma Unitaria* (di seguito PU) è una soluzione ideata e sviluppata da PagoPA per supportare gli EC nella gestione del ciclo di vita delle proprie Posizioni Debitorie.
 
-L’idea è quella di garantire agli EC un applicativo consistente con i processi e i modelli dati attualmente presenti nella piattaforma pagoPA in modo da garantire un’integrazione con tutte le funzionalità esposte, facilmente manutenibile ed evolvibile in accordo con le novità che verranno introdotte nelle SANP.
+Lo scopo è quello di garantire agli EC un applicativo consistente con i processi e i modelli dati attualmente presenti nella piattaforma pagoPA in modo da garantire un’integrazione con tutte le funzionalità esposte, facilmente manutenibile ed evolvibile in accordo con le novità che verranno introdotte nelle SANP.
 
 Supportare gli EC nel ciclo di vita delle proprie Posizioni Debitorie necessita inoltre di integrare all’interno di Piattaforma Unitaria anche gli altri prodotti dell’ecosistema PagoPA: SEND, AppIO e PDND. L’applicativo quindi presenta e implementa i layer deputati alla comunicazione con questi applicativi.
 
-Il prodotto si identifica con un’architettura moderna e scalabile, frutto dell’esperienza dei team tecnici di PagoPA.
+Il prodotto si identifica con un’architettura moderna e scalabile; il modello implementato si basa sul concetto di EC “Intermediario” ed EC “intermediati”; tuttavia, in assenza di intermediazione e nel caso di erogazione a un singolo EC, tale schema non è vincolante. In questi casi, il singolo EC assumerà di fatto il ruolo di EC intermediario.
 
-Il modello implementato si basa sul concetto di EC “Intermediario” ed EC “intermediati”; tuttavia, in assenza di intermediazione e nel caso di erogazione a un singolo EC, tale schema non è vincolante. In questi casi, il singolo EC assumerà di fatto il ruolo di EC intermediario.
+PU consente di gestire, all’interno di una singola istanza, più EC Intermediari, ciascuno con il proprio insieme di EC Intermediati. Ogni EC Intermediato è associato a un unico EC Intermediario all’interno di PU.
 
-PU consente di gestire, all’interno di una singola istanza, più EC Intermediari, ciascuno con il proprio insieme di EC Intermediati. Attualmente, ogni EC Intermediato è associato a un unico EC Intermediario all’interno di PU.
-
-PU non include il modulo di autenticazione, fornisce un apposito connettore (p4pa-auth) verso lo IAM dell’erogatore o dell’EC Intermediario.
+PU non include il modulo di autenticazione ma fornisce un apposito connettore (p4pa-auth) verso lo IAM dell’erogatore o dell’EC Intermediario.
 
 ## Valore aggiunto
 
