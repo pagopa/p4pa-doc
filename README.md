@@ -16,7 +16,7 @@ PU non include il modulo di autenticazione ma fornisce un apposito connettore (p
 
 ## Valore aggiunto
 
-**Compiant alle linee guida SANP e SACI e compliant alla normativa GDPR**  
+**Compiant alle linee guida SANP 3.11 e SACI e compliant alla normativa GDPR (General Data Protection Regulation - Regolamento UE 2016/679)**
 **Architettura moderna e scalabile**: progettata per evolvere nel tempo  
 **Integrazione nativa con l’ecosistema PagoPA**: inclusi SEND, IO, pagoPA, PDND   
 **Esperienza utente rinnovata**: conforme al [Design system .italia](https://designers.italia.it/design-system/come-iniziare/)  
@@ -31,7 +31,7 @@ Processi standardizzati, automatizzati e tracciabili che garantiscono maggiore a
 Integrazione nativa con l’ecosistema PagoPA che limita sviluppi personalizzati.
 
 **Esperienza utente sicura e conforme**  
-Security by design, privacy by design, autenticazione OAuth2/OIDC, conformità GDPR e rispetto delle Linee guida AgID.
+Security by design, privacy by design, autenticazione OAuth2/OIDC, conformità GDPR.
 
 ## Funzionalità principali
 
@@ -51,7 +51,7 @@ Supporta SEND, IO, pagoPA e PDND, facilitando l’interoperabilità e riducendo 
 Processi standardizzati, automatizzati e tracciabili, che riducono errori operativi e accelerano le attività di gestione.
 
 **Sicurezza e conformità normativa**  
-Architettura progettata secondo i principi di security by design e privacy by design, con autenticazione basata su OAuth2/OIDC, è piena conformità al GDPR.
+Architettura progettata secondo i principi di security by design e privacy by design, con autenticazione basata su OAuth2/OIDC, attualmente pienamente conforme al GDPR.
 
 **Esperienza utente ottimizzata**  
 Interfaccia centralizzata e intuitiva, progettata per migliorare l’usabilità e semplificare l’accesso ai servizi di pagamento per gli enti intermediari e intermediati.
