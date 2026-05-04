@@ -9,6 +9,9 @@ Il prodotto si identifica con un’architettura moderna e scalabile; il modello 
 
 PU consente di gestire, all’interno di una singola istanza, più EC Intermediari, ciascuno con il proprio insieme di EC Intermediati. Ogni EC Intermediato è associato a un unico EC Intermediario all’interno di PU.
 
+PU mette a disposizione un client cittadino - limitatamente alle posizioni gestite da questa - che consente di creare avvisi on-the-fly e di consultare 
+le posizioni create direttamente dall'EC, il tutto integrato con checkout Italia. Sempre limitatamente alle posizioni gestite da PU è possibile consultare anche le ricevute di pagamento.
+
 PU non include il modulo di autenticazione ma fornisce un apposito connettore (p4pa-auth) verso lo IAM dell’erogatore o dell’EC Intermediario.
 
 ## Valore aggiunto
