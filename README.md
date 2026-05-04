@@ -87,8 +87,8 @@ Portale dedicato ai cittadini degli enti utilizzatori di PU che hanno la possibi
 [p4pa-superset](https://github.com/pagopa/p4pa-superset)  
 
 **Client cittadino**  
-[arpu-fe](https://github.com/pagopa/arpu-fe)
-[arpu-be](https://github.com/pagopa/arpu-be)
+[arpu-fe](https://github.com/pagopa/arpu-fe)  
+[arpu-be](https://github.com/pagopa/arpu-be)  
 [p4pa-citizen](https://github.com/pagopa/p4pa-citizen)
 
 ## Manualistica Utente
