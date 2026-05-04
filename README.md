@@ -39,22 +39,25 @@ Security by design, privacy by design, autenticazione OAuth2/OIDC, conformità G
 Copre tutte le fasi del ciclo di vita delle posizioni debitorie, dalla generazione, notifica e pagamento fino alla riconciliazione, classificazione, accertamenti e rendicontazione.
 
 **Notifiche a valore legale**  
-Integrazione con i canali di notifica previsti dall’ecosistema pagoPA, garantendo validità giuridica e tracciabilità.
+Integrazione con i canali di notifica previsti dall’ecosistema PagoPA, garantendo validità giuridica e tracciabilità.
 
 **Dashboard e reportistica avanzata**  
 Monitoraggio in tempo reale dello stato dei pagamenti, analisi approfondite dei flussi finanziari e report per le attività di controllo e audit.
 
-**Integrazione con l’ecosistema pagoPA**  
+**Integrazione con l’ecosistema PagoPA**  
 Supporta SEND, IO, pagoPA e PDND, facilitando l’interoperabilità e riducendo le integrazioni personalizzate.
 
 **Automazione dei processi e monitoraggio**  
 Processi standardizzati, automatizzati e tracciabili, che riducono errori operativi e accelerano le attività di gestione.
 
 **Sicurezza e conformità normativa**  
-Architettura progettata secondo i principi di security by design e privacy by design, con autenticazione basata su OAuth2/OIDC, piena conformità al GDPR e rispetto delle Linee guida AgID per i servizi digitali della PA.
+Architettura progettata secondo i principi di security by design e privacy by design, con autenticazione basata su OAuth2/OIDC, è piena conformità al GDPR.
 
 **Esperienza utente ottimizzata**  
 Interfaccia centralizzata e intuitiva, progettata per migliorare l’usabilità e semplificare l’accesso ai servizi di pagamento per gli enti intermediari e intermediati.
+
+**Client cittadino**  
+Portale dedicato ai cittadini degli enti utilizzatori di PU che hanno la possibilità di accedere mediante autenticazione SPID/CIE oppure non autenticati.
 
 ## Repository collegati
 **Front-End**  
@@ -82,6 +85,11 @@ Interfaccia centralizzata e intuitiva, progettata per migliorare l’usabilità 
 [p4pa-registries](https://github.com/pagopa/p4pa-registries)  
 [p4pa-send-notification](https://github.com/pagopa/p4pa-send-notification)  
 [p4pa-superset](https://github.com/pagopa/p4pa-superset)  
+
+**Client cittadino**  
+[arpu-fe](https://github.com/pagopa/arpu-fe)
+[arpu-be](https://github.com/pagopa/arpu-be)
+[p4pa-citizen](https://github.com/pagopa/p4pa-citizen)
 
 ## Manualistica Utente
 La documentazione utente per l'uso del software è disponibile ai seguenti indirizzi:  
