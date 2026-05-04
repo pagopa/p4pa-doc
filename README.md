@@ -24,9 +24,6 @@ PU non include il modulo di autenticazione ma fornisce un apposito connettore (p
 **Miglioramento della qualità del servizio**  
 Processi standardizzati, automatizzati e tracciabili che garantiscono maggiore affidabilità, trasparenza e tempestività.
 
-**Semplificazione dei processi di affidamento**  
-Soluzione riusabile e conforme agli standard nazionali che riduce tempi e complessità progettuali.
-
 **Riduzione dei costi di integrazione**  
 Integrazione nativa con l’ecosistema PagoPA che limita sviluppi personalizzati.
 
