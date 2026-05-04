@@ -13,10 +13,10 @@ PU non include il modulo di autenticazione ma fornisce un apposito connettore (p
 
 ## Valore aggiunto
 
+**Compiant alle linee guida SANP e SACI e compliant alla normativa GDPR**  
 **Architettura moderna e scalabile**: progettata per evolvere nel tempo  
-**Integrazione nativa con l’ecosistema pagoPA**: inclusi SEND, IO, pagoPA, PDND   
-**Allineamento continuo alle evoluzioni normative**: SANP, GDPR  
-**Esperienza utente rinnovata**: conforme alle Linee guida di design AgID  
+**Integrazione nativa con l’ecosistema PagoPA**: inclusi SEND, IO, pagoPA, PDND   
+**Esperienza utente rinnovata**: conforme al [Design system .italia](https://designers.italia.it/design-system/come-iniziare/)  
 **Interoperabilità e automazione dei processi**: a supporto della trasformazione digitale della PA  
 
 ## Benefici per la Pubblica Amministrazione
@@ -28,7 +28,7 @@ Processi standardizzati, automatizzati e tracciabili che garantiscono maggiore a
 Soluzione riusabile e conforme agli standard nazionali che riduce tempi e complessità progettuali.
 
 **Riduzione dei costi di integrazione**  
-Integrazione nativa con l’ecosistema pagoPA che limita sviluppi personalizzati.
+Integrazione nativa con l’ecosistema PagoPA che limita sviluppi personalizzati.
 
 **Esperienza utente sicura e conforme**  
 Security by design, privacy by design, autenticazione OAuth2/OIDC, conformità GDPR e rispetto delle Linee guida AgID.
