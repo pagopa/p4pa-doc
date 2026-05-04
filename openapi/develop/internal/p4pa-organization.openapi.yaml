@@ -245,6 +245,29 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OrganizationErrorDTO'
+  /broker:
+    post:
+      tags:
+        - Broker
+      summary: Create a Broker
+      operationId: createBroker
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BrokerRequestDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: 'Broker'
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
   /brokers/{brokerId}/apiKey:
     get:
       tags:
@@ -601,3 +624,48 @@ components:
           properties:
             brokerExternalId:
               type: string
+    BrokerRequestDTO:
+      required:
+        - brokerFiscalCode
+        - brokerName
+        - externalId
+        - flagDelegate
+        - flagPaymentsReporting
+        - organizationId
+        - pagoPaInteractionModel
+      type: object
+      properties:
+        brokerId:
+          type: integer
+          format: int64
+        organizationId:
+          type: integer
+          format: int64
+        brokerFiscalCode:
+          type: string
+        brokerName:
+          type: string
+        pagoPaInteractionModel:
+          type: string
+        stationId:
+          type: string
+        broadcastStationId:
+          type: string
+        syncPaymentsReportingKey:
+          type: string
+        syncKey:
+          type: string
+        gpdKey:
+          type: string
+        generateNoticeKey:
+          type: string
+        acaKey:
+          type: string
+        flagDelegate:
+          type: boolean
+        flagPaymentsReporting:
+          type: boolean
+        externalId:
+          type: string
+        defaultStationId:
+          type: string
