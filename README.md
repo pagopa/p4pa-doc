@@ -16,7 +16,7 @@ PU non include il modulo di autenticazione ma fornisce un apposito connettore (p
 
 ## Valore aggiunto
 
-**Compiant alle linee guida SANP 3.11 e SACI e compliant alla normativa GDPR (General Data Protection Regulation - Regolamento UE 2016/679)**
+**Compiant alle linee guida SANP 3.11 e SACI e compliant alla normativa GDPR (General Data Protection Regulation - Regolamento UE 2016/679)**  
 **Architettura moderna e scalabile**: progettata per evolvere nel tempo  
 **Integrazione nativa con l’ecosistema PagoPA**: inclusi SEND, IO, pagoPA, PDND   
 **Esperienza utente rinnovata**: conforme al [Design system .italia](https://designers.italia.it/design-system/come-iniziare/)  
