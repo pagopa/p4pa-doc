@@ -362,6 +362,15 @@
           "schema" : {
             "type" : "string"
           }
+        }, {
+          "name" : "forceSpontaneous",
+          "in" : "query",
+          "description" : "to force the sync of a spontaneous debt position",
+          "required" : false,
+          "schema" : {
+            "type" : "boolean",
+            "default" : false
+          }
         } ],
         "requestBody" : {
           "content" : {
@@ -911,6 +920,10 @@
           "organizationId" : {
             "type" : "integer",
             "format" : "int64"
+          },
+          "stationId" : {
+            "type" : "string",
+            "nullable" : true
           },
           "debtPositionTypeOrgId" : {
             "type" : "integer",
