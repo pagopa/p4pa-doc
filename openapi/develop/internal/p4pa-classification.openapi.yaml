@@ -1419,6 +1419,44 @@ paths:
               schema:
                 $ref: '#/components/schemas/ClassificationErrorDTO'
       x-spring-paginated: true
+  /payments-reporting/find-and-delete-by-orgId-iuf-ingestionFlowFileIdNot:
+    patch:
+      tags:
+        - PaymentsReporting
+      operationId: findAndDeleteByOrgIdAndIufAndIngestionFlowFileIdNot
+      parameters:
+        - name: organizationId
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: iuf
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: ingestionFlowFileId
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Payments reporting updated
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: 'PaymentsReporting'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClassificationErrorDTO'
 components:
   securitySchemes:
     BearerAuth:
