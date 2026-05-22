@@ -1709,10 +1709,13 @@
         "enum" : [ "SENDER_ACK", "DIGITAL_DELIVERY", "ANALOG_DELIVERY", "RECIPIENT_ACCESS", "PEC_RECEIPT", "ANALOG_FAILURE_DELIVERY" ]
       },
       "SendNotificationDTO" : {
-        "required" : [ "organizationId", "payments", "sendNotificationId", "status" ],
+        "required" : [ "campaignId", "organizationId", "payments", "sendNotificationId", "status" ],
         "type" : "object",
         "properties" : {
           "sendNotificationId" : {
+            "type" : "string"
+          },
+          "campaignId" : {
             "type" : "string"
           },
           "organizationId" : {
