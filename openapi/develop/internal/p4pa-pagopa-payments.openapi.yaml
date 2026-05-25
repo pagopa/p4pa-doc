@@ -39,11 +39,11 @@ paths:
           description: Invalid request
         "500":
           description: Internal server error
-  /paymentsReporting/rest/{organizationId}:
+  /paymentsReporting/{organizationId}:
     get:
       tags:
         - payments-reporting
-      operationId: restGetPaymentsReportingList
+      operationId: getPaymentsReportingList
       parameters:
         - name: organizationId
           in: path
@@ -70,11 +70,11 @@ paths:
           description: Invalid request
         "500":
           description: Internal server error
-  /paymentsReporting/rest/{organizationId}/fetch:
+  /paymentsReporting/{organizationId}/fetch:
     get:
       tags:
         - payments-reporting
-      operationId: restFetchPaymentReporting
+      operationId: fetchPaymentReporting
       parameters:
         - name: organizationId
           in: path
@@ -94,72 +94,13 @@ paths:
             type: string
         - name: revision
           in: query
-          required: false
+          required: true
           schema:
             type: integer
             format: int64
         - name: pspId
           in: query
           required: false
-          schema:
-            type: string
-      responses:
-        "200":
-          description: OK
-          content:
-            text/plain:
-              schema:
-                type: integer
-                format: int64
-        "400":
-          description: Invalid request
-        "500":
-          description: Internal server error
-  /paymentsReporting/soap/{organizationId}:
-    get:
-      tags:
-        - payments-reporting
-      operationId: soapGetPaymentsReportingList
-      parameters:
-        - name: organizationId
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        "200":
-          description: List of payments reporting
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/PaymentsReportingIdDTO"
-        "400":
-          description: Invalid request
-        "500":
-          description: Internal server error
-  /paymentsReporting/soap/{organizationId}/fetch:
-    get:
-      tags:
-        - payments-reporting
-      operationId: soapFetchPaymentReporting
-      parameters:
-        - name: organizationId
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-        - name: flowId
-          in: query
-          required: true
-          schema:
-            type: string
-        - name: fileName
-          in: query
-          required: true
           schema:
             type: string
       responses:
