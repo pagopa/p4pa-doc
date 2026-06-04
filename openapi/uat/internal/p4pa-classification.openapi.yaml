@@ -1154,6 +1154,11 @@ paths:
                   format: int64
                 remittanceInformation:
                   type: string
+                notificationFeeCents:
+                  type: integer
+                  format: int64
+                debtPositionTypeOrgBalanceCost:
+                  $ref: '#/components/schemas/DebtPositionTypeOrgBalanceCostDTO'
         required: true
       responses:
         "200":
@@ -1478,6 +1483,7 @@ components:
             - CLASSIFICATION_BAD_REQUEST
             - CLASSIFICATION_CONFLICT
             - CLASSIFICATION_GENERIC_ERROR
+            - CLASSIFICATION_TOO_MANY_REQUESTS
         code:
           type: string
         message:
@@ -1634,3 +1640,16 @@ components:
           uniqueItems: true
           items:
             type: string
+    DebtPositionTypeOrgBalanceCostDTO:
+      type: object
+      required:
+        - officeCode
+        - sectionCode
+        - assessmentCode
+      properties:
+        officeCode:
+          type: string
+        sectionCode:
+          type: string
+        assessmentCode:
+          type: string
