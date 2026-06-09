@@ -3089,6 +3089,33 @@ components:
             type: string
         removeEnabledOperators:
           type: boolean
+        debtPositionTypeOrgBalanceCostRequestList:
+          type: array
+          items:
+            $ref: '#/components/schemas/DebtPositionTypeOrgBalanceCostRequestDTO'
+    DebtPositionTypeOrgBalanceCostRequestDTO:
+      type: object
+      required:
+        - type
+        - operatingYear
+        - sectionCode
+      properties:
+        type:
+          type: 'DebtPositionTypeOrgBalanceCostType'
+        operatingYear:
+          type: string
+        officeCode:
+          type: string
+        officeDescription:
+          type: string
+        sectionCode:
+          type: string
+        sectionDescription:
+          type: string
+        assessmentCode:
+          type: string
+        assessmentDescription:
+          type: string
     MixedDebtPositionDTO:
       type: object
       required:
