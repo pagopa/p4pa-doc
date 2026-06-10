@@ -10623,6 +10623,45 @@
           }
         }
       },
+      "DebtPositionTypeOrgBalanceCostRequestDTO" : {
+        "required" : [ "operatingYear", "sectionCode", "type" ],
+        "type" : "object",
+        "properties" : {
+          "type" : {
+            "$ref" : "#/components/schemas/DebtPositionTypeOrgBalanceCostType"
+          },
+          "operatingYear" : {
+            "type" : "string"
+          },
+          "officeCode" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "officeDescription" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "sectionCode" : {
+            "type" : "string"
+          },
+          "sectionDescription" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "assessmentCode" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "assessmentDescription" : {
+            "type" : "string",
+            "nullable" : true
+          }
+        }
+      },
+      "DebtPositionTypeOrgBalanceCostType" : {
+        "type" : "string",
+        "enum" : [ "NOTIFICATION_COST", "DELAY_COST", "INTEREST_COST" ]
+      },
       "OperatorsSelection" : {
         "type" : "string",
         "enum" : [ "ALL", "NONE", "SELECTED" ]
@@ -10649,6 +10688,12 @@
             "type" : "array",
             "items" : {
               "type" : "string"
+            }
+          },
+          "debtPositionTypeOrgBalanceCostRequestList" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/DebtPositionTypeOrgBalanceCostRequestDTO"
             }
           }
         },
