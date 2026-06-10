@@ -627,7 +627,7 @@
             "content" : {
               "application/vnd.hal+json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/IngestionFlowFile"
+                  "$ref" : "#/components/schemas/CollectionModelIngestionFlowFile"
                 }
               }
             }
@@ -2809,6 +2809,25 @@
           },
           "page" : {
             "$ref" : "#/components/schemas/PageMetadata"
+          }
+        }
+      },
+      "CollectionModelIngestionFlowFile" : {
+        "type" : "object",
+        "properties" : {
+          "_embedded" : {
+            "type" : "object",
+            "properties" : {
+              "ingestionFlowFiles" : {
+                "type" : "array",
+                "items" : {
+                  "$ref" : "#/components/schemas/IngestionFlowFile"
+                }
+              }
+            }
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
           }
         }
       },
