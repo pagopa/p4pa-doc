@@ -4998,6 +4998,7 @@ components:
         - debtPositionTypeId
         - description
         - organizationId
+        - debtPositionTypeOrgBalanceCosts
       properties:
         debtPositionTypeOrgId:
           type: integer
@@ -5080,6 +5081,38 @@ components:
         spontaneousFormCode:
           type: string
         debtPositionTypeTaxonomyCode:
+          type: string
+        debtPositionTypeOrgBalanceCosts:
+          type: array
+          items:
+            $ref: '#/components/schemas/DebtPositionTypeOrgBalanceCostDTO'
+    DebtPositionTypeOrgBalanceCostDTO:
+      type: object
+      required:
+        - type
+        - operatingYear
+        - officeCode
+        - officeDescription
+        - sectionCode
+        - sectionDescription
+        - assessmentCode
+        - assessmentDescription
+      properties:
+        type:
+          type: 'DebtPositionTypeOrgBalanceCostType'
+        operatingYear:
+          type: string
+        officeCode:
+          type: string
+        officeDescription:
+          type: string
+        sectionCode:
+          type: string
+        sectionDescription:
+          type: string
+        assessmentCode:
+          type: string
+        assessmentDescription:
           type: string
     PaidExportFileRequest:
       type: object

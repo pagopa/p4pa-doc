@@ -13430,8 +13430,38 @@
           }
         }
       },
+      "DebtPositionTypeOrgBalanceCostDTO" : {
+        "required" : [ "assessmentCode", "assessmentDescription", "officeCode", "officeDescription", "operatingYear", "sectionCode", "sectionDescription", "type" ],
+        "type" : "object",
+        "properties" : {
+          "type" : {
+            "$ref" : "#/components/schemas/DebtPositionTypeOrgBalanceCostType"
+          },
+          "operatingYear" : {
+            "type" : "string"
+          },
+          "officeCode" : {
+            "type" : "string"
+          },
+          "officeDescription" : {
+            "type" : "string"
+          },
+          "sectionCode" : {
+            "type" : "string"
+          },
+          "sectionDescription" : {
+            "type" : "string"
+          },
+          "assessmentCode" : {
+            "type" : "string"
+          },
+          "assessmentDescription" : {
+            "type" : "string"
+          }
+        }
+      },
       "DebtPositionTypeOrgDTO" : {
-        "required" : [ "code", "debtPositionTypeId", "description", "organizationId" ],
+        "required" : [ "code", "debtPositionTypeId", "debtPositionTypeOrgBalanceCosts", "description", "organizationId" ],
         "type" : "object",
         "properties" : {
           "debtPositionTypeOrgId" : {
@@ -13577,6 +13607,12 @@
           "debtPositionTypeTaxonomyCode" : {
             "type" : "string",
             "nullable" : true
+          },
+          "debtPositionTypeOrgBalanceCosts" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/DebtPositionTypeOrgBalanceCostDTO"
+            }
           }
         }
       },
