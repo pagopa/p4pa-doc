@@ -420,6 +420,31 @@ paths:
           description: Not Found
         '500':
           description: Internal Server Error
+  /pdnd-clients:
+    post:
+      tags:
+        - PdndClient
+      summary: Save a PdndClient
+      operationId: savePdndClient
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PdndClientDTO'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: 'PdndClient'
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
 components:
   schemas:
     BrokerApiKeys:
@@ -673,3 +698,28 @@ components:
         iuvSystemId:
           type: string
           pattern: '^\d{2}$'
+    PdndClientDTO:
+      type: object
+      required:
+        - clientId
+        - organizationId
+        - clientName
+        - kid
+        - privateKey
+        - publicKey
+      properties:
+        clientId:
+          type: string
+        organizationId:
+          type: integer
+          format: int64
+        subUnitCode:
+          type: string
+        clientName:
+          type: string
+        kid:
+          type: string
+        privateKey:
+          type: string
+        publicKey:
+          type: string
