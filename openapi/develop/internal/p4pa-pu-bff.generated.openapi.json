@@ -88,6 +88,9 @@
     "name" : "Transfers",
     "description" : "the Transfers API"
   }, {
+    "name" : "OrgSubUnits",
+    "description" : "the OrgSubUnits API"
+  }, {
     "name" : "Clients",
     "description" : "the Clients API"
   }, {
@@ -417,6 +420,221 @@
                 }
               }
             }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/bff/organization/{organizationId}/org-sub-units/{subUnitCode}" : {
+      "get" : {
+        "tags" : [ "OrgSubUnits" ],
+        "summary" : "Retrieve an Organization Subunit",
+        "operationId" : "getOrgSubUnitById",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }, {
+          "name" : "subUnitCode",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/OrgSubUnit"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized - Missing or invalid token",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/OrgSubUnit"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden - Access denied",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/OrgSubUnit"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Not Found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/OrgSubUnit"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/OrgSubUnit"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      },
+      "put" : {
+        "tags" : [ "OrgSubUnits" ],
+        "summary" : "Update an Organization Subunit",
+        "operationId" : "updateOrgSubUnit",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }, {
+          "name" : "subUnitCode",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/OrgSubUnitRequestBody"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Created",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/OrgSubUnit"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/OrgSubUnit"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized - Missing or invalid token",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/OrgSubUnit"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/OrgSubUnit"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/OrgSubUnit"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/OrgSubUnit"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      },
+      "delete" : {
+        "tags" : [ "OrgSubUnits" ],
+        "summary" : "Delete an Organization Subunit",
+        "operationId" : "deleteOrgSubUnitById",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }, {
+          "name" : "subUnitCode",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "401" : {
+            "description" : "Unauthorized - Missing or invalid token"
+          },
+          "403" : {
+            "description" : "Forbidden - Access denied"
+          },
+          "404" : {
+            "description" : "Not found"
+          },
+          "500" : {
+            "description" : "Internal Server Error"
           }
         },
         "security" : [ {
@@ -1401,6 +1619,97 @@
           }
         },
         "security" : [ ]
+      }
+    },
+    "/bff/organization/{organizationId}/org-sub-units" : {
+      "post" : {
+        "tags" : [ "OrgSubUnits" ],
+        "summary" : "Create an Organization Subunit",
+        "operationId" : "createOrgSubUnit",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/OrgSubUnitRequestBody"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Created",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/OrgSubUnit"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/OrgSubUnit"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized - Missing or invalid token",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/OrgSubUnit"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/OrgSubUnit"
+                }
+              }
+            }
+          },
+          "409" : {
+            "description" : "Conflict",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/OrgSubUnit"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/OrgSubUnit"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
       }
     },
     "/bff/organization/{organizationId}/operators/{mappedExternalUserId}/debt-position-type-orgs" : {
@@ -9886,6 +10195,86 @@
             "items" : {
               "$ref" : "#/components/schemas/SpontaneousFormItemDTO"
             }
+          }
+        }
+      },
+      "OrgSubUnit" : {
+        "required" : [ "organizationId", "subUnitCode" ],
+        "type" : "object",
+        "properties" : {
+          "creationDate" : {
+            "type" : "string",
+            "format" : "date-time",
+            "nullable" : true
+          },
+          "updateDate" : {
+            "type" : "string",
+            "format" : "date-time",
+            "nullable" : true
+          },
+          "updateOperatorExternalId" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "updateTraceId" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "organizationId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "subUnitCode" : {
+            "type" : "string"
+          },
+          "subUnitType" : {
+            "$ref" : "#/components/schemas/SubUnitType"
+          },
+          "_links" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "$ref" : "#/components/schemas/Link"
+            },
+            "nullable" : true
+          }
+        }
+      },
+      "SubUnitType" : {
+        "type" : "string",
+        "nullable" : true,
+        "enum" : [ "AOO", "UO" ]
+      },
+      "OrgSubUnitRequestBody" : {
+        "required" : [ "organizationId", "subUnitCode" ],
+        "type" : "object",
+        "properties" : {
+          "creationDate" : {
+            "type" : "string",
+            "format" : "date-time",
+            "nullable" : true
+          },
+          "updateDate" : {
+            "type" : "string",
+            "format" : "date-time",
+            "nullable" : true
+          },
+          "updateOperatorExternalId" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "updateTraceId" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "organizationId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "subUnitCode" : {
+            "type" : "string"
+          },
+          "subUnitType" : {
+            "$ref" : "#/components/schemas/SubUnitType"
           }
         }
       },

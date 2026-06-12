@@ -3952,6 +3952,143 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
+  /organization/{organizationId}/org-sub-units/{subUnitCode}:
+    get:
+      tags:
+        - OrgSubUnits
+      summary: "Retrieve an Organization Subunit"
+      operationId: getOrgSubUnitById
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: subUnitCode
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: 'OrgSubUnit'
+        '401':
+          description: Unauthorized - Missing or invalid token
+        '403':
+          description: Forbidden - Access denied
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+    put:
+      tags:
+        - OrgSubUnits
+      summary: "Update an Organization Subunit"
+      operationId: updateOrgSubUnit
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: subUnitCode
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: 'OrgSubUnitRequestBody'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: 'OrgSubUnit'
+        '400':
+          description: Invalid Request
+        '401':
+          description: Unauthorized - Missing or invalid token
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found
+        '500':
+          description: Internal Server Error
+    delete:
+      tags:
+        - OrgSubUnits
+      summary: "Delete an Organization Subunit"
+      operationId: deleteOrgSubUnitById
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: subUnitCode
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized - Missing or invalid token
+        '403':
+          description: Forbidden - Access denied
+        '404':
+          description: Not found
+        '500':
+          description: Internal Server Error
+  /organization/{organizationId}/org-sub-units:
+    post:
+      tags:
+        - OrgSubUnits
+      summary: "Create an Organization Subunit"
+      operationId: createOrgSubUnit
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: 'OrgSubUnitRequestBody'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: 'OrgSubUnit'
+        '400':
+          description: Invalid Request
+        '401':
+          description: Unauthorized - Missing or invalid token
+        '403':
+          description: Forbidden
+        '409':
+          description: Conflict
+        '500':
+          description: Internal Server Error
 security:
   - BearerAuth: [ ]
 components:
