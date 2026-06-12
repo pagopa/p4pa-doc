@@ -51,7 +51,7 @@ paths:
         '500':
           description: Internal Server Error
   /organization/{organizationId}/apiKey:
-    put:
+    post:
       tags:
         - Organization
       summary: Save encrypted API keys for IO or SEND
@@ -63,6 +63,10 @@ paths:
           schema:
             type: integer
             format: int64
+        - name: subUnitCode
+          in: query
+          schema:
+            type: string
       requestBody:
         required: true
         content:
