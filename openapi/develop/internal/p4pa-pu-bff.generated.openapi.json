@@ -16,6 +16,9 @@
     "name" : "Classifications",
     "description" : "the Classifications API"
   }, {
+    "name" : "DebtPositionTypeOrgBalanceCost",
+    "description" : "the DebtPositionTypeOrgBalanceCost API"
+  }, {
     "name" : "OrgSilService",
     "description" : "the OrgSilService API"
   }, {
@@ -7812,6 +7815,109 @@
         } ]
       }
     },
+    "/bff/organization/{organizationId}/debt-position-type-org-balance-cost" : {
+      "get" : {
+        "tags" : [ "DebtPositionTypeOrgBalanceCost" ],
+        "summary" : "Retrieve a specific DebtPositionTypeOrgBalanceCost based on debtPositionTypeOrgId, operatingYear and type",
+        "operationId" : "getDebtPositionTypeOrgBalanceCostByDebtPositionTypeOrgIdAndYearAndType",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }, {
+          "name" : "debtPositionTypeOrgId",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }, {
+          "name" : "operatingYear",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "type",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/components/schemas/DebtPositionTypeOrgBalanceCostType"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DebtPositionTypeOrgBalanceCost"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized - Missing or invalid token",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DebtPositionTypeOrgBalanceCost"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden - Access denied",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DebtPositionTypeOrgBalanceCost"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Not Found - DebtPositionTypeOrg Not Found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DebtPositionTypeOrgBalanceCost"
+                }
+              }
+            }
+          },
+          "409" : {
+            "description" : "Conflict",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DebtPositionTypeOrgBalanceCost"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DebtPositionTypeOrgBalanceCost"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
     "/bff/organization/{organizationId}/debt-position-registries/{debtPositionId}" : {
       "get" : {
         "tags" : [ "DebtPositionRegistry" ],
@@ -14870,6 +14976,70 @@
           "number" : {
             "type" : "integer",
             "format" : "int64"
+          }
+        }
+      },
+      "DebtPositionTypeOrgBalanceCost" : {
+        "required" : [ "debtPositionTypeOrgId", "operatingYear", "sectionCode", "type" ],
+        "type" : "object",
+        "properties" : {
+          "creationDate" : {
+            "type" : "string",
+            "format" : "date-time",
+            "nullable" : true
+          },
+          "updateDate" : {
+            "type" : "string",
+            "format" : "date-time",
+            "nullable" : true
+          },
+          "updateOperatorExternalId" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "updateTraceId" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "debtPositionTypeOrgId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "type" : {
+            "$ref" : "#/components/schemas/DebtPositionTypeOrgBalanceCostType"
+          },
+          "operatingYear" : {
+            "type" : "string"
+          },
+          "officeCode" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "officeDescription" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "sectionCode" : {
+            "type" : "string"
+          },
+          "sectionDescription" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "assessmentCode" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "assessmentDescription" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "_links" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "$ref" : "#/components/schemas/Link"
+            },
+            "nullable" : true
           }
         }
       },

@@ -869,6 +869,52 @@ paths:
           description: Not Found
         "500":
           description: Internal server error
+  /organization/{organizationId}/debt-position-type-org-balance-cost:
+    get:
+      tags:
+        - DebtPositionTypeOrgBalanceCost
+      summary: "Retrieve a specific DebtPositionTypeOrgBalanceCost based on debtPositionTypeOrgId, operatingYear and type"
+      operationId: getDebtPositionTypeOrgBalanceCostByDebtPositionTypeOrgIdAndYearAndType
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: debtPositionTypeOrgId
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: operatingYear
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: type
+          in: query
+          required: true
+          schema:
+            type: 'DebtPositionTypeOrgBalanceCostType'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: 'DebtPositionTypeOrgBalanceCost'
+        '401':
+          description: Unauthorized - Missing or invalid token
+        '403':
+          description: Forbidden - Access denied
+        '404':
+          description: Not Found - DebtPositionTypeOrg Not Found
+        '409':
+          description: Conflict
+        '500':
+          description: Internal Server Error
   /organization/{organizationId}/transfers:
     get:
       tags:
