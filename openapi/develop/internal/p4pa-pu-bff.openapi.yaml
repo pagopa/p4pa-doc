@@ -5167,7 +5167,7 @@ components:
         debtPositionTypeOrgBalanceCostRequestList:
           type: array
           items:
-            type: 'DebtPositionTypeOrgBalanceCostRequestDTO'
+            type: 'DebtPositionTypeOrgBalanceCostDTO'
     OperatorsSelection:
       type: string
       enum:
@@ -5268,35 +5268,7 @@ components:
         debtPositionTypeOrgBalanceCosts:
           type: array
           items:
-            $ref: '#/components/schemas/DebtPositionTypeOrgBalanceCostDTO'
-    DebtPositionTypeOrgBalanceCostDTO:
-      type: object
-      required:
-        - type
-        - operatingYear
-        - officeCode
-        - officeDescription
-        - sectionCode
-        - sectionDescription
-        - assessmentCode
-        - assessmentDescription
-      properties:
-        type:
-          type: 'DebtPositionTypeOrgBalanceCostType'
-        operatingYear:
-          type: string
-        officeCode:
-          type: string
-        officeDescription:
-          type: string
-        sectionCode:
-          type: string
-        sectionDescription:
-          type: string
-        assessmentCode:
-          type: string
-        assessmentDescription:
-          type: string
+            type: 'DebtPositionTypeOrgBalanceCostDTO'
     PaidExportFileRequest:
       type: object
       required:
