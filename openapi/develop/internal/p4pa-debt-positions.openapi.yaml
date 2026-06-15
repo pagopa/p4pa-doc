@@ -1696,6 +1696,32 @@ paths:
           description: Forbidden
         '500':
           description: Internal server error
+  /debt-position-type-org-operators/default-technical:
+    post:
+      tags:
+        - debt-position-type-org-operators
+      operationId: saveDefaultTechnicalDebtPositionTypeOrgOperatorsForOperator
+      parameters:
+        - name: operatorExternalUserId
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: organizationId
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Invalid request
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal server error
   /debt-positions/mixed:
     post:
       tags:
