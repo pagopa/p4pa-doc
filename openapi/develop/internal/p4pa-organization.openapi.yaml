@@ -453,6 +453,42 @@ paths:
           description: Not Found
         '500':
           description: Internal Server Error
+  /pdnd-clients/{organizationId}/{pdndServiceType}:
+    get:
+      tags:
+        - PdndClient
+      summary: Get PdndClient
+      operationId: getPdndClientByOrganizationIdAndPdndServiceType
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: pdndServiceType
+          in: path
+          required: true
+          schema:
+            type: 'PdndServiceType'
+        - name: subUnitCode
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PdndClientDTO'
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
 components:
   schemas:
     BrokerApiKeys:
