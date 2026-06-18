@@ -869,6 +869,52 @@ paths:
           description: Not Found
         "500":
           description: Internal server error
+  /organization/{organizationId}/debt-position-type-org-balance-cost:
+    get:
+      tags:
+        - DebtPositionTypeOrgBalanceCost
+      summary: "Retrieve a specific DebtPositionTypeOrgBalanceCost based on debtPositionTypeOrgId, operatingYear and type"
+      operationId: getDebtPositionTypeOrgBalanceCostByDebtPositionTypeOrgIdAndYearAndType
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: debtPositionTypeOrgId
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: operatingYear
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: type
+          in: query
+          required: true
+          schema:
+            type: 'DebtPositionTypeOrgBalanceCostType'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: 'DebtPositionTypeOrgBalanceCost'
+        '401':
+          description: Unauthorized - Missing or invalid token
+        '403':
+          description: Forbidden - Access denied
+        '404':
+          description: Not Found - DebtPositionTypeOrg Not Found
+        '409':
+          description: Conflict
+        '500':
+          description: Internal Server Error
   /organization/{organizationId}/transfers:
     get:
       tags:
@@ -3952,6 +3998,143 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
+  /organization/{organizationId}/org-sub-units/{subUnitCode}:
+    get:
+      tags:
+        - OrgSubUnits
+      summary: "Retrieve an Organization Subunit"
+      operationId: getOrgSubUnitById
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: subUnitCode
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: 'OrgSubUnit'
+        '401':
+          description: Unauthorized - Missing or invalid token
+        '403':
+          description: Forbidden - Access denied
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+    put:
+      tags:
+        - OrgSubUnits
+      summary: "Update an Organization Subunit"
+      operationId: updateOrgSubUnit
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: subUnitCode
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: 'OrgSubUnitRequestBody'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: 'OrgSubUnit'
+        '400':
+          description: Invalid Request
+        '401':
+          description: Unauthorized - Missing or invalid token
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found
+        '500':
+          description: Internal Server Error
+    delete:
+      tags:
+        - OrgSubUnits
+      summary: "Delete an Organization Subunit"
+      operationId: deleteOrgSubUnitById
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: subUnitCode
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized - Missing or invalid token
+        '403':
+          description: Forbidden - Access denied
+        '404':
+          description: Not found
+        '500':
+          description: Internal Server Error
+  /organization/{organizationId}/org-sub-units:
+    post:
+      tags:
+        - OrgSubUnits
+      summary: "Create an Organization Subunit"
+      operationId: createOrgSubUnit
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: 'OrgSubUnitRequestBody'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: 'OrgSubUnit'
+        '400':
+          description: Invalid Request
+        '401':
+          description: Unauthorized - Missing or invalid token
+        '403':
+          description: Forbidden
+        '409':
+          description: Conflict
+        '500':
+          description: Internal Server Error
 security:
   - BearerAuth: [ ]
 components:
@@ -4132,6 +4315,7 @@ components:
         - brokerId
         - canManageUsers
         - brokerFiscalCode
+        - externalId
       properties:
         headerAssistanceUrl:
           type: string
@@ -4142,15 +4326,9 @@ components:
         footerDescText:
           type: string
           description: Description text for the footer
-        footerPrivacyInfoUrl:
-          type: string
-          description: URL for privacy information in the footer
         footerGDPRUrl:
           type: string
           description: URL for GDPR information in the footer
-        footerTermsCondUrl:
-          type: string
-          description: URL for terms and conditions in the footer
         footerAccessibilityUrl:
           type: string
           description: URL for accessibility information in the footer
@@ -4161,6 +4339,8 @@ components:
           type: boolean
           description: Indicates if the user can manage other users
         brokerFiscalCode:
+          type: string
+        externalId:
           type: string
     ServiceStatus:
       type: object
@@ -4978,6 +5158,10 @@ components:
           uniqueItems: true
           items:
             type: string
+        debtPositionTypeOrgBalanceCostRequestList:
+          type: array
+          items:
+            type: 'DebtPositionTypeOrgBalanceCostDTO'
     OperatorsSelection:
       type: string
       enum:
@@ -4991,6 +5175,7 @@ components:
         - debtPositionTypeId
         - description
         - organizationId
+        - debtPositionTypeOrgBalanceCosts
       properties:
         debtPositionTypeOrgId:
           type: integer
@@ -5074,6 +5259,10 @@ components:
           type: string
         debtPositionTypeTaxonomyCode:
           type: string
+        debtPositionTypeOrgBalanceCosts:
+          type: array
+          items:
+            type: 'DebtPositionTypeOrgBalanceCostDTO'
     PaidExportFileRequest:
       type: object
       required:

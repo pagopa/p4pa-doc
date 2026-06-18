@@ -16,6 +16,9 @@
     "name" : "Classifications",
     "description" : "the Classifications API"
   }, {
+    "name" : "DebtPositionTypeOrgBalanceCost",
+    "description" : "the DebtPositionTypeOrgBalanceCost API"
+  }, {
     "name" : "OrgSilService",
     "description" : "the OrgSilService API"
   }, {
@@ -87,6 +90,9 @@
   }, {
     "name" : "Transfers",
     "description" : "the Transfers API"
+  }, {
+    "name" : "OrgSubUnits",
+    "description" : "the OrgSubUnits API"
   }, {
     "name" : "Clients",
     "description" : "the Clients API"
@@ -417,6 +423,221 @@
                 }
               }
             }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/bff/organization/{organizationId}/org-sub-units/{subUnitCode}" : {
+      "get" : {
+        "tags" : [ "OrgSubUnits" ],
+        "summary" : "Retrieve an Organization Subunit",
+        "operationId" : "getOrgSubUnitById",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }, {
+          "name" : "subUnitCode",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/OrgSubUnit"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized - Missing or invalid token",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/OrgSubUnit"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden - Access denied",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/OrgSubUnit"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Not Found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/OrgSubUnit"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/OrgSubUnit"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      },
+      "put" : {
+        "tags" : [ "OrgSubUnits" ],
+        "summary" : "Update an Organization Subunit",
+        "operationId" : "updateOrgSubUnit",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }, {
+          "name" : "subUnitCode",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/OrgSubUnitRequestBody"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Created",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/OrgSubUnit"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/OrgSubUnit"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized - Missing or invalid token",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/OrgSubUnit"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/OrgSubUnit"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/OrgSubUnit"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/OrgSubUnit"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      },
+      "delete" : {
+        "tags" : [ "OrgSubUnits" ],
+        "summary" : "Delete an Organization Subunit",
+        "operationId" : "deleteOrgSubUnitById",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }, {
+          "name" : "subUnitCode",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "401" : {
+            "description" : "Unauthorized - Missing or invalid token"
+          },
+          "403" : {
+            "description" : "Forbidden - Access denied"
+          },
+          "404" : {
+            "description" : "Not found"
+          },
+          "500" : {
+            "description" : "Internal Server Error"
           }
         },
         "security" : [ {
@@ -1401,6 +1622,97 @@
           }
         },
         "security" : [ ]
+      }
+    },
+    "/bff/organization/{organizationId}/org-sub-units" : {
+      "post" : {
+        "tags" : [ "OrgSubUnits" ],
+        "summary" : "Create an Organization Subunit",
+        "operationId" : "createOrgSubUnit",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/OrgSubUnitRequestBody"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Created",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/OrgSubUnit"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/OrgSubUnit"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized - Missing or invalid token",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/OrgSubUnit"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/OrgSubUnit"
+                }
+              }
+            }
+          },
+          "409" : {
+            "description" : "Conflict",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/OrgSubUnit"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/OrgSubUnit"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
       }
     },
     "/bff/organization/{organizationId}/operators/{mappedExternalUserId}/debt-position-type-orgs" : {
@@ -7503,6 +7815,109 @@
         } ]
       }
     },
+    "/bff/organization/{organizationId}/debt-position-type-org-balance-cost" : {
+      "get" : {
+        "tags" : [ "DebtPositionTypeOrgBalanceCost" ],
+        "summary" : "Retrieve a specific DebtPositionTypeOrgBalanceCost based on debtPositionTypeOrgId, operatingYear and type",
+        "operationId" : "getDebtPositionTypeOrgBalanceCostByDebtPositionTypeOrgIdAndYearAndType",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }, {
+          "name" : "debtPositionTypeOrgId",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }, {
+          "name" : "operatingYear",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "type",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/components/schemas/DebtPositionTypeOrgBalanceCostType"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DebtPositionTypeOrgBalanceCost"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized - Missing or invalid token",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DebtPositionTypeOrgBalanceCost"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden - Access denied",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DebtPositionTypeOrgBalanceCost"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Not Found - DebtPositionTypeOrg Not Found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DebtPositionTypeOrgBalanceCost"
+                }
+              }
+            }
+          },
+          "409" : {
+            "description" : "Conflict",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DebtPositionTypeOrgBalanceCost"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DebtPositionTypeOrgBalanceCost"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
     "/bff/organization/{organizationId}/debt-position-registries/{debtPositionId}" : {
       "get" : {
         "tags" : [ "DebtPositionRegistry" ],
@@ -9889,6 +10304,86 @@
           }
         }
       },
+      "OrgSubUnit" : {
+        "required" : [ "organizationId", "subUnitCode" ],
+        "type" : "object",
+        "properties" : {
+          "creationDate" : {
+            "type" : "string",
+            "format" : "date-time",
+            "nullable" : true
+          },
+          "updateDate" : {
+            "type" : "string",
+            "format" : "date-time",
+            "nullable" : true
+          },
+          "updateOperatorExternalId" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "updateTraceId" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "organizationId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "subUnitCode" : {
+            "type" : "string"
+          },
+          "subUnitType" : {
+            "$ref" : "#/components/schemas/SubUnitType"
+          },
+          "_links" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "$ref" : "#/components/schemas/Link"
+            },
+            "nullable" : true
+          }
+        }
+      },
+      "SubUnitType" : {
+        "type" : "string",
+        "nullable" : true,
+        "enum" : [ "AOO", "UO" ]
+      },
+      "OrgSubUnitRequestBody" : {
+        "required" : [ "organizationId", "subUnitCode" ],
+        "type" : "object",
+        "properties" : {
+          "creationDate" : {
+            "type" : "string",
+            "format" : "date-time",
+            "nullable" : true
+          },
+          "updateDate" : {
+            "type" : "string",
+            "format" : "date-time",
+            "nullable" : true
+          },
+          "updateOperatorExternalId" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "updateTraceId" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "organizationId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "subUnitCode" : {
+            "type" : "string"
+          },
+          "subUnitType" : {
+            "$ref" : "#/components/schemas/SubUnitType"
+          }
+        }
+      },
       "JwtAlgorithm" : {
         "type" : "string",
         "enum" : [ "HS256", "HS384", "HS512", "RS256", "RS384", "RS512", "ES256", "ES384", "ES512" ]
@@ -10623,6 +11118,45 @@
           }
         }
       },
+      "DebtPositionTypeOrgBalanceCostDTO" : {
+        "required" : [ "operatingYear", "sectionCode", "type" ],
+        "type" : "object",
+        "properties" : {
+          "type" : {
+            "$ref" : "#/components/schemas/DebtPositionTypeOrgBalanceCostType"
+          },
+          "operatingYear" : {
+            "type" : "string"
+          },
+          "officeCode" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "officeDescription" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "sectionCode" : {
+            "type" : "string"
+          },
+          "sectionDescription" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "assessmentCode" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "assessmentDescription" : {
+            "type" : "string",
+            "nullable" : true
+          }
+        }
+      },
+      "DebtPositionTypeOrgBalanceCostType" : {
+        "type" : "string",
+        "enum" : [ "NOTIFICATION_COST", "DELAY_COST", "INTEREST_COST" ]
+      },
       "OperatorsSelection" : {
         "type" : "string",
         "enum" : [ "ALL", "NONE", "SELECTED" ]
@@ -10649,6 +11183,12 @@
             "type" : "array",
             "items" : {
               "type" : "string"
+            }
+          },
+          "debtPositionTypeOrgBalanceCostRequestList" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/DebtPositionTypeOrgBalanceCostDTO"
             }
           }
         },
@@ -13386,7 +13926,7 @@
         }
       },
       "DebtPositionTypeOrgDTO" : {
-        "required" : [ "code", "debtPositionTypeId", "description", "organizationId" ],
+        "required" : [ "code", "debtPositionTypeId", "debtPositionTypeOrgBalanceCosts", "description", "organizationId" ],
         "type" : "object",
         "properties" : {
           "debtPositionTypeOrgId" : {
@@ -13532,6 +14072,12 @@
           "debtPositionTypeTaxonomyCode" : {
             "type" : "string",
             "nullable" : true
+          },
+          "debtPositionTypeOrgBalanceCosts" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/DebtPositionTypeOrgBalanceCostDTO"
+            }
           }
         }
       },
@@ -14400,6 +14946,70 @@
           "number" : {
             "type" : "integer",
             "format" : "int64"
+          }
+        }
+      },
+      "DebtPositionTypeOrgBalanceCost" : {
+        "required" : [ "debtPositionTypeOrgId", "operatingYear", "sectionCode", "type" ],
+        "type" : "object",
+        "properties" : {
+          "creationDate" : {
+            "type" : "string",
+            "format" : "date-time",
+            "nullable" : true
+          },
+          "updateDate" : {
+            "type" : "string",
+            "format" : "date-time",
+            "nullable" : true
+          },
+          "updateOperatorExternalId" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "updateTraceId" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "debtPositionTypeOrgId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "type" : {
+            "$ref" : "#/components/schemas/DebtPositionTypeOrgBalanceCostType"
+          },
+          "operatingYear" : {
+            "type" : "string"
+          },
+          "officeCode" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "officeDescription" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "sectionCode" : {
+            "type" : "string"
+          },
+          "sectionDescription" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "assessmentCode" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "assessmentDescription" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "_links" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "$ref" : "#/components/schemas/Link"
+            },
+            "nullable" : true
           }
         }
       },
@@ -15958,7 +16568,7 @@
         "enum" : [ "ACTIVE", "DRAFT", "CANCELLED" ]
       },
       "ConfigFE" : {
-        "required" : [ "brokerFiscalCode", "brokerId", "canManageUsers" ],
+        "required" : [ "brokerFiscalCode", "brokerId", "canManageUsers", "externalId" ],
         "type" : "object",
         "properties" : {
           "headerAssistanceUrl" : {
@@ -15976,19 +16586,9 @@
             "description" : "Description text for the footer",
             "nullable" : true
           },
-          "footerPrivacyInfoUrl" : {
-            "type" : "string",
-            "description" : "URL for privacy information in the footer",
-            "nullable" : true
-          },
           "footerGDPRUrl" : {
             "type" : "string",
             "description" : "URL for GDPR information in the footer",
-            "nullable" : true
-          },
-          "footerTermsCondUrl" : {
-            "type" : "string",
-            "description" : "URL for terms and conditions in the footer",
             "nullable" : true
           },
           "footerAccessibilityUrl" : {
@@ -16005,6 +16605,9 @@
             "description" : "Indicates if the user can manage other users"
           },
           "brokerFiscalCode" : {
+            "type" : "string"
+          },
+          "externalId" : {
             "type" : "string"
           }
         }
