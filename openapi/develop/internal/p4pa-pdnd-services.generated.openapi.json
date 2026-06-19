@@ -32,7 +32,25 @@
           "description" : "The name of pdnd services",
           "required" : true,
           "schema" : {
-            "$ref" : "#/components/schemas/PdndServicesEnum"
+            "$ref" : "#/components/schemas/PdndServiceType"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "query",
+          "description" : "The organization ID",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }, {
+          "name" : "subUnitCode",
+          "in" : "query",
+          "description" : "The sub unit code",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "nullable" : true
           }
         } ],
         "responses" : {
@@ -105,6 +123,24 @@
           "required" : true,
           "schema" : {
             "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "query",
+          "description" : "The organization ID",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }, {
+          "name" : "subUnitCode",
+          "in" : "query",
+          "description" : "The sub unit code",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "nullable" : true
           }
         } ],
         "responses" : {
@@ -182,12 +218,15 @@
           "expiration" : {
             "type" : "string",
             "format" : "date-time"
+          },
+          "serviceAudience" : {
+            "type" : "string"
           }
         }
       },
-      "PdndServicesEnum" : {
+      "PdndServiceType" : {
         "type" : "string",
-        "enum" : [ "SEND", "C003", "C030" ]
+        "enum" : [ "SEND", "ANPR_C003", "ANPR_C030" ]
       },
       "Address" : {
         "type" : "object",
