@@ -21,6 +21,19 @@ paths:
           schema:
             type: string
             example: RSSMRA85M01H501Z
+        - name: organizationId
+          in: query
+          description: The organization ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: subUnitCode
+          in: query
+          description: The sub unit code
+          required: false
+          schema:
+            type: string
       responses:
         '200':
           description: OK
@@ -49,8 +62,21 @@ paths:
           description: The name of pdnd services
           required: true
           schema:
-            $ref: '#/components/schemas/PdndServicesEnum'
-            example: send
+            type: 'PdndServicesEnum'
+            example: SEND
+        - name: organizationId
+          in: query
+          description: The organization ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: subUnitCode
+          in: query
+          description: The sub unit code
+          required: false
+          schema:
+            type: string
       responses:
         '200':
           description: OK
@@ -117,6 +143,7 @@ components:
             - PDND_SERVICES_NOT_FOUND
             - PDND_SERVICES_BAD_REQUEST
             - PDND_SERVICES_GENERIC_ERROR
+            - PDND_SERVICES_TOO_MANY_REQUESTS
         code:
           type: string
         message:
