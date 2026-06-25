@@ -21,6 +21,9 @@
   }, {
     "name" : "Streams",
     "description" : "the Streams API"
+  }, {
+    "name" : "Campaign",
+    "description" : "the Campaign API"
   } ],
   "paths" : {
     "/p4pasend/send/streams/{streamId}" : {
@@ -1376,6 +1379,56 @@
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/SendNotificationDTO"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/p4pasend/campaigns/ids" : {
+      "get" : {
+        "tags" : [ "Campaign" ],
+        "operationId" : "fetchAllCampaignIds",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "string"
+                  }
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "string"
+                  }
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "string"
+                  }
                 }
               }
             }

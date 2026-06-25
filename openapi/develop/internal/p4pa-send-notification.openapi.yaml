@@ -633,6 +633,24 @@ paths:
           description: Legal facts not found
         '500':
           description: Internal server error
+  /campaigns/ids:
+    get:
+      tags:
+        - Campaign
+      operationId: fetchAllCampaignIds
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal server error
 security:
   - BearerAuth: []
 components:
