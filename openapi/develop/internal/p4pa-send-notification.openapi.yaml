@@ -649,7 +649,7 @@ components:
         - recipients
         - notificationFeePolicy
         - physicalCommunicationType
-        - campaignId
+        - externalCampaignId
       properties:
         organizationId:
           type: integer
@@ -689,7 +689,9 @@ components:
           type: integer
           minimum: 0
           maximum: 100
-        campaignId:
+        externalCampaignId:
+          type: string
+        subUnitCode:
           type: string
     Recipient:
       type: object
