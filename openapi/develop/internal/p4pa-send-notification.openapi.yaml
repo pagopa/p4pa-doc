@@ -731,6 +731,11 @@ components:
           type: string
         subUnitCode:
           type: string
+          maxLength: 32
+          pattern: '^[A-Za-z0-9_-]+$'
+        campaignName:
+          type: string
+          maxLength: 64
     Recipient:
       type: object
       required:
