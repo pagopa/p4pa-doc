@@ -1,0 +1,183 @@
+openapi: 3.0.1
+info:
+  title: Attualizzazione importi PU legacy
+  description: |-
+    API legacy (retro-compatibili MyPay) che devono essere esposte
+    da un ente creditore che vuole utilizzare la funzionalità di
+    attualizzazione importi di PU.
+  version: 1.0.0
+externalDocs:
+  description: Find out more about Swagger
+  url: https://swagger.io
+servers:
+  - url: https://www.enteintermediato.it/api/legacy
+paths:
+  /login:
+    post:
+      summary: Genera token da usare per invocazione API.
+      description: Genera token da usare per invocazione API.
+      operationId: login
+      requestBody:
+        description: Credenziali utente
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Credentials'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Token'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found
+        default:
+          description: Errore interno del server
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Token"
+  /notification-price:
+    post:
+      summary: Ritorna a PU l'importo aggiornato.
+      description: Ritorna a PU l'importo aggiornato, incluse le spese di notifica.
+      operationId: attualizzazione
+      requestBody:
+        description: Dati Pagamento
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pagamento'
+        required: true
+      responses:
+        '200':
+          description: Successful operation or business error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagamentoAggiornato'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found
+        default:
+          description: Errore interno del server
+      security:
+        - token_auth: []
+components:
+  schemas:
+    Credentials:
+      type: object
+      properties:
+        username:
+          type: string
+          description: username del chiamante
+        password:
+          type: string
+          description: password del chiamante
+      required:
+        - username
+        - password
+    Token:
+      type: object
+      properties:
+        token:
+          type: string
+          description: token, da utilizzare per invocare l'API di attualizzazione importi
+        esito:
+          type: string
+          description: esito dell'operazione
+          enum:
+            - OK
+            - KO
+        descrizioneErrore:
+          type: string
+          description: descrizione dell'errore in caso la chiamata sia con esito KO
+    Pagamento:
+      type: object
+      required:
+        - cfEnteCreditore
+        - importoPosizione
+        - numeroAvviso
+      properties:
+        cfEnteCreditore:
+          type: string
+          description: codice fiscale ente creditore che ha emesso l'avviso di pagamento
+          minLength: 11
+          maxLength: 11
+          pattern: \d{11}
+        importoPosizione:
+          type: string
+          description: enum con valore "S" o "N" (unico valore supportato "S")
+          enum:
+            - S
+            - N
+        numeroAvviso:
+          type: string
+          description: numero avviso di pagamento
+          minLength: 18
+          maxLength: 18
+          pattern: \d{18}
+    PagamentoAggiornato:
+      type: object
+      properties:
+        numeroAvviso:
+          type: string
+          description: numero avviso di pagamento
+          minLength: 18
+          maxLength: 18
+          pattern: \d{18}
+        iun:
+          type: string
+          description: Identificativo univoco notifica collegato all'avviso (non usato per l'integrazione con PU)
+        speseNotifica:
+          type: integer
+          format: int64
+          minimum: 0
+          description: spese di notifica in eurocent assegnate da PN alla notifica collegata al numero avviso fornito dal chiamante
+        dataVisualizzazione:
+          type: string
+          format: date-time
+          description: data di visualizzazione ISO 8601 della notifica da parte del destinatario (non usato per l'integrazione con PU)
+        importoPosizione:
+          type: integer
+          minimum: 0
+          format: int64
+          description: importo aggiornato in eurocent, comprensivo delle spese di notifica, dell'avviso fornito dal chiamante
+        dataPerfezionamentoDecorrenzaTermini:
+          type: string
+          format: date-time
+          description: data ISO 8601 di perfezionamento per decorrenza termini (non usato per l'integrazione con PU)
+        bilancio:
+          type: string
+          description: |-
+            Array JSON di oggetti contenenti i seguenti campi: capitolo, accertamento, ufficio, importo. Se la somma degli importi dei capitoli di bilancio non è coerente con l'importo complessivo del dovuto, o se la struttura di bilancio non è formalmente corretta IL PAGAMENTO VIENE BLOCCATO SU PU
+        stato:
+          type: string
+          description: http code of response
+        codice:
+          type: string
+          description: |
+            002 = codice avviso sconosciuto: questo codice si ottiene qualora il chiamante abbia fornito un numeroAvviso non presente, presso il Gestionale, come attributo di alcuna notifica gestita per l’ente mittente.
+            003 = avviso non ancora notificato: questo codice si ottiene qualora il chiamante abbia fornito un numeroAvviso di cui non siano presenti nessuna delle due date (dataVisualizzazione e dataPerfezionamentoDecorrenzaTermini entrambe <valore vuoto>). Indica che la notifica non è ancora arrivata a perfezionamento per presa visione o decorrenza termini.
+            004 = avviso non pagabile (pagato o ritirato): questo codice si ottiene qualora il numeroAvviso non risulti pagabile
+          enum:
+            - '002'
+            - '003'
+            - '004'
+        dettaglio:
+          type: string
+          description: descrizione errore
+  securitySchemes:
+    token_auth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

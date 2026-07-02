@@ -1,0 +1,150 @@
+openapi: 3.0.1
+info:
+  title: Notifiche esito pagamento
+  description: |
+    API che devono essere esposte da un ente creditore che vuole
+    utilizzare la funzionalità di notifica push esito pagamento
+    messa a disposizione da PU.
+  version: 1.0.0
+externalDocs:
+  description: Find out more about Swagger
+  url: https://swagger.io
+servers:
+  - url: https://www.enteintermediato.it/api
+paths:
+  /payment-notification:
+    post:
+      summary: Invia dati di avvenuto pagamento di un dovuto gestito da PU.
+      description: Invia dati di avvenuto pagamento di un dovuto gestito da PU.
+      operationId: payment-notification
+      requestBody:
+        description: dati pagamento
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentNotificationRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+        default:
+          description: Generic error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+security:
+  - BearerAuth: []
+    Agid-JWT-Signature: []
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+    Agid-JWT-Signature:
+      type: apiKey
+      in: header
+      name: Agid-JWT-Signature
+      description: |-
+        JWS Token to enforce the integrity of the message.
+        See [integrity_rest_02] on https://www.agid.gov.it/sites/agid/files/2024-07/Linee_guida_interoperabilit%C3%A0PA_All2_Pattern_sicurezza.pdf
+  schemas:
+    PaymentNotificationRequest:
+      type: object
+      properties:
+        encodedReceipt:
+          type: string
+          description: |
+            Stringa codificata Base64 della receipt cosi come ricevuta da nodo pagamenti PagoPA senza elaborazioni da parte di PU
+        paymentData:
+          $ref: "#/components/schemas/PaymentDataDTO"
+      required:
+        - encodedReceipt
+        - paymentData
+    PaymentDataDTO:
+      type: object
+      description: dati del pagamento
+      properties:
+        orgFiscalCode:
+          type: string
+          description: codice fiscale dell'ente creditore
+        nav:
+          type: string
+          description: numero avviso del pagamento
+        debtPositionTypeOrgCode:
+          type: string
+          description: codice del tipo di posizione debitoria
+        debtor:
+          $ref: "#/components/schemas/PersonDTO"
+        iuv:
+          type: string
+          description: identificativo univoco versamento dell'avviso
+        iud:
+          type: string
+          description: identificativo univoco dell'avviso determinato da ente creditore
+        paymentDate:
+          type: string
+          format: date-time
+          description: data del pagamento
+        amountCents:
+          type: integer
+          format: int64
+          description: importo del pagamento effettuato in eurocent
+          minimum: 0
+        notificationFeeCents:
+          type: integer
+          format: int64
+          description: spese di notifica in eurocent assegnate da PN alla notifica collegata al numero avviso
+          minimum: 0
+        remittanceInformation:
+          type: string
+          description: causale del pagamento
+      required:
+        - orgFiscalCode
+        - nav
+        - amountCents
+        - debtPositionTypeOrgCode
+        - debtor
+        - iud
+        - paymentDate
+    PersonDTO:
+      required:
+        - fullName
+        - entityType
+        - fiscalCode
+      type: object
+      properties:
+        entityType:
+          $ref: "#/components/schemas/PersonEntityType"
+        fiscalCode:
+          type: string
+        fullName:
+          type: string
+        address:
+          type: string
+        civic:
+          type: string
+        postalCode:
+          type: string
+        location:
+          type: string
+        province:
+          type: string
+        nation:
+          type: string
+        email:
+          type: string
+    PersonEntityType:
+      type: string
+      enum:
+        - F
+        - G
+    Error:
+      type: object
+      properties:
+        faultCode:
+          type: string
+        faultDescription:
+          type: string
+      required:
+        - faultCode

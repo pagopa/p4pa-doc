@@ -1,0 +1,73 @@
+openapi: 3.0.1
+info:
+  title: Notifiche esito pagamento (legacy)
+  description: |
+    API legacy (retro-compatibili MyPay) che devono essere esposte
+    da un ente creditore che vuole utilizzare la funzionalità di
+    notifica push esito pagamento messa a disposizione da PU.
+  version: 1.0.0
+externalDocs:
+  description: Find out more about Swagger
+  url: https://swagger.io
+servers:
+  - url: https://www.enteintermediato.it/api/legacy
+paths:
+  /payment-notification:
+    post:
+      summary: Invia dati di avvenuto pagamento di un dovuto gestito da PU.
+      description: Invia dati di avvenuto pagamento di un dovuto gestito da PU.
+      operationId: payment-notification
+      requestBody:
+        description: dati pagamento
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentNotification'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+        default:
+          description: Generic error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaymentNotificationError"
+      security:
+        - token_auth: []
+components:
+  schemas:
+    PaymentNotification:
+      type: object
+      properties:
+        rt:
+          type: string
+          description: |
+            Stringa codificata Base64 della RT cosi come ricevuta da nodo pagamenti PagoPA senza elaborazioni da parte di PU
+        esito:
+          type: string
+          description: |
+            Stringa codificata Base64 dell'oggetto "CtPagati" (descritto nello schema "PagInf_Dovuti_Pagati_6_2_0.xsd")
+            modellato come "<fragment-xml>", contenente informazioni circa il pagamento effettuato
+      required:
+        - rt
+        - esito
+    PaymentNotificationError:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          enum:
+            - NOT_FOUND
+            - BAD_REQUEST
+            - GENERIC_ERROR
+        message:
+          type: string
+  securitySchemes:
+    token_auth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
