@@ -1,0 +1,2924 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "p4pa-pu-sil",
+    "description" : "Api and Models",
+    "version" : "0.0.1"
+  },
+  "servers" : [ {
+    "url" : "https://${hostname}/sil",
+    "description" : "Generated server url"
+  } ],
+  "security" : [ {
+    "BearerAuth" : [ ]
+  } ],
+  "tags" : [ {
+    "name" : "Payment",
+    "description" : "the Payment API"
+  }, {
+    "name" : "DebtorQueryPayment",
+    "description" : "the DebtorQueryPayment API"
+  }, {
+    "name" : "Assessment",
+    "description" : "the Assessment API"
+  }, {
+    "name" : "Export",
+    "description" : "the Export API"
+  }, {
+    "name" : "PrintPaymentNotice",
+    "description" : "the PrintPaymentNotice API"
+  }, {
+    "name" : "SendNotification",
+    "description" : "the SendNotification API"
+  }, {
+    "name" : "Checkout",
+    "description" : "the Checkout API"
+  }, {
+    "name" : "Import",
+    "description" : "the Import API"
+  }, {
+    "name" : "DebtPosition",
+    "description" : "the DebtPosition API"
+  } ],
+  "paths" : {
+    "/organization/{orgFiscalCode}/debt-position/{iud}" : {
+      "put" : {
+        "tags" : [ "DebtPosition" ],
+        "summary" : "manage a single debt position",
+        "description" : "Service to manage a single debt position, allowing to add, modify or delete one or more installments. ",
+        "operationId" : "manageDebtPositionInstallments",
+        "parameters" : [ {
+          "name" : "orgFiscalCode",
+          "in" : "path",
+          "description" : "the fiscal code of the organization",
+          "required" : true,
+          "schema" : {
+            "pattern" : "^\\d{11}$",
+            "type" : "string"
+          }
+        }, {
+          "name" : "iud",
+          "in" : "path",
+          "description" : "The IUD of any installment of the debtPosition/paymentOption that will be managed by this operation",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ManageDebtPositionDTO"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Ok",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DebtPositionDTO"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PuSilErrorDTO"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PuSilErrorDTO"
+                }
+              }
+            }
+          },
+          "409" : {
+            "description" : "Conflict",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PuSilErrorDTO"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PuSilErrorDTO"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/organization/{orgFiscalCode}/send-notification" : {
+      "post" : {
+        "tags" : [ "SendNotification" ],
+        "summary" : "Create notification",
+        "description" : "Create initial notification",
+        "operationId" : "createSendNotification",
+        "parameters" : [ {
+          "name" : "orgFiscalCode",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/CreateNotificationRequest"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CreateNotificationResponse"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CreateNotificationResponse"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CreateNotificationResponse"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CreateNotificationResponse"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/organization/{orgFiscalCode}/payment" : {
+      "post" : {
+        "tags" : [ "Payment" ],
+        "summary" : "request an instant payment operation",
+        "description" : "Request an instant payment operation, passing in input payment data, and receiving in output the url to trigger the payment operation. ",
+        "operationId" : "requestInstantPayment",
+        "parameters" : [ {
+          "name" : "orgFiscalCode",
+          "in" : "path",
+          "description" : "the fiscal code of the organization",
+          "required" : true,
+          "schema" : {
+            "pattern" : "^\\d{11}$",
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/InstantPaymentRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Created",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PaymentResponse"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PuSilErrorDTO"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/organization/{orgFiscalCode}/import" : {
+      "post" : {
+        "tags" : [ "Import" ],
+        "summary" : "request a massive import operation",
+        "description" : "Service to request a massive import operation. The upload of the file is done invoking the url returned by this service. ",
+        "operationId" : "massiveImportRequest",
+        "parameters" : [ {
+          "name" : "orgFiscalCode",
+          "in" : "path",
+          "description" : "the fiscal code of the organization",
+          "required" : true,
+          "schema" : {
+            "pattern" : "^\\d{11}$",
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ImportFileRequestDTO"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Created",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ImportFileResponseDTO"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PuSilErrorDTO"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/organization/{orgFiscalCode}/export/paid" : {
+      "post" : {
+        "tags" : [ "Export" ],
+        "summary" : "request a massive export operation",
+        "description" : "Service to request a massive export operation.",
+        "operationId" : "massivePaidExportRequest",
+        "parameters" : [ {
+          "name" : "orgFiscalCode",
+          "in" : "path",
+          "description" : "the fiscal code of the organization",
+          "required" : true,
+          "schema" : {
+            "pattern" : "^\\d{11}$",
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/PaidExportRequestDTO"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Created",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ExportFileResponseDTO"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PuSilErrorDTO"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/organization/{orgFiscalCode}/export/classifications" : {
+      "post" : {
+        "tags" : [ "Export" ],
+        "summary" : "request a massive export operation",
+        "description" : "Service to request a massive export operation.",
+        "operationId" : "massiveClassificationsExportRequest",
+        "parameters" : [ {
+          "name" : "orgFiscalCode",
+          "in" : "path",
+          "description" : "the fiscal code of the organization",
+          "required" : true,
+          "schema" : {
+            "pattern" : "^\\d{11}$",
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ClassificationsExportRequestDTO"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Created",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ExportFileResponseDTO"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PuSilErrorDTO"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/organization/{orgFiscalCode}/debt-position" : {
+      "post" : {
+        "tags" : [ "DebtPosition" ],
+        "summary" : "create a single debt position",
+        "description" : "Service to create a single debt position. ",
+        "operationId" : "createSingleDebtPosition",
+        "parameters" : [ {
+          "name" : "orgFiscalCode",
+          "in" : "path",
+          "description" : "the fiscal code of the organization",
+          "required" : true,
+          "schema" : {
+            "pattern" : "^\\d{11}$",
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/DebtPositionDTO"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Ok",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DebtPositionDTO"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PuSilErrorDTO"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/organization/{orgFiscalCode}/checkout" : {
+      "post" : {
+        "tags" : [ "Checkout" ],
+        "operationId" : "checkout",
+        "parameters" : [ {
+          "name" : "orgFiscalCode",
+          "in" : "path",
+          "description" : "the fiscal code of the organization",
+          "required" : true,
+          "schema" : {
+            "pattern" : "^\\d{11}$",
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "301" : {
+            "description" : "Moved Permanently"
+          },
+          "404" : {
+            "description" : "Not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PuSilErrorDTO"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PuSilErrorDTO"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/organization/{orgFiscalCode}/send-notification/{sendNotificationId}" : {
+      "get" : {
+        "tags" : [ "SendNotification" ],
+        "summary" : "get send notification",
+        "description" : "get send notification",
+        "operationId" : "getSendNotification",
+        "parameters" : [ {
+          "name" : "orgFiscalCode",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "sendNotificationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendNotificationDTO"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendNotificationDTO"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendNotificationDTO"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Notification not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendNotificationDTO"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendNotificationDTO"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      },
+      "delete" : {
+        "tags" : [ "SendNotification" ],
+        "summary" : "Delete notification",
+        "description" : "Delete notification",
+        "operationId" : "deleteSendNotification",
+        "parameters" : [ {
+          "name" : "orgFiscalCode",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "sendNotificationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "400" : {
+            "description" : "Invalid request"
+          },
+          "403" : {
+            "description" : "Forbidden"
+          },
+          "500" : {
+            "description" : "Internal server error"
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/organization/{orgFiscalCode}/send-notification/{sendNotificationId}/legal-facts" : {
+      "get" : {
+        "tags" : [ "SendNotification" ],
+        "summary" : "get send legal fact list",
+        "description" : "get send legal fact list",
+        "operationId" : "getLegalFacts",
+        "parameters" : [ {
+          "name" : "orgFiscalCode",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "sendNotificationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/LegalFactDTO"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/LegalFactDTO"
+                  }
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/LegalFactDTO"
+                  }
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Notification not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/LegalFactDTO"
+                  }
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/LegalFactDTO"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/organization/{orgFiscalCode}/send-notification/{sendNotificationId}/legal-facts/{legalFactId}" : {
+      "get" : {
+        "tags" : [ "SendNotification" ],
+        "summary" : "get send legal fact download metadata",
+        "description" : "get send legal fact metadata for downloading document content",
+        "operationId" : "getLegalFactDownloadMetadata",
+        "parameters" : [ {
+          "name" : "orgFiscalCode",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "sendNotificationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "legalFactId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/LegalFactDownloadMetadataDTO"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/LegalFactDownloadMetadataDTO"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/LegalFactDownloadMetadataDTO"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Notification not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/LegalFactDownloadMetadataDTO"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/LegalFactDownloadMetadataDTO"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/organization/{orgFiscalCode}/printpaymentnotice/{iuv}" : {
+      "get" : {
+        "tags" : [ "PrintPaymentNotice" ],
+        "summary" : "Print payment notice as PDF",
+        "description" : "Print payment notice as PDF",
+        "operationId" : "generateNotice",
+        "parameters" : [ {
+          "name" : "orgFiscalCode",
+          "in" : "path",
+          "description" : "the fiscal code of the organization",
+          "required" : true,
+          "schema" : {
+            "pattern" : "^\\d{11}$",
+            "type" : "string"
+          }
+        }, {
+          "name" : "iuv",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Ok",
+            "content" : {
+              "application/octet-stream" : {
+                "schema" : {
+                  "type" : "string",
+                  "format" : "binary"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid request",
+            "content" : {
+              "application/octet-stream" : {
+                "schema" : {
+                  "type" : "string",
+                  "format" : "binary"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Notification not found",
+            "content" : {
+              "application/octet-stream" : {
+                "schema" : {
+                  "type" : "string",
+                  "format" : "binary"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal server error",
+            "content" : {
+              "application/octet-stream" : {
+                "schema" : {
+                  "type" : "string",
+                  "format" : "binary"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/organization/{orgFiscalCode}/payment/{idType}/{id}" : {
+      "get" : {
+        "tags" : [ "Payment" ],
+        "summary" : "request processing status of payment operation",
+        "description" : "Service to request the processing status of payment operation and the url to download output files (where applicable, based on processing status and export type). ",
+        "operationId" : "paymentStatus",
+        "parameters" : [ {
+          "name" : "orgFiscalCode",
+          "in" : "path",
+          "description" : "the fiscal code of the organization",
+          "required" : true,
+          "schema" : {
+            "pattern" : "^\\d{11}$",
+            "type" : "string"
+          }
+        }, {
+          "name" : "idType",
+          "in" : "path",
+          "description" : "the type of identifier used to identify the payment operation",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/components/schemas/QueryPaymentStatusType"
+          }
+        }, {
+          "name" : "id",
+          "in" : "path",
+          "description" : "the identifier used to identify the payment",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "withReceiptBytes",
+          "in" : "query",
+          "description" : "if true, the response will contain the receipt bytes",
+          "required" : false,
+          "schema" : {
+            "type" : "boolean",
+            "nullable" : true
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Ok",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PaymentStatusResponseDTO"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PuSilErrorDTO"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/organization/{orgFiscalCode}/payment/notice/{nav}" : {
+      "get" : {
+        "tags" : [ "Payment" ],
+        "summary" : "handle the payment of an already existing payment notice",
+        "description" : "Service to request the start of online payment of a payment notice, or alternatively the download of notice as PDF file; in input accepts the notice number, and if the notice is payable, returns the url to trigger the payment operation and the url to download the PDF notice file; if the notice is not payable, returns the reason of error. ",
+        "operationId" : "requestNoticePayment",
+        "parameters" : [ {
+          "name" : "orgFiscalCode",
+          "in" : "path",
+          "description" : "the fiscal code of the organization",
+          "required" : true,
+          "schema" : {
+            "pattern" : "^\\d{11}$",
+            "type" : "string"
+          }
+        }, {
+          "name" : "nav",
+          "in" : "path",
+          "description" : "the notice number of the notice to pay",
+          "required" : true,
+          "schema" : {
+            "pattern" : "^\\d{18}$",
+            "type" : "string"
+          }
+        }, {
+          "name" : "callbackUrl",
+          "in" : "query",
+          "description" : "If the nav is payable, this parameter is used to specify the url to redirect the navigation flow to, after completing the payment operation. If not set, a generic PU page will be used. The parameters paymentId and outcome (OK/KO) will be added to query string of url. ",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "nullable" : true
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Ok",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PaymentResponse"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PuSilErrorDTO"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/organization/{orgFiscalCode}/import/{importId}" : {
+      "get" : {
+        "tags" : [ "Import" ],
+        "summary" : "request processing status of massive import operation",
+        "description" : "Service to request the processing status of massive import operation and the url to download output files (where applicable, based on processing status and import type). ",
+        "operationId" : "massiveImportStatus",
+        "parameters" : [ {
+          "name" : "orgFiscalCode",
+          "in" : "path",
+          "description" : "the fiscal code of the organization",
+          "required" : true,
+          "schema" : {
+            "pattern" : "^\\d{11}$",
+            "type" : "string"
+          }
+        }, {
+          "name" : "importId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Ok",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ImportStatusResponseDTO"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PuSilErrorDTO"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/organization/{orgFiscalCode}/export/{exportId}" : {
+      "get" : {
+        "tags" : [ "Export" ],
+        "summary" : "request processing status of export operation",
+        "description" : "Service to request the processing status of export operation and the url to download output files (where applicable, based on processing status and export type). ",
+        "operationId" : "massiveExportStatus",
+        "parameters" : [ {
+          "name" : "orgFiscalCode",
+          "in" : "path",
+          "description" : "the fiscal code of the organization",
+          "required" : true,
+          "schema" : {
+            "pattern" : "^\\d{11}$",
+            "type" : "string"
+          }
+        }, {
+          "name" : "exportId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Ok",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ExportStatusResponseDTO"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PuSilErrorDTO"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/organization/{orgFiscalCode}/assessment/payment-reporting" : {
+      "get" : {
+        "tags" : [ "Assessment" ],
+        "summary" : "retrieve the assessment data by payment reporting unique identifier",
+        "description" : "Service to retrieve the assessment data given the payment reporting id (IUF). ",
+        "operationId" : "getAssessmentByPaymentReporting",
+        "parameters" : [ {
+          "name" : "orgFiscalCode",
+          "in" : "path",
+          "description" : "the fiscal code of the organization",
+          "required" : true,
+          "schema" : {
+            "pattern" : "^\\d{11}$",
+            "type" : "string"
+          }
+        }, {
+          "name" : "iuf",
+          "in" : "query",
+          "description" : "payment reporting unique identifier",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Ok",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/GetAssessmentResponseDTO"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/organization/{orgFiscalCode}/assessment/bill" : {
+      "get" : {
+        "tags" : [ "Assessment" ],
+        "summary" : "retrieve the assessment data by bill data",
+        "description" : "Service to retrieve the assessment data given the reporting id (IUF) or invoice data. ",
+        "operationId" : "getAssessmentByBill",
+        "parameters" : [ {
+          "name" : "orgFiscalCode",
+          "in" : "path",
+          "description" : "the fiscal code of the organization",
+          "required" : true,
+          "schema" : {
+            "pattern" : "^\\d{11}$",
+            "type" : "string"
+          }
+        }, {
+          "name" : "billYear",
+          "in" : "query",
+          "description" : "the year of the bill to retrieve the assessment data for",
+          "required" : true,
+          "schema" : {
+            "pattern" : "^\\d{4}$",
+            "type" : "string"
+          }
+        }, {
+          "name" : "billNumber",
+          "in" : "query",
+          "description" : "the bill code to retrieve the assessment data for",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Ok",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/GetAssessmentResponseDTO"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PuSilErrorDTO"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/debtor/{debtorFiscalCode}/payment/unpaid" : {
+      "get" : {
+        "tags" : [ "DebtorQueryPayment" ],
+        "summary" : "retrieve unpaid debt positions for a debtor",
+        "description" : "Service to retrieve unpaid debt positions for a specific debtor, optionally filtered by organization IPA code. ",
+        "operationId" : "getUnpaidDebtPositions",
+        "parameters" : [ {
+          "name" : "debtorFiscalCode",
+          "in" : "path",
+          "description" : "the fiscal code of the debtor",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "debtorEntityType",
+          "in" : "query",
+          "description" : "the entity type of the debtor",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/components/schemas/PersonEntityType"
+          }
+        }, {
+          "name" : "ipaCode",
+          "in" : "query",
+          "description" : "organization IPA code to filter results",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "nullable" : true
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Ok",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/UnpaidDebtPositionsResponseDTO"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PuSilErrorDTO"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PuSilErrorDTO"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PuSilErrorDTO"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/debtor/{debtorFiscalCode}/payment/history" : {
+      "get" : {
+        "tags" : [ "DebtorQueryPayment" ],
+        "summary" : "retrieve payment history for a debtor",
+        "description" : "Service to retrieve payment history (paid debt positions) for a specific debtor within a optional date range (default from today to the day after), optionally filtered by organization IPA code. ",
+        "operationId" : "getPaymentHistory",
+        "parameters" : [ {
+          "name" : "debtorFiscalCode",
+          "in" : "path",
+          "description" : "the fiscal code of the debtor",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "debtorEntityType",
+          "in" : "query",
+          "description" : "the entity type of the debtor",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/components/schemas/PersonEntityType"
+          }
+        }, {
+          "name" : "dateFrom",
+          "in" : "query",
+          "description" : "start date for payment history (ISO 8601 format)",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "format" : "date-time",
+            "nullable" : true
+          }
+        }, {
+          "name" : "dateTo",
+          "in" : "query",
+          "description" : "end date for payment history (ISO 8601 format)",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "format" : "date-time",
+            "nullable" : true
+          }
+        }, {
+          "name" : "ipaCode",
+          "in" : "query",
+          "description" : "organization IPA code to filter results",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "nullable" : true
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Ok",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PaymentHistoryResponseDTO"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PuSilErrorDTO"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PuSilErrorDTO"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PuSilErrorDTO"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "Action" : {
+        "type" : "string",
+        "nullable" : true,
+        "enum" : [ "I", "M", "A" ]
+      },
+      "DebtPositionDTO" : {
+        "required" : [ "debtPositionOrigin", "debtPositionTypeOrgId", "flagPuPagoPaPayment", "organizationId", "paymentOptions" ],
+        "type" : "object",
+        "properties" : {
+          "debtPositionId" : {
+            "type" : "integer",
+            "format" : "int64",
+            "nullable" : true
+          },
+          "iupdOrg" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "description" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "status" : {
+            "$ref" : "#/components/schemas/DebtPositionStatus"
+          },
+          "debtPositionOrigin" : {
+            "$ref" : "#/components/schemas/DebtPositionOrigin"
+          },
+          "organizationId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "stationId" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "debtPositionTypeOrgId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "validityDate" : {
+            "type" : "string",
+            "format" : "date",
+            "nullable" : true
+          },
+          "multiDebtor" : {
+            "type" : "boolean",
+            "nullable" : true
+          },
+          "flagPuPagoPaPayment" : {
+            "type" : "boolean"
+          },
+          "creationDate" : {
+            "type" : "string",
+            "format" : "date-time",
+            "nullable" : true
+          },
+          "updateDate" : {
+            "type" : "string",
+            "format" : "date-time",
+            "nullable" : true
+          },
+          "updateOperatorExternalId" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "updateTraceId" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "paymentOptions" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/PaymentOptionDTO"
+            }
+          }
+        }
+      },
+      "DebtPositionOrigin" : {
+        "type" : "string",
+        "enum" : [ "ORDINARY", "ORDINARY_SIL", "SPONTANEOUS", "SPONTANEOUS_SIL", "SPONTANEOUS_MIXED", "SPONTANEOUS_PSP", "SECONDARY_ORG", "RECEIPT_FILE", "RECEIPT_PAGOPA", "REPORTING_PAGOPA" ]
+      },
+      "DebtPositionStatus" : {
+        "type" : "string",
+        "nullable" : true,
+        "enum" : [ "TO_SYNC", "REPORTED", "PAID", "PARTIALLY_PAID", "CANCELLED", "EXPIRED", "UNPAID", "DRAFT" ]
+      },
+      "InstallmentDTO" : {
+        "required" : [ "amountCents", "debtor", "remittanceInformation" ],
+        "type" : "object",
+        "properties" : {
+          "installmentId" : {
+            "type" : "integer",
+            "format" : "int64",
+            "nullable" : true
+          },
+          "paymentOptionId" : {
+            "type" : "integer",
+            "format" : "int64",
+            "nullable" : true
+          },
+          "status" : {
+            "$ref" : "#/components/schemas/InstallmentStatus"
+          },
+          "syncStatus" : {
+            "$ref" : "#/components/schemas/InstallmentSyncStatus"
+          },
+          "iupdPagopa" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "generateNotice" : {
+            "type" : "boolean",
+            "nullable" : true
+          },
+          "iud" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "iuv" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "iur" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "iuf" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "nav" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "iun" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "dueDate" : {
+            "type" : "string",
+            "format" : "date",
+            "nullable" : true
+          },
+          "switchToExpired" : {
+            "type" : "boolean",
+            "nullable" : true
+          },
+          "notificationFeeCents" : {
+            "type" : "integer",
+            "format" : "int64",
+            "nullable" : true
+          },
+          "amountCents" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "remittanceInformation" : {
+            "type" : "string"
+          },
+          "balance" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "legacyPaymentMetadata" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "debtor" : {
+            "$ref" : "#/components/schemas/PersonDTO"
+          },
+          "transfers" : {
+            "type" : "array",
+            "nullable" : true,
+            "items" : {
+              "$ref" : "#/components/schemas/TransferDTO"
+            }
+          },
+          "notificationDate" : {
+            "type" : "string",
+            "format" : "date-time",
+            "nullable" : true
+          },
+          "ingestionFlowFileId" : {
+            "type" : "integer",
+            "format" : "int64",
+            "nullable" : true
+          },
+          "ingestionFlowFileLineNumber" : {
+            "type" : "integer",
+            "format" : "int64",
+            "nullable" : true
+          },
+          "ingestionFlowFileAction" : {
+            "$ref" : "#/components/schemas/Action"
+          },
+          "sourceFlowName" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "receiptId" : {
+            "type" : "integer",
+            "format" : "int64",
+            "nullable" : true
+          },
+          "creationDate" : {
+            "type" : "string",
+            "format" : "date-time",
+            "nullable" : true
+          },
+          "updateDate" : {
+            "type" : "string",
+            "format" : "date-time",
+            "nullable" : true
+          },
+          "updateOperatorExternalId" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "updateTraceId" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "originalRemittanceInformation" : {
+            "type" : "string",
+            "nullable" : true
+          }
+        }
+      },
+      "InstallmentStatus" : {
+        "type" : "string",
+        "enum" : [ "TO_SYNC", "REPORTED", "PAID", "CANCELLED", "INVALID", "EXPIRED", "UNPAID", "UNPAYABLE", "DRAFT" ]
+      },
+      "InstallmentSyncStatus" : {
+        "required" : [ "syncStatusFrom", "syncStatusTo" ],
+        "type" : "object",
+        "properties" : {
+          "syncStatusFrom" : {
+            "$ref" : "#/components/schemas/InstallmentStatus"
+          },
+          "syncStatusTo" : {
+            "$ref" : "#/components/schemas/InstallmentStatus"
+          },
+          "syncError" : {
+            "type" : "string",
+            "nullable" : true
+          }
+        },
+        "nullable" : true
+      },
+      "PaymentOptionDTO" : {
+        "required" : [ "installments", "paymentOptionType", "totalAmountCents" ],
+        "type" : "object",
+        "properties" : {
+          "paymentOptionId" : {
+            "type" : "integer",
+            "format" : "int64",
+            "nullable" : true
+          },
+          "debtPositionId" : {
+            "type" : "integer",
+            "format" : "int64",
+            "nullable" : true
+          },
+          "totalAmountCents" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "status" : {
+            "$ref" : "#/components/schemas/PaymentOptionStatus"
+          },
+          "description" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "paymentOptionType" : {
+            "$ref" : "#/components/schemas/PaymentOptionType"
+          },
+          "paymentOptionIndex" : {
+            "type" : "integer",
+            "format" : "int32",
+            "nullable" : true
+          },
+          "creationDate" : {
+            "type" : "string",
+            "format" : "date-time",
+            "nullable" : true
+          },
+          "updateDate" : {
+            "type" : "string",
+            "format" : "date-time",
+            "nullable" : true
+          },
+          "updateOperatorExternalId" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "updateTraceId" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "installments" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/InstallmentDTO"
+            }
+          }
+        }
+      },
+      "PaymentOptionStatus" : {
+        "type" : "string",
+        "nullable" : true,
+        "enum" : [ "TO_SYNC", "REPORTED", "PAID", "PARTIALLY_PAID", "CANCELLED", "INVALID", "EXPIRED", "UNPAID", "UNPAYABLE", "DRAFT" ]
+      },
+      "PaymentOptionType" : {
+        "type" : "string",
+        "enum" : [ "SINGLE_INSTALLMENT", "INSTALLMENTS", "DOWN_PAYMENT", "REDUCED_SINGLE_INSTALLMENT" ]
+      },
+      "PersonDTO" : {
+        "required" : [ "entityType", "fiscalCode", "fullName" ],
+        "type" : "object",
+        "properties" : {
+          "entityType" : {
+            "$ref" : "#/components/schemas/PersonEntityType"
+          },
+          "fiscalCode" : {
+            "type" : "string"
+          },
+          "fullName" : {
+            "type" : "string"
+          },
+          "address" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "civic" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "postalCode" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "location" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "province" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "nation" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "email" : {
+            "type" : "string",
+            "nullable" : true
+          }
+        },
+        "nullable" : true
+      },
+      "PersonEntityType" : {
+        "type" : "string",
+        "enum" : [ "F", "G" ]
+      },
+      "TransferDTO" : {
+        "required" : [ "amountCents", "category", "orgFiscalCode", "orgName", "remittanceInformation", "transferIndex" ],
+        "type" : "object",
+        "properties" : {
+          "orgFiscalCode" : {
+            "type" : "string"
+          },
+          "orgName" : {
+            "type" : "string"
+          },
+          "amountCents" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "remittanceInformation" : {
+            "type" : "string"
+          },
+          "stampType" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "stampHashDocument" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "stampProvincialResidence" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "iban" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "postalIban" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "category" : {
+            "type" : "string"
+          },
+          "transferIndex" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }
+      },
+      "CategoryEnum" : {
+        "type" : "string",
+        "enum" : [ "NOT_FOUND", "BAD_REQUEST", "INVALID_FILE", "FILE_UPLOAD_ERROR", "CONFLICT", "UNAUTHORIZED", "GENERIC_ERROR" ]
+      },
+      "PuSilErrorDTO" : {
+        "required" : [ "category", "message" ],
+        "type" : "object",
+        "properties" : {
+          "category" : {
+            "$ref" : "#/components/schemas/CategoryEnum"
+          },
+          "message" : {
+            "type" : "string"
+          },
+          "traceId" : {
+            "type" : "string",
+            "nullable" : true
+          }
+        }
+      },
+      "ManageDebtPositionDTO" : {
+        "required" : [ "installments" ],
+        "type" : "object",
+        "properties" : {
+          "debtPositionDescription" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "validityDate" : {
+            "type" : "string",
+            "format" : "date",
+            "nullable" : true
+          },
+          "paymentOptionDescription" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "installments" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ManageInstallmentDTO"
+            }
+          }
+        }
+      },
+      "ManageInstallmentDTO" : {
+        "required" : [ "action", "installment" ],
+        "type" : "object",
+        "properties" : {
+          "action" : {
+            "$ref" : "#/components/schemas/Action"
+          },
+          "installment" : {
+            "$ref" : "#/components/schemas/InstallmentDTO"
+          }
+        }
+      },
+      "CreateNotificationResponse" : {
+        "type" : "object",
+        "properties" : {
+          "sendNotificationId" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "preloadUrl" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "status" : {
+            "type" : "string",
+            "nullable" : true
+          }
+        }
+      },
+      "Address" : {
+        "required" : [ "address", "municipality" ],
+        "type" : "object",
+        "properties" : {
+          "address" : {
+            "type" : "string"
+          },
+          "zip" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "municipality" : {
+            "type" : "string"
+          },
+          "province" : {
+            "type" : "string",
+            "nullable" : true
+          }
+        }
+      },
+      "Attachment" : {
+        "type" : "object",
+        "properties" : {
+          "digest" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "contentType" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "fileName" : {
+            "type" : "string",
+            "nullable" : true
+          }
+        }
+      },
+      "CreateNotificationRequest" : {
+        "required" : [ "externalCampaignId", "notificationFeePolicy", "organizationId", "paProtocolNumber", "physicalCommunicationType", "recipients" ],
+        "type" : "object",
+        "properties" : {
+          "organizationId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "paProtocolNumber" : {
+            "type" : "string"
+          },
+          "recipients" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Recipient"
+            }
+          },
+          "documents" : {
+            "type" : "array",
+            "nullable" : true,
+            "items" : {
+              "$ref" : "#/components/schemas/Document"
+            }
+          },
+          "notificationFeePolicy" : {
+            "$ref" : "#/components/schemas/NotificationFeePolicyEnum"
+          },
+          "physicalCommunicationType" : {
+            "$ref" : "#/components/schemas/PhysicalCommunicationTypeEnum"
+          },
+          "senderDenomination" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "senderTaxId" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "amount" : {
+            "type" : "number",
+            "nullable" : true
+          },
+          "paymentExpirationDate" : {
+            "type" : "string",
+            "format" : "date",
+            "nullable" : true
+          },
+          "taxonomyCode" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "paFee" : {
+            "maximum" : 100,
+            "minimum" : 0,
+            "type" : "integer",
+            "format" : "int32",
+            "nullable" : true
+          },
+          "vat" : {
+            "maximum" : 100,
+            "minimum" : 0,
+            "type" : "integer",
+            "format" : "int32",
+            "nullable" : true
+          },
+          "externalCampaignId" : {
+            "type" : "string"
+          },
+          "subUnitCode" : {
+            "type" : "string",
+            "nullable" : true
+          }
+        },
+        "nullable" : true
+      },
+      "Document" : {
+        "type" : "object",
+        "properties" : {
+          "digest" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "contentType" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "fileName" : {
+            "type" : "string",
+            "nullable" : true
+          }
+        }
+      },
+      "F24Payment" : {
+        "required" : [ "applyCost", "metadataAttachment", "title" ],
+        "type" : "object",
+        "properties" : {
+          "title" : {
+            "type" : "string"
+          },
+          "applyCost" : {
+            "type" : "boolean"
+          },
+          "metadataAttachment" : {
+            "$ref" : "#/components/schemas/Attachment"
+          }
+        },
+        "nullable" : true
+      },
+      "NotificationDigitalAddress" : {
+        "required" : [ "address", "type" ],
+        "type" : "object",
+        "properties" : {
+          "type" : {
+            "$ref" : "#/components/schemas/TypeEnum"
+          },
+          "address" : {
+            "maxLength" : 320,
+            "minLength" : 0,
+            "pattern" : "^(?:[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?|\\[(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?|[a-zA-Z0-9-]*[a-zA-Z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])$",
+            "type" : "string"
+          }
+        },
+        "nullable" : true
+      },
+      "NotificationFeePolicyEnum" : {
+        "type" : "string",
+        "enum" : [ "FLAT_RATE", "DELIVERY_MODE" ]
+      },
+      "PagoPa" : {
+        "required" : [ "applyCost", "creditorTaxId", "noticeCode" ],
+        "type" : "object",
+        "properties" : {
+          "noticeCode" : {
+            "type" : "string"
+          },
+          "creditorTaxId" : {
+            "type" : "string"
+          },
+          "applyCost" : {
+            "type" : "boolean"
+          },
+          "attachment" : {
+            "$ref" : "#/components/schemas/Attachment"
+          }
+        },
+        "nullable" : true
+      },
+      "Payment" : {
+        "type" : "object",
+        "properties" : {
+          "pagoPa" : {
+            "$ref" : "#/components/schemas/PagoPa"
+          },
+          "f24" : {
+            "$ref" : "#/components/schemas/F24Payment"
+          }
+        }
+      },
+      "PhysicalCommunicationTypeEnum" : {
+        "type" : "string",
+        "enum" : [ "AR_REGISTERED_LETTER", "REGISTERED_LETTER_890" ]
+      },
+      "Recipient" : {
+        "required" : [ "denomination", "physicalAddress", "recipientType", "taxId" ],
+        "type" : "object",
+        "properties" : {
+          "recipientType" : {
+            "$ref" : "#/components/schemas/RecipientTypeEnum"
+          },
+          "taxId" : {
+            "type" : "string"
+          },
+          "denomination" : {
+            "type" : "string"
+          },
+          "physicalAddress" : {
+            "$ref" : "#/components/schemas/Address"
+          },
+          "digitalDomicile" : {
+            "$ref" : "#/components/schemas/NotificationDigitalAddress"
+          },
+          "payments" : {
+            "type" : "array",
+            "nullable" : true,
+            "items" : {
+              "$ref" : "#/components/schemas/Payment"
+            }
+          }
+        }
+      },
+      "RecipientTypeEnum" : {
+        "type" : "string",
+        "enum" : [ "PF", "PG" ]
+      },
+      "TypeEnum" : {
+        "type" : "string",
+        "enum" : [ "PEC" ]
+      },
+      "OutcomeEnum" : {
+        "type" : "string",
+        "description" : "the outcome of payment request",
+        "nullable" : true,
+        "enum" : [ "OK", "ALREADY_PAID", "NOT_PAYABLE", "NOT_FOUND" ]
+      },
+      "PaymentResponse" : {
+        "type" : "object",
+        "properties" : {
+          "triggerPaymentUrl" : {
+            "type" : "string",
+            "description" : "the url to trigger the payment operation",
+            "nullable" : true
+          },
+          "downloadNoticeUrl" : {
+            "type" : "string",
+            "description" : "the url to download the payment notice as pdf file (not applicable to immediate payments)",
+            "nullable" : true
+          },
+          "paymentId" : {
+            "type" : "string",
+            "description" : "id to query payment operation status",
+            "nullable" : true
+          },
+          "outcome" : {
+            "$ref" : "#/components/schemas/OutcomeEnum"
+          }
+        }
+      },
+      "InstantPaymentRequest" : {
+        "required" : [ "payments" ],
+        "type" : "object",
+        "properties" : {
+          "payments" : {
+            "maxItems" : 5,
+            "minItems" : 1,
+            "type" : "array",
+            "description" : "the payments data",
+            "items" : {
+              "$ref" : "#/components/schemas/PaymentDTO"
+            }
+          },
+          "callbackUrl" : {
+            "type" : "string",
+            "description" : "the url to redirect the navigation flow to, after completing the payment operation. If not set, a generic PU page will be used. The parameters paymentId and outcome (OK/KO) will be added to query string of url. ",
+            "nullable" : true
+          }
+        }
+      },
+      "PaymentDTO" : {
+        "required" : [ "debtPositionTypeOrgCode", "debtor", "totalAmountCents", "transfers" ],
+        "type" : "object",
+        "properties" : {
+          "debtPositionTypeOrgCode" : {
+            "type" : "string"
+          },
+          "iud" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "notificationFeeCents" : {
+            "type" : "integer",
+            "format" : "int64",
+            "nullable" : true
+          },
+          "totalAmountCents" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "description" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "balance" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "debtor" : {
+            "$ref" : "#/components/schemas/PersonDTO"
+          },
+          "transfers" : {
+            "maxItems" : 5,
+            "minItems" : 1,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/TransferDTO"
+            }
+          }
+        }
+      },
+      "ImportFileResponseDTO" : {
+        "required" : [ "authorizationToken", "importId", "importPath", "uploadUrl" ],
+        "type" : "object",
+        "properties" : {
+          "importId" : {
+            "type" : "string"
+          },
+          "uploadUrl" : {
+            "type" : "string",
+            "description" : "The url to upload the file to, using a POST request with the file as body."
+          },
+          "authorizationToken" : {
+            "type" : "string",
+            "description" : "The authorization token to be used in the upload request."
+          },
+          "importPath" : {
+            "type" : "string",
+            "description" : "The path identifying the import operation."
+          }
+        }
+      },
+      "ImportFileRequestDTO" : {
+        "required" : [ "importFileType" ],
+        "type" : "object",
+        "properties" : {
+          "importFileType" : {
+            "$ref" : "#/components/schemas/IngestionFlowFileTypeEnum"
+          }
+        }
+      },
+      "IngestionFlowFileTypeEnum" : {
+        "type" : "string",
+        "enum" : [ "RECEIPT", "RECEIPT_PAGOPA", "PAYMENTS_REPORTING", "PAYMENTS_REPORTING_PAGOPA", "TREASURY_OPI", "TREASURY_CSV", "TREASURY_XLS", "TREASURY_POSTE", "TREASURY_CSV_COMPLETE", "DP_INSTALLMENTS", "PAYMENT_NOTIFICATION", "ORGANIZATIONS", "ORGANIZATIONS_SIL_SERVICE", "DEBT_POSITIONS_TYPE", "DEBT_POSITIONS_TYPE_ORG", "DEBT_POSITIONS_TYPE_ORG_OPERATORS", "ASSESSMENTS", "ASSESSMENTS_REGISTRY", "SEND_NOTIFICATION" ]
+      },
+      "ExportFileResponseDTO" : {
+        "required" : [ "exportId" ],
+        "type" : "object",
+        "properties" : {
+          "exportId" : {
+            "type" : "string"
+          }
+        }
+      },
+      "OffsetDateTimeIntervalFilter" : {
+        "type" : "object",
+        "properties" : {
+          "from" : {
+            "type" : "string",
+            "format" : "date-time",
+            "nullable" : true
+          },
+          "to" : {
+            "type" : "string",
+            "format" : "date-time",
+            "nullable" : true
+          }
+        }
+      },
+      "PaidExportFileFilter" : {
+        "type" : "object",
+        "properties" : {
+          "paymentDateTime" : {
+            "$ref" : "#/components/schemas/OffsetDateTimeIntervalFilter"
+          },
+          "installmentUpdateDateTime" : {
+            "$ref" : "#/components/schemas/OffsetDateTimeIntervalFilter"
+          },
+          "debtPositionTypeOrgCode" : {
+            "type" : "string",
+            "nullable" : true
+          }
+        }
+      },
+      "PaidExportRequestDTO" : {
+        "required" : [ "exportFilters", "fileVersion", "orgFiscalCode" ],
+        "type" : "object",
+        "properties" : {
+          "orgFiscalCode" : {
+            "type" : "string"
+          },
+          "fileVersion" : {
+            "type" : "string"
+          },
+          "exportFilters" : {
+            "$ref" : "#/components/schemas/PaidExportFileFilter"
+          }
+        }
+      },
+      "ClassificationsExportFileFilter" : {
+        "type" : "object",
+        "properties" : {
+          "iufs" : {
+            "type" : "array",
+            "nullable" : true,
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "iud" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "iuvs" : {
+            "type" : "array",
+            "nullable" : true,
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "iurs" : {
+            "type" : "array",
+            "nullable" : true,
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "label" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "nullable" : true,
+            "items" : {
+              "$ref" : "#/components/schemas/LabelEnum"
+            }
+          },
+          "lastClassificationDate" : {
+            "$ref" : "#/components/schemas/LocalDateIntervalFilter"
+          },
+          "payDate" : {
+            "$ref" : "#/components/schemas/LocalDateIntervalFilter"
+          },
+          "paymentDate" : {
+            "$ref" : "#/components/schemas/LocalDateIntervalFilter"
+          },
+          "regulationDate" : {
+            "$ref" : "#/components/schemas/LocalDateIntervalFilter"
+          },
+          "billDate" : {
+            "$ref" : "#/components/schemas/LocalDateIntervalFilter"
+          },
+          "regionValueDate" : {
+            "$ref" : "#/components/schemas/LocalDateIntervalFilter"
+          },
+          "regulationUniqueIdentifier" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "accountRegistryCode" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "billAmountCents" : {
+            "type" : "integer",
+            "format" : "int64",
+            "nullable" : true
+          },
+          "remittanceInformation" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "pspCompanyName" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "pspLastName" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "debtPositionTypeOrgCodes" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "nullable" : true,
+            "items" : {
+              "type" : "string"
+            }
+          }
+        }
+      },
+      "ClassificationsExportRequestDTO" : {
+        "required" : [ "exportFilters", "fileVersion", "orgFiscalCode" ],
+        "type" : "object",
+        "properties" : {
+          "orgFiscalCode" : {
+            "type" : "string"
+          },
+          "fileVersion" : {
+            "type" : "string"
+          },
+          "exportFilters" : {
+            "$ref" : "#/components/schemas/ClassificationsExportFileFilter"
+          }
+        }
+      },
+      "LabelEnum" : {
+        "type" : "string",
+        "enum" : [ "DOPPI", "RT_NO_IUF", "RT_NO_IUD", "IUV_NO_RT", "TES_NO_IUF_OR_IUV", "IUF_NO_TES", "IUD_RT_IUF", "RT_IUF", "RT_TES", "IUD_RT_IUF_TES", "RT_IUF_TES", "IUF_TES_DIV_IMP", "IUD_NO_RT", "TES_NO_MATCH", "UNKNOWN" ]
+      },
+      "LocalDateIntervalFilter" : {
+        "type" : "object",
+        "properties" : {
+          "from" : {
+            "type" : "string",
+            "format" : "date",
+            "nullable" : true
+          },
+          "to" : {
+            "type" : "string",
+            "format" : "date",
+            "nullable" : true
+          }
+        },
+        "nullable" : true
+      },
+      "NotificationStatus" : {
+        "type" : "string",
+        "enum" : [ "WAITING_FILE", "SENDING", "REGISTERED", "UPLOADED", "IN_VALIDATION", "ACCEPTED", "REFUSED", "DELIVERING", "DELIVERED", "VIEWED", "EFFECTIVE_DATE", "PAID", "UNREACHABLE", "CANCELLED", "RETURNED_TO_SENDER" ]
+      },
+      "SendNotificationDTO" : {
+        "required" : [ "campaignId", "organizationId", "payments", "sendNotificationId", "status" ],
+        "type" : "object",
+        "properties" : {
+          "sendNotificationId" : {
+            "type" : "string"
+          },
+          "campaignId" : {
+            "type" : "string"
+          },
+          "organizationId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "iun" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "payments" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/SendNotificationPaymentsDTO"
+            }
+          },
+          "status" : {
+            "$ref" : "#/components/schemas/NotificationStatus"
+          },
+          "errors" : {
+            "type" : "array",
+            "nullable" : true,
+            "items" : {
+              "type" : "string"
+            }
+          }
+        }
+      },
+      "SendNotificationPaymentsDTO" : {
+        "required" : [ "navList" ],
+        "type" : "object",
+        "properties" : {
+          "debtPositionId" : {
+            "type" : "integer",
+            "format" : "int64",
+            "nullable" : true
+          },
+          "navList" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "notificationDate" : {
+            "type" : "string",
+            "format" : "date-time",
+            "nullable" : true
+          }
+        }
+      },
+      "FileStatus" : {
+        "type" : "string",
+        "nullable" : true,
+        "enum" : [ "WAITING", "READY", "UPLOADED", "EXPIRED" ]
+      },
+      "LegalFactCategoryDTO" : {
+        "type" : "string",
+        "enum" : [ "SENDER_ACK", "DIGITAL_DELIVERY", "ANALOG_DELIVERY", "RECIPIENT_ACCESS", "PEC_RECEIPT", "ANALOG_FAILURE_DELIVERY" ]
+      },
+      "LegalFactDTO" : {
+        "required" : [ "category", "fileName", "url" ],
+        "type" : "object",
+        "properties" : {
+          "fileName" : {
+            "type" : "string"
+          },
+          "category" : {
+            "$ref" : "#/components/schemas/LegalFactCategoryDTO"
+          },
+          "url" : {
+            "type" : "string"
+          },
+          "status" : {
+            "$ref" : "#/components/schemas/FileStatus"
+          },
+          "downloadDate" : {
+            "type" : "string",
+            "format" : "date-time",
+            "nullable" : true
+          }
+        }
+      },
+      "LegalFactDownloadMetadataDTO" : {
+        "required" : [ "contentLength", "filename" ],
+        "type" : "object",
+        "properties" : {
+          "filename" : {
+            "type" : "string"
+          },
+          "contentLength" : {
+            "type" : "number"
+          },
+          "url" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "retryAfter" : {
+            "type" : "number",
+            "nullable" : true
+          }
+        }
+      },
+      "PaymentStatusResponseDTO" : {
+        "required" : [ "paymentId", "status" ],
+        "type" : "object",
+        "properties" : {
+          "paymentId" : {
+            "type" : "string"
+          },
+          "status" : {
+            "$ref" : "#/components/schemas/InstallmentStatus"
+          },
+          "receipt" : {
+            "$ref" : "#/components/schemas/ReceiptWithAdditionalNodeDataDTO"
+          },
+          "receiptBytes" : {
+            "type" : "string",
+            "format" : "byte",
+            "nullable" : true
+          },
+          "lastUpdateDateTime" : {
+            "type" : "string",
+            "format" : "date-time",
+            "nullable" : true
+          }
+        }
+      },
+      "ReceiptTransferDTO" : {
+        "required" : [ "amountCents", "category", "orgFiscalCode", "remittanceInformation", "transferIndex" ],
+        "type" : "object",
+        "properties" : {
+          "transferIndex" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "amountCents" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "orgFiscalCode" : {
+            "type" : "string"
+          },
+          "orgName" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "mbdAttachment" : {
+            "type" : "string",
+            "format" : "byte",
+            "nullable" : true
+          },
+          "iban" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "remittanceInformation" : {
+            "type" : "string"
+          },
+          "category" : {
+            "type" : "string"
+          },
+          "metadata" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "type" : "string"
+            }
+          }
+        }
+      },
+      "ReceiptWithAdditionalNodeDataDTO" : {
+        "required" : [ "channelDescription", "companyName", "creditorReferenceId", "debtor", "description", "idChannel", "idPsp", "noticeNumber", "orgFiscalCode", "outcome", "paymentAmountCents", "paymentReceiptId", "pspCompanyName", "transfers" ],
+        "type" : "object",
+        "properties" : {
+          "paymentReceiptId" : {
+            "type" : "string"
+          },
+          "noticeNumber" : {
+            "type" : "string"
+          },
+          "paymentNote" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "orgFiscalCode" : {
+            "type" : "string"
+          },
+          "outcome" : {
+            "type" : "string"
+          },
+          "creditorReferenceId" : {
+            "type" : "string"
+          },
+          "paymentAmountCents" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "description" : {
+            "type" : "string"
+          },
+          "companyName" : {
+            "type" : "string"
+          },
+          "officeName" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "idPsp" : {
+            "type" : "string"
+          },
+          "pspFiscalCode" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "pspPartitaIva" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "pspCompanyName" : {
+            "type" : "string"
+          },
+          "idChannel" : {
+            "type" : "string"
+          },
+          "channelDescription" : {
+            "type" : "string"
+          },
+          "paymentMethod" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "feeCents" : {
+            "type" : "integer",
+            "format" : "int64",
+            "nullable" : true
+          },
+          "paymentDateTime" : {
+            "type" : "string",
+            "format" : "date-time",
+            "nullable" : true
+          },
+          "applicationDate" : {
+            "type" : "string",
+            "format" : "date-time",
+            "nullable" : true
+          },
+          "transferDate" : {
+            "type" : "string",
+            "format" : "date-time",
+            "nullable" : true
+          },
+          "standin" : {
+            "type" : "boolean",
+            "nullable" : true
+          },
+          "debtor" : {
+            "$ref" : "#/components/schemas/PersonDTO"
+          },
+          "payer" : {
+            "$ref" : "#/components/schemas/PersonDTO"
+          },
+          "transfers" : {
+            "maxItems" : 2147483647,
+            "minItems" : 1,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ReceiptTransferDTO"
+            }
+          },
+          "metadata" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "type" : "string"
+            }
+          }
+        }
+      },
+      "QueryPaymentStatusType" : {
+        "type" : "string",
+        "enum" : [ "INSTALLMENT_ID", "NOTICE_NUMBER", "IUD" ]
+      },
+      "CodeEnum" : {
+        "type" : "string",
+        "nullable" : true,
+        "enum" : [ "INPUT_FILE", "OUTPUT_FILE", "DISCARDED_FILE", "PAYMENT_NOTICE_FILE" ]
+      },
+      "DownloadUrl" : {
+        "required" : [ "url" ],
+        "type" : "object",
+        "properties" : {
+          "code" : {
+            "$ref" : "#/components/schemas/CodeEnum"
+          },
+          "url" : {
+            "type" : "string"
+          }
+        },
+        "nullable" : true
+      },
+      "ImportStatusResponseDTO" : {
+        "required" : [ "importId", "status" ],
+        "type" : "object",
+        "properties" : {
+          "importId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "status" : {
+            "$ref" : "#/components/schemas/IngestionFlowFileStatus"
+          },
+          "lastUpdateDateTime" : {
+            "type" : "string",
+            "format" : "date-time",
+            "nullable" : true
+          },
+          "downloadUrls" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/DownloadUrl"
+            }
+          }
+        }
+      },
+      "IngestionFlowFileStatus" : {
+        "type" : "string",
+        "enum" : [ "UPLOADED", "PROCESSING", "COMPLETED", "ERROR", "WAITING_FILE", "WARNING" ]
+      },
+      "ExportStatusResponseDTO" : {
+        "required" : [ "exportId", "status" ],
+        "type" : "object",
+        "properties" : {
+          "exportId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "status" : {
+            "$ref" : "#/components/schemas/StatusEnum"
+          },
+          "downloadUrl" : {
+            "$ref" : "#/components/schemas/DownloadUrl"
+          }
+        }
+      },
+      "StatusEnum" : {
+        "type" : "string",
+        "enum" : [ "REQUESTED", "PROCESSING", "COMPLETED", "EXPIRED", "ERROR", "COMPLETED_NO_DATA_FOUND" ]
+      },
+      "AssessmentDTO" : {
+        "required" : [ "amountCents", "assessmentCode" ],
+        "type" : "object",
+        "properties" : {
+          "assessmentCode" : {
+            "type" : "string"
+          },
+          "amountCents" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }
+      },
+      "BalanceDTO" : {
+        "required" : [ "debtPositionTypeOrgs", "office" ],
+        "type" : "object",
+        "properties" : {
+          "office" : {
+            "type" : "string"
+          },
+          "debtPositionTypeOrgs" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/DebtPositionTypeOrgDTO"
+            }
+          }
+        }
+      },
+      "DebtPositionTypeOrgDTO" : {
+        "required" : [ "debtPositionTypeOrgCode", "sections" ],
+        "type" : "object",
+        "properties" : {
+          "debtPositionTypeOrgCode" : {
+            "type" : "string"
+          },
+          "sections" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/SectionDTO"
+            }
+          }
+        }
+      },
+      "GetAssessmentResponseDTO" : {
+        "type" : "object",
+        "properties" : {
+          "balances" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/BalanceDTO"
+            }
+          }
+        }
+      },
+      "SectionDTO" : {
+        "required" : [ "assessments", "sectionCode" ],
+        "type" : "object",
+        "properties" : {
+          "sectionCode" : {
+            "type" : "string"
+          },
+          "assessments" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/AssessmentDTO"
+            }
+          }
+        }
+      },
+      "UnpaidDebtPositionsDTO" : {
+        "required" : [ "ipaCode", "orgName", "paymentTriggerUrl", "unpaidDebtPosition" ],
+        "type" : "object",
+        "properties" : {
+          "ipaCode" : {
+            "type" : "string"
+          },
+          "orgName" : {
+            "type" : "string"
+          },
+          "paymentTriggerUrl" : {
+            "type" : "string",
+            "description" : "the url to trigger the payment operation"
+          },
+          "unpaidDebtPosition" : {
+            "$ref" : "#/components/schemas/PaymentDTO"
+          }
+        }
+      },
+      "UnpaidDebtPositionsResponseDTO" : {
+        "required" : [ "debtPositions" ],
+        "type" : "object",
+        "properties" : {
+          "debtPositions" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/UnpaidDebtPositionsDTO"
+            }
+          }
+        }
+      },
+      "PaymentHistoryDTO" : {
+        "required" : [ "ipaCode", "orgName", "receipt", "receiptBytes", "receiptDownloadUrl" ],
+        "type" : "object",
+        "properties" : {
+          "ipaCode" : {
+            "type" : "string"
+          },
+          "orgName" : {
+            "type" : "string"
+          },
+          "receiptDownloadUrl" : {
+            "type" : "string",
+            "description" : "the url to download the receipt as pdf file"
+          },
+          "receipt" : {
+            "$ref" : "#/components/schemas/ReceiptWithAdditionalNodeDataDTO"
+          },
+          "receiptBytes" : {
+            "type" : "string",
+            "format" : "byte"
+          }
+        }
+      },
+      "PaymentHistoryResponseDTO" : {
+        "required" : [ "dateTo", "payments" ],
+        "type" : "object",
+        "properties" : {
+          "dateTo" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "payments" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/PaymentHistoryDTO"
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes" : {
+      "BearerAuth" : {
+        "type" : "http",
+        "scheme" : "bearer",
+        "bearerFormat" : "JWT"
+      }
+    }
+  }
+}
