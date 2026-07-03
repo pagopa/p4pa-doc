@@ -10305,7 +10305,7 @@
         }
       },
       "OrgSubUnit" : {
-        "required" : [ "organizationId", "subUnitCode" ],
+        "required" : [ "organizationId", "status", "subUnitCode" ],
         "type" : "object",
         "properties" : {
           "creationDate" : {
@@ -10335,6 +10335,9 @@
           },
           "subUnitType" : {
             "$ref" : "#/components/schemas/SubUnitType"
+          },
+          "status" : {
+            "$ref" : "#/components/schemas/OrgSubUnitStatus"
           },
           "_links" : {
             "type" : "object",
@@ -10345,13 +10348,17 @@
           }
         }
       },
+      "OrgSubUnitStatus" : {
+        "type" : "string",
+        "enum" : [ "ACTIVE", "CANCELLED" ]
+      },
       "SubUnitType" : {
         "type" : "string",
         "nullable" : true,
         "enum" : [ "AOO", "UO" ]
       },
       "OrgSubUnitRequestBody" : {
-        "required" : [ "organizationId", "subUnitCode" ],
+        "required" : [ "organizationId", "status", "subUnitCode" ],
         "type" : "object",
         "properties" : {
           "creationDate" : {
@@ -10381,6 +10388,9 @@
           },
           "subUnitType" : {
             "$ref" : "#/components/schemas/SubUnitType"
+          },
+          "status" : {
+            "$ref" : "#/components/schemas/OrgSubUnitStatus"
           }
         }
       },
@@ -11287,6 +11297,15 @@
           "expires_in" : {
             "type" : "integer",
             "format" : "int32"
+          },
+          "refresh_token" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "refresh_expires_in" : {
+            "type" : "integer",
+            "format" : "int32",
+            "nullable" : true
           }
         }
       },
