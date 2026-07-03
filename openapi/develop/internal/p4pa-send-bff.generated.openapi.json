@@ -44,6 +44,16 @@
                 }
               }
             }
+          },
+          "401" : {
+            "description" : "Unauthorized - Missing or invalid token",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
           }
         }
       }
@@ -64,6 +74,29 @@
             "nullable" : true
           },
           "orgName" : {
+            "type" : "string",
+            "nullable" : true
+          }
+        }
+      },
+      "CategoryEnum" : {
+        "type" : "string",
+        "enum" : [ "NOT_FOUND", "BAD_REQUEST", "GENERIC_ERROR", "TOO_MANY_REQUESTS", "CONFLICT", "FORBIDDEN", "UNAUTHORIZED" ]
+      },
+      "ErrorDTO" : {
+        "required" : [ "category", "code", "message" ],
+        "type" : "object",
+        "properties" : {
+          "category" : {
+            "$ref" : "#/components/schemas/CategoryEnum"
+          },
+          "code" : {
+            "type" : "string"
+          },
+          "message" : {
+            "type" : "string"
+          },
+          "traceId" : {
             "type" : "string",
             "nullable" : true
           }
