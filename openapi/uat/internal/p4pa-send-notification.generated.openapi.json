@@ -21,6 +21,9 @@
   }, {
     "name" : "Streams",
     "description" : "the Streams API"
+  }, {
+    "name" : "Campaign",
+    "description" : "the Campaign API"
   } ],
   "paths" : {
     "/p4pasend/send/streams/{streamId}" : {
@@ -492,6 +495,37 @@
           },
           "500" : {
             "description" : "Internal server error"
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/p4pasend/campaigns/{campaignId}/align" : {
+      "post" : {
+        "tags" : [ "Campaign" ],
+        "operationId" : "alignCampaign",
+        "parameters" : [ {
+          "name" : "campaignId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "OK"
+          },
+          "403" : {
+            "description" : "Forbidden"
+          },
+          "404" : {
+            "description" : "Campaign not found"
+          },
+          "500" : {
+            "description" : "Internal Server Error"
           }
         },
         "security" : [ {
@@ -1386,6 +1420,56 @@
         } ]
       }
     },
+    "/p4pasend/campaigns/ids" : {
+      "get" : {
+        "tags" : [ "Campaign" ],
+        "operationId" : "fetchAllCampaignIds",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "string"
+                  }
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "string"
+                  }
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
     "/p4pasend/notification/{sendNotificationId}/documents" : {
       "delete" : {
         "tags" : [ "Notification" ],
@@ -1487,7 +1571,7 @@
         }
       },
       "CreateNotificationRequest" : {
-        "required" : [ "campaignId", "notificationFeePolicy", "organizationId", "paProtocolNumber", "physicalCommunicationType", "recipients" ],
+        "required" : [ "externalCampaignId", "notificationFeePolicy", "organizationId", "paProtocolNumber", "physicalCommunicationType", "recipients" ],
         "type" : "object",
         "properties" : {
           "organizationId" : {
@@ -1550,8 +1634,21 @@
             "format" : "int32",
             "nullable" : true
           },
-          "campaignId" : {
+          "externalCampaignId" : {
             "type" : "string"
+          },
+          "subUnitCode" : {
+            "maxLength" : 32,
+            "minLength" : 0,
+            "pattern" : "^[A-Za-z0-9_-]+$",
+            "type" : "string",
+            "nullable" : true
+          },
+          "campaignName" : {
+            "maxLength" : 64,
+            "minLength" : 0,
+            "type" : "string",
+            "nullable" : true
           }
         },
         "nullable" : true

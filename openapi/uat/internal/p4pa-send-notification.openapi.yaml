@@ -633,6 +633,44 @@ paths:
           description: Legal facts not found
         '500':
           description: Internal server error
+  /campaigns/ids:
+    get:
+      tags:
+        - Campaign
+      operationId: fetchAllCampaignIds
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal server error
+  /campaigns/{campaignId}/align:
+    post:
+      tags:
+        - Campaign
+      operationId: alignCampaign
+      parameters:
+        - name: campaignId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: OK
+        '403':
+          description: Forbidden
+        '404':
+          description: Campaign not found
+        '500':
+          description: Internal Server Error
 security:
   - BearerAuth: []
 components:
@@ -649,7 +687,7 @@ components:
         - recipients
         - notificationFeePolicy
         - physicalCommunicationType
-        - campaignId
+        - externalCampaignId
       properties:
         organizationId:
           type: integer
@@ -689,8 +727,15 @@ components:
           type: integer
           minimum: 0
           maximum: 100
-        campaignId:
+        externalCampaignId:
           type: string
+        subUnitCode:
+          type: string
+          maxLength: 32
+          pattern: '^[A-Za-z0-9_-]+$'
+        campaignName:
+          type: string
+          maxLength: 64
     Recipient:
       type: object
       required:
