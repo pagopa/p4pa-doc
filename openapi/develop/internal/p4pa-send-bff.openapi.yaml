@@ -1,0 +1,90 @@
+openapi: 3.1.0
+info:
+  title: Fake API
+  description: "Sample API"
+  version: "1.0.0"
+paths:
+  /api/v1/greet:
+    get:
+      summary: "Hello World"
+      description: "Sample endpoint that return greetings"
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Hello, World!"
+        '500':
+          description: "Internal Server Error"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Internal Server Error"
+  /organizations/{organizationId}/senders:
+    get:
+      tags:
+        - organization-sender
+      operationId: getOrganizationSenders
+      summary: "Returns the list of SEND-enabled organization and sub-units accessible to the operator"
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrganizationSenderDTO'
+components:
+  schemas:
+    OrganizationSenderDTO:
+      type: object
+      required:
+        - organizationId
+      properties:
+        organizationId:
+          type: integer
+          format: int64
+        subUnitCode:
+          type: string
+        orgName:
+          type: string
+    ErrorDTO:
+      type: object
+      required:
+        - category
+        - code
+        - message
+      properties:
+        category:
+          type: string
+          enum:
+            - NOT_FOUND
+            - BAD_REQUEST
+            - GENERIC_ERROR
+            - TOO_MANY_REQUESTS
+            - CONFLICT
+            - FORBIDDEN
+            - UNAUTHORIZED
+        code:
+          type: string
+        message:
+          type: string
+        traceId:
+          type: string
