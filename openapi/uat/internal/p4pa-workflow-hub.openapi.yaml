@@ -684,6 +684,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/WorkflowErrorDTO'
+  /workflow/send-campaign/align-counters:
+    get:
+      tags:
+        - SendCampaign
+      operationId: alignSendCampaignCounters
+      description: Start send campaign counter alignment.
+      responses:
+        '201':
+          description: "Align send campaign counter workflow created successfully"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkflowCreatedDTO'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkflowErrorDTO'
   /workflow/pagopa-fetch/payments-reporting/{organizationId}:
     post:
       tags:
