@@ -43,6 +43,9 @@
     "name" : "IngestionFlow",
     "description" : "the IngestionFlow API"
   }, {
+    "name" : "SendCampaign",
+    "description" : "the SendCampaign API"
+  }, {
     "name" : "ExportFile",
     "description" : "the ExportFile API"
   }, {
@@ -1832,6 +1835,38 @@
         } ]
       }
     },
+    "/workflowhub/workflow/send-campaign/align-counters" : {
+      "get" : {
+        "tags" : [ "SendCampaign" ],
+        "description" : "Start send campaign counter alignment.",
+        "operationId" : "alignSendCampaignCounters",
+        "responses" : {
+          "201" : {
+            "description" : "Align send campaign counter workflow created successfully",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/WorkflowCreatedDTO"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/WorkflowErrorDTO"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
     "/workflowhub/schedules/{scheduleId}/info" : {
       "get" : {
         "tags" : [ "Schedule" ],
@@ -2063,6 +2098,17 @@
           }
         }
       },
+      "WfExecutionConfig" : {
+        "type" : "object",
+        "properties" : {
+          "workflowTypeName" : {
+            "$ref" : "#/components/schemas/DebtPositionSyncWfName"
+          }
+        },
+        "discriminator" : {
+          "propertyName" : "workflowTypeName"
+        }
+      },
       "PageMetadata" : {
         "type" : "object",
         "properties" : {
@@ -2082,17 +2128,6 @@
             "type" : "integer",
             "format" : "int64"
           }
-        }
-      },
-      "WfExecutionConfig" : {
-        "type" : "object",
-        "properties" : {
-          "workflowTypeName" : {
-            "$ref" : "#/components/schemas/DebtPositionSyncWfName"
-          }
-        },
-        "discriminator" : {
-          "propertyName" : "workflowTypeName"
         }
       },
       "WorkflowTypeOrg" : {
@@ -2802,7 +2837,7 @@
       },
       "ScheduleEnum" : {
         "type" : "string",
-        "enum" : [ "PAYMENTS_REPORTING_PAGOPA_BROKERS_FETCH", "SYNCHRONIZE_TAXONOMY_PAGOPA_FETCH" ]
+        "enum" : [ "PAYMENTS_REPORTING_PAGOPA_BROKERS_FETCH", "SYNCHRONIZE_TAXONOMY_PAGOPA_FETCH", "ALIGN_SEND_CAMPAIGN_COUNTERS" ]
       },
       "ScheduleExecutionInfoDTO" : {
         "required" : [ "runId", "workflowId" ],
@@ -2868,28 +2903,6 @@
           "lastExecution" : {
             "type" : "string",
             "format" : "date-time"
-          }
-        }
-      },
-      "PagedModelWorkflowTypeOrg" : {
-        "type" : "object",
-        "properties" : {
-          "_embedded" : {
-            "type" : "object",
-            "properties" : {
-              "workflowTypeOrgs" : {
-                "type" : "array",
-                "items" : {
-                  "$ref" : "#/components/schemas/WorkflowTypeOrg"
-                }
-              }
-            }
-          },
-          "_links" : {
-            "$ref" : "#/components/schemas/Links"
-          },
-          "page" : {
-            "$ref" : "#/components/schemas/PageMetadata"
           }
         }
       },
@@ -2995,6 +3008,28 @@
                 "type" : "array",
                 "items" : {
                   "$ref" : "#/components/schemas/DebtPositionWorkflowType"
+                }
+              }
+            }
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          },
+          "page" : {
+            "$ref" : "#/components/schemas/PageMetadata"
+          }
+        }
+      },
+      "PagedModelWorkflowTypeOrg" : {
+        "type" : "object",
+        "properties" : {
+          "_embedded" : {
+            "type" : "object",
+            "properties" : {
+              "workflowTypeOrgs" : {
+                "type" : "array",
+                "items" : {
+                  "$ref" : "#/components/schemas/WorkflowTypeOrg"
                 }
               }
             }
