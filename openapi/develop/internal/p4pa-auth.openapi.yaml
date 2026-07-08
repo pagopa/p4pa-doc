@@ -37,7 +37,8 @@ paths:
           schema:
             enum: [
               "urn:ietf:params:oauth:grant-type:token-exchange",
-              "client_credentials"
+              "client_credentials",
+              "refresh_token"
             ]
             type: string
         - name: subject_token
@@ -66,6 +67,11 @@ paths:
             ]
             type: string
         - name: client_secret
+          in: query
+          schema:
+            type: string
+        - name: refresh_token
+          description: "Refresh Token"
           in: query
           schema:
             type: string
@@ -679,6 +685,7 @@ components:
         expires_in:
           type: integer
         refresh_token:
+          description: "RefreshToken will be invalidated if used to generate new AccessToken"
           type: string
         refresh_expires_in:
           type: integer
