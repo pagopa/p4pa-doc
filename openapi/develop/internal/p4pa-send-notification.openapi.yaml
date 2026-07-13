@@ -633,6 +633,27 @@ paths:
           description: Legal facts not found
         '500':
           description: Internal server error
+  /send/notify-timeline-category:
+    put:
+      tags:
+        - Send
+      summary: notify last TimelineCategory for each notification
+      operationId: notifySendNotificationTimelineCategory
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NotifySendNotificationTimelineCategoryRequest'
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Invalid request
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal server error
   /campaigns/ids:
     get:
       tags:
@@ -1045,3 +1066,10 @@ components:
         nextFileExpirationDate:
           type: string
           format: date-time
+    NotifySendNotificationTimelineCategoryRequest:
+      description: "A map having SEND notificationRequestId as key and a List of TimelineElementCategory as value"
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: 'TimelineElementCategory'

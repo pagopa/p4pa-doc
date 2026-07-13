@@ -138,6 +138,46 @@
         } ]
       }
     },
+    "/p4pasend/send/notify-timeline-category" : {
+      "put" : {
+        "tags" : [ "Send" ],
+        "summary" : "notify last TimelineCategory for each notification",
+        "operationId" : "notifySendNotificationTimelineCategory",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "type" : "object",
+                "additionalProperties" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/TimelineElementCategoryV27DTO"
+                  }
+                }
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "400" : {
+            "description" : "Invalid request"
+          },
+          "403" : {
+            "description" : "Forbidden"
+          },
+          "500" : {
+            "description" : "Internal server error"
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
     "/p4pasend/notification/by-notificationRequestId-status" : {
       "put" : {
         "tags" : [ "Notification" ],
@@ -1512,6 +1552,11 @@
   },
   "components" : {
     "schemas" : {
+      "TimelineElementCategoryV27DTO" : {
+        "type" : "string",
+        "nullable" : true,
+        "enum" : [ "SENDER_ACK_CREATION_REQUEST", "VALIDATE_NORMALIZE_ADDRESSES_REQUEST", "NORMALIZED_ADDRESS", "REQUEST_ACCEPTED", "SEND_COURTESY_MESSAGE", "GET_ADDRESS", "PUBLIC_REGISTRY_CALL", "PUBLIC_REGISTRY_RESPONSE", "SCHEDULE_ANALOG_WORKFLOW", "SCHEDULE_DIGITAL_WORKFLOW", "PREPARE_DIGITAL_DOMICILE", "SEND_DIGITAL_DOMICILE", "SEND_DIGITAL_PROGRESS", "SEND_DIGITAL_FEEDBACK", "REFINEMENT", "SCHEDULE_REFINEMENT", "DIGITAL_DELIVERY_CREATION_REQUEST", "DIGITAL_SUCCESS_WORKFLOW", "DIGITAL_FAILURE_WORKFLOW", "ANALOG_SUCCESS_WORKFLOW", "ANALOG_FAILURE_WORKFLOW", "PREPARE_SIMPLE_REGISTERED_LETTER", "SEND_SIMPLE_REGISTERED_LETTER", "SEND_SIMPLE_REGISTERED_LETTER_PROGRESS", "NOTIFICATION_VIEWED_CREATION_REQUEST", "NOTIFICATION_VIEWED", "PREPARE_ANALOG_DOMICILE", "SEND_ANALOG_DOMICILE", "SEND_ANALOG_PROGRESS", "SEND_ANALOG_FEEDBACK", "PAYMENT", "COMPLETELY_UNREACHABLE", "COMPLETELY_UNREACHABLE_CREATION_REQUEST", "REQUEST_REFUSED", "AAR_CREATION_REQUEST", "AAR_GENERATION", "NOT_HANDLED", "PROBABLE_SCHEDULING_ANALOG_DATE", "NOTIFICATION_CANCELLATION_REQUEST", "NOTIFICATION_CANCELLED", "PREPARE_ANALOG_DOMICILE_FAILURE", "NOTIFICATION_RADD_RETRIEVED", "ANALOG_WORKFLOW_RECIPIENT_DECEASED", "PUBLIC_REGISTRY_VALIDATION_CALL", "PUBLIC_REGISTRY_VALIDATION_RESPONSE" ]
+      },
       "NotificationStatus" : {
         "type" : "string",
         "enum" : [ "WAITING_FILE", "SENDING", "REGISTERED", "UPLOADED", "IN_VALIDATION", "ACCEPTED", "REFUSED", "DELIVERING", "DELIVERED", "VIEWED", "EFFECTIVE_DATE", "PAID", "UNREACHABLE", "CANCELLED", "RETURNED_TO_SENDER" ]
@@ -2180,11 +2225,6 @@
       "ServiceLevelDTO" : {
         "type" : "string",
         "enum" : [ "AR_REGISTERED_LETTER", "REGISTERED_LETTER_890" ]
-      },
-      "TimelineElementCategoryV27DTO" : {
-        "type" : "string",
-        "nullable" : true,
-        "enum" : [ "SENDER_ACK_CREATION_REQUEST", "VALIDATE_NORMALIZE_ADDRESSES_REQUEST", "NORMALIZED_ADDRESS", "REQUEST_ACCEPTED", "SEND_COURTESY_MESSAGE", "GET_ADDRESS", "PUBLIC_REGISTRY_CALL", "PUBLIC_REGISTRY_RESPONSE", "SCHEDULE_ANALOG_WORKFLOW", "SCHEDULE_DIGITAL_WORKFLOW", "PREPARE_DIGITAL_DOMICILE", "SEND_DIGITAL_DOMICILE", "SEND_DIGITAL_PROGRESS", "SEND_DIGITAL_FEEDBACK", "REFINEMENT", "SCHEDULE_REFINEMENT", "DIGITAL_DELIVERY_CREATION_REQUEST", "DIGITAL_SUCCESS_WORKFLOW", "DIGITAL_FAILURE_WORKFLOW", "ANALOG_SUCCESS_WORKFLOW", "ANALOG_FAILURE_WORKFLOW", "PREPARE_SIMPLE_REGISTERED_LETTER", "SEND_SIMPLE_REGISTERED_LETTER", "SEND_SIMPLE_REGISTERED_LETTER_PROGRESS", "NOTIFICATION_VIEWED_CREATION_REQUEST", "NOTIFICATION_VIEWED", "PREPARE_ANALOG_DOMICILE", "SEND_ANALOG_DOMICILE", "SEND_ANALOG_PROGRESS", "SEND_ANALOG_FEEDBACK", "PAYMENT", "COMPLETELY_UNREACHABLE", "COMPLETELY_UNREACHABLE_CREATION_REQUEST", "REQUEST_REFUSED", "AAR_CREATION_REQUEST", "AAR_GENERATION", "NOT_HANDLED", "PROBABLE_SCHEDULING_ANALOG_DATE", "NOTIFICATION_CANCELLATION_REQUEST", "NOTIFICATION_CANCELLED", "PREPARE_ANALOG_DOMICILE_FAILURE", "NOTIFICATION_RADD_RETRIEVED", "ANALOG_WORKFLOW_RECIPIENT_DECEASED", "PUBLIC_REGISTRY_VALIDATION_CALL", "PUBLIC_REGISTRY_VALIDATION_RESPONSE" ]
       },
       "TimelineElementDetailsV27DTO" : {
         "required" : [ "aarKey", "attemptDate", "cancellationRequestId", "contactPhase", "deliveryMode", "digitalAddress", "digitalAddressSource", "eventTimestamp", "generatedAarUrl", "isAvailable", "lastAttemptDate", "normalizedAddress", "notRefinedRecipientIndexes", "notificationCost", "notificationDate", "numberOfPages", "oldAddress", "paymentSourceChannel", "physicalAddress", "raddTransactionId", "raddType", "reason", "reasonCode", "recIndex", "recIndexes", "recipientType", "responseStatus", "retryNumber", "schedulingAnalogDate", "sendDate", "sentAttemptMade", "serviceLevel" ],
