@@ -654,6 +654,54 @@ paths:
           description: Forbidden
         '500':
           description: Internal server error
+  /campaigns:
+    get:
+      tags:
+        - Campaign
+      operationId: findCampaignsByFilters
+      parameters:
+        - name: organizationId
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: dateFrom
+          required: true
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: dateTo
+          required: true
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: orgSubUnitCode
+          in: query
+          schema:
+            type: string
+        - name: campaignName
+          in: query
+          schema:
+            type: string
+        - name: externalCampaignId
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Page of campaigns
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagedCampaign'
+        "400":
+          description: Invalid request
+        '500':
+          description: Internal Server Error
+      x-spring-paginated: true
   /campaigns/ids:
     get:
       tags:
@@ -1066,6 +1114,31 @@ components:
         nextFileExpirationDate:
           type: string
           format: date-time
+    PagedCampaign:
+      type: object
+      required:
+        - content
+        - size
+        - totalElements
+        - totalPages
+        - number
+      properties:
+        content:
+          type: array
+          items:
+            type: 'Campaign'
+        size:
+          type: integer
+          format: int64
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int64
+        number:
+          type: integer
+      format: int64
     NotifySendNotificationTimelineCategoryRequest:
       description: "A map having SEND notificationRequestId as key and a List of TimelineElementCategory as value"
       type: object
