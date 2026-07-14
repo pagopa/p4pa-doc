@@ -1368,7 +1368,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/SendNotificationDTO"
+                  "$ref" : "#/components/schemas/SendNotificationErrorDTO"
                 }
               }
             }
@@ -2803,6 +2803,29 @@
           }
         },
         "description" : "legal fact related to a SEND notification"
+      },
+      "CategoryEnum" : {
+        "type" : "string",
+        "enum" : [ "SEND_NOTIFICATION_NOT_FOUND", "SEND_NOTIFICATION_BAD_REQUEST", "SEND_NOTIFICATION_GENERIC_ERROR", "SEND_NOTIFICATION_ALREADY_PROCESSED", "SEND_NOTIFICATION_CONFLICT", "SEND_NOTIFICATION_TOO_MANY_REQUESTS" ]
+      },
+      "SendNotificationErrorDTO" : {
+        "required" : [ "category", "code", "message" ],
+        "type" : "object",
+        "properties" : {
+          "category" : {
+            "$ref" : "#/components/schemas/CategoryEnum"
+          },
+          "code" : {
+            "type" : "string"
+          },
+          "message" : {
+            "type" : "string"
+          },
+          "traceId" : {
+            "type" : "string",
+            "nullable" : true
+          }
+        }
       },
       "Campaign" : {
         "required" : [ "counters", "endDate", "externalId", "organizationId", "startDate" ],

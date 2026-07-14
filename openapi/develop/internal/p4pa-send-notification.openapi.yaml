@@ -65,6 +65,10 @@ paths:
           description: Notification not found
         '500':
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
   /notification/{sendNotificationId}:
     get:
       tags:
