@@ -65,6 +65,10 @@ paths:
           description: Notification not found
         '500':
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
   /notification/{sendNotificationId}:
     get:
       tags:
@@ -633,6 +637,75 @@ paths:
           description: Legal facts not found
         '500':
           description: Internal server error
+  /send/notify-timeline-category:
+    put:
+      tags:
+        - Send
+      summary: notify last TimelineCategory for each notification
+      operationId: notifySendNotificationTimelineCategory
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NotifySendNotificationTimelineCategoryRequest'
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Invalid request
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal server error
+  /campaigns:
+    get:
+      tags:
+        - Campaign
+      operationId: findCampaignsByFilters
+      parameters:
+        - name: organizationId
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: dateFrom
+          required: true
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: dateTo
+          required: true
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: orgSubUnitCode
+          in: query
+          schema:
+            type: string
+        - name: campaignName
+          in: query
+          schema:
+            type: string
+        - name: externalCampaignId
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Page of campaigns
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagedCampaign'
+        "400":
+          description: Invalid request
+        '500':
+          description: Internal Server Error
+      x-spring-paginated: true
   /campaigns/ids:
     get:
       tags:
@@ -665,6 +738,30 @@ paths:
       responses:
         '204':
           description: OK
+        '403':
+          description: Forbidden
+        '404':
+          description: Campaign not found
+        '500':
+          description: Internal Server Error
+  /campaigns/{campaignId}:
+    get:
+      tags:
+        - Campaign
+      operationId: getCampaign
+      parameters:
+        - name: campaignId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: 'Campaign'
         '403':
           description: Forbidden
         '404':
@@ -1045,3 +1142,35 @@ components:
         nextFileExpirationDate:
           type: string
           format: date-time
+    PagedCampaign:
+      type: object
+      required:
+        - content
+        - size
+        - totalElements
+        - totalPages
+        - number
+      properties:
+        content:
+          type: array
+          items:
+            type: 'Campaign'
+        size:
+          type: integer
+          format: int64
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int64
+        number:
+          type: integer
+      format: int64
+    NotifySendNotificationTimelineCategoryRequest:
+      description: "A map having SEND notificationRequestId as key and a List of TimelineElementCategory as value"
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: 'TimelineElementCategory'
