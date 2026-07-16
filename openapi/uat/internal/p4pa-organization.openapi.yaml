@@ -457,8 +457,12 @@ paths:
     get:
       tags:
         - PdndClient
-      summary: Get PdndClient
-      operationId: getPdndClientByOrganizationIdAndPdndServiceType
+      summary: Get usable PdndClient
+      description: >
+        Retrieves a PDND client for a specific organization and service type.
+        The client is returned only if it is "usable", meaning that the Organization
+        and, if provided, the OrgSubUnit must be in ACTIVE status.
+      operationId: getUsablePdndClientByOrganizationIdAndPdndServiceType
       parameters:
         - name: organizationId
           in: path
