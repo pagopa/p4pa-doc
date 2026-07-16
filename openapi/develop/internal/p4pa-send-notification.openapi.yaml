@@ -744,6 +744,30 @@ paths:
           description: Campaign not found
         '500':
           description: Internal Server Error
+  /campaigns/{campaignId}:
+    get:
+      tags:
+        - Campaign
+      operationId: getCampaign
+      parameters:
+        - name: campaignId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: 'Campaign'
+        '403':
+          description: Forbidden
+        '404':
+          description: Campaign not found
+        '500':
+          description: Internal Server Error
 security:
   - BearerAuth: []
 components:
