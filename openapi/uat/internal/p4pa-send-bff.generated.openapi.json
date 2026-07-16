@@ -15,6 +15,9 @@
   "tags" : [ {
     "name" : "organization-sender",
     "description" : "the organization-sender API"
+  }, {
+    "name" : "Campaign",
+    "description" : "the Campaign API"
   } ],
   "paths" : {
     "/organizations/{organizationId}/senders" : {
@@ -44,6 +47,144 @@
                 }
               }
             }
+          },
+          "401" : {
+            "description" : "Unauthorized - Missing or invalid token",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/organizations/{organizationId}/campaigns" : {
+      "get" : {
+        "tags" : [ "Campaign" ],
+        "operationId" : "getCampaignsByFilters",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }, {
+          "name" : "dateFrom",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "date"
+          }
+        }, {
+          "name" : "dateTo",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "date"
+          }
+        }, {
+          "name" : "orgSubUnitCode",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "nullable" : true
+          }
+        }, {
+          "name" : "campaignName",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "nullable" : true
+          }
+        }, {
+          "name" : "externalCampaignId",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "nullable" : true
+          }
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "Zero-based page index (0..N)",
+          "required" : false,
+          "schema" : {
+            "minimum" : 0,
+            "type" : "integer",
+            "default" : 0
+          }
+        }, {
+          "name" : "size",
+          "in" : "query",
+          "description" : "The size of the page to be returned",
+          "required" : false,
+          "schema" : {
+            "minimum" : 1,
+            "type" : "integer",
+            "default" : 20
+          }
+        }, {
+          "name" : "sort",
+          "in" : "query",
+          "description" : "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+          "required" : false,
+          "schema" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Page of campaigns",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PagedCampaign"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PagedCampaign"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized - Missing or invalid token",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PagedCampaign"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PagedCampaign"
+                }
+              }
+            }
           }
         }
       }
@@ -66,6 +207,148 @@
           "orgName" : {
             "type" : "string",
             "nullable" : true
+          }
+        }
+      },
+      "CategoryEnum" : {
+        "type" : "string",
+        "enum" : [ "NOT_FOUND", "BAD_REQUEST", "GENERIC_ERROR", "TOO_MANY_REQUESTS", "CONFLICT", "FORBIDDEN", "UNAUTHORIZED" ]
+      },
+      "ErrorDTO" : {
+        "required" : [ "category", "code", "message" ],
+        "type" : "object",
+        "properties" : {
+          "category" : {
+            "$ref" : "#/components/schemas/CategoryEnum"
+          },
+          "code" : {
+            "type" : "string"
+          },
+          "message" : {
+            "type" : "string"
+          },
+          "traceId" : {
+            "type" : "string",
+            "nullable" : true
+          }
+        }
+      },
+      "Campaign" : {
+        "required" : [ "counters", "endDate", "externalId", "organizationId", "startDate" ],
+        "type" : "object",
+        "properties" : {
+          "creationDate" : {
+            "type" : "string",
+            "format" : "date-time",
+            "nullable" : true
+          },
+          "updateDate" : {
+            "type" : "string",
+            "format" : "date-time",
+            "nullable" : true
+          },
+          "updateOperatorExternalId" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "updateTraceId" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "campaignId" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "externalId" : {
+            "maxLength" : 2147483647,
+            "minLength" : 1,
+            "type" : "string"
+          },
+          "campaignName" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "organizationId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "orgSubUnitCode" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "counters" : {
+            "$ref" : "#/components/schemas/Counters"
+          },
+          "startDate" : {
+            "type" : "string",
+            "format" : "date"
+          },
+          "endDate" : {
+            "type" : "string",
+            "format" : "date"
+          }
+        }
+      },
+      "Counters" : {
+        "type" : "object",
+        "properties" : {
+          "total" : {
+            "type" : "integer",
+            "format" : "int64",
+            "nullable" : true
+          },
+          "accepted" : {
+            "type" : "integer",
+            "format" : "int64",
+            "nullable" : true
+          },
+          "delivered" : {
+            "type" : "integer",
+            "format" : "int64",
+            "nullable" : true
+          },
+          "digitalCompleted" : {
+            "type" : "integer",
+            "format" : "int64",
+            "nullable" : true
+          },
+          "analogicCompleted" : {
+            "type" : "integer",
+            "format" : "int64",
+            "nullable" : true
+          },
+          "completion" : {
+            "type" : "integer",
+            "format" : "int64",
+            "nullable" : true
+          }
+        }
+      },
+      "PagedCampaign" : {
+        "required" : [ "content", "number", "size", "totalElements", "totalPages" ],
+        "type" : "object",
+        "properties" : {
+          "content" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Campaign"
+            }
+          },
+          "size" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "totalElements" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "totalPages" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "number" : {
+            "type" : "integer",
+            "format" : "int32"
           }
         }
       }

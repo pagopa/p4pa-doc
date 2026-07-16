@@ -1,34 +1,9 @@
 openapi: 3.1.0
 info:
-  title: Fake API
-  description: "Sample API"
-  version: "1.0.0"
+  title: p4pa-send-bff
+  description: Api and Models
+  version: 1.0.0
 paths:
-  /api/v1/greet:
-    get:
-      summary: "Hello World"
-      description: "Sample endpoint that return greetings"
-      responses:
-        '200':
-          description: "Success"
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: "Hello, World!"
-        '500':
-          description: "Internal Server Error"
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: "Internal Server Error"
   /organizations/{organizationId}/senders:
     get:
       tags:
@@ -51,6 +26,62 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/OrganizationSenderDTO'
+        '401':
+          description: Unauthorized - Missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+  /organizations/{organizationId}/campaigns:
+    get:
+      tags:
+        - Campaign
+      operationId: getCampaignsByFilters
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: dateFrom
+          required: true
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: dateTo
+          required: true
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: orgSubUnitCode
+          in: query
+          schema:
+            type: string
+        - name: campaignName
+          in: query
+          schema:
+            type: string
+        - name: externalCampaignId
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Page of campaigns
+          content:
+            application/json:
+              schema:
+                type: 'PagedCampaign'
+        '400':
+          description: Invalid request
+        '401':
+          description: Unauthorized - Missing or invalid token
+        '500':
+          description: Internal Server Error
+      x-spring-paginated: true
 components:
   schemas:
     OrganizationSenderDTO:
