@@ -1300,6 +1300,87 @@
         } ]
       }
     },
+    "/p4pasend/notification/{sendNotificationId}/details" : {
+      "get" : {
+        "tags" : [ "Notification" ],
+        "summary" : "get send notification details",
+        "description" : "get send notification details",
+        "operationId" : "getSendNotificationDetails",
+        "parameters" : [ {
+          "name" : "sendNotificationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendNotification"
+                }
+              }
+            }
+          },
+          "204" : {
+            "description" : "NotificationDate not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendNotification"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendNotification"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendNotification"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Notification not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendNotification"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendNotification"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
     "/p4pasend/notification/findByOrgIdAndNav" : {
       "get" : {
         "tags" : [ "Notification" ],
@@ -2862,6 +2943,153 @@
           }
         },
         "description" : "legal fact related to a SEND notification"
+      },
+      "DocumentDTO" : {
+        "type" : "object",
+        "properties" : {
+          "fileName" : {
+            "type" : "string"
+          },
+          "digest" : {
+            "type" : "string"
+          },
+          "contentType" : {
+            "type" : "string"
+          },
+          "status" : {
+            "$ref" : "#/components/schemas/FileStatus"
+          },
+          "secret" : {
+            "type" : "string"
+          },
+          "httpMethod" : {
+            "type" : "string"
+          },
+          "url" : {
+            "type" : "string"
+          },
+          "key" : {
+            "type" : "string"
+          },
+          "versionId" : {
+            "type" : "string"
+          },
+          "uploadDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        }
+      },
+      "PuPayment" : {
+        "type" : "object",
+        "properties" : {
+          "debtPositionId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "payment" : {
+            "$ref" : "#/components/schemas/Payment"
+          },
+          "notificationDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        }
+      },
+      "PuRecipient" : {
+        "type" : "object",
+        "properties" : {
+          "recipient" : {
+            "$ref" : "#/components/schemas/Recipient"
+          },
+          "puPayments" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/PuPayment"
+            }
+          }
+        }
+      },
+      "SendNotification" : {
+        "type" : "object",
+        "properties" : {
+          "sendNotificationId" : {
+            "type" : "string"
+          },
+          "organizationId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "paProtocolNumber" : {
+            "type" : "string"
+          },
+          "puRecipients" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/PuRecipient"
+            }
+          },
+          "documents" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/DocumentDTO"
+            }
+          },
+          "status" : {
+            "$ref" : "#/components/schemas/NotificationStatus"
+          },
+          "notificationRequestId" : {
+            "type" : "string"
+          },
+          "iun" : {
+            "type" : "string"
+          },
+          "notificationFeePolicy" : {
+            "type" : "string"
+          },
+          "physicalCommunicationType" : {
+            "type" : "string"
+          },
+          "senderDenomination" : {
+            "type" : "string"
+          },
+          "senderTaxId" : {
+            "type" : "string"
+          },
+          "amount" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "paymentExpirationDate" : {
+            "type" : "string"
+          },
+          "taxonomyCode" : {
+            "type" : "string"
+          },
+          "paFee" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "vat" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "pagoPaIntMode" : {
+            "type" : "string"
+          },
+          "legalFacts" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/LegalFactDTO"
+            }
+          },
+          "campaignId" : {
+            "type" : "string"
+          },
+          "orgSubUnitCode" : {
+            "type" : "string"
+          }
+        }
       },
       "CategoryEnum" : {
         "type" : "string",
