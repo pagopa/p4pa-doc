@@ -1414,9 +1414,13 @@
             "dateTime": "2015-07-20T15:49:04-07:00",
             "eventId": "string",
             "eventSubType": "REQ",
+            "eventTimestamp": "2015-07-20T15:49:04-07:00",
             "eventType": "string",
             "grantorId": "string",
             "iun": "string",
+            "legalFactIds": [
+              "string"
+            ],
             "newStatus": "string",
             "notificationRequestId": "string",
             "organizationId": 0,
@@ -1458,11 +1462,21 @@
               "eventId": {
                 "type": "string"
               },
+              "eventTimestamp": {
+                "type": "string",
+                "format": "date-time"
+              },
               "eventType": {
                 "type": "string"
               },
               "iun": {
                 "type": "string"
+              },
+              "legalFactIds": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
               },
               "newStatus": {
                 "type": "string"
