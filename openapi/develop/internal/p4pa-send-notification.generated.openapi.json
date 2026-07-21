@@ -138,11 +138,11 @@
         } ]
       }
     },
-    "/p4pasend/send/notify-timeline-category" : {
+    "/p4pasend/send/notify-stream-events" : {
       "put" : {
         "tags" : [ "Send" ],
-        "summary" : "notify last TimelineCategory for each notification",
-        "operationId" : "notifySendNotificationTimelineCategory",
+        "summary" : "notify stream events for each notification",
+        "operationId" : "notifySendNotificationStreamEvents",
         "requestBody" : {
           "content" : {
             "application/json" : {
@@ -151,7 +151,7 @@
                 "additionalProperties" : {
                   "type" : "array",
                   "items" : {
-                    "$ref" : "#/components/schemas/TimelineElementCategoryV27DTO"
+                    "$ref" : "#/components/schemas/StreamEventSummaryDTO"
                   }
                 }
               }
@@ -1813,6 +1813,22 @@
   },
   "components" : {
     "schemas" : {
+      "NotificationStatusV26DTO" : {
+        "type" : "string",
+        "nullable" : true,
+        "enum" : [ "IN_VALIDATION", "ACCEPTED", "REFUSED", "DELIVERING", "DELIVERED", "VIEWED", "EFFECTIVE_DATE", "PAID", "UNREACHABLE", "CANCELLED", "RETURNED_TO_SENDER" ]
+      },
+      "StreamEventSummaryDTO" : {
+        "type" : "object",
+        "properties" : {
+          "newNotificationStatus" : {
+            "$ref" : "#/components/schemas/NotificationStatusV26DTO"
+          },
+          "timelineElementCategory" : {
+            "$ref" : "#/components/schemas/TimelineElementCategoryV27DTO"
+          }
+        }
+      },
       "TimelineElementCategoryV27DTO" : {
         "type" : "string",
         "nullable" : true,
@@ -2389,11 +2405,6 @@
             "nullable" : true
           }
         }
-      },
-      "NotificationStatusV26DTO" : {
-        "type" : "string",
-        "nullable" : true,
-        "enum" : [ "IN_VALIDATION", "ACCEPTED", "REFUSED", "DELIVERING", "DELIVERED", "VIEWED", "EFFECTIVE_DATE", "PAID", "UNREACHABLE", "CANCELLED", "RETURNED_TO_SENDER" ]
       },
       "PhysicalAddressDTO" : {
         "required" : [ "address", "municipality" ],

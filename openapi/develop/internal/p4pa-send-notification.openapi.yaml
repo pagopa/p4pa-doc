@@ -667,18 +667,18 @@ paths:
           description: Legal facts not found
         '500':
           description: Internal server error
-  /send/notify-timeline-category:
+  /send/notify-stream-events:
     put:
       tags:
         - Send
-      summary: notify last TimelineCategory for each notification
-      operationId: notifySendNotificationTimelineCategory
+      summary: notify stream events for each notification
+      operationId: notifySendNotificationStreamEvents
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/NotifySendNotificationTimelineCategoryRequest'
+              $ref: '#/components/schemas/NotifySendNotificationStreamEventsRequest'
       responses:
         '200':
           description: OK
@@ -1197,10 +1197,17 @@ components:
         number:
           type: integer
       format: int64
-    NotifySendNotificationTimelineCategoryRequest:
-      description: "A map having SEND notificationRequestId as key and a List of TimelineElementCategory as value"
+    NotifySendNotificationStreamEventsRequest:
+      description: "A map having SEND notificationRequestId as key and a List of object as value"
       type: object
       additionalProperties:
         type: array
         items:
+          $ref: '#/components/schemas/StreamEventSummaryDTO'
+    StreamEventSummaryDTO:
+      type: object
+      properties:
+        newNotificationStatus:
+          type: 'NotificationStatusV26DTO'
+        timelineElementCategory:
           type: 'TimelineElementCategory'
