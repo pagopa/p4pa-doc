@@ -798,6 +798,59 @@ paths:
           description: Campaign not found
         '500':
           description: Internal Server Error
+  /campaigns/{campaignId}/notifications:
+    get:
+      tags:
+        - Campaign
+      operationId: findCampaignSendNotifications
+      parameters:
+        - name: campaignId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: organizationId
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: iun
+          in: query
+          schema:
+            type: string
+        - name: dateFrom
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: dateTo
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: statuses
+          in: query
+          schema:
+            type: array
+            items:
+              type: 'NotificationStatus'
+        - name: fiscalCode
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Page of Notifications
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagedSendNotifications'
+        "400":
+          description: Invalid request
+        '500':
+          description: Internal Server Error
+      x-spring-paginated: true
 security:
   - BearerAuth: []
 components:
@@ -1211,3 +1264,28 @@ components:
           type: 'NotificationStatusV26DTO'
         timelineElementCategory:
           type: 'TimelineElementCategory'
+    PagedSendNotifications:
+      type: object
+      required:
+        - content
+        - size
+        - totalElements
+        - totalPages
+        - number
+      properties:
+        content:
+          type: array
+          items:
+            type: 'SendNotificationNoPII'
+        size:
+          type: integer
+          format: int64
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int64
+        number:
+          type: integer
+      format: int64
