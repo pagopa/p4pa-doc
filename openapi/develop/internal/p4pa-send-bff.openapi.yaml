@@ -114,6 +114,57 @@ paths:
           description: Campaign not found
         '500':
           description: Internal Server Error
+  /organizations/{organizationId}/campaigns/{campaignId}/notifications:
+    get:
+      tags:
+        - Campaign
+      operationId: getCampaignSendNotifications
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: campaignId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: iun
+          in: query
+          schema:
+            type: string
+        - name: dateFrom
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: dateTo
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: status
+          in: query
+          schema:
+            $ref: '#/components/schemas/SendNotificationStatus'
+        - name: fiscalCode
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Page of Notifications
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagedSendNotifications'
+        "400":
+          description: Invalid request
+        '500':
+          description: Internal Server Error
+      x-spring-paginated: true
 components:
   schemas:
     OrganizationSenderDTO:
@@ -151,3 +202,53 @@ components:
           type: string
         traceId:
           type: string
+    PagedSendNotifications:
+      type: object
+      required:
+        - content
+        - size
+        - totalElements
+        - totalPages
+        - number
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/SendNotification'
+        size:
+          type: integer
+          format: int64
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int64
+        number:
+          type: integer
+          format: int64
+    SendNotificationStatus:
+      type: string
+      description: The status of the Send Notification
+      enum:
+        - COMPLETED
+        - IN_PROGRESS
+        - CANCELLED
+        - REFUSED
+        - UNSUCCESSFUL
+    SendNotification:
+      type: object
+      required:
+        - sendNotificationId
+        - creationDate
+      properties:
+        sendNotificationId:
+          type: string
+        creationDate:
+          type: string
+          format: date-time
+        iun:
+          type: string
+        status:
+          $ref: '#/components/schemas/SendNotificationStatus'
+
