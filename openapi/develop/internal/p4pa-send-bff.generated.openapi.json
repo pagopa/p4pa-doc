@@ -16,6 +16,9 @@
     "name" : "organization-sender",
     "description" : "the organization-sender API"
   }, {
+    "name" : "SendNotification",
+    "description" : "the SendNotification API"
+  }, {
     "name" : "Campaign",
     "description" : "the Campaign API"
   } ],
@@ -388,6 +391,87 @@
           }
         }
       }
+    },
+    "/organizations/{organizationId}/campaigns/{campaignId}/notifications/{notificationId}" : {
+      "get" : {
+        "tags" : [ "SendNotification" ],
+        "operationId" : "getNotificationDetails",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }, {
+          "name" : "campaignId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "notificationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendNotificationExtendedDTO"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendNotificationExtendedDTO"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized - Missing or invalid token",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendNotificationExtendedDTO"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Campaign not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendNotificationExtendedDTO"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendNotificationExtendedDTO"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components" : {
@@ -604,6 +688,389 @@
         "type" : "string",
         "nullable" : true,
         "enum" : [ "COMPLETED", "IN_PROGRESS", "CANCELLED", "REFUSED", "UNSUCCESSFUL" ]
+      },
+      "Address" : {
+        "required" : [ "address", "municipality" ],
+        "type" : "object",
+        "properties" : {
+          "address" : {
+            "type" : "string"
+          },
+          "zip" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "municipality" : {
+            "type" : "string"
+          },
+          "province" : {
+            "type" : "string",
+            "nullable" : true
+          }
+        }
+      },
+      "Attachment" : {
+        "type" : "object",
+        "properties" : {
+          "digest" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "contentType" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "fileName" : {
+            "type" : "string",
+            "nullable" : true
+          }
+        }
+      },
+      "DocumentDTO" : {
+        "type" : "object",
+        "properties" : {
+          "fileName" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "digest" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "contentType" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "status" : {
+            "$ref" : "#/components/schemas/FileStatus"
+          },
+          "secret" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "httpMethod" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "url" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "key" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "versionId" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "uploadDate" : {
+            "type" : "string",
+            "format" : "date-time",
+            "nullable" : true
+          }
+        }
+      },
+      "F24Payment" : {
+        "required" : [ "applyCost", "metadataAttachment", "title" ],
+        "type" : "object",
+        "properties" : {
+          "title" : {
+            "type" : "string"
+          },
+          "applyCost" : {
+            "type" : "boolean"
+          },
+          "metadataAttachment" : {
+            "$ref" : "#/components/schemas/Attachment"
+          }
+        }
+      },
+      "FileStatus" : {
+        "type" : "string",
+        "nullable" : true,
+        "enum" : [ "WAITING", "READY", "UPLOADED", "EXPIRED" ]
+      },
+      "InstallmentStatus" : {
+        "type" : "string",
+        "enum" : [ "TO_SYNC", "REPORTED", "PAID", "CANCELLED", "INVALID", "EXPIRED", "UNPAID", "UNPAYABLE", "DRAFT" ]
+      },
+      "LegalFactCategoryDTO" : {
+        "type" : "string",
+        "enum" : [ "SENDER_ACK", "DIGITAL_DELIVERY", "ANALOG_DELIVERY", "RECIPIENT_ACCESS", "PEC_RECEIPT", "ANALOG_FAILURE_DELIVERY" ]
+      },
+      "LegalFactDTO" : {
+        "required" : [ "category", "fileName", "url" ],
+        "type" : "object",
+        "properties" : {
+          "fileName" : {
+            "type" : "string"
+          },
+          "category" : {
+            "$ref" : "#/components/schemas/LegalFactCategoryDTO"
+          },
+          "url" : {
+            "type" : "string"
+          },
+          "status" : {
+            "$ref" : "#/components/schemas/FileStatus"
+          },
+          "downloadDate" : {
+            "type" : "string",
+            "format" : "date-time",
+            "nullable" : true
+          }
+        }
+      },
+      "NotificationDigitalAddress" : {
+        "required" : [ "address", "type" ],
+        "type" : "object",
+        "properties" : {
+          "type" : {
+            "$ref" : "#/components/schemas/TypeEnum"
+          },
+          "address" : {
+            "maxLength" : 320,
+            "minLength" : 0,
+            "pattern" : "^(?:[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?|\\[(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?|[a-zA-Z0-9-]*[a-zA-Z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])$",
+            "type" : "string"
+          }
+        },
+        "nullable" : true
+      },
+      "NotificationStatus" : {
+        "type" : "string",
+        "enum" : [ "WAITING_FILE", "SENDING", "REGISTERED", "UPLOADED", "IN_VALIDATION", "ACCEPTED", "REFUSED", "DELIVERING", "DELIVERED", "VIEWED", "EFFECTIVE_DATE", "PAID", "UNREACHABLE", "CANCELLED", "RETURNED_TO_SENDER" ]
+      },
+      "PagoPa" : {
+        "required" : [ "applyCost", "creditorTaxId", "noticeCode" ],
+        "type" : "object",
+        "properties" : {
+          "noticeCode" : {
+            "type" : "string"
+          },
+          "creditorTaxId" : {
+            "type" : "string"
+          },
+          "applyCost" : {
+            "type" : "boolean"
+          },
+          "attachment" : {
+            "$ref" : "#/components/schemas/Attachment"
+          }
+        },
+        "nullable" : true
+      },
+      "Payment" : {
+        "type" : "object",
+        "properties" : {
+          "pagoPa" : {
+            "$ref" : "#/components/schemas/PagoPa"
+          },
+          "f24" : {
+            "$ref" : "#/components/schemas/F24Payment"
+          }
+        }
+      },
+      "PaymentExtendedDTO" : {
+        "type" : "object",
+        "properties" : {
+          "pagoPa" : {
+            "$ref" : "#/components/schemas/PuPagoPa"
+          },
+          "f24" : {
+            "$ref" : "#/components/schemas/F24Payment"
+          }
+        }
+      },
+      "PuPagoPa" : {
+        "required" : [ "applyCost", "creditorTaxId", "noticeCode" ],
+        "type" : "object",
+        "properties" : {
+          "noticeCode" : {
+            "type" : "string"
+          },
+          "creditorTaxId" : {
+            "type" : "string"
+          },
+          "applyCost" : {
+            "type" : "boolean"
+          },
+          "attachment" : {
+            "$ref" : "#/components/schemas/Attachment"
+          },
+          "iuv" : {
+            "type" : "string"
+          },
+          "status" : {
+            "$ref" : "#/components/schemas/InstallmentStatus"
+          },
+          "remittanceInformation" : {
+            "type" : "string"
+          },
+          "dueDate" : {
+            "type" : "string",
+            "format" : "date"
+          },
+          "paymentDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "regulationDate" : {
+            "type" : "string",
+            "format" : "date"
+          },
+          "operatorEnabled" : {
+            "type" : "boolean"
+          }
+        }
+      },
+      "PuPayment" : {
+        "type" : "object",
+        "properties" : {
+          "debtPositionId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "payment" : {
+            "$ref" : "#/components/schemas/PaymentExtendedDTO"
+          },
+          "notificationDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        }
+      },
+      "PuRecipient" : {
+        "type" : "object",
+        "properties" : {
+          "recipient" : {
+            "$ref" : "#/components/schemas/Recipient"
+          },
+          "puPayments" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/PuPayment"
+            }
+          }
+        }
+      },
+      "Recipient" : {
+        "required" : [ "denomination", "physicalAddress", "recipientType", "taxId" ],
+        "type" : "object",
+        "properties" : {
+          "recipientType" : {
+            "$ref" : "#/components/schemas/RecipientTypeEnum"
+          },
+          "taxId" : {
+            "type" : "string"
+          },
+          "denomination" : {
+            "type" : "string"
+          },
+          "physicalAddress" : {
+            "$ref" : "#/components/schemas/Address"
+          },
+          "digitalDomicile" : {
+            "$ref" : "#/components/schemas/NotificationDigitalAddress"
+          },
+          "payments" : {
+            "type" : "array",
+            "nullable" : true,
+            "items" : {
+              "$ref" : "#/components/schemas/Payment"
+            }
+          }
+        }
+      },
+      "RecipientTypeEnum" : {
+        "type" : "string",
+        "enum" : [ "PF", "PG" ]
+      },
+      "SendNotificationExtendedDTO" : {
+        "type" : "object",
+        "properties" : {
+          "sendNotificationId" : {
+            "type" : "string"
+          },
+          "organizationId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "puRecipients" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/PuRecipient"
+            }
+          },
+          "paProtocolNumber" : {
+            "type" : "string"
+          },
+          "documents" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/DocumentDTO"
+            }
+          },
+          "status" : {
+            "$ref" : "#/components/schemas/NotificationStatus"
+          },
+          "notificationRequestId" : {
+            "type" : "string"
+          },
+          "iun" : {
+            "type" : "string"
+          },
+          "notificationFeePolicy" : {
+            "type" : "string"
+          },
+          "physicalCommunicationType" : {
+            "type" : "string"
+          },
+          "senderDenomination" : {
+            "type" : "string"
+          },
+          "senderTaxId" : {
+            "type" : "string"
+          },
+          "amount" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "paymentExpirationDate" : {
+            "type" : "string"
+          },
+          "taxonomyCode" : {
+            "type" : "string"
+          },
+          "paFee" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "vat" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "pagoPaIntMode" : {
+            "type" : "string"
+          },
+          "legalFacts" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/LegalFactDTO"
+            }
+          },
+          "campaignId" : {
+            "type" : "string"
+          },
+          "orgSubUnitCode" : {
+            "type" : "string"
+          }
+        }
+      },
+      "TypeEnum" : {
+        "type" : "string",
+        "enum" : [ "PEC" ]
       }
     },
     "securitySchemes" : {

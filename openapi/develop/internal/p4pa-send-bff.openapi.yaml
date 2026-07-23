@@ -165,6 +165,43 @@ paths:
         '500':
           description: Internal Server Error
       x-spring-paginated: true
+  /organizations/{organizationId}/campaigns/{campaignId}/notifications/{notificationId}:
+    get:
+      tags:
+        - SendNotification
+      operationId: getNotificationDetails
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: campaignId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: notificationId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: 'SendNotificationExtendedDTO'
+        '400':
+          description: Invalid request
+        '401':
+          description: Unauthorized - Missing or invalid token
+        '404':
+          description: Campaign not found
+        '500':
+          description: Internal Server Error
 components:
   schemas:
     OrganizationSenderDTO:
