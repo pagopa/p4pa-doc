@@ -37,3 +37,9 @@ Prima versione dell'applicativo rilasciata in produzione.
 |----------------------------------------------------------|-----------------------------------------------------------------|
 | [arpu-fe](https://github.com/pagopa/arpu-fe/tree/v1.5.0) | [v1.5.0](https://github.com/pagopa/arpu-fe/releases/tag/v1.5.0) |
 | [arpu-be](https://github.com/pagopa/arpu-be/tree/v1.7.0) | [v1.7.0](https://github.com/pagopa/arpu-be/releases/tag/v1.7.0) |
+
+### Schema
+
+| Repository                                               | Release                                                         |
+|----------------------------------------------------------|-----------------------------------------------------------------|
+| [p4pa-db](https://github.com/pagopa/p4pa-db/tree/v1.0.0) | [v1.0.0](https://github.com/pagopa/p4pa-db/releases/tag/v1.0.0) |
