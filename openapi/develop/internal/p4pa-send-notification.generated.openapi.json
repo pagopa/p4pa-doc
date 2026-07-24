@@ -573,6 +573,48 @@
         } ]
       }
     },
+    "/p4pasend/campaigns/{campaignId}/name" : {
+      "patch" : {
+        "tags" : [ "Campaign" ],
+        "summary" : "Rename campaign",
+        "operationId" : "renameCampaign",
+        "parameters" : [ {
+          "name" : "campaignId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/RenameCampaignRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "204" : {
+            "description" : "OK"
+          },
+          "403" : {
+            "description" : "Forbidden"
+          },
+          "404" : {
+            "description" : "Campaign not found"
+          },
+          "500" : {
+            "description" : "Internal Server Error"
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
     "/p4pasend/send/{sendNotificationId}/status" : {
       "get" : {
         "tags" : [ "Send" ],
@@ -2257,6 +2299,17 @@
       "LegalFactCategoryDTO" : {
         "type" : "string",
         "enum" : [ "SENDER_ACK", "DIGITAL_DELIVERY", "ANALOG_DELIVERY", "RECIPIENT_ACCESS", "PEC_RECEIPT", "ANALOG_FAILURE_DELIVERY" ]
+      },
+      "RenameCampaignRequest" : {
+        "required" : [ "name" ],
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "maxLength" : 2147483647,
+            "minLength" : 1,
+            "type" : "string"
+          }
+        }
       },
       "SendNotificationDTO" : {
         "required" : [ "campaignId", "organizationId", "payments", "sendNotificationId", "status" ],

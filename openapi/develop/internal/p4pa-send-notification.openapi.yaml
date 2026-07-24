@@ -774,6 +774,39 @@ paths:
           description: Campaign not found
         '500':
           description: Internal Server Error
+  /campaigns/{campaignId}/name:
+    patch:
+      summary: Rename campaign
+      tags:
+        - Campaign
+      operationId: renameCampaign
+      parameters:
+        - name: campaignId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+              properties:
+                name:
+                  type: string
+                  minLength: 1
+      responses:
+        '204':
+          description: OK
+        '403':
+          description: Forbidden
+        '404':
+          description: Campaign not found
+        '500':
+          description: Internal Server Error
   /campaigns/{campaignId}:
     get:
       tags:
