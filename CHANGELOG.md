@@ -1,6 +1,6 @@
 # 🕗 Changelog
 
-## Versione 1.0 (25/05/2026)
+## Versione 1.0.0 (25/05/2026)
 
 Prima versione dell'applicativo rilasciata in produzione.
 
