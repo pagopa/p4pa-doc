@@ -82,6 +82,39 @@ paths:
         '500':
           description: Internal Server Error
       x-spring-paginated: true
+  /organizations/{organizationId}/campaigns/{campaignId}/name:
+    patch:
+      summary: Rename campaign
+      tags:
+        - Campaign
+      operationId: renameCampaign
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: campaignId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: 'RenameCampaignRequest'
+      responses:
+        '200':
+          description: OK
+        '403':
+          description: Forbidden
+        '404':
+          description: Campaign not found
+        '500':
+          description: Internal Server Error
   /organizations/{organizationId}/campaigns/{campaignId}:
     get:
       tags:

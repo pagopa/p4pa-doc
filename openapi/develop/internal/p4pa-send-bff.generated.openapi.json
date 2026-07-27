@@ -23,6 +23,53 @@
     "description" : "the Campaign API"
   } ],
   "paths" : {
+    "/organizations/{organizationId}/campaigns/{campaignId}/name" : {
+      "patch" : {
+        "tags" : [ "Campaign" ],
+        "summary" : "Rename campaign",
+        "operationId" : "renameCampaign",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }, {
+          "name" : "campaignId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/RenameCampaignRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "403" : {
+            "description" : "Forbidden"
+          },
+          "404" : {
+            "description" : "Campaign not found"
+          },
+          "500" : {
+            "description" : "Internal Server Error"
+          }
+        }
+      }
+    },
     "/organizations/{organizationId}/senders" : {
       "get" : {
         "tags" : [ "organization-sender" ],
@@ -476,6 +523,17 @@
   },
   "components" : {
     "schemas" : {
+      "RenameCampaignRequest" : {
+        "required" : [ "name" ],
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "maxLength" : 2147483647,
+            "minLength" : 1,
+            "type" : "string"
+          }
+        }
+      },
       "OrganizationSenderDTO" : {
         "required" : [ "organizationId" ],
         "type" : "object",
