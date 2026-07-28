@@ -138,11 +138,11 @@
         } ]
       }
     },
-    "/p4pasend/send/notify-timeline-category" : {
+    "/p4pasend/send/notify-stream-events" : {
       "put" : {
         "tags" : [ "Send" ],
-        "summary" : "notify last TimelineCategory for each notification",
-        "operationId" : "notifySendNotificationTimelineCategory",
+        "summary" : "notify stream events for each notification",
+        "operationId" : "notifySendNotificationStreamEvents",
         "requestBody" : {
           "content" : {
             "application/json" : {
@@ -151,7 +151,7 @@
                 "additionalProperties" : {
                   "type" : "array",
                   "items" : {
-                    "$ref" : "#/components/schemas/TimelineElementCategoryV27DTO"
+                    "$ref" : "#/components/schemas/StreamEventSummaryDTO"
                   }
                 }
               }
@@ -556,6 +556,48 @@
         } ],
         "responses" : {
           "204" : {
+            "description" : "OK"
+          },
+          "403" : {
+            "description" : "Forbidden"
+          },
+          "404" : {
+            "description" : "Campaign not found"
+          },
+          "500" : {
+            "description" : "Internal Server Error"
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/p4pasend/campaigns/{campaignId}/name" : {
+      "patch" : {
+        "tags" : [ "Campaign" ],
+        "summary" : "Rename campaign",
+        "operationId" : "renameCampaign",
+        "parameters" : [ {
+          "name" : "campaignId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/RenameCampaignRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
             "description" : "OK"
           },
           "403" : {
@@ -1300,6 +1342,87 @@
         } ]
       }
     },
+    "/p4pasend/notification/{sendNotificationId}/details" : {
+      "get" : {
+        "tags" : [ "Notification" ],
+        "summary" : "get send notification details",
+        "description" : "get send notification details",
+        "operationId" : "getSendNotificationDetails",
+        "parameters" : [ {
+          "name" : "sendNotificationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendNotification"
+                }
+              }
+            }
+          },
+          "204" : {
+            "description" : "NotificationDate not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendNotification"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendNotification"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendNotification"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Notification not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendNotification"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendNotification"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
     "/p4pasend/notification/findByOrgIdAndNav" : {
       "get" : {
         "tags" : [ "Notification" ],
@@ -1475,18 +1598,20 @@
         }, {
           "name" : "dateFrom",
           "in" : "query",
-          "required" : true,
+          "required" : false,
           "schema" : {
             "type" : "string",
-            "format" : "date"
+            "format" : "date",
+            "nullable" : true
           }
         }, {
           "name" : "dateTo",
           "in" : "query",
-          "required" : true,
+          "required" : false,
           "schema" : {
             "type" : "string",
-            "format" : "date"
+            "format" : "date",
+            "nullable" : true
           }
         }, {
           "name" : "orgSubUnitCode",
@@ -1640,6 +1765,139 @@
         } ]
       }
     },
+    "/p4pasend/campaigns/{campaignId}/notifications" : {
+      "get" : {
+        "tags" : [ "Campaign" ],
+        "operationId" : "findCampaignSendNotifications",
+        "parameters" : [ {
+          "name" : "campaignId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }, {
+          "name" : "iun",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "nullable" : true
+          }
+        }, {
+          "name" : "dateFrom",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "format" : "date-time",
+            "nullable" : true
+          }
+        }, {
+          "name" : "dateTo",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "format" : "date-time",
+            "nullable" : true
+          }
+        }, {
+          "name" : "statuses",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "array",
+            "nullable" : true,
+            "items" : {
+              "$ref" : "#/components/schemas/NotificationStatus"
+            }
+          }
+        }, {
+          "name" : "fiscalCode",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "nullable" : true
+          }
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "Zero-based page index (0..N)",
+          "required" : false,
+          "schema" : {
+            "minimum" : 0,
+            "type" : "integer",
+            "default" : 0
+          }
+        }, {
+          "name" : "size",
+          "in" : "query",
+          "description" : "The size of the page to be returned",
+          "required" : false,
+          "schema" : {
+            "minimum" : 1,
+            "type" : "integer",
+            "default" : 20
+          }
+        }, {
+          "name" : "sort",
+          "in" : "query",
+          "description" : "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+          "required" : false,
+          "schema" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Page of Notifications",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PagedSendNotifications"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PagedSendNotifications"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PagedSendNotifications"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
     "/p4pasend/campaigns/ids" : {
       "get" : {
         "tags" : [ "Campaign" ],
@@ -1732,9 +1990,23 @@
   },
   "components" : {
     "schemas" : {
+      "NotificationStatusV26DTO" : {
+        "type" : "string",
+        "enum" : [ "IN_VALIDATION", "ACCEPTED", "REFUSED", "DELIVERING", "DELIVERED", "VIEWED", "EFFECTIVE_DATE", "PAID", "UNREACHABLE", "CANCELLED", "RETURNED_TO_SENDER" ]
+      },
+      "StreamEventSummaryDTO" : {
+        "type" : "object",
+        "properties" : {
+          "newNotificationStatus" : {
+            "$ref" : "#/components/schemas/NotificationStatusV26DTO"
+          },
+          "timelineElementCategory" : {
+            "$ref" : "#/components/schemas/TimelineElementCategoryV27DTO"
+          }
+        }
+      },
       "TimelineElementCategoryV27DTO" : {
         "type" : "string",
-        "nullable" : true,
         "enum" : [ "SENDER_ACK_CREATION_REQUEST", "VALIDATE_NORMALIZE_ADDRESSES_REQUEST", "NORMALIZED_ADDRESS", "REQUEST_ACCEPTED", "SEND_COURTESY_MESSAGE", "GET_ADDRESS", "PUBLIC_REGISTRY_CALL", "PUBLIC_REGISTRY_RESPONSE", "SCHEDULE_ANALOG_WORKFLOW", "SCHEDULE_DIGITAL_WORKFLOW", "PREPARE_DIGITAL_DOMICILE", "SEND_DIGITAL_DOMICILE", "SEND_DIGITAL_PROGRESS", "SEND_DIGITAL_FEEDBACK", "REFINEMENT", "SCHEDULE_REFINEMENT", "DIGITAL_DELIVERY_CREATION_REQUEST", "DIGITAL_SUCCESS_WORKFLOW", "DIGITAL_FAILURE_WORKFLOW", "ANALOG_SUCCESS_WORKFLOW", "ANALOG_FAILURE_WORKFLOW", "PREPARE_SIMPLE_REGISTERED_LETTER", "SEND_SIMPLE_REGISTERED_LETTER", "SEND_SIMPLE_REGISTERED_LETTER_PROGRESS", "NOTIFICATION_VIEWED_CREATION_REQUEST", "NOTIFICATION_VIEWED", "PREPARE_ANALOG_DOMICILE", "SEND_ANALOG_DOMICILE", "SEND_ANALOG_PROGRESS", "SEND_ANALOG_FEEDBACK", "PAYMENT", "COMPLETELY_UNREACHABLE", "COMPLETELY_UNREACHABLE_CREATION_REQUEST", "REQUEST_REFUSED", "AAR_CREATION_REQUEST", "AAR_GENERATION", "NOT_HANDLED", "PROBABLE_SCHEDULING_ANALOG_DATE", "NOTIFICATION_CANCELLATION_REQUEST", "NOTIFICATION_CANCELLED", "PREPARE_ANALOG_DOMICILE_FAILURE", "NOTIFICATION_RADD_RETRIEVED", "ANALOG_WORKFLOW_RECIPIENT_DECEASED", "PUBLIC_REGISTRY_VALIDATION_CALL", "PUBLIC_REGISTRY_VALIDATION_RESPONSE" ]
       },
       "NotificationStatus" : {
@@ -2030,6 +2302,17 @@
         "type" : "string",
         "enum" : [ "SENDER_ACK", "DIGITAL_DELIVERY", "ANALOG_DELIVERY", "RECIPIENT_ACCESS", "PEC_RECEIPT", "ANALOG_FAILURE_DELIVERY" ]
       },
+      "RenameCampaignRequest" : {
+        "required" : [ "name" ],
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "maxLength" : 2147483647,
+            "minLength" : 1,
+            "type" : "string"
+          }
+        }
+      },
       "SendNotificationDTO" : {
         "required" : [ "campaignId", "organizationId", "payments", "sendNotificationId", "status" ],
         "type" : "object",
@@ -2308,11 +2591,6 @@
             "nullable" : true
           }
         }
-      },
-      "NotificationStatusV26DTO" : {
-        "type" : "string",
-        "nullable" : true,
-        "enum" : [ "IN_VALIDATION", "ACCEPTED", "REFUSED", "DELIVERING", "DELIVERED", "VIEWED", "EFFECTIVE_DATE", "PAID", "UNREACHABLE", "CANCELLED", "RETURNED_TO_SENDER" ]
       },
       "PhysicalAddressDTO" : {
         "required" : [ "address", "municipality" ],
@@ -2863,6 +3141,153 @@
         },
         "description" : "legal fact related to a SEND notification"
       },
+      "DocumentDTO" : {
+        "type" : "object",
+        "properties" : {
+          "fileName" : {
+            "type" : "string"
+          },
+          "digest" : {
+            "type" : "string"
+          },
+          "contentType" : {
+            "type" : "string"
+          },
+          "status" : {
+            "$ref" : "#/components/schemas/FileStatus"
+          },
+          "secret" : {
+            "type" : "string"
+          },
+          "httpMethod" : {
+            "type" : "string"
+          },
+          "url" : {
+            "type" : "string"
+          },
+          "key" : {
+            "type" : "string"
+          },
+          "versionId" : {
+            "type" : "string"
+          },
+          "uploadDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        }
+      },
+      "PuPayment" : {
+        "type" : "object",
+        "properties" : {
+          "debtPositionId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "payment" : {
+            "$ref" : "#/components/schemas/Payment"
+          },
+          "notificationDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        }
+      },
+      "PuRecipient" : {
+        "type" : "object",
+        "properties" : {
+          "recipient" : {
+            "$ref" : "#/components/schemas/Recipient"
+          },
+          "puPayments" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/PuPayment"
+            }
+          }
+        }
+      },
+      "SendNotification" : {
+        "type" : "object",
+        "properties" : {
+          "sendNotificationId" : {
+            "type" : "string"
+          },
+          "organizationId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "paProtocolNumber" : {
+            "type" : "string"
+          },
+          "puRecipients" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/PuRecipient"
+            }
+          },
+          "documents" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/DocumentDTO"
+            }
+          },
+          "status" : {
+            "$ref" : "#/components/schemas/NotificationStatus"
+          },
+          "notificationRequestId" : {
+            "type" : "string"
+          },
+          "iun" : {
+            "type" : "string"
+          },
+          "notificationFeePolicy" : {
+            "type" : "string"
+          },
+          "physicalCommunicationType" : {
+            "type" : "string"
+          },
+          "senderDenomination" : {
+            "type" : "string"
+          },
+          "senderTaxId" : {
+            "type" : "string"
+          },
+          "amount" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "paymentExpirationDate" : {
+            "type" : "string"
+          },
+          "taxonomyCode" : {
+            "type" : "string"
+          },
+          "paFee" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "vat" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "pagoPaIntMode" : {
+            "type" : "string"
+          },
+          "legalFacts" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/LegalFactDTO"
+            }
+          },
+          "campaignId" : {
+            "type" : "string"
+          },
+          "orgSubUnitCode" : {
+            "type" : "string"
+          }
+        }
+      },
       "CategoryEnum" : {
         "type" : "string",
         "enum" : [ "SEND_NOTIFICATION_NOT_FOUND", "SEND_NOTIFICATION_BAD_REQUEST", "SEND_NOTIFICATION_GENERIC_ERROR", "SEND_NOTIFICATION_ALREADY_PROCESSED", "SEND_NOTIFICATION_CONFLICT", "SEND_NOTIFICATION_TOO_MANY_REQUESTS" ]
@@ -2988,6 +3413,158 @@
           "number" : {
             "type" : "integer",
             "format" : "int32"
+          }
+        }
+      },
+      "PagedSendNotifications" : {
+        "required" : [ "content", "number", "size", "totalElements", "totalPages" ],
+        "type" : "object",
+        "properties" : {
+          "content" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/SendNotificationNoPII"
+            }
+          },
+          "size" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "totalElements" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "totalPages" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "number" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }
+      },
+      "PuRecipientNoPIIDTO" : {
+        "type" : "object",
+        "properties" : {
+          "fiscalCodeHash" : {
+            "type" : "string",
+            "format" : "byte"
+          },
+          "puPayments" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/PuPayment"
+            }
+          }
+        }
+      },
+      "SendNotificationNoPII" : {
+        "required" : [ "campaignId", "personalDataId" ],
+        "type" : "object",
+        "properties" : {
+          "creationDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "updateDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "updateOperatorExternalId" : {
+            "type" : "string"
+          },
+          "updateTraceId" : {
+            "type" : "string"
+          },
+          "sendNotificationId" : {
+            "type" : "string"
+          },
+          "organizationId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "orgSubUnitCode" : {
+            "type" : "string"
+          },
+          "campaignId" : {
+            "type" : "string"
+          },
+          "paProtocolNumber" : {
+            "type" : "string"
+          },
+          "recipients" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/PuRecipientNoPIIDTO"
+            }
+          },
+          "documents" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/DocumentDTO"
+            }
+          },
+          "status" : {
+            "$ref" : "#/components/schemas/NotificationStatus"
+          },
+          "lastEventOfInterest" : {
+            "$ref" : "#/components/schemas/TimelineElementCategoryV27DTO"
+          },
+          "history" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/StreamEventSummaryDTO"
+            }
+          },
+          "notificationRequestId" : {
+            "type" : "string"
+          },
+          "iun" : {
+            "type" : "string"
+          },
+          "notificationFeePolicy" : {
+            "type" : "string"
+          },
+          "physicalCommunicationType" : {
+            "type" : "string"
+          },
+          "senderDenomination" : {
+            "type" : "string"
+          },
+          "senderTaxId" : {
+            "type" : "string"
+          },
+          "amount" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "paymentExpirationDate" : {
+            "type" : "string"
+          },
+          "taxonomyCode" : {
+            "type" : "string"
+          },
+          "paFee" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "vat" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "pagoPaIntMode" : {
+            "type" : "string"
+          },
+          "legalFacts" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/LegalFactDTO"
+            }
+          },
+          "personalDataId" : {
+            "type" : "integer",
+            "format" : "int64"
           }
         }
       },
