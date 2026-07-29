@@ -233,6 +233,45 @@ paths:
           description: Campaign not found
         '500':
           description: Internal Server Error
+  /organizations/{organizationId}/campaigns/{campaignId}/notifications/{notificationId}/timeline:
+    get:
+      tags:
+        - SendTimeline
+      operationId: getNotificationTimeline
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: campaignId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: notificationId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SendTimelineElement'
+        '400':
+          description: Invalid request
+        '401':
+          description: Unauthorized - Missing or invalid token
+        '404':
+          description: Not found
+        '500':
+          description: Internal Server Error
 components:
   schemas:
     OrganizationSenderDTO:
@@ -319,4 +358,41 @@ components:
           type: string
         status:
           $ref: '#/components/schemas/SendNotificationStatus'
+    SendTimelineElement:
+      type: object
+      required:
+        - registryId
+        - organizationId
+        - streamId
+        - eventId
+        - eventType
+        - notificationRequestId
+      properties:
+        registryId:
+          type: string
+        organizationId:
+          type: integer
+          format: int64
+        streamId:
+          type: string
+        eventId:
+          type: string
+        eventType:
+          type: string
+        notificationRequestId:
+          type: string
+        iun:
+          type: string
+        recipientIndex:
+          type: integer
+          format: int32
+        newStatus:
+          type: string
+        eventTimestamp:
+          type: string
+          format: date-time
+        legalFactURLs:
+          type: array
+          items:
+            type: string
 
