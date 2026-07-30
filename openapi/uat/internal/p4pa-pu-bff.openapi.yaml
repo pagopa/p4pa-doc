@@ -179,6 +179,35 @@ paths:
           description: Too many requests
         '500':
           description: Internal Server Error
+  /token/refresh:
+    post:
+      tags:
+        - Authentication
+      summary: "Refresh an access token"
+      operationId: refreshToken
+      security: [ ]
+      parameters:
+        - name: refreshToken
+          in: query
+          required: true
+          schema:
+            type: string
+          description: refresh token from the client
+      responses:
+        '200':
+          description: Access Token generated successfully
+          content:
+            application/json:
+              schema:
+                type: 'AccessToken'
+        '400':
+          description: Invalid request
+        '401':
+          description: Authentication failed
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal Server Error
   /auth/userinfo:
     get:
       tags:
