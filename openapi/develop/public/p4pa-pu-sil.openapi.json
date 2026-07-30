@@ -1806,17 +1806,41 @@
       },
       "CategoryEnum" : {
         "type" : "string",
-        "enum" : [ "NOT_FOUND", "BAD_REQUEST", "INVALID_FILE", "FILE_UPLOAD_ERROR", "CONFLICT", "UNAUTHORIZED", "GENERIC_ERROR" ]
+        "enum" : [ "NOT_FOUND", "BAD_REQUEST", "INVALID_FILE", "FILE_UPLOAD_ERROR", "CONFLICT", "UNAUTHORIZED", "FORBIDDEN", "TOO_MANY_REQUESTS", "GENERIC_ERROR" ]
+      },
+      "ErrorFieldDTO" : {
+        "required" : [ "error", "field", "message" ],
+        "type" : "object",
+        "properties" : {
+          "field" : {
+            "type" : "string"
+          },
+          "error" : {
+            "type" : "string"
+          },
+          "message" : {
+            "type" : "string"
+          }
+        }
       },
       "PuSilErrorDTO" : {
-        "required" : [ "category", "message" ],
+        "required" : [ "category", "code", "message" ],
         "type" : "object",
         "properties" : {
           "category" : {
             "$ref" : "#/components/schemas/CategoryEnum"
           },
+          "code" : {
+            "type" : "string"
+          },
           "message" : {
             "type" : "string"
+          },
+          "fields" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ErrorFieldDTO"
+            }
           },
           "traceId" : {
             "type" : "string",
@@ -1981,12 +2005,12 @@
             "nullable" : true
           },
           "externalCampaignId" : {
-            "type" : "string"
-          },
-          "subUnitCode" : {
             "maxLength" : 32,
             "minLength" : 0,
             "pattern" : "^[A-Za-z0-9_-]+$",
+            "type" : "string"
+          },
+          "subUnitCode" : {
             "type" : "string",
             "nullable" : true
           },
@@ -2196,6 +2220,10 @@
             "nullable" : true
           },
           "balance" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "stationId" : {
             "type" : "string",
             "nullable" : true
           },
