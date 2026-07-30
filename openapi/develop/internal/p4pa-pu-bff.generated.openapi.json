@@ -1624,6 +1624,74 @@
         "security" : [ ]
       }
     },
+    "/bff/token/refresh" : {
+      "post" : {
+        "tags" : [ "Authentication" ],
+        "summary" : "Refresh an access token",
+        "operationId" : "refreshToken",
+        "parameters" : [ {
+          "name" : "refreshToken",
+          "in" : "query",
+          "description" : "refresh token from the client",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Access Token generated successfully",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AccessToken"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AccessToken"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Authentication failed",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AccessToken"
+                }
+              }
+            }
+          },
+          "429" : {
+            "description" : "Too many requests",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AccessToken"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AccessToken"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/bff/organization/{organizationId}/org-sub-units" : {
       "post" : {
         "tags" : [ "OrgSubUnits" ],
