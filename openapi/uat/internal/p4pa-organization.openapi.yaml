@@ -107,6 +107,33 @@ paths:
           description: Organization Not Found
         '500':
           description: Internal Server Error
+  /organization/{organizationId}/organizationexternalid/{organizationExternalId}:
+    put:
+      tags:
+        - Organization
+      summary: Update the organizationExternalId of an Organization
+      operationId: updateOrganizationExternalId
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: organizationExternalId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+        '404':
+          description: Organization Not Found
+        '500':
+          description: Internal Server Error
   /organization/{organizationId}:
     get:
       tags:
