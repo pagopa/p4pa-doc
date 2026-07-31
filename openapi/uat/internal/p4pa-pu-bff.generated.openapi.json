@@ -16758,7 +16758,7 @@
         }
       },
       "UserOrganizationRoles" : {
-        "required" : [ "operatorId", "organizationFiscalCode", "organizationId", "organizationIpaCode", "roles" ],
+        "required" : [ "operatorId", "orgSubUnitCodes", "organizationFiscalCode", "organizationId", "organizationIpaCode", "roles" ],
         "type" : "object",
         "properties" : {
           "operatorId" : {
@@ -16779,6 +16779,12 @@
             "nullable" : true
           },
           "roles" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "orgSubUnitCodes" : {
             "type" : "array",
             "items" : {
               "type" : "string"
