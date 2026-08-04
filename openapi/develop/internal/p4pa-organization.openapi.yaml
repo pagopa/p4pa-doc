@@ -520,6 +520,43 @@ paths:
           description: Not Found
         '500':
           description: Internal Server Error
+  /pdnd-clients/{organizationId}:
+    get:
+      tags:
+        - PdndClient
+      operationId: getPdndClientsByOrganizationIdAndSubUnitCode
+      summary: Retrieves a list of PDND clients
+      description: >
+        Retrieves PDND clients associated to the organisation.
+        If subUnitCode isn't valorized, only PDND clients with subUnitCode null get retrieved.
+        The response doesn't contain secret informations.
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: subUnitCode
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PdndClientNoSecretDTO'
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
 components:
   schemas:
     BrokerApiKeys:
@@ -795,6 +832,28 @@ components:
         kid:
           type: string
         privateKey:
+          type: string
+        publicKey:
+          type: string
+    PdndClientNoSecretDTO:
+      type: object
+      required:
+        - clientId
+        - organizationId
+        - clientName
+        - kid
+        - publicKey
+      properties:
+        clientId:
+          type: string
+        organizationId:
+          type: integer
+          format: int64
+        subUnitCode:
+          type: string
+        clientName:
+          type: string
+        kid:
           type: string
         publicKey:
           type: string
