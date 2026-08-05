@@ -55,6 +55,9 @@
     "name" : "Authentication",
     "description" : "the Authentication API"
   }, {
+    "name" : "PdndClient",
+    "description" : "the PdndClient API"
+  }, {
     "name" : "Analytics",
     "description" : "the Analytics API"
   }, {
@@ -5320,6 +5323,112 @@
                 "schema" : {
                   "type" : "string",
                   "format" : "binary"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/bff/organization/{organizationId}/pdnd/clients" : {
+      "get" : {
+        "tags" : [ "PdndClient" ],
+        "operationId" : "getPdndClientsByOrgSubUnitCode",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }, {
+          "name" : "orgSubUnitCode",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "nullable" : true
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/PdndClientNoSecretDTO"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/PdndClientNoSecretDTO"
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized - Missing or invalid token",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/PdndClientNoSecretDTO"
+                  }
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/PdndClientNoSecretDTO"
+                  }
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Not Found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/PdndClientNoSecretDTO"
+                  }
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/PdndClientNoSecretDTO"
+                  }
                 }
               }
             }
@@ -13282,6 +13391,32 @@
           },
           "debtPositionOrigin" : {
             "$ref" : "#/components/schemas/DebtPositionOrigin"
+          }
+        }
+      },
+      "PdndClientNoSecretDTO" : {
+        "required" : [ "clientId", "clientName", "kid", "organizationId", "publicKey" ],
+        "type" : "object",
+        "properties" : {
+          "clientId" : {
+            "type" : "string"
+          },
+          "organizationId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "subUnitCode" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "clientName" : {
+            "type" : "string"
+          },
+          "kid" : {
+            "type" : "string"
+          },
+          "publicKey" : {
+            "type" : "string"
           }
         }
       },
