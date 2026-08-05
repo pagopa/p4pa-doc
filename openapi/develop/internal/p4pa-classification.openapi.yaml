@@ -1090,6 +1090,13 @@ paths:
         - balance
       operationId: validateBalance
       description: "The API validates the formal structure of balance"
+      parameters:
+        - name: allowTemplate
+          in: query
+          description: Indicates if balance validation allow template structure or not
+          required: false
+          schema:
+            type: boolean
       requestBody:
         content:
           application/json:
