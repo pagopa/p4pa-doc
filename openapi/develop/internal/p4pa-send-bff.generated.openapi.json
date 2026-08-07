@@ -206,7 +206,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedCampaign"
+                  "$ref" : "#/components/schemas/PagedCampaignDTO"
                 }
               }
             }
@@ -216,7 +216,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedCampaign"
+                  "$ref" : "#/components/schemas/PagedCampaignDTO"
                 }
               }
             }
@@ -226,7 +226,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedCampaign"
+                  "$ref" : "#/components/schemas/PagedCampaignDTO"
                 }
               }
             }
@@ -236,7 +236,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedCampaign"
+                  "$ref" : "#/components/schemas/PagedCampaignDTO"
                 }
               }
             }
@@ -270,7 +270,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/Campaign"
+                  "$ref" : "#/components/schemas/CampaignDTO"
                 }
               }
             }
@@ -280,7 +280,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/Campaign"
+                  "$ref" : "#/components/schemas/CampaignDTO"
                 }
               }
             }
@@ -290,7 +290,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/Campaign"
+                  "$ref" : "#/components/schemas/CampaignDTO"
                 }
               }
             }
@@ -300,7 +300,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/Campaign"
+                  "$ref" : "#/components/schemas/CampaignDTO"
                 }
               }
             }
@@ -310,7 +310,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/Campaign"
+                  "$ref" : "#/components/schemas/CampaignDTO"
                 }
               }
             }
@@ -676,36 +676,16 @@
           }
         }
       },
-      "Campaign" : {
-        "required" : [ "counters", "endDate", "externalId", "organizationId", "startDate" ],
+      "CampaignDTO" : {
         "type" : "object",
         "properties" : {
-          "creationDate" : {
-            "type" : "string",
-            "format" : "date-time",
-            "nullable" : true
-          },
-          "updateDate" : {
-            "type" : "string",
-            "format" : "date-time",
-            "nullable" : true
-          },
-          "updateOperatorExternalId" : {
-            "type" : "string",
-            "nullable" : true
-          },
-          "updateTraceId" : {
-            "type" : "string",
-            "nullable" : true
-          },
           "campaignId" : {
             "type" : "string",
             "nullable" : true
           },
           "externalId" : {
-            "maxLength" : 2147483647,
-            "minLength" : 1,
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "campaignName" : {
             "type" : "string",
@@ -713,26 +693,29 @@
           },
           "organizationId" : {
             "type" : "integer",
-            "format" : "int64"
+            "format" : "int64",
+            "nullable" : true
           },
           "orgSubUnitCode" : {
             "type" : "string",
             "nullable" : true
           },
-          "counters" : {
-            "$ref" : "#/components/schemas/Counters"
-          },
           "startDate" : {
             "type" : "string",
-            "format" : "date"
+            "format" : "date",
+            "nullable" : true
           },
           "endDate" : {
             "type" : "string",
-            "format" : "date"
+            "format" : "date",
+            "nullable" : true
+          },
+          "counters" : {
+            "$ref" : "#/components/schemas/ExtendedCounters"
           }
         }
       },
-      "Counters" : {
+      "ExtendedCounters" : {
         "type" : "object",
         "properties" : {
           "total" : {
@@ -746,6 +729,46 @@
             "nullable" : true
           },
           "delivered" : {
+            "type" : "integer",
+            "format" : "int64",
+            "nullable" : true
+          },
+          "completed" : {
+            "type" : "integer",
+            "format" : "int64",
+            "nullable" : true
+          },
+          "analogicCompletionPreOutcome" : {
+            "type" : "integer",
+            "format" : "int64",
+            "nullable" : true
+          },
+          "analogicCompletion" : {
+            "type" : "integer",
+            "format" : "int64",
+            "nullable" : true
+          },
+          "digitalCompletionDigitalDomicile" : {
+            "type" : "integer",
+            "format" : "int64",
+            "nullable" : true
+          },
+          "digitalCompletionCourtesyMessage" : {
+            "type" : "integer",
+            "format" : "int64",
+            "nullable" : true
+          },
+          "failed" : {
+            "type" : "integer",
+            "format" : "int64",
+            "nullable" : true
+          },
+          "deceasedRecipient" : {
+            "type" : "integer",
+            "format" : "int64",
+            "nullable" : true
+          },
+          "recipientNotFound" : {
             "type" : "integer",
             "format" : "int64",
             "nullable" : true
@@ -764,17 +787,21 @@
             "type" : "integer",
             "format" : "int64",
             "nullable" : true
+          },
+          "totalAnalogicCompletion" : {
+            "type" : "integer",
+            "format" : "int64"
           }
         }
       },
-      "PagedCampaign" : {
+      "PagedCampaignDTO" : {
         "required" : [ "content", "number", "size", "totalElements", "totalPages" ],
         "type" : "object",
         "properties" : {
           "content" : {
             "type" : "array",
             "items" : {
-              "$ref" : "#/components/schemas/Campaign"
+              "$ref" : "#/components/schemas/CampaignDTO"
             }
           },
           "size" : {
@@ -791,7 +818,7 @@
           },
           "number" : {
             "type" : "integer",
-            "format" : "int32"
+            "format" : "int64"
           }
         }
       },

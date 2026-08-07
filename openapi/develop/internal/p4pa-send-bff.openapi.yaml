@@ -72,7 +72,7 @@ paths:
           content:
             application/json:
               schema:
-                type: 'PagedCampaign'
+                $ref: '#/components/schemas/PagedCampaignDTO'
         '400':
           description: Invalid request
         '401':
@@ -136,7 +136,7 @@ paths:
           content:
             application/json:
               schema:
-                type: 'Campaign'
+                $ref: '#/components/schemas/CampaignDTO'
         '400':
           description: Invalid request
         '401':
@@ -395,4 +395,50 @@ components:
           type: array
           items:
             type: string
-
+    CampaignDTO:
+      type: object
+      properties:
+        campaignId:
+          type: string
+        externalId:
+          type: string
+        campaignName:
+          type: string
+        organizationId:
+          type: integer
+          format: int64
+        orgSubUnitCode:
+          type: string
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        counters:
+          type: 'ExtendedCounters'
+    PagedCampaignDTO:
+      type: object
+      required:
+        - content
+        - size
+        - totalElements
+        - totalPages
+        - number
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/CampaignDTO'
+        size:
+          type: integer
+          format: int64
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int64
+        number:
+          type: integer
+          format: int64
