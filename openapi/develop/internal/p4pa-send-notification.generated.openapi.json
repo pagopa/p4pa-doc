@@ -1618,8 +1618,11 @@
           "in" : "query",
           "required" : false,
           "schema" : {
-            "type" : "string",
-            "nullable" : true
+            "type" : "array",
+            "nullable" : true,
+            "items" : {
+              "type" : "string"
+            }
           }
         }, {
           "name" : "campaignName",
@@ -1635,6 +1638,15 @@
           "required" : false,
           "schema" : {
             "type" : "string",
+            "nullable" : true
+          }
+        }, {
+          "name" : "senderOrganizationId",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64",
             "nullable" : true
           }
         }, {

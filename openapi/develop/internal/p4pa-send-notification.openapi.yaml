@@ -713,7 +713,9 @@ paths:
         - name: orgSubUnitCode
           in: query
           schema:
-            type: string
+            type: array
+            items:
+              type: string
         - name: campaignName
           in: query
           schema:
@@ -722,6 +724,11 @@ paths:
           in: query
           schema:
             type: string
+        - name: senderOrganizationId
+          in: query
+          schema:
+            type: integer
+            format: int64
       responses:
         "200":
           description: Page of campaigns
