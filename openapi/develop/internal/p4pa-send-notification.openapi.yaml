@@ -710,7 +710,7 @@ paths:
           schema:
             type: string
             format: date
-        - name: orgSubUnitCode
+        - name: orgSubUnitCodes
           in: query
           schema:
             type: array
@@ -724,11 +724,10 @@ paths:
           in: query
           schema:
             type: string
-        - name: senderOrganizationId
+        - name: fetchAll
           in: query
           schema:
-            type: integer
-            format: int64
+            type: boolean
       responses:
         "200":
           description: Page of campaigns
