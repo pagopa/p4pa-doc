@@ -147,6 +147,7 @@
         }, {
           "name" : "orgSubUnitCode",
           "in" : "query",
+          "description" : "Filter by a specific sub-unit as sender; takes precedence over senderOrganizationId.",
           "required" : false,
           "schema" : {
             "type" : "string",
@@ -167,6 +168,14 @@
           "schema" : {
             "type" : "string",
             "nullable" : true
+          }
+        }, {
+          "name" : "fetchAll",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "boolean",
+            "default" : true
           }
         }, {
           "name" : "page",
