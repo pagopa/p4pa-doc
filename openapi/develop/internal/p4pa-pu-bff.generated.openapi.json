@@ -1695,6 +1695,190 @@
         }
       }
     },
+    "/bff/organization/{organizationId}/pdnd/clients" : {
+      "get" : {
+        "tags" : [ "PdndClient" ],
+        "operationId" : "getPdndClientsByOrgSubUnitCode",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }, {
+          "name" : "orgSubUnitCode",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "nullable" : true
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/PdndClientNoSecretDTO"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/PdndClientNoSecretDTO"
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized - Missing or invalid token",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/PdndClientNoSecretDTO"
+                  }
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/PdndClientNoSecretDTO"
+                  }
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Not Found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/PdndClientNoSecretDTO"
+                  }
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/PdndClientNoSecretDTO"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      },
+      "post" : {
+        "tags" : [ "PdndClient" ],
+        "operationId" : "createPdndClient",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/PdndClientDTO"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PdndClientNoSecretDTO"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PdndClientNoSecretDTO"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized - Missing or invalid token",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PdndClientNoSecretDTO"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PdndClientNoSecretDTO"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PdndClientNoSecretDTO"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
     "/bff/organization/{organizationId}/org-sub-units" : {
       "post" : {
         "tags" : [ "OrgSubUnits" ],
@@ -5333,10 +5517,10 @@
         } ]
       }
     },
-    "/bff/organization/{organizationId}/pdnd/clients" : {
+    "/bff/organization/{organizationId}/pdnd/clients/{clientId}" : {
       "get" : {
         "tags" : [ "PdndClient" ],
-        "operationId" : "getPdndClientsByOrgSubUnitCode",
+        "operationId" : "getPdndClient",
         "parameters" : [ {
           "name" : "organizationId",
           "in" : "path",
@@ -5346,12 +5530,11 @@
             "format" : "int64"
           }
         }, {
-          "name" : "orgSubUnitCode",
-          "in" : "query",
-          "required" : false,
+          "name" : "clientId",
+          "in" : "path",
+          "required" : true,
           "schema" : {
-            "type" : "string",
-            "nullable" : true
+            "type" : "string"
           }
         } ],
         "responses" : {
@@ -5360,10 +5543,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/PdndClientNoSecretDTO"
-                  }
+                  "$ref" : "#/components/schemas/PdndClientNoSecretDTO"
                 }
               }
             }
@@ -5373,10 +5553,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/PdndClientNoSecretDTO"
-                  }
+                  "$ref" : "#/components/schemas/PdndClientNoSecretDTO"
                 }
               }
             }
@@ -5386,10 +5563,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/PdndClientNoSecretDTO"
-                  }
+                  "$ref" : "#/components/schemas/PdndClientNoSecretDTO"
                 }
               }
             }
@@ -5399,10 +5573,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/PdndClientNoSecretDTO"
-                  }
+                  "$ref" : "#/components/schemas/PdndClientNoSecretDTO"
                 }
               }
             }
@@ -5412,10 +5583,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/PdndClientNoSecretDTO"
-                  }
+                  "$ref" : "#/components/schemas/PdndClientNoSecretDTO"
                 }
               }
             }
@@ -5425,10 +5593,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/PdndClientNoSecretDTO"
-                  }
+                  "$ref" : "#/components/schemas/PdndClientNoSecretDTO"
                 }
               }
             }
@@ -11486,6 +11651,61 @@
           }
         }
       },
+      "PdndClientNoSecretDTO" : {
+        "required" : [ "clientId", "clientName", "kid", "organizationId", "publicKey" ],
+        "type" : "object",
+        "properties" : {
+          "clientId" : {
+            "type" : "string"
+          },
+          "organizationId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "subUnitCode" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "clientName" : {
+            "type" : "string"
+          },
+          "kid" : {
+            "type" : "string"
+          },
+          "publicKey" : {
+            "type" : "string"
+          }
+        }
+      },
+      "PdndClientDTO" : {
+        "required" : [ "clientId", "clientName", "kid", "organizationId", "privateKey", "publicKey" ],
+        "type" : "object",
+        "properties" : {
+          "clientId" : {
+            "type" : "string"
+          },
+          "organizationId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "subUnitCode" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "clientName" : {
+            "type" : "string"
+          },
+          "kid" : {
+            "type" : "string"
+          },
+          "privateKey" : {
+            "type" : "string"
+          },
+          "publicKey" : {
+            "type" : "string"
+          }
+        }
+      },
       "ClientDTO" : {
         "required" : [ "clientId", "clientName", "clientSecret", "organizationIpaCode" ],
         "type" : "object",
@@ -13391,32 +13611,6 @@
           },
           "debtPositionOrigin" : {
             "$ref" : "#/components/schemas/DebtPositionOrigin"
-          }
-        }
-      },
-      "PdndClientNoSecretDTO" : {
-        "required" : [ "clientId", "clientName", "kid", "organizationId", "publicKey" ],
-        "type" : "object",
-        "properties" : {
-          "clientId" : {
-            "type" : "string"
-          },
-          "organizationId" : {
-            "type" : "integer",
-            "format" : "int64"
-          },
-          "subUnitCode" : {
-            "type" : "string",
-            "nullable" : true
-          },
-          "clientName" : {
-            "type" : "string"
-          },
-          "kid" : {
-            "type" : "string"
-          },
-          "publicKey" : {
-            "type" : "string"
           }
         }
       },

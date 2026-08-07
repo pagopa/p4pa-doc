@@ -4200,6 +4200,72 @@ paths:
           description: Not Found
         '500':
           description: Internal Server Error
+    post:
+      tags:
+        - PdndClient
+      operationId: createPdndClient
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: 'PdndClientDTO'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: 'PdndClientNoSecretDTO'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized - Missing or invalid token
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+  /organization/{organizationId}/pdnd/clients/{clientId}:
+    get:
+      tags:
+        - PdndClient
+      operationId: getPdndClient
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: clientId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: 'PdndClientNoSecretDTO'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized - Missing or invalid token
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
 security:
   - BearerAuth: [ ]
 components:
