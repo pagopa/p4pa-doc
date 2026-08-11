@@ -3301,7 +3301,22 @@
       },
       "CategoryEnum" : {
         "type" : "string",
-        "enum" : [ "SEND_NOTIFICATION_NOT_FOUND", "SEND_NOTIFICATION_BAD_REQUEST", "SEND_NOTIFICATION_GENERIC_ERROR", "SEND_NOTIFICATION_ALREADY_PROCESSED", "SEND_NOTIFICATION_CONFLICT", "SEND_NOTIFICATION_TOO_MANY_REQUESTS" ]
+        "enum" : [ "SEND_NOTIFICATION_NOT_FOUND", "SEND_NOTIFICATION_BAD_REQUEST", "SEND_NOTIFICATION_GENERIC_ERROR", "SEND_NOTIFICATION_ALREADY_PROCESSED", "SEND_NOTIFICATION_CONFLICT", "SEND_NOTIFICATION_TOO_MANY_REQUESTS", "SEND_NOTIFICATION_UNAUTHORIZED", "SEND_NOTIFICATION_FORBIDDEN" ]
+      },
+      "ErrorFieldDTO" : {
+        "required" : [ "error", "field", "message" ],
+        "type" : "object",
+        "properties" : {
+          "field" : {
+            "type" : "string"
+          },
+          "error" : {
+            "type" : "string"
+          },
+          "message" : {
+            "type" : "string"
+          }
+        }
       },
       "SendNotificationErrorDTO" : {
         "required" : [ "category", "code", "message" ],
@@ -3315,6 +3330,12 @@
           },
           "message" : {
             "type" : "string"
+          },
+          "fields" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ErrorFieldDTO"
+            }
           },
           "traceId" : {
             "type" : "string",
