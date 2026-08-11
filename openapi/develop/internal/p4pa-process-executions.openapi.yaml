@@ -415,9 +415,28 @@ components:
             - PROCESS_EXECUTIONS_INVALID_FILE_VERSION
             - PROCESS_EXECUTIONS_INVALID_TIME_RANGE
             - PROCESS_EXECUTIONS_TOO_MANY_REQUESTS
+            - PROCESS_EXECUTIONS_UNAUTHORIZED
+            - PROCESS_EXECUTIONS_FORBIDDEN
         code:
           type: string
         message:
           type: string
+        fields:
+          type: array
+          items:
+            $ref: "#/components/schemas/ErrorFieldDTO"
         traceId:
+          type: string
+    ErrorFieldDTO:
+      type: object
+      required:
+        - field
+        - error
+        - message
+      properties:
+        field:
+          type: string
+        error:
+          type: string
+        message:
           type: string
