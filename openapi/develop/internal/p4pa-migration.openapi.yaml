@@ -340,10 +340,11 @@ components:
     ErrorDTO:
       type: object
       required:
+        - category
         - code
         - message
       properties:
-        code:
+        category:
           type: string
           enum:
             - NOT_FOUND
@@ -352,7 +353,29 @@ components:
             - FILE_UPLOAD_ERROR
             - INVALID_FILE
             - FORBIDDEN
+            - CONFLICT
+            - UNAUTHORIZED
+            - TOO_MANY_REQUESTS
+        code:
+          type: string
         message:
           type: string
+        fields:
+          type: array
+          items:
+            $ref: "#/components/schemas/ErrorFieldDTO"
         traceId:
+          type: string
+    ErrorFieldDTO:
+      type: object
+      required:
+        - field
+        - error
+        - message
+      properties:
+        field:
+          type: string
+        error:
+          type: string
+        message:
           type: string

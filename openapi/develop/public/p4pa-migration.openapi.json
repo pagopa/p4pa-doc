@@ -411,23 +411,47 @@
           }
         }
       },
-      "CodeEnum" : {
+      "CategoryEnum" : {
         "type" : "string",
-        "enum" : [ "NOT_FOUND", "BAD_REQUEST", "GENERIC_ERROR", "FILE_UPLOAD_ERROR", "INVALID_FILE", "FORBIDDEN" ]
+        "enum" : [ "NOT_FOUND", "BAD_REQUEST", "GENERIC_ERROR", "FILE_UPLOAD_ERROR", "INVALID_FILE", "FORBIDDEN", "CONFLICT", "UNAUTHORIZED", "TOO_MANY_REQUESTS" ]
       },
       "ErrorDTO" : {
-        "required" : [ "code", "message" ],
+        "required" : [ "category", "code", "message" ],
         "type" : "object",
         "properties" : {
+          "category" : {
+            "$ref" : "#/components/schemas/CategoryEnum"
+          },
           "code" : {
-            "$ref" : "#/components/schemas/CodeEnum"
+            "type" : "string"
           },
           "message" : {
             "type" : "string"
           },
+          "fields" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ErrorFieldDTO"
+            }
+          },
           "traceId" : {
             "type" : "string",
             "nullable" : true
+          }
+        }
+      },
+      "ErrorFieldDTO" : {
+        "required" : [ "error", "field", "message" ],
+        "type" : "object",
+        "properties" : {
+          "field" : {
+            "type" : "string"
+          },
+          "error" : {
+            "type" : "string"
+          },
+          "message" : {
+            "type" : "string"
           }
         }
       },
