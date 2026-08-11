@@ -364,6 +364,7 @@ components:
       type: object
       required:
         - category
+        - code
         - message
       properties:
         category:
@@ -376,12 +377,31 @@ components:
             - CONFLICT
             - BAD_REQUEST
             - UNAUTHORIZED
+            - FORBIDDEN
             - GENERIC_ERROR
+            - TOO_MANY_REQUESTS
+        code:
+          type: string
         message:
           type: string
+        fields:
+          type: array
+          items:
+            $ref: "#/components/schemas/ErrorFieldDTO"
         traceId:
           type: string
-        code:
+    ErrorFieldDTO:
+      type: object
+      required:
+        - field
+        - error
+        - message
+      properties:
+        field:
+          type: string
+        error:
+          type: string
+        message:
           type: string
     FileOrigin:
       type: string
