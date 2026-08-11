@@ -398,6 +398,7 @@ components:
       type: object
       required:
         - category
+        - code
         - message
       properties:
         category:
@@ -411,7 +412,29 @@ components:
             - IO_NOTIFICATION_TOO_MANY_REQUESTS
             - IO_NOTIFICATION_INVALID_REQUEST
             - IO_NOTIFICATION_BAD_REQUEST
+            - IO_NOTIFICATION_UNAUTHORIZED
+            - IO_NOTIFICATION_CONFLICT
+            - IO_NOTIFICATION_FORBIDDEN
+        code:
+          type: string
         message:
           type: string
+        fields:
+          type: array
+          items:
+            $ref: "#/components/schemas/ErrorFieldDTO"
         traceId:
+          type: string
+    ErrorFieldDTO:
+      type: object
+      required:
+        - field
+        - error
+        - message
+      properties:
+        field:
+          type: string
+        error:
+          type: string
+        message:
           type: string
