@@ -268,9 +268,29 @@ components:
             - BAD_REQUEST
             - GENERIC_ERROR
             - TOO_MANY_REQUESTS
+            - UNAUTHORIZED
+            - CONFLICT
+            - FORBIDDEN
         code:
           type: string
         message:
           type: string
+        fields:
+          type: array
+          items:
+            $ref: "#/components/schemas/ErrorFieldDTO"
         traceId:
+          type: string
+    ErrorFieldDTO:
+      type: object
+      required:
+        - field
+        - error
+        - message
+      properties:
+        field:
+          type: string
+        error:
+          type: string
+        message:
           type: string
