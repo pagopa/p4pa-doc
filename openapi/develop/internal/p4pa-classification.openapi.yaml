@@ -1480,11 +1480,30 @@ components:
             - CLASSIFICATION_CONFLICT
             - CLASSIFICATION_GENERIC_ERROR
             - CLASSIFICATION_TOO_MANY_REQUESTS
+            - CLASSIFICATION_UNAUTHORIZED
+            - CLASSIFICATION_FORBIDDEN
         code:
           type: string
         message:
           type: string
+        fields:
+          type: array
+          items:
+            $ref: "#/components/schemas/ErrorFieldDTO"
         traceId:
+          type: string
+    ErrorFieldDTO:
+      type: object
+      required:
+        - field
+        - error
+        - message
+      properties:
+        field:
+          type: string
+        error:
+          type: string
+        message:
           type: string
     PagedFullClassificationView:
       type: object
