@@ -732,11 +732,30 @@ components:
             - ORGANIZATION_BAD_REQUEST
             - ORGANIZATION_GENERIC_ERROR
             - ORGANIZATION_TOO_MANY_REQUESTS
+            - ORGANIZATION_UNAUTHORIZED
+            - ORGANIZATION_FORBIDDEN
         code:
           type: string
         message:
           type: string
+        fields:
+          type: array
+          items:
+            $ref: "#/components/schemas/ErrorFieldDTO"
         traceId:
+          type: string
+    ErrorFieldDTO:
+      type: object
+      required:
+        - field
+        - error
+        - message
+      properties:
+        field:
+          type: string
+        error:
+          type: string
+        message:
           type: string
     OrgSilServiceDTO:
       type: object
