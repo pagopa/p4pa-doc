@@ -69,7 +69,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PdndAuthData"
+                  "$ref" : "#/components/schemas/PdndServicesErrorDTO"
                 }
               }
             }
@@ -79,7 +79,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PdndAuthData"
+                  "$ref" : "#/components/schemas/PdndServicesErrorDTO"
                 }
               }
             }
@@ -89,7 +89,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PdndAuthData"
+                  "$ref" : "#/components/schemas/PdndServicesErrorDTO"
                 }
               }
             }
@@ -99,7 +99,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PdndAuthData"
+                  "$ref" : "#/components/schemas/PdndServicesErrorDTO"
                 }
               }
             }
@@ -159,7 +159,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/Citizen"
+                  "$ref" : "#/components/schemas/PdndServicesErrorDTO"
                 }
               }
             }
@@ -169,7 +169,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/Citizen"
+                  "$ref" : "#/components/schemas/PdndServicesErrorDTO"
                 }
               }
             }
@@ -179,7 +179,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/Citizen"
+                  "$ref" : "#/components/schemas/PdndServicesErrorDTO"
                 }
               }
             }
@@ -189,7 +189,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/Citizen"
+                  "$ref" : "#/components/schemas/PdndServicesErrorDTO"
                 }
               }
             }
@@ -221,6 +221,50 @@
           },
           "serviceAudience" : {
             "type" : "string"
+          }
+        }
+      },
+      "CategoryEnum" : {
+        "type" : "string",
+        "enum" : [ "PDND_SERVICES_NOT_FOUND", "PDND_SERVICES_BAD_REQUEST", "PDND_SERVICES_GENERIC_ERROR", "PDND_SERVICES_TOO_MANY_REQUESTS", "PDND_SERVICES_UNAUTHORIZED", "PDND_SERVICES_FORBIDDEN", "PDND_SERVICES_CONFLICT" ]
+      },
+      "ErrorFieldDTO" : {
+        "required" : [ "error", "field", "message" ],
+        "type" : "object",
+        "properties" : {
+          "field" : {
+            "type" : "string"
+          },
+          "error" : {
+            "type" : "string"
+          },
+          "message" : {
+            "type" : "string"
+          }
+        }
+      },
+      "PdndServicesErrorDTO" : {
+        "required" : [ "category", "code", "message" ],
+        "type" : "object",
+        "properties" : {
+          "category" : {
+            "$ref" : "#/components/schemas/CategoryEnum"
+          },
+          "code" : {
+            "type" : "string"
+          },
+          "message" : {
+            "type" : "string"
+          },
+          "fields" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ErrorFieldDTO"
+            }
+          },
+          "traceId" : {
+            "type" : "string",
+            "nullable" : true
           }
         }
       },

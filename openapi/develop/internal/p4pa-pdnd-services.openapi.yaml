@@ -43,12 +43,28 @@ paths:
                 $ref: '#/components/schemas/Citizen'
         '400':
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PdndServicesErrorDTO'
         '403':
           description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PdndServicesErrorDTO'
         '404':
           description: Citizen not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PdndServicesErrorDTO'
         '500':
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PdndServicesErrorDTO'
   /token:
     get:
       summary: Retrieve voucher token
@@ -86,12 +102,28 @@ paths:
                 type: 'PdndAuthData'
         '400':
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PdndServicesErrorDTO'
         '403':
           description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PdndServicesErrorDTO'
         '404':
           description: Service not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PdndServicesErrorDTO'
         '500':
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PdndServicesErrorDTO'
 security:
   - BearerAuth: []
 components:
@@ -144,11 +176,31 @@ components:
             - PDND_SERVICES_BAD_REQUEST
             - PDND_SERVICES_GENERIC_ERROR
             - PDND_SERVICES_TOO_MANY_REQUESTS
+            - PDND_SERVICES_UNAUTHORIZED
+            - PDND_SERVICES_FORBIDDEN
+            - PDND_SERVICES_CONFLICT
         code:
           type: string
         message:
           type: string
+        fields:
+          type: array
+          items:
+            $ref: "#/components/schemas/ErrorFieldDTO"
         traceId:
+          type: string
+    ErrorFieldDTO:
+      type: object
+      required:
+        - field
+        - error
+        - message
+      properties:
+        field:
+          type: string
+        error:
+          type: string
+        message:
           type: string
     PdndServicesEnum:
       type: string
