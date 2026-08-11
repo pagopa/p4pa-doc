@@ -207,17 +207,40 @@ components:
     ErrorDTO:
       type: object
       required:
+        - category
         - code
         - message
       properties:
-        code:
+        category:
           type: string
           enum:
             - NOT_FOUND
             - BAD_REQUEST
             - GENERIC_ERROR
             - CONFLICT
+            - FORBIDDEN
+            - UNAUTHORIZED
+            - TOO_MANY_REQUESTS
+        code:
+          type: string
         message:
           type: string
+        fields:
+          type: array
+          items:
+            $ref: "#/components/schemas/ErrorFieldDTO"
         traceId:
+          type: string
+    ErrorFieldDTO:
+      type: object
+      required:
+        - field
+        - error
+        - message
+      properties:
+        field:
+          type: string
+        error:
+          type: string
+        message:
           type: string
