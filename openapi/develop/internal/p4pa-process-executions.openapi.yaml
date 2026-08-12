@@ -35,6 +35,10 @@ paths:
                 format: int32
         '404':
           description: NotFound
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProcessExecutionsErrorDTO'
   /crud-ext/ingestion-flow-files/{ingestionFlowFileId}/set-file-names:
     patch:
       tags:
@@ -67,6 +71,10 @@ paths:
                 format: int32
         '404':
           description: NotFound
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProcessExecutionsErrorDTO'
   /crud-ext/ingestion-flow-files/{ingestionFlowFileId}/set-pdf-generated:
     patch:
       tags:
@@ -100,6 +108,10 @@ paths:
                 format: int32
         '404':
           description: NotFound
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProcessExecutionsErrorDTO'
   /ingestion-flow-files:
     post:
       summary: create-ingestion-flow-file
@@ -332,6 +344,10 @@ paths:
                 format: int32
         '404':
           description: NotFound
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProcessExecutionsErrorDTO'
 security:
   - BearerAuth: []
 components:
