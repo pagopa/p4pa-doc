@@ -27,10 +27,22 @@ paths:
                 $ref: '#/components/schemas/CreateNotificationResponse'
         '400':
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '403':
           description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '500':
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
   /notification/findByOrgIdAndNav:
     get:
       tags:
@@ -59,10 +71,22 @@ paths:
                 $ref: '#/components/schemas/SendNotificationDTO'
         '400':
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '403':
           description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '404':
           description: Notification not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '500':
           description: Internal server error
           content:
@@ -91,14 +115,34 @@ paths:
                 $ref: '#/components/schemas/SendNotificationDTO'
         '204':
           description: NotificationDate not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '400':
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '403':
           description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '404':
           description: Notification not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '500':
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
     delete:
       tags:
         - Notification
@@ -116,14 +160,34 @@ paths:
           description: OK
         '400':
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '403':
           description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '404':
           description: Notification not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '409':
           description: Wrong notification status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '500':
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
   /notification/{sendNotificationId}/details:
     get:
       tags:
@@ -148,12 +212,28 @@ paths:
           description: NotificationDate not found
         '400':
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '403':
           description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '404':
           description: Notification not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '500':
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
   /notification/by-notification-request-id/{notificationRequestId}:
     get:
       tags:
@@ -178,12 +258,28 @@ paths:
           description: NotificationDate not found
         '400':
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '403':
           description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '404':
           description: Notification not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '500':
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
   /notification/{sendNotificationId}/start:
     post:
       tags:
@@ -213,14 +309,34 @@ paths:
           description: Accepted and waiting for all files
         '400':
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '403':
           description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '404':
           description: Notification or File not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '409':
           description: Wrong notification status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '500':
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
   /notification/by-notificationRequestId-status:
     put:
       tags:
@@ -262,8 +378,16 @@ paths:
                 $ref: '#/components/schemas/LegalFactsDTO'
         '404':
           description: Notification not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '500':
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
     delete:
       tags:
         - Notification
@@ -283,6 +407,10 @@ paths:
                 $ref: '#/components/schemas/FileExpirationResponseDTO'
         '404':
           description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
   /notification/{sendNotificationId}/documents:
     delete:
       tags:
@@ -303,6 +431,10 @@ paths:
                 $ref: '#/components/schemas/FileExpirationResponseDTO'
         '404':
           description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
   /notification-request/{notificationRequestId}/legal-facts:
     post:
       tags:
@@ -331,10 +463,22 @@ paths:
           description: OK
         '404':
           description: Notification not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '409':
           description: Legal-fact document already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '500':
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
   /send/{sendNotificationId}/retrieveNotificationDate:
     get:
       tags:
@@ -357,12 +501,28 @@ paths:
                   $ref: '#/components/schemas/SendNotificationDTO'
         '400':
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '403':
           description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '404':
           description: Notification not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '500':
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
   /send/{sendNotificationId}/preload:
     post:
       tags:
@@ -383,14 +543,34 @@ paths:
           description: Already processed
         '400':
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '403':
           description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '404':
           description: Notification not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '409':
           description: Wrong notification status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '500':
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
   /send/{sendNotificationId}/load:
     post:
       tags:
@@ -411,14 +591,34 @@ paths:
           description: Already processed
         '400':
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '403':
           description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '404':
           description: Notification not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '409':
           description: Wrong notification status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '500':
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
   /send/{sendNotificationId}/delivery:
     post:
       tags:
@@ -439,14 +639,34 @@ paths:
           description: Already processed
         '400':
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '403':
           description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '404':
           description: Notification not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '409':
           description: Wrong notification status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '500':
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
   /send/{sendNotificationId}/status:
     get:
       tags:
@@ -471,14 +691,34 @@ paths:
           description: Already processed
         '400':
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '403':
           description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '404':
           description: Notification not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '409':
           description: Wrong notification status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '500':
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
   /send/notificationprice:
     get:
       tags:
@@ -507,14 +747,34 @@ paths:
                 type: 'NotificationPriceResponseV23DTO'
         '400':
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '403':
           description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '404':
           description: Notification not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '409':
           description: Wrong notification status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '500':
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
   /send/streams/events:
     get:
       tags:
@@ -542,12 +802,28 @@ paths:
                 $ref: '#/components/schemas/StreamEventsResponse'
         '400':
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '403':
           description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '404':
           description: Streams not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '500':
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
   /send/streams/{streamId}:
     get:
       tags:
@@ -570,12 +846,28 @@ paths:
                 $ref: '#/components/schemas/SendStreamDTO'
         '400':
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '403':
           description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '404':
           description: Stream not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '500':
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
     put:
       tags:
         - Streams
@@ -598,12 +890,28 @@ paths:
           description: OK
         '400':
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '403':
           description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '404':
           description: Stream not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '500':
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
   /send/{sendNotificationId}/legal-facts:
     get:
       tags:
@@ -626,12 +934,28 @@ paths:
                 $ref: '#/components/schemas/LegalFactListDTO'
         '400':
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '403':
           description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '404':
           description: Legal facts not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '500':
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
   /send/{sendNotificationId}/legal-facts/{legalFactId}:
     get:
       tags:
@@ -661,12 +985,28 @@ paths:
                 $ref: '#/components/schemas/LegalFactDownloadMetadataDTO'
         '400':
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '403':
           description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '404':
           description: Legal facts not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '500':
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
   /send/notify-stream-events:
     put:
       tags:
@@ -684,10 +1024,22 @@ paths:
           description: OK
         '400':
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '403':
           description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '500':
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
   /campaigns:
     get:
       tags:
@@ -737,8 +1089,16 @@ paths:
                 $ref: '#/components/schemas/PagedCampaign'
         "400":
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
       x-spring-paginated: true
   /campaigns/ids:
     get:
@@ -756,8 +1116,16 @@ paths:
                   type: string
         '403':
           description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '500':
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
   /campaigns/{campaignId}/align:
     post:
       tags:
@@ -774,10 +1142,22 @@ paths:
           description: OK
         '403':
           description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '404':
           description: Campaign not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
   /campaigns/{campaignId}/name:
     patch:
       summary: Rename campaign
@@ -807,10 +1187,22 @@ paths:
           description: OK
         '403':
           description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '404':
           description: Campaign not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
   /campaigns/{campaignId}:
     get:
       tags:
@@ -831,10 +1223,22 @@ paths:
                 type: 'Campaign'
         '403':
           description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '404':
           description: Campaign not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
   /campaigns/{campaignId}/notifications:
     get:
       tags:
@@ -885,8 +1289,16 @@ paths:
                 $ref: '#/components/schemas/PagedSendNotifications'
         "400":
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
       x-spring-paginated: true
 security:
   - BearerAuth: []
