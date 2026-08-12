@@ -130,6 +130,10 @@ paths:
                 format: date-time
         '404':
           description: Not Found - PaymentReporting flowDateTime for given Organization Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClassificationErrorDTO'
         '500':
           description: Server Error
           content:
@@ -226,8 +230,16 @@ paths:
                 type: 'ClassificationDetailViewDTO'
         '404':
           description: Not Found - Classification Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClassificationErrorDTO'
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClassificationErrorDTO'
   /crud-ext/classifications:
     post:
       tags:
@@ -1236,8 +1248,16 @@ paths:
                 type: 'PaymentNotificationDTO'
         "400":
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClassificationErrorDTO'
         "409":
           description: Payment notification already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClassificationErrorDTO'
         '500':
           description: Server Error
           content:
