@@ -120,6 +120,10 @@ paths:
                 format: binary
         '404':
           description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileshareErrorDTO'
   /organization/{organizationId}/ingestionflowfiles/{ingestionFlowFileId}/notice:
     get:
       tags:
@@ -150,8 +154,16 @@ paths:
                 format: binary
         '404':
           description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileshareErrorDTO'
         '500':
           description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileshareErrorDTO'
   /organization/{organizationId}/ingestionflowfiles/{ingestionFlowFileId}/iuv:
     get:
       tags:
@@ -182,8 +194,16 @@ paths:
                 format: binary
         '404':
           description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileshareErrorDTO'
         '500':
           description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileshareErrorDTO'
   /organization/{organizationId}/exportfiles/{exportFileId}:
     get:
       tags:
@@ -214,6 +234,10 @@ paths:
                 format: binary
         '404':
           description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileshareErrorDTO'
   /organization/{organizationId}/send-files/{sendNotificationId}:
     get:
       tags:
@@ -247,6 +271,10 @@ paths:
                 format: binary
         '404':
           description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileshareErrorDTO'
         '500':
           description: Server Error
           content:
@@ -330,6 +358,10 @@ paths:
                 format: binary
         '404':
           description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileshareErrorDTO'
 security:
   - BearerAuth: []
 components:
