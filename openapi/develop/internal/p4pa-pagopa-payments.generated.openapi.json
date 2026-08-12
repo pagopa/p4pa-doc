@@ -63,6 +63,12 @@
                   "type" : "string",
                   "format" : "binary"
                 }
+              },
+              "application/json" : {
+                "schema" : {
+                  "type" : "string",
+                  "format" : "binary"
+                }
               }
             }
           },
@@ -70,6 +76,12 @@
             "description" : "No content",
             "content" : {
               "application/octet-stream" : {
+                "schema" : {
+                  "type" : "string",
+                  "format" : "binary"
+                }
+              },
+              "application/json" : {
                 "schema" : {
                   "type" : "string",
                   "format" : "binary"
@@ -82,8 +94,12 @@
             "content" : {
               "application/octet-stream" : {
                 "schema" : {
-                  "type" : "string",
-                  "format" : "binary"
+                  "$ref" : "#/components/schemas/PagoPaPaymentsErrorDTO"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PagoPaPaymentsErrorDTO"
                 }
               }
             }
@@ -93,8 +109,12 @@
             "content" : {
               "application/octet-stream" : {
                 "schema" : {
-                  "type" : "string",
-                  "format" : "binary"
+                  "$ref" : "#/components/schemas/PagoPaPaymentsErrorDTO"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PagoPaPaymentsErrorDTO"
                 }
               }
             }
@@ -135,7 +155,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/GeneratedNoticeMassiveFolderDTO"
+                  "$ref" : "#/components/schemas/PagoPaPaymentsErrorDTO"
                 }
               }
             }
@@ -145,7 +165,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/GeneratedNoticeMassiveFolderDTO"
+                  "$ref" : "#/components/schemas/PagoPaPaymentsErrorDTO"
                 }
               }
             }
@@ -309,10 +329,24 @@
             "description" : "No content"
           },
           "400" : {
-            "description" : "Invalid request"
+            "description" : "Invalid request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PagoPaPaymentsErrorDTO"
+                }
+              }
+            }
           },
           "500" : {
-            "description" : "Internal server error"
+            "description" : "Internal server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PagoPaPaymentsErrorDTO"
+                }
+              }
+            }
           }
         },
         "security" : [ {
@@ -357,10 +391,24 @@
             "description" : "No content"
           },
           "400" : {
-            "description" : "Invalid request"
+            "description" : "Invalid request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PagoPaPaymentsErrorDTO"
+                }
+              }
+            }
           },
           "500" : {
-            "description" : "Internal server error"
+            "description" : "Internal server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PagoPaPaymentsErrorDTO"
+                }
+              }
+            }
           }
         },
         "security" : [ {
@@ -464,7 +512,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/SignedUrlResultDTO"
+                  "$ref" : "#/components/schemas/PagoPaPaymentsErrorDTO"
                 }
               }
             }
@@ -474,7 +522,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/SignedUrlResultDTO"
+                  "$ref" : "#/components/schemas/PagoPaPaymentsErrorDTO"
                 }
               }
             }
@@ -526,10 +574,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/PaymentsReportingIdDTO"
-                  }
+                  "$ref" : "#/components/schemas/PagoPaPaymentsErrorDTO"
                 }
               }
             }
@@ -539,10 +584,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/PaymentsReportingIdDTO"
-                  }
+                  "$ref" : "#/components/schemas/PagoPaPaymentsErrorDTO"
                 }
               }
             }
@@ -605,6 +647,12 @@
                   "type" : "integer",
                   "format" : "int64"
                 }
+              },
+              "application/json" : {
+                "schema" : {
+                  "type" : "integer",
+                  "format" : "int64"
+                }
               }
             }
           },
@@ -613,8 +661,12 @@
             "content" : {
               "text/plain" : {
                 "schema" : {
-                  "type" : "integer",
-                  "format" : "int64"
+                  "$ref" : "#/components/schemas/PagoPaPaymentsErrorDTO"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PagoPaPaymentsErrorDTO"
                 }
               }
             }
@@ -624,8 +676,12 @@
             "content" : {
               "text/plain" : {
                 "schema" : {
-                  "type" : "integer",
-                  "format" : "int64"
+                  "$ref" : "#/components/schemas/PagoPaPaymentsErrorDTO"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PagoPaPaymentsErrorDTO"
                 }
               }
             }
@@ -639,6 +695,50 @@
   },
   "components" : {
     "schemas" : {
+      "CategoryEnum" : {
+        "type" : "string",
+        "enum" : [ "PAGOPA_PAYMENTS_NOT_FOUND", "PAGOPA_PAYMENTS_BAD_REQUEST", "PAGOPA_PAYMENTS_GENERIC_ERROR", "PAGOPA_PAYMENTS_NOT_PAYABLE", "PAGOPA_PAYMENTS_CONFLICT", "PAGOPA_PAYMENTS_FORBIDDEN", "PAGOPA_PAYMENTS_UNAUTHORIZED", "PAGOPA_PAYMENTS_TOO_MANY_REQUESTS" ]
+      },
+      "ErrorFieldDTO" : {
+        "required" : [ "error", "field", "message" ],
+        "type" : "object",
+        "properties" : {
+          "field" : {
+            "type" : "string"
+          },
+          "error" : {
+            "type" : "string"
+          },
+          "message" : {
+            "type" : "string"
+          }
+        }
+      },
+      "PagoPaPaymentsErrorDTO" : {
+        "required" : [ "category", "code", "message" ],
+        "type" : "object",
+        "properties" : {
+          "category" : {
+            "$ref" : "#/components/schemas/CategoryEnum"
+          },
+          "code" : {
+            "type" : "string"
+          },
+          "message" : {
+            "type" : "string"
+          },
+          "fields" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ErrorFieldDTO"
+            }
+          },
+          "traceId" : {
+            "type" : "string",
+            "nullable" : true
+          }
+        }
+      },
       "Action" : {
         "type" : "string",
         "nullable" : true,
