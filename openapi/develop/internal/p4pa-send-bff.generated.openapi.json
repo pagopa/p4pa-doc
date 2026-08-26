@@ -716,15 +716,14 @@
         }
       },
       "CampaignDTO" : {
+        "required" : [ "campaignId", "endDate", "externalId", "organizationId", "startDate" ],
         "type" : "object",
         "properties" : {
           "campaignId" : {
-            "type" : "string",
-            "nullable" : true
+            "type" : "string"
           },
           "externalId" : {
-            "type" : "string",
-            "nullable" : true
+            "type" : "string"
           },
           "campaignName" : {
             "type" : "string",
@@ -732,8 +731,7 @@
           },
           "organizationId" : {
             "type" : "integer",
-            "format" : "int64",
-            "nullable" : true
+            "format" : "int64"
           },
           "orgSubUnitCode" : {
             "type" : "string",
@@ -741,13 +739,11 @@
           },
           "startDate" : {
             "type" : "string",
-            "format" : "date",
-            "nullable" : true
+            "format" : "date"
           },
           "endDate" : {
             "type" : "string",
-            "format" : "date",
-            "nullable" : true
+            "format" : "date"
           },
           "counters" : {
             "$ref" : "#/components/schemas/ExtendedCounters"
@@ -812,20 +808,9 @@
             "format" : "int64",
             "nullable" : true
           },
-          "digitalCompleted" : {
-            "type" : "integer",
-            "format" : "int64",
-            "nullable" : true
-          },
-          "analogicCompleted" : {
-            "type" : "integer",
-            "format" : "int64",
-            "nullable" : true
-          },
           "completion" : {
             "type" : "integer",
-            "format" : "int64",
-            "nullable" : true
+            "format" : "int64"
           },
           "totalAnalogicCompletion" : {
             "type" : "integer",
