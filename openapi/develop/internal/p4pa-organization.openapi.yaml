@@ -356,6 +356,37 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OrganizationErrorDTO'
+  /crud-ext/organization/{organizationId}/org-sub-units/{subUnitCode}/status:
+    patch:
+      tags:
+        - org-sub-unit-entity-extended-controller
+      operationId: updateStatus
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: subUnitCode
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: status
+          in: query
+          required: true
+          schema:
+            type: 'OrgSubUnitStatus'
+      responses:
+        '200':
+          description: OK
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
   /broker:
     post:
       tags:
