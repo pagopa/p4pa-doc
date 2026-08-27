@@ -1300,6 +1300,64 @@ paths:
               schema:
                 $ref: '#/components/schemas/SendNotificationErrorDTO'
       x-spring-paginated: true
+  /campaigns/latest-full-recalculation-date:
+    get:
+      tags:
+        - Campaign
+      operationId: findLatestFullRecalculationDate
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+                format: date-time
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
+  /campaigns/updated-campaign-ids:
+    get:
+      tags:
+        - Campaign
+      operationId: findIdsOfUpdatedCampaignsByNotificationUpdateDate
+      parameters:
+        - name: latestRecalculationDate
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date-time
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
 security:
   - BearerAuth: []
 components:
