@@ -843,6 +843,55 @@ paths:
               schema:
                 $ref: '#/components/schemas/OrganizationErrorDTO'
   /organization/{organizationId}/pdnd/services:
+    get:
+      tags:
+        - PdndService
+      summary: get PdndServices
+      operationId: getPdndServices
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: subUnitCode
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: serviceType
+          in: query
+          required: false
+          schema:
+            type: 'PdndServiceType'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PdndServiceDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
     post:
       tags:
         - PdndService
@@ -1232,3 +1281,23 @@ components:
           type: 'PdndServiceType'
         clientId:
           type: string
+    PdndServiceDTO:
+      type: object
+      required:
+        - purposeId
+        - serviceName
+        - serviceType
+        - clientId
+        - clientName
+      properties:
+        purposeId:
+          type: string
+        serviceName:
+          type: string
+        serviceType:
+          type: 'PdndServiceType'
+        clientId:
+          type: string
+        clientName:
+          type: string
+
