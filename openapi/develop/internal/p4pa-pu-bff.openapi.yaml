@@ -5796,6 +5796,49 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
+  /organization/{organizationId}/org-sub-units/{subUnitCode}/operators:
+    get:
+      tags:
+        - OrgSubUnitOperators
+      operationId: getOrgSubUnitOperators
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: subUnitCode
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagedOrgSubUnitOperators'
+        '401':
+          description: Unauthorized - Missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '403':
+          description: Forbidden - Access denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+      x-spring-paginated: true
   /organization/{organizationId}/pdnd/clients:
     get:
       tags:
@@ -7863,6 +7906,44 @@ components:
         traceId:
           type: string
         _type:
+          type: string
+    PagedOrgSubUnitOperators:
+      type: object
+      required:
+        - content
+        - size
+        - totalElements
+        - totalPages
+        - number
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrgSubUnitOperator'
+        size:
+          type: integer
+          format: int64
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int64
+        number:
+          type: integer
+          format: int64
+    OrgSubUnitOperator:
+      type: object
+      required:
+        - mappedExternalUserId
+      properties:
+        mappedExternalUserId:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        fiscalCode:
           type: string
     PagedOrgSubUnit:
       type: object
