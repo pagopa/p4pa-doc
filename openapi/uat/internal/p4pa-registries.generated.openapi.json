@@ -1961,10 +1961,6 @@
         "type" : "string",
         "enum" : [ "OK", "KO" ]
       },
-      "RegistrySilEventType" : {
-        "type" : "string",
-        "enum" : [ "PTDP_paaSILAutorizzaImportFlusso", "PTDP_paaSILImportaDovuto", "PTDP_paaSILInviaDovuti", "PTDP_paaSILInviaCarrelloDovuti", "PTDP_paaSILVerificaAvviso", "PTPR_pivotSILAutorizzaImportFlussoTesoreria", "PTPR_pivotSILAutorizzaImportFlusso", "SIL_attualizzazioneImporti", "SIL_notificaPagamento" ]
-      },
       "RegistryEventCategory" : {
         "type" : "string",
         "enum" : [ "INTERNO", "INTERFACCIA" ]
@@ -1972,6 +1968,10 @@
       "RegistryPagoPaEventType" : {
         "type" : "string",
         "enum" : [ "PaForNode_paVerifyPaymentNotice", "PaForNode_paGetPaymentV2", "PaForNode_paSendRTV2", "PaForNode_paDemandPaymentNotice", "ACA_newDebtPosition", "ACA_createPosition", "ACA_updatePosition", "ACA_deletePosition", "GPD_createPosition", "GPD_updatePosition", "GPD_deletePosition", "NodeForPa_fetchPaymentReporting" ]
+      },
+      "RegistrySilEventType" : {
+        "type" : "string",
+        "enum" : [ "PTDP_paaSILAutorizzaImportFlusso", "PTDP_paaSILImportaDovuto", "PTDP_paaSILInviaDovuti", "PTDP_paaSILInviaCarrelloDovuti", "PTDP_paaSILVerificaAvviso", "PTPR_pivotSILAutorizzaImportFlussoTesoreria", "PTPR_pivotSILAutorizzaImportFlusso", "SIL_attualizzazioneImporti", "SIL_notificaPagamento" ]
       },
       "DebtPositionRegistryRequestBody" : {
         "type" : "object",
@@ -2348,7 +2348,7 @@
       },
       "CategoryEnum" : {
         "type" : "string",
-        "enum" : [ "NOT_FOUND", "BAD_REQUEST", "GENERIC_ERROR", "TOO_MANY_REQUESTS" ]
+        "enum" : [ "NOT_FOUND", "BAD_REQUEST", "GENERIC_ERROR", "TOO_MANY_REQUESTS", "UNAUTHORIZED", "CONFLICT", "FORBIDDEN" ]
       },
       "ErrorDTO" : {
         "required" : [ "category", "code", "message" ],
@@ -2363,9 +2363,30 @@
           "message" : {
             "type" : "string"
           },
+          "fields" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ErrorFieldDTO"
+            }
+          },
           "traceId" : {
             "type" : "string",
             "nullable" : true
+          }
+        }
+      },
+      "ErrorFieldDTO" : {
+        "required" : [ "error", "field", "message" ],
+        "type" : "object",
+        "properties" : {
+          "field" : {
+            "type" : "string"
+          },
+          "error" : {
+            "type" : "string"
+          },
+          "message" : {
+            "type" : "string"
           }
         }
       },
@@ -2791,95 +2812,6 @@
           }
         }
       },
-      "SilRegistry" : {
-        "required" : [ "brokerFiscalCode", "dateTime", "eventSubType", "eventType", "grantorId", "orgFiscalCode", "outcome", "registryId", "registryOrigin", "requestorId", "traceId" ],
-        "type" : "object",
-        "properties" : {
-          "creationDate" : {
-            "type" : "string",
-            "format" : "date-time"
-          },
-          "updateDate" : {
-            "type" : "string",
-            "format" : "date-time"
-          },
-          "updateOperatorExternalId" : {
-            "type" : "string"
-          },
-          "updateTraceId" : {
-            "type" : "string"
-          },
-          "registryId" : {
-            "type" : "string"
-          },
-          "registryOrigin" : {
-            "type" : "string"
-          },
-          "dateTime" : {
-            "type" : "string",
-            "format" : "date-time"
-          },
-          "traceId" : {
-            "type" : "string"
-          },
-          "brokerFiscalCode" : {
-            "type" : "string"
-          },
-          "orgFiscalCode" : {
-            "type" : "string"
-          },
-          "iuv" : {
-            "type" : "string"
-          },
-          "nav" : {
-            "type" : "string"
-          },
-          "eventType" : {
-            "$ref" : "#/components/schemas/RegistrySilEventType"
-          },
-          "eventSubType" : {
-            "$ref" : "#/components/schemas/RegistryEventSubType"
-          },
-          "requestorId" : {
-            "type" : "string"
-          },
-          "grantorId" : {
-            "type" : "string"
-          },
-          "outcome" : {
-            "$ref" : "#/components/schemas/RegistryOutcome"
-          },
-          "bodyCiphered" : {
-            "type" : "string",
-            "format" : "byte"
-          },
-          "_links" : {
-            "$ref" : "#/components/schemas/Links"
-          }
-        }
-      },
-      "PagedModelSilRegistry" : {
-        "type" : "object",
-        "properties" : {
-          "_embedded" : {
-            "type" : "object",
-            "properties" : {
-              "silRegistries" : {
-                "type" : "array",
-                "items" : {
-                  "$ref" : "#/components/schemas/SilRegistry"
-                }
-              }
-            }
-          },
-          "_links" : {
-            "$ref" : "#/components/schemas/Links"
-          },
-          "page" : {
-            "$ref" : "#/components/schemas/PageMetadata"
-          }
-        }
-      },
       "PagoPaRegistry" : {
         "required" : [ "dateTime", "eventCategory", "eventSubType", "eventType", "grantorId", "orgFiscalCode", "outcome", "registryId", "registryOrigin", "requestorId", "traceId" ],
         "type" : "object",
@@ -2972,6 +2904,95 @@
                 "type" : "array",
                 "items" : {
                   "$ref" : "#/components/schemas/PagoPaRegistry"
+                }
+              }
+            }
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          },
+          "page" : {
+            "$ref" : "#/components/schemas/PageMetadata"
+          }
+        }
+      },
+      "SilRegistry" : {
+        "required" : [ "brokerFiscalCode", "dateTime", "eventSubType", "eventType", "grantorId", "orgFiscalCode", "outcome", "registryId", "registryOrigin", "requestorId", "traceId" ],
+        "type" : "object",
+        "properties" : {
+          "creationDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "updateDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "updateOperatorExternalId" : {
+            "type" : "string"
+          },
+          "updateTraceId" : {
+            "type" : "string"
+          },
+          "registryId" : {
+            "type" : "string"
+          },
+          "registryOrigin" : {
+            "type" : "string"
+          },
+          "dateTime" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "traceId" : {
+            "type" : "string"
+          },
+          "brokerFiscalCode" : {
+            "type" : "string"
+          },
+          "orgFiscalCode" : {
+            "type" : "string"
+          },
+          "iuv" : {
+            "type" : "string"
+          },
+          "nav" : {
+            "type" : "string"
+          },
+          "eventType" : {
+            "$ref" : "#/components/schemas/RegistrySilEventType"
+          },
+          "eventSubType" : {
+            "$ref" : "#/components/schemas/RegistryEventSubType"
+          },
+          "requestorId" : {
+            "type" : "string"
+          },
+          "grantorId" : {
+            "type" : "string"
+          },
+          "outcome" : {
+            "$ref" : "#/components/schemas/RegistryOutcome"
+          },
+          "bodyCiphered" : {
+            "type" : "string",
+            "format" : "byte"
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          }
+        }
+      },
+      "PagedModelSilRegistry" : {
+        "type" : "object",
+        "properties" : {
+          "_embedded" : {
+            "type" : "object",
+            "properties" : {
+              "silRegistries" : {
+                "type" : "array",
+                "items" : {
+                  "$ref" : "#/components/schemas/SilRegistry"
                 }
               }
             }

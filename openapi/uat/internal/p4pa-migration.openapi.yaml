@@ -221,12 +221,28 @@ paths:
           description: No Content - No Errors Found
         '401':
           description: Unauthorized - Missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '403':
           description: Forbidden - No upload in error state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '404':
           description: Not Found - Upload not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '500':
           description: Internal Server Error - Error during errors processing
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
   /internal/workflows/{workflowId}/status:
     get:
       tags:
@@ -340,10 +356,11 @@ components:
     ErrorDTO:
       type: object
       required:
+        - category
         - code
         - message
       properties:
-        code:
+        category:
           type: string
           enum:
             - NOT_FOUND
@@ -352,7 +369,29 @@ components:
             - FILE_UPLOAD_ERROR
             - INVALID_FILE
             - FORBIDDEN
+            - CONFLICT
+            - UNAUTHORIZED
+            - TOO_MANY_REQUESTS
+        code:
+          type: string
         message:
           type: string
+        fields:
+          type: array
+          items:
+            $ref: "#/components/schemas/ErrorFieldDTO"
         traceId:
+          type: string
+    ErrorFieldDTO:
+      type: object
+      required:
+        - field
+        - error
+        - message
+      properties:
+        field:
+          type: string
+        error:
+          type: string
+        message:
           type: string

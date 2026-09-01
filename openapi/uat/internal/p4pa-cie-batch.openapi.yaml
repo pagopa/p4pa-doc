@@ -47,9 +47,28 @@ components:
             - GENERIC_ERROR
             - CONFLICT
             - TOO_MANY_REQUESTS
+            - FORBIDDEN
+            - UNAUTHORIZED
         code:
           type: string
         message:
           type: string
+        fields:
+          type: array
+          items:
+            $ref: "#/components/schemas/ErrorFieldDTO"
         traceId:
+          type: string
+    ErrorFieldDTO:
+      type: object
+      required:
+        - field
+        - error
+        - message
+      properties:
+        field:
+          type: string
+        error:
+          type: string
+        message:
           type: string

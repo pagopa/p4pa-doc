@@ -1,6 +1,6 @@
 openapi: 3.0.1
 info:
-  title: p4pa-analytics-data-processing
+  title: p4pa-analytics-data-ingestion
   description: Api and Models
   version: 0.0.1
 paths:
@@ -62,12 +62,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
-  /workflow/analytics-data-process:
+  /workflow/debt-position-type-orgs-ingestion:
     post:
       tags:
-        - AnalyticsDataProcess
-      operationId: processAnalyticsData
-      description: To start AnalyticsData process
+        - DebtPositionTypeOrgsIngestion
+      operationId: ingestDebtPositionTypeOrgs
+      description: To start DebtPositionTypeOrgs ingestion
       responses:
         '201':
           description: "Workflow created successfully"
@@ -130,8 +130,6 @@ components:
         duration:
           type: string
           format: duration
-        result:
-          type: string
     ScheduleInfoDTO:
       type: object
       required:
@@ -175,11 +173,6 @@ components:
         lastUpdatedAt:
           type: string
           format: date-time
-        lastManualExecution:
-          $ref: '#/components/schemas/WorkflowStatusDTO'
-        lastExecution:
-          type: string
-          format: date-time
     ScheduleExecutionInfoDTO:
       type: object
       required:
@@ -218,9 +211,9 @@ components:
             - BAD_REQUEST
             - GENERIC_ERROR
             - CONFLICT
-            - FORBIDDEN
             - UNAUTHORIZED
             - TOO_MANY_REQUESTS
+            - FORBIDDEN
         code:
           type: string
         message:

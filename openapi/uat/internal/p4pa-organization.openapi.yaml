@@ -28,8 +28,16 @@ paths:
                 type: 'Organization'
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
     put:
       tags:
         - Organization
@@ -46,10 +54,22 @@ paths:
           description: OK
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
         '404':
           description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
   /organization/{organizationId}/apiKey:
     post:
       tags:
@@ -78,8 +98,16 @@ paths:
           description: OK
         '404':
           description: Organization Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
   /organization/{organizationId}/status/{newStatus}:
     put:
       tags:
@@ -103,10 +131,22 @@ paths:
           description: OK
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
         '404':
           description: Organization Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
   /organization/{organizationId}/organizationexternalid/{organizationExternalId}:
     put:
       tags:
@@ -130,10 +170,22 @@ paths:
           description: OK
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
         '404':
           description: Organization Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
   /organization/{organizationId}:
     get:
       tags:
@@ -155,8 +207,16 @@ paths:
                 type: 'OrganizationDetailDTO'
         '404':
           description: Organization Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
   /organization/{organizationId}/organization-station:
     get:
       tags:
@@ -182,8 +242,16 @@ paths:
                 type: 'OrganizationStationDTO'
         '404':
           description: Organization Station Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
   /organization/{organizationId}/apiKey/{keyType}:
     get:
       tags:
@@ -215,8 +283,16 @@ paths:
                 type: string
         '404':
           description: Organization Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
   /organization-sil-service:
     post:
       tags:
@@ -280,6 +356,37 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OrganizationErrorDTO'
+  /crud-ext/organization/{organizationId}/org-sub-units/{subUnitCode}/status:
+    patch:
+      tags:
+        - org-sub-unit-entity-extended-controller
+      operationId: updateStatus
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: subUnitCode
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: status
+          in: query
+          required: true
+          schema:
+            type: 'OrgSubUnitStatus'
+      responses:
+        '200':
+          description: OK
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
   /broker:
     post:
       tags:
@@ -301,8 +408,16 @@ paths:
                 type: 'Broker'
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
   /brokers/{brokerId}/apiKey:
     get:
       tags:
@@ -358,8 +473,16 @@ paths:
           description: OK
         '404':
           description: Organization Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
   /broker/{brokerId}/apiKey/{keyType}:
     get:
       tags:
@@ -387,8 +510,16 @@ paths:
                 type: string
         '404':
           description: Broker Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
   /taxonomies/sync:
     get:
       tags:
@@ -404,8 +535,16 @@ paths:
                 type: integer
         "400":
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
         "500":
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
   /brokers/{brokerId}/email-server/config:
     put:
       tags:
@@ -430,8 +569,16 @@ paths:
           description: OK
         '404':
           description: Broker Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
     get:
       tags:
         - BrokerConfiguration
@@ -453,8 +600,16 @@ paths:
                 $ref: '#/components/schemas/EmailServerConfigDTO'
         '404':
           description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
   /pdnd-clients:
     post:
       tags:
@@ -476,10 +631,22 @@ paths:
                 type: 'PdndClient'
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
         '404':
           description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
   /pdnd-clients/{organizationId}/{pdndServiceType}:
     get:
       tags:
@@ -516,10 +683,360 @@ paths:
                 $ref: '#/components/schemas/PdndClientDTO'
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
         '404':
           description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
+  /pdnd-clients/{organizationId}:
+    get:
+      tags:
+        - PdndClient
+      operationId: getPdndClientsByOrganizationIdAndSubUnitCode
+      summary: Retrieves a list of PDND clients
+      description: >
+        Retrieves PDND clients associated to the organisation.
+        If subUnitCode isn't valorized, only PDND clients with subUnitCode null get retrieved.
+        The response doesn't contain secret informations.
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: subUnitCode
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PdndClientNoSecretDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
+  /pdnd-clients/{organizationId}/id/{clientId}:
+    get:
+      tags:
+        - PdndClient
+      operationId: getPdndClient
+      summary: Retrieves PdndClient by clientId
+      description: >
+        Retrieves PdndClient detail.
+        The response doesn't contain secret informations.
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: clientId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PdndClientNoSecretDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
+    delete:
+      tags:
+        - PdndClient
+      operationId: deletePdndClient
+      summary: Deletes a Pdnd Client
+      description: >
+        Deletes the PDND client identified by clientId.
+        The client must be associated with the requested organization.
+        The deletion is not allowed if the client is referenced by PDND services.
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: clientId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: PdndClient deleted successfully
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
+  /organization/{organizationId}/pdnd/services:
+    get:
+      tags:
+        - PdndService
+      summary: get PdndServices
+      operationId: getPdndServices
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: subUnitCode
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: serviceType
+          in: query
+          required: false
+          schema:
+            type: 'PdndServiceType'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PdndServiceDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
+    post:
+      tags:
+        - PdndService
+      summary: Save a PdndService
+      operationId: savePdndService
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: subUnitCode
+          in: query
+          required: false
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PdndServiceRequestDTO'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: 'PdndService'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
+  /organization/{organizationId}/pdnd/services/{purposeId}:
+    get:
+      tags:
+        - PdndService
+      summary: Retrieves PdndService detail
+      operationId: getPdndService
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: purposeId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: subUnitCode
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PdndServiceDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
+    delete:
+      tags:
+        - PdndService
+      summary: Deletes a PdndService
+      operationId: deletePdndService
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: purposeId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: subUnitCode
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
 components:
   schemas:
     BrokerApiKeys:
@@ -661,11 +1178,30 @@ components:
             - ORGANIZATION_BAD_REQUEST
             - ORGANIZATION_GENERIC_ERROR
             - ORGANIZATION_TOO_MANY_REQUESTS
+            - ORGANIZATION_UNAUTHORIZED
+            - ORGANIZATION_FORBIDDEN
         code:
           type: string
         message:
           type: string
+        fields:
+          type: array
+          items:
+            $ref: "#/components/schemas/ErrorFieldDTO"
         traceId:
+          type: string
+    ErrorFieldDTO:
+      type: object
+      required:
+        - field
+        - error
+        - message
+      properties:
+        field:
+          type: string
+        error:
+          type: string
+        message:
           type: string
     OrgSilServiceDTO:
       type: object
@@ -798,3 +1334,61 @@ components:
           type: string
         publicKey:
           type: string
+    PdndClientNoSecretDTO:
+      type: object
+      required:
+        - clientId
+        - organizationId
+        - clientName
+        - kid
+        - publicKey
+      properties:
+        clientId:
+          type: string
+        organizationId:
+          type: integer
+          format: int64
+        subUnitCode:
+          type: string
+        clientName:
+          type: string
+        kid:
+          type: string
+        publicKey:
+          type: string
+    PdndServiceRequestDTO:
+      type: object
+      required:
+        - purposeId
+        - serviceName
+        - serviceType
+        - clientId
+      properties:
+        purposeId:
+          type: string
+        serviceName:
+          type: string
+        serviceType:
+          type: 'PdndServiceType'
+        clientId:
+          type: string
+    PdndServiceDTO:
+      type: object
+      required:
+        - purposeId
+        - serviceName
+        - serviceType
+        - clientId
+        - clientName
+      properties:
+        purposeId:
+          type: string
+        serviceName:
+          type: string
+        serviceType:
+          type: 'PdndServiceType'
+        clientId:
+          type: string
+        clientName:
+          type: string
+

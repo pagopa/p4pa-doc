@@ -52,6 +52,10 @@ paths:
                 $ref: "#/components/schemas/DebtPositionErrorDTO"
         "500":
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
   /debt-positions/{debtPositionId}:
     get:
       tags:
@@ -509,8 +513,16 @@ paths:
           description: OK
         '401':
           description: Unauthorized - Missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
         '403':
           description: Forbidden - Access denied
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
         '500':
           description: Server Error
           content:
@@ -634,8 +646,16 @@ paths:
                   $ref: "#/components/schemas/InstallmentDebtorDTO"
         "400":
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
         "500":
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
   /installments/{organizationId}/{nav}:
     get:
       tags:
@@ -674,8 +694,16 @@ paths:
                   $ref: "#/components/schemas/InstallmentDTO"
         "400":
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
         "500":
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
   /installments/by-organizationId-and-receiptId:
     get:
       tags:
@@ -715,8 +743,16 @@ paths:
                   $ref: "#/components/schemas/InstallmentDTO"
         "400":
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
         "500":
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
   /export/organization/{organizationId}/installments/paid:
     get:
       tags:
@@ -883,10 +919,22 @@ paths:
                 $ref: "#/components/schemas/ReceiptDTO"
         "400":
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
         "409":
           description: Debt position already exists and cannot be changed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
         "500":
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
   /receipts/{receiptId}:
     get:
       tags:
@@ -1007,10 +1055,22 @@ paths:
                 format: binary
         "400":
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
         "404":
           description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
         "500":
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
   /installments/{installmentId}:
     get:
       tags:
@@ -1520,8 +1580,16 @@ paths:
                 type: 'DebtPositionTypeOrg'
         '404':
           description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
         "500":
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
   /debt-position-type-org/{debtPositionTypeOrgId}:
     delete:
       tags:
@@ -1539,8 +1607,16 @@ paths:
           description: Ok
         '404':
           description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
         "500":
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
     patch:
       tags:
         - debt-position-type-org
@@ -1562,8 +1638,16 @@ paths:
           description: Ok
         '404':
           description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
         "500":
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
   /debt-position-type-org/{debtPositionTypeOrgId}/io-notification/details:
     get:
       tags:
@@ -1593,10 +1677,22 @@ paths:
                 $ref: "#/components/schemas/IONotificationDTO"
         "400":
           description: Invalid request parameters
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
         "404":
           description: No notification details found for the specified DebtPositionTypeOrgId or notifications are not enabled
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
         "500":
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
   /debt-position-type-org/{organizationId}/technical:
     post:
       tags:
@@ -1661,12 +1757,28 @@ paths:
                 type: integer
         '400':
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
         '403':
           description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
         '404':
           description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
         '500':
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
   /debt-position-type-org-operators:
     post:
       tags:
@@ -1692,10 +1804,22 @@ paths:
           description: Created
         '400':
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
         '403':
           description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
         '500':
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
   /debt-position-type-org-operators/default-technical:
     post:
       tags:
@@ -1718,10 +1842,22 @@ paths:
           description: Created
         '400':
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
         '403':
           description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
         '500':
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
   /debt-positions/mixed:
     post:
       tags:
@@ -1788,10 +1924,22 @@ paths:
                 $ref: "#/components/schemas/PagedDebtorUnpaidDebtPositionDTO"
         '401':
           description: Unauthorized - Missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
         '403':
           description: Forbidden - Access denied
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
       x-spring-paginated: true
   /debt-positions/debtor/unpaid/{debtPositionId}/overview:
     get:
@@ -1825,12 +1973,28 @@ paths:
                 type: "DebtorDebtPositionDTO"
         '401':
           description: Unauthorized - Missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
         '403':
           description: Forbidden - Access denied
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
         '404':
           description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
   /spontaneous-forms:
     post:
       tags:
@@ -1851,12 +2015,28 @@ paths:
                 type: 'SpontaneousForm'
         '400':
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
         '403':
           description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
         '409':
           description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
         '500':
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
     put:
       tags:
         - spontaneous-form
@@ -1872,12 +2052,28 @@ paths:
           description: Ok
         '400':
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
         '403':
           description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
         '404':
           description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
         '500':
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
   /spontaneous-forms/{spontaneousFormId}:
     delete:
       tags:
@@ -1895,10 +2091,22 @@ paths:
           description: Ok
         '404':
           description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
         '409':
           description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
         "500":
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
   /transfers/taxonomy-category/validate:
     get:
       tags:
@@ -1956,8 +2164,16 @@ paths:
                 type: 'BaseDebtPosition'
         "400":
           description: Invalid request parameters
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
         "500":
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
   /crud-ext/debt-positions/organization/{organizationId}/iuv/{iuv}:
     get:
       tags:
@@ -1994,8 +2210,16 @@ paths:
                   type: 'BaseDebtPosition'
         "400":
           description: Invalid request parameters
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
         "500":
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
   /transfers/postal-iban/verify:
     get:
       tags:
@@ -2019,10 +2243,22 @@ paths:
                 $ref: '#/components/schemas/PostalIbanVerifyResponse'
         "400":
           description: Invalid request parameters
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
         "404":
           description: No transfers found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
         "500":
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
 security:
   - BearerAuth: [ ]
 components:
@@ -2701,6 +2937,7 @@ components:
             - DEBT_POSITION_GENERIC_ERROR
             - DEBT_POSITION_NOT_FOUND
             - DEBT_POSITION_TOO_MANY_REQUESTS
+            - DEBT_POSITION_UNAUTHORIZED
         code:
           type: string
         message:

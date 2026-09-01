@@ -62,13 +62,34 @@
             "description" : "OK"
           },
           "403" : {
-            "description" : "Forbidden"
+            "description" : "Forbidden",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
           },
           "404" : {
-            "description" : "Campaign not found"
+            "description" : "Campaign not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
           },
           "500" : {
-            "description" : "Internal Server Error"
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
           }
         }
       }
@@ -147,6 +168,7 @@
         }, {
           "name" : "orgSubUnitCode",
           "in" : "query",
+          "description" : "Filter by a specific sub-unit as sender; takes precedence over senderOrganizationId.",
           "required" : false,
           "schema" : {
             "type" : "string",
@@ -167,6 +189,14 @@
           "schema" : {
             "type" : "string",
             "nullable" : true
+          }
+        }, {
+          "name" : "fetchAll",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "boolean",
+            "default" : true
           }
         }, {
           "name" : "page",
@@ -206,7 +236,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedCampaign"
+                  "$ref" : "#/components/schemas/PagedCampaignDTO"
                 }
               }
             }
@@ -216,7 +246,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedCampaign"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -226,7 +256,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedCampaign"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -236,7 +266,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedCampaign"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -270,7 +300,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/Campaign"
+                  "$ref" : "#/components/schemas/CampaignDTO"
                 }
               }
             }
@@ -280,7 +310,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/Campaign"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -290,7 +320,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/Campaign"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -300,7 +330,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/Campaign"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -310,7 +340,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/Campaign"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -426,7 +456,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedSendNotifications"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -436,7 +466,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedSendNotifications"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -487,7 +517,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/SendNotificationExtendedDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -497,7 +527,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/SendNotificationExtendedDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -507,7 +537,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/SendNotificationExtendedDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -517,7 +547,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/SendNotificationExtendedDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -571,10 +601,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/SendTimelineElement"
-                  }
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -584,10 +611,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/SendTimelineElement"
-                  }
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -597,10 +621,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/SendTimelineElement"
-                  }
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -610,10 +631,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/SendTimelineElement"
-                  }
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -624,6 +642,50 @@
   },
   "components" : {
     "schemas" : {
+      "CategoryEnum" : {
+        "type" : "string",
+        "enum" : [ "NOT_FOUND", "BAD_REQUEST", "GENERIC_ERROR", "TOO_MANY_REQUESTS", "CONFLICT", "FORBIDDEN", "UNAUTHORIZED" ]
+      },
+      "ErrorDTO" : {
+        "required" : [ "category", "code", "message" ],
+        "type" : "object",
+        "properties" : {
+          "category" : {
+            "$ref" : "#/components/schemas/CategoryEnum"
+          },
+          "code" : {
+            "type" : "string"
+          },
+          "message" : {
+            "type" : "string"
+          },
+          "fields" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ErrorFieldDTO"
+            }
+          },
+          "traceId" : {
+            "type" : "string",
+            "nullable" : true
+          }
+        }
+      },
+      "ErrorFieldDTO" : {
+        "required" : [ "error", "field", "message" ],
+        "type" : "object",
+        "properties" : {
+          "field" : {
+            "type" : "string"
+          },
+          "error" : {
+            "type" : "string"
+          },
+          "message" : {
+            "type" : "string"
+          }
+        }
+      },
       "RenameCampaignRequest" : {
         "required" : [ "name" ],
         "type" : "object",
@@ -653,58 +715,14 @@
           }
         }
       },
-      "CategoryEnum" : {
-        "type" : "string",
-        "enum" : [ "NOT_FOUND", "BAD_REQUEST", "GENERIC_ERROR", "TOO_MANY_REQUESTS", "CONFLICT", "FORBIDDEN", "UNAUTHORIZED" ]
-      },
-      "ErrorDTO" : {
-        "required" : [ "category", "code", "message" ],
+      "CampaignDTO" : {
+        "required" : [ "campaignId", "endDate", "externalId", "organizationId", "startDate" ],
         "type" : "object",
         "properties" : {
-          "category" : {
-            "$ref" : "#/components/schemas/CategoryEnum"
-          },
-          "code" : {
-            "type" : "string"
-          },
-          "message" : {
-            "type" : "string"
-          },
-          "traceId" : {
-            "type" : "string",
-            "nullable" : true
-          }
-        }
-      },
-      "Campaign" : {
-        "required" : [ "counters", "endDate", "externalId", "organizationId", "startDate" ],
-        "type" : "object",
-        "properties" : {
-          "creationDate" : {
-            "type" : "string",
-            "format" : "date-time",
-            "nullable" : true
-          },
-          "updateDate" : {
-            "type" : "string",
-            "format" : "date-time",
-            "nullable" : true
-          },
-          "updateOperatorExternalId" : {
-            "type" : "string",
-            "nullable" : true
-          },
-          "updateTraceId" : {
-            "type" : "string",
-            "nullable" : true
-          },
           "campaignId" : {
-            "type" : "string",
-            "nullable" : true
+            "type" : "string"
           },
           "externalId" : {
-            "maxLength" : 2147483647,
-            "minLength" : 1,
             "type" : "string"
           },
           "campaignName" : {
@@ -719,9 +737,6 @@
             "type" : "string",
             "nullable" : true
           },
-          "counters" : {
-            "$ref" : "#/components/schemas/Counters"
-          },
           "startDate" : {
             "type" : "string",
             "format" : "date"
@@ -729,10 +744,13 @@
           "endDate" : {
             "type" : "string",
             "format" : "date"
+          },
+          "counters" : {
+            "$ref" : "#/components/schemas/ExtendedCounters"
           }
         }
       },
-      "Counters" : {
+      "ExtendedCounters" : {
         "type" : "object",
         "properties" : {
           "total" : {
@@ -750,31 +768,64 @@
             "format" : "int64",
             "nullable" : true
           },
-          "digitalCompleted" : {
+          "completed" : {
             "type" : "integer",
             "format" : "int64",
             "nullable" : true
           },
-          "analogicCompleted" : {
+          "analogicCompletionPreOutcome" : {
+            "type" : "integer",
+            "format" : "int64",
+            "nullable" : true
+          },
+          "analogicCompletion" : {
+            "type" : "integer",
+            "format" : "int64",
+            "nullable" : true
+          },
+          "digitalCompletionDigitalDomicile" : {
+            "type" : "integer",
+            "format" : "int64",
+            "nullable" : true
+          },
+          "digitalCompletionCourtesyMessage" : {
+            "type" : "integer",
+            "format" : "int64",
+            "nullable" : true
+          },
+          "failed" : {
+            "type" : "integer",
+            "format" : "int64",
+            "nullable" : true
+          },
+          "deceasedRecipient" : {
+            "type" : "integer",
+            "format" : "int64",
+            "nullable" : true
+          },
+          "recipientNotFound" : {
             "type" : "integer",
             "format" : "int64",
             "nullable" : true
           },
           "completion" : {
             "type" : "integer",
-            "format" : "int64",
-            "nullable" : true
+            "format" : "int64"
+          },
+          "totalAnalogicCompletion" : {
+            "type" : "integer",
+            "format" : "int64"
           }
         }
       },
-      "PagedCampaign" : {
+      "PagedCampaignDTO" : {
         "required" : [ "content", "number", "size", "totalElements", "totalPages" ],
         "type" : "object",
         "properties" : {
           "content" : {
             "type" : "array",
             "items" : {
-              "$ref" : "#/components/schemas/Campaign"
+              "$ref" : "#/components/schemas/CampaignDTO"
             }
           },
           "size" : {
@@ -791,7 +842,7 @@
           },
           "number" : {
             "type" : "integer",
-            "format" : "int32"
+            "format" : "int64"
           }
         }
       },

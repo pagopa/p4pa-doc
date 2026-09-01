@@ -1,7 +1,7 @@
 {
   "openapi" : "3.0.1",
   "info" : {
-    "title" : "p4pa-cie-batch",
+    "title" : "p4pa-analytics-data-ingestion",
     "description" : "Api and Models",
     "version" : "0.0.1"
   },
@@ -13,8 +13,8 @@
     "BearerAuth" : [ ]
   } ],
   "tags" : [ {
-    "name" : "OrganizationCie",
-    "description" : "the OrganizationCie API"
+    "name" : "DebtPositionTypeOrgsIngestion",
+    "description" : "the DebtPositionTypeOrgsIngestion API"
   }, {
     "name" : "Schedule",
     "description" : "the Schedule API"
@@ -23,13 +23,14 @@
     "description" : "the Workflow API"
   } ],
   "paths" : {
-    "/workflow/organizations-cie/sync" : {
+    "/workflow/debt-position-type-orgs-ingestion" : {
       "post" : {
-        "tags" : [ "OrganizationCie" ],
-        "operationId" : "syncOrganizationsCie",
+        "tags" : [ "DebtPositionTypeOrgsIngestion" ],
+        "description" : "To start DebtPositionTypeOrgs ingestion",
+        "operationId" : "ingestDebtPositionTypeOrgs",
         "responses" : {
-          "200" : {
-            "description" : "Organizations cie synchronized correctly",
+          "201" : {
+            "description" : "Workflow created successfully",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -38,18 +39,8 @@
               }
             }
           },
-          "409" : {
-            "description" : "Conflict",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorDTO"
-                }
-              }
-            }
-          },
           "500" : {
-            "description" : "Server Error",
+            "description" : "Internal Server Error",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -58,7 +49,10 @@
               }
             }
           }
-        }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
       }
     },
     "/workflows/{workflowId}/status" : {
@@ -170,7 +164,7 @@
       },
       "CategoryEnum" : {
         "type" : "string",
-        "enum" : [ "NOT_FOUND", "BAD_REQUEST", "GENERIC_ERROR", "CONFLICT", "TOO_MANY_REQUESTS", "FORBIDDEN", "UNAUTHORIZED" ]
+        "enum" : [ "NOT_FOUND", "BAD_REQUEST", "GENERIC_ERROR", "CONFLICT", "UNAUTHORIZED", "TOO_MANY_REQUESTS", "FORBIDDEN" ]
       },
       "ErrorDTO" : {
         "required" : [ "category", "code", "message" ],
@@ -253,13 +247,8 @@
           "duration" : {
             "type" : "string",
             "nullable" : true
-          },
-          "result" : {
-            "type" : "string",
-            "nullable" : true
           }
-        },
-        "nullable" : true
+        }
       },
       "RecentScheduleExecutionInfoDTO" : {
         "required" : [ "runId", "scheduledAt", "startedAt", "workflowId" ],
@@ -283,7 +272,7 @@
       },
       "ScheduleEnum" : {
         "type" : "string",
-        "enum" : [ "SCHEDULE_ORGANIZATION_CIE_SYNC_WF" ]
+        "enum" : [ "SCHEDULE_DP_TYPE_ORGS_INGESTION_WF" ]
       },
       "ScheduleExecutionInfoDTO" : {
         "required" : [ "runId", "workflowId" ],
@@ -342,14 +331,6 @@
           "lastUpdatedAt" : {
             "type" : "string",
             "format" : "date-time"
-          },
-          "lastManualExecution" : {
-            "$ref" : "#/components/schemas/WorkflowStatusDTO"
-          },
-          "lastExecution" : {
-            "type" : "string",
-            "format" : "date-time",
-            "nullable" : true
           }
         }
       }

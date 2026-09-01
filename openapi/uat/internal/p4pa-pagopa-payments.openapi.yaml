@@ -37,8 +37,16 @@ paths:
           description: No content
         "400":
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagoPaPaymentsErrorDTO'
         "500":
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagoPaPaymentsErrorDTO'
   /paymentsReporting/{organizationId}:
     get:
       tags:
@@ -68,8 +76,16 @@ paths:
                   $ref: "#/components/schemas/PaymentsReportingIdDTO"
         "400":
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagoPaPaymentsErrorDTO'
         "500":
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagoPaPaymentsErrorDTO'
   /paymentsReporting/{organizationId}/fetch:
     get:
       tags:
@@ -113,8 +129,16 @@ paths:
                 format: int64
         "400":
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagoPaPaymentsErrorDTO'
         "500":
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagoPaPaymentsErrorDTO'
   /taxonomies/fetch:
     get:
       tags:
@@ -156,8 +180,16 @@ paths:
           description: No content
         "400":
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagoPaPaymentsErrorDTO'
         "500":
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagoPaPaymentsErrorDTO'
   /printpaymentnotice/generate:
     post:
       tags:
@@ -187,8 +219,16 @@ paths:
           description: No content
         "400":
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagoPaPaymentsErrorDTO'
         "500":
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagoPaPaymentsErrorDTO'
   /printpaymentnotice/generateMassive:
     post:
       tags:
@@ -209,8 +249,16 @@ paths:
                 $ref: '#/components/schemas/GeneratedNoticeMassiveFolderDTO'
         "400":
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagoPaPaymentsErrorDTO'
         "500":
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagoPaPaymentsErrorDTO'
   /printpaymentnotice/{organizationId}/{folderId}/getSignedUrl:
     get:
       tags:
@@ -239,8 +287,16 @@ paths:
           description: No content
         "400":
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagoPaPaymentsErrorDTO'
         "500":
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagoPaPaymentsErrorDTO'
 security:
   - BearerAuth: []
 components:
@@ -285,7 +341,24 @@ components:
           type: string
         message:
           type: string
+        fields:
+          type: array
+          items:
+            $ref: "#/components/schemas/ErrorFieldDTO"
         traceId:
+          type: string
+    ErrorFieldDTO:
+      type: object
+      required:
+        - field
+        - error
+        - message
+      properties:
+        field:
+          type: string
+        error:
+          type: string
+        message:
           type: string
     TaxonomyDTO:
       properties:

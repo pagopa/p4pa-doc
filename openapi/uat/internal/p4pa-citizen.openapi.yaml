@@ -33,12 +33,28 @@ paths:
                 $ref: "#/components/schemas/BrokerInfoDTO"
         '401':
           description: Unauthorized - Missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '403':
           description: Forbidden - Access denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '404':
           description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
   /brokers/{brokerId}/spontaneous/organizations:
     get:
       tags:
@@ -63,10 +79,22 @@ paths:
                   $ref: "#/components/schemas/OrganizationsWithSpontaneousDTO"
         '401':
           description: Unauthorized - Missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '403':
           description: Forbidden - Access denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
   /brokers/{brokerId}/spontaneous/organizations/{organizationId}/debt-position-type-orgs:
     get:
       tags:
@@ -97,10 +125,22 @@ paths:
                   $ref: "#/components/schemas/DebtPositionTypeOrgsWithSpontaneousDTO"
         '401':
           description: Unauthorized - Missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '403':
           description: Forbidden - Access denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
   /brokers/{brokerId}/spontaneous/organizations/{organizationId}/debt-position-type-orgs/most-used:
     get:
       tags:
@@ -143,12 +183,28 @@ paths:
                   $ref: "#/components/schemas/DebtPositionTypeOrgsWithSpontaneousDTO"
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '401':
           description: Unauthorized - Missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '403':
           description: Forbidden - Access denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
       x-spring-paginated: true
   /brokers/{brokerId}/spontaneous/organizations/{organizationId}/debt-position-type-orgs/{debtPositionTypeOrgId}:
     get:
@@ -184,12 +240,28 @@ paths:
                 $ref: "#/components/schemas/DebtPositionTypeOrgsWithSpontaneousDetailsDTO"
         '401':
           description: Unauthorized - Missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '403':
           description: Forbidden - Access denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '404':
           description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
   /brokers/{brokerId}/spontaneous/debt-positions:
     post:
       tags:
@@ -218,14 +290,34 @@ paths:
                 $ref: "#/components/schemas/DebtPositionResponseDTO"
         '400':
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '403':
           description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '404':
           description: not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '409':
           description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '500':
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
   /brokers/{brokerId}/debt-positions/{debtPositionId}/notice/zip:
     get:
       tags:
@@ -262,12 +354,28 @@ paths:
           description: No Content - No installments found
         '401':
           description: Unauthorized - Missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '403':
           description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '404':
           description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
   /brokers/{brokerId}/debt-positions/{debtPositionId}:
     get:
       tags:
@@ -301,12 +409,28 @@ paths:
                 type: 'DebtPositionExtendedDTO'
         '401':
           description: Unauthorized - Missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '403':
           description: Forbidden - Access denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '404':
           description: Not Found - DebtPosition not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
   /brokers/{brokerId}/organizations/{organizationId}/debt-positions/notice:
     get:
       tags:
@@ -345,14 +469,34 @@ paths:
                 format: binary
         "400":
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '401':
           description: Unauthorized - Missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '403':
           description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '404':
           description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         "500":
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
   /brokers/{brokerId}/debt-positions/unpaid:
     get:
       tags:
@@ -389,10 +533,22 @@ paths:
                 $ref: "#/components/schemas/PagedDebtorDebtPositionDTO"
         '401':
           description: Unauthorized - Missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '403':
           description: Forbidden - Access denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
       x-spring-paginated: true
   /brokers/{brokerId}/debt-positions/debtor/unpaid/{debtPositionId}/overview:
     get:
@@ -432,12 +588,28 @@ paths:
                 $ref: "#/components/schemas/DebtorUnpaidDebtPositionOverviewDTO"
         '401':
           description: Unauthorized - Missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '403':
           description: Forbidden - Access denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '404':
           description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
   /brokers/{brokerId}/debt-positions/debtor/unpaid/{debtPositionId}/{paymentOptionId}/installments:
     get:
       tags:
@@ -484,10 +656,22 @@ paths:
                   $ref: "#/components/schemas/DebtorUnpaidDebtPositionInstallmentsDTO"
         '401':
           description: Unauthorized - Missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '403':
           description: Forbidden - Access denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
   /brokers/{brokerId}/receipts:
     get:
       tags:
@@ -536,10 +720,22 @@ paths:
                 $ref: "#/components/schemas/PagedDebtorReceiptsDTO"
         "400":
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         "404":
           description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         "500":
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
       x-spring-paginated: true
   /brokers/{brokerId}/organization/{organizationId}/debt-position/{debtPositionId}/payment-option/{paymentOptionId}/receipts:
     get:
@@ -587,10 +783,22 @@ paths:
                   $ref: '#/components/schemas/DebtorReceiptDTO'
         "400":
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         "404":
           description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         "500":
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
   /brokers/{brokerId}/organizations/{organizationId}/receipts/{receiptId}:
     get:
       tags:
@@ -631,10 +839,22 @@ paths:
                 type: 'ReceiptDetailExtendedDTO'
         '401':
           description: Unauthorized - Missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '403':
           description: Forbidden - Access denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '404':
           description: Not Found - Receipt not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '500':
           description: Internal Server Error
           content:
@@ -683,14 +903,34 @@ paths:
           description: No Content
         "400":
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '401':
           description: Unauthorized - Missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '403':
           description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '404':
           description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         "500":
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
   /brokers/{brokerId}/installments:
     get:
       tags:
@@ -736,10 +976,22 @@ paths:
                   type: 'InstallmentDebtorExtendedDTO'
         "400":
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '404':
           description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         "500":
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
   /brokers/{brokerId}/organizations/{orgFiscalCode}/logo:
     get:
       tags:
@@ -767,12 +1019,28 @@ paths:
                 $ref: "#/components/schemas/OrganizationLogoDTO"
         '401':
           description: Unauthorized - Missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '403':
           description: Forbidden - Access denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '404':
           description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
 security:
   - BearerAuth: [ ]
 components:
@@ -1240,6 +1508,7 @@ components:
       type: object
       required:
         - category
+        - code
         - message
       properties:
         category:
@@ -1251,12 +1520,31 @@ components:
             - GENERIC_ERROR
             - FORBIDDEN
             - CONFLICT
+            - UNAUTHORIZED
+            - TOO_MANY_REQUESTS
+        code:
+          type: string
         message:
           type: string
           description: Description of the error
+        fields:
+          type: array
+          items:
+            $ref: "#/components/schemas/ErrorFieldDTO"
         traceId:
           type: string
-        code:
+    ErrorFieldDTO:
+      type: object
+      required:
+        - field
+        - error
+        - message
+      properties:
+        field:
+          type: string
+        error:
+          type: string
+        message:
           type: string
     BrokerInfoDTO:
       type: object

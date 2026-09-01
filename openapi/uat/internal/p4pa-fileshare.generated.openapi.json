@@ -79,14 +79,12 @@
             "content" : {
               "application/octet-stream" : {
                 "schema" : {
-                  "type" : "string",
-                  "format" : "binary"
+                  "$ref" : "#/components/schemas/FileshareErrorDTO"
                 }
               },
               "application/json" : {
                 "schema" : {
-                  "type" : "string",
-                  "format" : "binary"
+                  "$ref" : "#/components/schemas/FileshareErrorDTO"
                 }
               }
             }
@@ -316,6 +314,12 @@
                   "type" : "string",
                   "format" : "binary"
                 }
+              },
+              "application/json" : {
+                "schema" : {
+                  "type" : "string",
+                  "format" : "binary"
+                }
               }
             }
           },
@@ -324,8 +328,12 @@
             "content" : {
               "application/octet-stream" : {
                 "schema" : {
-                  "type" : "string",
-                  "format" : "binary"
+                  "$ref" : "#/components/schemas/FileshareErrorDTO"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/FileshareErrorDTO"
                 }
               }
             }
@@ -409,6 +417,12 @@
                   "type" : "string",
                   "format" : "binary"
                 }
+              },
+              "application/json" : {
+                "schema" : {
+                  "type" : "string",
+                  "format" : "binary"
+                }
               }
             }
           },
@@ -417,8 +431,12 @@
             "content" : {
               "application/octet-stream" : {
                 "schema" : {
-                  "type" : "string",
-                  "format" : "binary"
+                  "$ref" : "#/components/schemas/FileshareErrorDTO"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/FileshareErrorDTO"
                 }
               }
             }
@@ -428,8 +446,12 @@
             "content" : {
               "application/octet-stream" : {
                 "schema" : {
-                  "type" : "string",
-                  "format" : "binary"
+                  "$ref" : "#/components/schemas/FileshareErrorDTO"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/FileshareErrorDTO"
                 }
               }
             }
@@ -472,6 +494,12 @@
                   "type" : "string",
                   "format" : "binary"
                 }
+              },
+              "application/json" : {
+                "schema" : {
+                  "type" : "string",
+                  "format" : "binary"
+                }
               }
             }
           },
@@ -480,8 +508,12 @@
             "content" : {
               "application/octet-stream" : {
                 "schema" : {
-                  "type" : "string",
-                  "format" : "binary"
+                  "$ref" : "#/components/schemas/FileshareErrorDTO"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/FileshareErrorDTO"
                 }
               }
             }
@@ -491,8 +523,12 @@
             "content" : {
               "application/octet-stream" : {
                 "schema" : {
-                  "type" : "string",
-                  "format" : "binary"
+                  "$ref" : "#/components/schemas/FileshareErrorDTO"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/FileshareErrorDTO"
                 }
               }
             }
@@ -535,6 +571,12 @@
                   "type" : "string",
                   "format" : "binary"
                 }
+              },
+              "application/json" : {
+                "schema" : {
+                  "type" : "string",
+                  "format" : "binary"
+                }
               }
             }
           },
@@ -543,8 +585,12 @@
             "content" : {
               "application/octet-stream" : {
                 "schema" : {
-                  "type" : "string",
-                  "format" : "binary"
+                  "$ref" : "#/components/schemas/FileshareErrorDTO"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/FileshareErrorDTO"
                 }
               }
             }
@@ -587,6 +633,12 @@
                   "type" : "string",
                   "format" : "binary"
                 }
+              },
+              "application/json" : {
+                "schema" : {
+                  "type" : "string",
+                  "format" : "binary"
+                }
               }
             }
           },
@@ -595,8 +647,12 @@
             "content" : {
               "application/octet-stream" : {
                 "schema" : {
-                  "type" : "string",
-                  "format" : "binary"
+                  "$ref" : "#/components/schemas/FileshareErrorDTO"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/FileshareErrorDTO"
                 }
               }
             }
@@ -625,23 +681,43 @@
       },
       "CategoryEnum" : {
         "type" : "string",
-        "enum" : [ "INVALID_FILE", "INVALID_FILE_TYPE", "FILE_UPLOAD_ERROR", "NOT_FOUND", "CONFLICT", "BAD_REQUEST", "UNAUTHORIZED", "GENERIC_ERROR" ]
+        "enum" : [ "INVALID_FILE", "INVALID_FILE_TYPE", "FILE_UPLOAD_ERROR", "NOT_FOUND", "CONFLICT", "BAD_REQUEST", "UNAUTHORIZED", "FORBIDDEN", "GENERIC_ERROR", "TOO_MANY_REQUESTS" ]
+      },
+      "ErrorFieldDTO" : {
+        "required" : [ "error", "field", "message" ],
+        "type" : "object",
+        "properties" : {
+          "field" : {
+            "type" : "string"
+          },
+          "error" : {
+            "type" : "string"
+          },
+          "message" : {
+            "type" : "string"
+          }
+        }
       },
       "FileshareErrorDTO" : {
-        "required" : [ "category", "message" ],
+        "required" : [ "category", "code", "message" ],
         "type" : "object",
         "properties" : {
           "category" : {
             "$ref" : "#/components/schemas/CategoryEnum"
           },
+          "code" : {
+            "type" : "string"
+          },
           "message" : {
             "type" : "string"
           },
-          "traceId" : {
-            "type" : "string",
-            "nullable" : true
+          "fields" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ErrorFieldDTO"
+            }
           },
-          "code" : {
+          "traceId" : {
             "type" : "string",
             "nullable" : true
           }

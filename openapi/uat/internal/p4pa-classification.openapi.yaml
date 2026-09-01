@@ -130,6 +130,10 @@ paths:
                 format: date-time
         '404':
           description: Not Found - PaymentReporting flowDateTime for given Organization Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClassificationErrorDTO'
         '500':
           description: Server Error
           content:
@@ -226,8 +230,16 @@ paths:
                 type: 'ClassificationDetailViewDTO'
         '404':
           description: Not Found - Classification Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClassificationErrorDTO'
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClassificationErrorDTO'
   /crud-ext/classifications:
     post:
       tags:
@@ -1090,6 +1102,13 @@ paths:
         - balance
       operationId: validateBalance
       description: "The API validates the formal structure of balance"
+      parameters:
+        - name: allowTemplate
+          in: query
+          description: Indicates if balance validation allow template structure or not
+          required: false
+          schema:
+            type: boolean
       requestBody:
         content:
           application/json:
@@ -1229,8 +1248,16 @@ paths:
                 type: 'PaymentNotificationDTO'
         "400":
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClassificationErrorDTO'
         "409":
           description: Payment notification already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClassificationErrorDTO'
         '500':
           description: Server Error
           content:
@@ -1473,11 +1500,30 @@ components:
             - CLASSIFICATION_CONFLICT
             - CLASSIFICATION_GENERIC_ERROR
             - CLASSIFICATION_TOO_MANY_REQUESTS
+            - CLASSIFICATION_UNAUTHORIZED
+            - CLASSIFICATION_FORBIDDEN
         code:
           type: string
         message:
           type: string
+        fields:
+          type: array
+          items:
+            $ref: "#/components/schemas/ErrorFieldDTO"
         traceId:
+          type: string
+    ErrorFieldDTO:
+      type: object
+      required:
+        - field
+        - error
+        - message
+      properties:
+        field:
+          type: string
+        error:
+          type: string
+        message:
           type: string
     PagedFullClassificationView:
       type: object

@@ -19,6 +19,9 @@
     "name" : "DebtPositionTypeOrgBalanceCost",
     "description" : "the DebtPositionTypeOrgBalanceCost API"
   }, {
+    "name" : "PdndService",
+    "description" : "the PdndService API"
+  }, {
     "name" : "OrgSilService",
     "description" : "the OrgSilService API"
   }, {
@@ -55,6 +58,9 @@
     "name" : "Authentication",
     "description" : "the Authentication API"
   }, {
+    "name" : "PdndClient",
+    "description" : "the PdndClient API"
+  }, {
     "name" : "Analytics",
     "description" : "the Analytics API"
   }, {
@@ -75,6 +81,9 @@
   }, {
     "name" : "Monitoring",
     "description" : "the Monitoring API"
+  }, {
+    "name" : "OrgSubUnitOperators",
+    "description" : "the OrgSubUnitOperators API"
   }, {
     "name" : "SpontaneousForms",
     "description" : "the SpontaneousForms API"
@@ -140,7 +149,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/OrganizationDetail"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -150,7 +159,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/OrganizationDetail"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -160,7 +169,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/OrganizationDetail"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -170,7 +179,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/OrganizationDetail"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -208,10 +217,24 @@
             "description" : "OK"
           },
           "401" : {
-            "description" : "Unauthorized - Missing or invalid token"
+            "description" : "Unauthorized - Missing or invalid token",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
           },
           "403" : {
-            "description" : "Forbidden - Access denied"
+            "description" : "Forbidden - Access denied",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
           },
           "500" : {
             "description" : "Internal Server Error",
@@ -261,10 +284,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/SpontaneousForm"
-                  }
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -274,10 +294,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/SpontaneousForm"
-                  }
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -287,10 +304,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/SpontaneousForm"
-                  }
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -328,13 +342,34 @@
             "description" : "OK"
           },
           "401" : {
-            "description" : "Unauthorized - Missing or invalid token"
+            "description" : "Unauthorized - Missing or invalid token",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
           },
           "403" : {
-            "description" : "Forbidden - Access denied"
+            "description" : "Forbidden - Access denied",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
           },
           "404" : {
-            "description" : "Not found"
+            "description" : "Not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
           },
           "500" : {
             "description" : "Internal Server Error",
@@ -389,7 +424,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/SpontaneousForm"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -399,7 +434,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/SpontaneousForm"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -409,7 +444,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/SpontaneousForm"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -419,7 +454,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/SpontaneousForm"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -467,7 +502,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/OrgSubUnit"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -477,7 +512,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/OrgSubUnit"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -487,7 +522,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/OrgSubUnit"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -497,7 +532,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/OrgSubUnit"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -553,7 +588,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/OrgSubUnit"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -563,7 +598,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/OrgSubUnit"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -573,7 +608,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/OrgSubUnit"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -583,7 +618,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/OrgSubUnit"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -593,7 +628,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/OrgSubUnit"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -628,16 +663,44 @@
             "description" : "OK"
           },
           "401" : {
-            "description" : "Unauthorized - Missing or invalid token"
+            "description" : "Unauthorized - Missing or invalid token",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
           },
           "403" : {
-            "description" : "Forbidden - Access denied"
+            "description" : "Forbidden - Access denied",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
           },
           "404" : {
-            "description" : "Not found"
+            "description" : "Not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
           },
           "500" : {
-            "description" : "Internal Server Error"
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
           }
         },
         "security" : [ {
@@ -685,10 +748,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/OrgSilServiceExtendedDTO"
-                  }
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -698,10 +758,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/OrgSilServiceExtendedDTO"
-                  }
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -711,10 +768,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/OrgSilServiceExtendedDTO"
-                  }
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -763,7 +817,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/OrgSilServiceDecryptedDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -773,7 +827,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/OrgSilServiceDecryptedDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -783,7 +837,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/OrgSilServiceDecryptedDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -793,7 +847,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/OrgSilServiceDecryptedDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -842,7 +896,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/OrgSilServiceDecryptedDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -852,7 +906,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/OrgSilServiceDecryptedDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -862,7 +916,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/OrgSilServiceDecryptedDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -872,7 +926,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/OrgSilServiceDecryptedDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -920,7 +974,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DebtPositionDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -930,7 +984,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DebtPositionDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -940,7 +994,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DebtPositionDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -950,7 +1004,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DebtPositionDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -960,7 +1014,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DebtPositionDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -970,7 +1024,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DebtPositionDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -1038,7 +1092,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DebtPositionDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -1048,7 +1102,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DebtPositionDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -1058,7 +1112,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DebtPositionDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -1107,7 +1161,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DebtPositionTypeOrgDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -1117,7 +1171,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DebtPositionTypeOrgDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -1127,7 +1181,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DebtPositionTypeOrgDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -1137,7 +1191,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DebtPositionTypeOrgDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -1147,7 +1201,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DebtPositionTypeOrgDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -1203,7 +1257,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DebtPositionTypeOrg"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -1213,7 +1267,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DebtPositionTypeOrg"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -1223,7 +1277,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DebtPositionTypeOrg"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -1259,19 +1313,54 @@
             "description" : "OK"
           },
           "401" : {
-            "description" : "Unauthorized - Missing or invalid token"
+            "description" : "Unauthorized - Missing or invalid token",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
           },
           "403" : {
-            "description" : "Forbidden - Access denied"
+            "description" : "Forbidden - Access denied",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
           },
           "404" : {
-            "description" : "Not Found - DebtPositionTypeOrg Not Found"
+            "description" : "Not Found - DebtPositionTypeOrg Not Found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
           },
           "409" : {
-            "description" : "Conflict"
+            "description" : "Conflict",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
           },
           "500" : {
-            "description" : "Internal Server Error"
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
           }
         },
         "security" : [ {
@@ -1310,10 +1399,24 @@
             "description" : "Ok"
           },
           "404" : {
-            "description" : "Not Found"
+            "description" : "Not Found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
           },
           "500" : {
-            "description" : "Internal server error"
+            "description" : "Internal server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
           }
         },
         "security" : [ {
@@ -1354,16 +1457,44 @@
             "description" : "Ok"
           },
           "401" : {
-            "description" : "Unauthorized - Missing or invalid token"
+            "description" : "Unauthorized - Missing or invalid token",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
           },
           "403" : {
-            "description" : "Forbidden - Access denied"
+            "description" : "Forbidden - Access denied",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
           },
           "404" : {
-            "description" : "Not Found"
+            "description" : "Not Found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
           },
           "500" : {
-            "description" : "Internal Server Error"
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
           }
         },
         "security" : [ {
@@ -1408,7 +1539,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/AssessmentsRegistryDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -1418,7 +1549,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/AssessmentsRegistryDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -1428,7 +1559,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/AssessmentsRegistryDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -1438,7 +1569,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/AssessmentsRegistryDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -1494,7 +1625,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/AssessmentsRegistry"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -1504,7 +1635,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/AssessmentsRegistry"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -1514,7 +1645,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/AssessmentsRegistry"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -1524,7 +1655,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/AssessmentsRegistry"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -1534,7 +1665,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/AssessmentsRegistry"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -1544,7 +1675,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/AssessmentsRegistry"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -1585,7 +1716,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/AccessToken"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -1595,7 +1726,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/AccessToken"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -1605,7 +1736,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/AccessToken"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -1615,7 +1746,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/AccessToken"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -1654,7 +1785,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/AccessToken"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -1664,7 +1795,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/AccessToken"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -1674,7 +1805,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/AccessToken"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -1684,7 +1815,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/AccessToken"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -1692,7 +1823,374 @@
         }
       }
     },
+    "/bff/organization/{organizationId}/pdnd/services" : {
+      "post" : {
+        "tags" : [ "PdndService" ],
+        "summary" : "Save a PdndService",
+        "operationId" : "createPdndService",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }, {
+          "name" : "subUnitCode",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "nullable" : true
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/PdndServiceRequestDTO"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PdndService"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Not Found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/bff/organization/{organizationId}/pdnd/clients" : {
+      "get" : {
+        "tags" : [ "PdndClient" ],
+        "operationId" : "getPdndClientsByOrgSubUnitCode",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }, {
+          "name" : "orgSubUnitCode",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "nullable" : true
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/PdndClientNoSecretDTO"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized - Missing or invalid token",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Not Found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      },
+      "post" : {
+        "tags" : [ "PdndClient" ],
+        "operationId" : "createPdndClient",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/PdndClientDTO"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PdndClientNoSecretDTO"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized - Missing or invalid token",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
     "/bff/organization/{organizationId}/org-sub-units" : {
+      "get" : {
+        "tags" : [ "OrgSubUnits" ],
+        "operationId" : "getPagedOrgSubUnits",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }, {
+          "name" : "mappedExternalUserId",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "nullable" : true
+          }
+        }, {
+          "name" : "subUnitCode",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "nullable" : true
+          }
+        }, {
+          "name" : "status",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/components/schemas/OrgSubUnitStatus"
+          }
+        }, {
+          "name" : "subUnitType",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/components/schemas/SubUnitType"
+          }
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "Zero-based page index (0..N)",
+          "required" : false,
+          "schema" : {
+            "minimum" : 0,
+            "type" : "integer",
+            "default" : 0
+          }
+        }, {
+          "name" : "size",
+          "in" : "query",
+          "description" : "The size of the page to be returned",
+          "required" : false,
+          "schema" : {
+            "minimum" : 1,
+            "type" : "integer",
+            "default" : 20
+          }
+        }, {
+          "name" : "sort",
+          "in" : "query",
+          "description" : "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+          "required" : false,
+          "schema" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PagedOrgSubUnit"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized - Missing or invalid token",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden - Access denied",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      },
       "post" : {
         "tags" : [ "OrgSubUnits" ],
         "summary" : "Create an Organization Subunit",
@@ -1732,7 +2230,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/OrgSubUnit"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -1742,7 +2240,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/OrgSubUnit"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -1752,7 +2250,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/OrgSubUnit"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -1762,7 +2260,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/OrgSubUnit"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -1772,7 +2270,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/OrgSubUnit"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -1875,7 +2373,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedDebtPositionTypeOrgDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -1885,7 +2383,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedDebtPositionTypeOrgDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -1895,7 +2393,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedDebtPositionTypeOrgDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -1905,7 +2403,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedDebtPositionTypeOrgDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -1951,19 +2449,54 @@
             "description" : "Created"
           },
           "400" : {
-            "description" : "Invalid request"
+            "description" : "Invalid request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
           },
           "401" : {
-            "description" : "Unauthorized - Missing or invalid token"
+            "description" : "Unauthorized - Missing or invalid token",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
           },
           "403" : {
-            "description" : "Forbidden"
+            "description" : "Forbidden",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
           },
           "404" : {
-            "description" : "Not found"
+            "description" : "Not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
           },
           "500" : {
-            "description" : "Internal server error"
+            "description" : "Internal server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
           }
         },
         "security" : [ {
@@ -2012,10 +2545,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/DebtPositionTypeOrg"
-                  }
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -2025,10 +2555,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/DebtPositionTypeOrg"
-                  }
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -2038,10 +2565,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/DebtPositionTypeOrg"
-                  }
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -2088,7 +2612,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DebtPositionTypeOrg"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -2098,7 +2622,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DebtPositionTypeOrg"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -2177,6 +2701,11 @@
                 "schema" : {
                   "$ref" : "#/components/schemas/ClientDTOPage"
                 }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ClientDTOPage"
+                }
               }
             }
           },
@@ -2185,7 +2714,12 @@
             "content" : {
               "application/hal+json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/ClientDTOPage"
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -2195,7 +2729,12 @@
             "content" : {
               "application/hal+json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/ClientDTOPage"
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -2205,7 +2744,12 @@
             "content" : {
               "application/hal+json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/ClientDTOPage"
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -2215,7 +2759,12 @@
             "content" : {
               "application/hal+json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/ClientDTOPage"
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -2263,7 +2812,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/ClientDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -2273,7 +2822,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/ClientDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -2283,7 +2832,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/ClientDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -2293,7 +2842,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/ClientDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -2303,7 +2852,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/ClientDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -2350,7 +2899,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/ClientDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -2360,7 +2909,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/ClientDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -2370,7 +2919,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/ClientDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -2380,7 +2929,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/ClientDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -2390,7 +2939,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/ClientDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -2510,7 +3059,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedAssessmentsExtendedDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -2520,7 +3069,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedAssessmentsExtendedDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -2530,7 +3079,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedAssessmentsExtendedDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -2582,7 +3131,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/Assessments"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -2592,7 +3141,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/Assessments"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -2602,7 +3151,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/Assessments"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -2665,10 +3214,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/AssessmentsDetail"
-                  }
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -2678,10 +3224,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/AssessmentsDetail"
-                  }
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -2691,10 +3234,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/AssessmentsDetail"
-                  }
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -2704,10 +3244,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/AssessmentsDetail"
-                  }
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -2849,7 +3386,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedAssessmentsRegistry"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -2859,7 +3396,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedAssessmentsRegistry"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -2869,7 +3406,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedAssessmentsRegistry"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -2879,7 +3416,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedAssessmentsRegistry"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -2927,7 +3464,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/AssessmentsRegistry"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -2937,7 +3474,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/AssessmentsRegistry"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -2947,7 +3484,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/AssessmentsRegistry"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -3089,7 +3626,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DebtPositionDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -3099,7 +3636,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DebtPositionDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -3109,7 +3646,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DebtPositionDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -3119,7 +3656,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DebtPositionDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -3129,7 +3666,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DebtPositionDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -3171,7 +3708,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DebtPositionType"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -3181,7 +3718,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DebtPositionType"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -3191,7 +3728,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DebtPositionType"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -3209,6 +3746,93 @@
         "responses" : {
           "200" : {
             "description" : "OK"
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/bff/organization/{organizationId}/org-sub-units/{subUnitCode}/status" : {
+      "patch" : {
+        "tags" : [ "OrgSubUnits" ],
+        "operationId" : "updateOrgSubUnitStatus",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }, {
+          "name" : "subUnitCode",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "status",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/components/schemas/OrgSubUnitStatus"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "400" : {
+            "description" : "Invalid Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized - Missing or invalid token",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
           }
         },
         "security" : [ {
@@ -3236,19 +3860,54 @@
             "description" : "OK"
           },
           "401" : {
-            "description" : "Unauthorized - Missing or invalid token"
+            "description" : "Unauthorized - Missing or invalid token",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
           },
           "403" : {
-            "description" : "Forbidden - Access denied"
+            "description" : "Forbidden - Access denied",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
           },
           "404" : {
-            "description" : "Not Found - DebtPositionTypeOrg Not Found"
+            "description" : "Not Found - DebtPositionTypeOrg Not Found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
           },
           "409" : {
-            "description" : "Conflict"
+            "description" : "Conflict",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
           },
           "500" : {
-            "description" : "Internal Server Error"
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
           }
         },
         "security" : [ {
@@ -3286,6 +3945,11 @@
                 "schema" : {
                   "$ref" : "#/components/schemas/DebtPositionType"
                 }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DebtPositionType"
+                }
               }
             }
           },
@@ -3294,7 +3958,12 @@
             "content" : {
               "application/hal+json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DebtPositionType"
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -3304,7 +3973,12 @@
             "content" : {
               "application/hal+json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DebtPositionType"
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -3314,7 +3988,12 @@
             "content" : {
               "application/hal+json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DebtPositionType"
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -3324,7 +4003,12 @@
             "content" : {
               "application/hal+json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DebtPositionType"
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -3356,7 +4040,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/WorkflowCreatedDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -3366,7 +4050,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/WorkflowCreatedDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -3376,7 +4060,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/WorkflowCreatedDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -3386,7 +4070,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/WorkflowCreatedDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -3425,7 +4109,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/ScheduleLastUpdatedTimeDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -3435,7 +4119,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/ScheduleLastUpdatedTimeDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -3445,7 +4129,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/ScheduleLastUpdatedTimeDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -3492,7 +4176,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "boolean"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -3502,7 +4186,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "boolean"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -3638,7 +4322,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/Taxonomy"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -3648,7 +4332,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/Taxonomy"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -3658,7 +4342,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/Taxonomy"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -3668,7 +4352,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/Taxonomy"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -3770,10 +4454,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/TaxonomyServiceTypeCodeDTO"
-                  }
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -3783,10 +4464,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/TaxonomyServiceTypeCodeDTO"
-                  }
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -3796,10 +4474,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/TaxonomyServiceTypeCodeDTO"
-                  }
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -3834,10 +4509,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/TaxonomyOrganizationTypeDTO"
-                  }
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -3847,10 +4519,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/TaxonomyOrganizationTypeDTO"
-                  }
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -3860,10 +4529,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/TaxonomyOrganizationTypeDTO"
-                  }
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -3905,10 +4571,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/TaxonomyMacroAreaCodeDTO"
-                  }
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -3918,10 +4581,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/TaxonomyMacroAreaCodeDTO"
-                  }
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -3931,10 +4591,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/TaxonomyMacroAreaCodeDTO"
-                  }
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -3990,10 +4647,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/TaxonomyCollectionReasonDTO"
-                  }
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -4003,10 +4657,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/TaxonomyCollectionReasonDTO"
-                  }
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -4016,10 +4667,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/TaxonomyCollectionReasonDTO"
-                  }
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -4054,10 +4702,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/OrganizationDTO"
-                  }
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -4067,10 +4712,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/OrganizationDTO"
-                  }
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -4160,7 +4802,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedOrganizationWithDebtPositionTypeOrgCount"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -4170,7 +4812,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedOrganizationWithDebtPositionTypeOrgCount"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -4180,7 +4822,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedOrganizationWithDebtPositionTypeOrgCount"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -4369,7 +5011,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedTreasuryView"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -4379,7 +5021,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedTreasuryView"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -4389,7 +5031,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedTreasuryView"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -4437,7 +5079,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/Treasury"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -4447,7 +5089,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/Treasury"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -4457,7 +5099,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/Treasury"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -4467,7 +5109,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/Treasury"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -4519,10 +5161,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/Transfer"
-                  }
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -4532,10 +5171,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/Transfer"
-                  }
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -4545,10 +5181,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/Transfer"
-                  }
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -4596,7 +5229,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/SpontaneousFormDetailDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -4606,7 +5239,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/SpontaneousFormDetailDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -4616,7 +5249,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/SpontaneousFormDetailDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -4626,7 +5259,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/SpontaneousFormDetailDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -4661,19 +5294,54 @@
             "description" : "OK"
           },
           "401" : {
-            "description" : "Unauthorized - Missing or invalid token"
+            "description" : "Unauthorized - Missing or invalid token",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
           },
           "403" : {
-            "description" : "Forbidden - Access denied"
+            "description" : "Forbidden - Access denied",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
           },
           "404" : {
-            "description" : "Not found"
+            "description" : "Not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
           },
           "409" : {
-            "description" : "Conflict"
+            "description" : "Conflict",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
           },
           "500" : {
-            "description" : "Internal Server Error"
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
           }
         },
         "security" : [ {
@@ -4749,7 +5417,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedSpontaneousForm"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -4759,7 +5427,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedSpontaneousForm"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -4872,6 +5540,11 @@
                 "schema" : {
                   "$ref" : "#/components/schemas/PagedSilRegistry"
                 }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PagedSilRegistry"
+                }
               }
             }
           },
@@ -4880,7 +5553,12 @@
             "content" : {
               "application/hal+json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedSilRegistry"
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -4890,7 +5568,12 @@
             "content" : {
               "application/hal+json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedSilRegistry"
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -4900,7 +5583,12 @@
             "content" : {
               "application/hal+json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedSilRegistry"
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -4910,7 +5598,12 @@
             "content" : {
               "application/hal+json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedSilRegistry"
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -4957,7 +5650,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/SilRegistryDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -4967,7 +5660,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/SilRegistryDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -4977,7 +5670,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/SilRegistryDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -4987,7 +5680,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/SilRegistryDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -4997,7 +5690,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/SilRegistryDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -5139,7 +5832,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedReceiptView"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -5149,7 +5842,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedReceiptView"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -5159,7 +5852,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedReceiptView"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -5217,7 +5910,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/ReceiptDetailDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -5227,7 +5920,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/ReceiptDetailDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -5237,7 +5930,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/ReceiptDetailDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -5288,6 +5981,12 @@
                   "type" : "string",
                   "format" : "binary"
                 }
+              },
+              "application/json" : {
+                "schema" : {
+                  "type" : "string",
+                  "format" : "binary"
+                }
               }
             }
           },
@@ -5296,8 +5995,12 @@
             "content" : {
               "application/pdf" : {
                 "schema" : {
-                  "type" : "string",
-                  "format" : "binary"
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -5307,8 +6010,12 @@
             "content" : {
               "application/pdf" : {
                 "schema" : {
-                  "type" : "string",
-                  "format" : "binary"
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -5318,8 +6025,283 @@
             "content" : {
               "application/pdf" : {
                 "schema" : {
-                  "type" : "string",
-                  "format" : "binary"
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/bff/organization/{organizationId}/pdnd/services/{purposeId}" : {
+      "get" : {
+        "tags" : [ "PdndService" ],
+        "summary" : "Retrieves PdndService detail",
+        "operationId" : "getPdndService",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }, {
+          "name" : "purposeId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "subUnitCode",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "nullable" : true
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PdndServiceDTO"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized - Missing or invalid token",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Not Found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/bff/organization/{organizationId}/pdnd/clients/{clientId}" : {
+      "get" : {
+        "tags" : [ "PdndClient" ],
+        "operationId" : "getPdndClient",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }, {
+          "name" : "clientId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PdndClientNoSecretDTO"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized - Missing or invalid token",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Not Found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      },
+      "delete" : {
+        "tags" : [ "PdndClient" ],
+        "operationId" : "deletePdndClient",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }, {
+          "name" : "clientId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized - Missing or invalid token",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Not Found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          },
+          "409" : {
+            "description" : "Conflict - PDND client is associated with one or more PDND services",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -5433,7 +6415,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedPaymentsReportingView"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -5443,7 +6425,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedPaymentsReportingView"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -5453,7 +6435,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedPaymentsReportingView"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -5574,7 +6556,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedPaymentsReportingRow"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -5584,7 +6566,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedPaymentsReportingRow"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -5594,7 +6576,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedPaymentsReportingRow"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -5650,7 +6632,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PaymentsReportingDetailDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -5660,7 +6642,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PaymentsReportingDetailDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -5670,7 +6652,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PaymentsReportingDetailDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -5783,6 +6765,11 @@
                 "schema" : {
                   "$ref" : "#/components/schemas/PagedPagoPaRegistry"
                 }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PagedPagoPaRegistry"
+                }
               }
             }
           },
@@ -5791,7 +6778,12 @@
             "content" : {
               "application/hal+json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedPagoPaRegistry"
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -5801,7 +6793,12 @@
             "content" : {
               "application/hal+json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedPagoPaRegistry"
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -5811,7 +6808,12 @@
             "content" : {
               "application/hal+json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedPagoPaRegistry"
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -5821,7 +6823,12 @@
             "content" : {
               "application/hal+json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedPagoPaRegistry"
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -5860,6 +6867,11 @@
                 "schema" : {
                   "$ref" : "#/components/schemas/PagoPaRegistryDTO"
                 }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PagoPaRegistryDTO"
+                }
               }
             }
           },
@@ -5868,7 +6880,12 @@
             "content" : {
               "application/hal+json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagoPaRegistryDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -5878,7 +6895,12 @@
             "content" : {
               "application/hal+json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagoPaRegistryDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -5888,7 +6910,12 @@
             "content" : {
               "application/hal+json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagoPaRegistryDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -5898,7 +6925,110 @@
             "content" : {
               "application/hal+json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagoPaRegistryDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/bff/organization/{organizationId}/org-sub-units/{subUnitCode}/operators" : {
+      "get" : {
+        "tags" : [ "OrgSubUnitOperators" ],
+        "operationId" : "getOrgSubUnitOperators",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }, {
+          "name" : "subUnitCode",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "Zero-based page index (0..N)",
+          "required" : false,
+          "schema" : {
+            "minimum" : 0,
+            "type" : "integer",
+            "default" : 0
+          }
+        }, {
+          "name" : "size",
+          "in" : "query",
+          "description" : "The size of the page to be returned",
+          "required" : false,
+          "schema" : {
+            "minimum" : 1,
+            "type" : "integer",
+            "default" : 20
+          }
+        }, {
+          "name" : "sort",
+          "in" : "query",
+          "description" : "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+          "required" : false,
+          "schema" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PagedOrgSubUnitOperators"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized - Missing or invalid token",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden - Access denied",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -5947,7 +7077,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/OrgSilServiceDecryptedDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -5957,7 +7087,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/OrgSilServiceDecryptedDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -5967,7 +7097,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/OrgSilServiceDecryptedDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -6003,19 +7133,54 @@
             "description" : "OK"
           },
           "401" : {
-            "description" : "Unauthorized - Missing or invalid token"
+            "description" : "Unauthorized - Missing or invalid token",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
           },
           "403" : {
-            "description" : "Forbidden - Access denied"
+            "description" : "Forbidden - Access denied",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
           },
           "404" : {
-            "description" : "Not Found"
+            "description" : "Not Found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
           },
           "409" : {
-            "description" : "Conflict"
+            "description" : "Conflict",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
           },
           "500" : {
-            "description" : "Internal Server Error"
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
           }
         },
         "security" : [ {
@@ -6107,7 +7272,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedOrgSilServiceView"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -6117,7 +7282,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedOrgSilServiceView"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -6127,7 +7292,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedOrgSilServiceView"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -6223,7 +7388,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedOrganizationOperator"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -6233,7 +7398,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedOrganizationOperator"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -6338,6 +7503,11 @@
                 "schema" : {
                   "$ref" : "#/components/schemas/OperatorsDetail"
                 }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/OperatorsDetail"
+                }
               }
             }
           },
@@ -6346,7 +7516,12 @@
             "content" : {
               "application/hal+json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/OperatorsDetail"
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -6356,7 +7531,12 @@
             "content" : {
               "application/hal+json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/OperatorsDetail"
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -6366,7 +7546,12 @@
             "content" : {
               "application/hal+json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/OperatorsDetail"
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -6376,7 +7561,132 @@
             "content" : {
               "application/hal+json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/OperatorsDetail"
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/bff/organization/{organizationId}/operators/{mappedExternalUserId}/org-sub-units" : {
+      "get" : {
+        "tags" : [ "Operators" ],
+        "operationId" : "getOperatorOrgSubUnits",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }, {
+          "name" : "mappedExternalUserId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "subUnitCode",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "nullable" : true
+          }
+        }, {
+          "name" : "status",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/components/schemas/OrgSubUnitStatus"
+          }
+        }, {
+          "name" : "subUnitType",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/components/schemas/SubUnitType"
+          }
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "Zero-based page index (0..N)",
+          "required" : false,
+          "schema" : {
+            "minimum" : 0,
+            "type" : "integer",
+            "default" : 0
+          }
+        }, {
+          "name" : "size",
+          "in" : "query",
+          "description" : "The size of the page to be returned",
+          "required" : false,
+          "schema" : {
+            "minimum" : 1,
+            "type" : "integer",
+            "default" : 20
+          }
+        }, {
+          "name" : "sort",
+          "in" : "query",
+          "description" : "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+          "required" : false,
+          "schema" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PagedOrgSubUnit"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized - Missing or invalid token",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden - Access denied",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -6517,7 +7827,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedInstallmentView"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -6527,7 +7837,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedInstallmentView"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -6537,7 +7847,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedInstallmentView"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -6587,7 +7897,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/InstallmentDetailDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -6597,7 +7907,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/InstallmentDetailDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -6607,7 +7917,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/InstallmentDetailDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -6675,10 +7985,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/InstallmentRegistry"
-                  }
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -6688,10 +7995,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/InstallmentRegistry"
-                  }
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -6701,10 +8005,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/InstallmentRegistry"
-                  }
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -6714,10 +8015,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/InstallmentRegistry"
-                  }
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -6824,6 +8122,11 @@
                 "schema" : {
                   "$ref" : "#/components/schemas/PagedIngestionFlowFile"
                 }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PagedIngestionFlowFile"
+                }
               }
             }
           },
@@ -6832,7 +8135,12 @@
             "content" : {
               "application/hal+json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedIngestionFlowFile"
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -6936,6 +8244,11 @@
                 "schema" : {
                   "$ref" : "#/components/schemas/PagedExportFile"
                 }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PagedExportFile"
+                }
               }
             }
           },
@@ -6944,7 +8257,12 @@
             "content" : {
               "application/hal+json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedExportFile"
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -7074,7 +8392,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedDebtPositionView"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -7084,7 +8402,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedDebtPositionView"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -7094,7 +8412,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedDebtPositionView"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -7143,7 +8461,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DebtPositionDetailDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -7153,7 +8471,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DebtPositionDetailDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -7163,7 +8481,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DebtPositionDetailDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -7173,7 +8491,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DebtPositionDetailDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -7209,19 +8527,54 @@
             "description" : "Debt-position removed logically"
           },
           "204" : {
-            "description" : "Debt-position removed physically"
+            "description" : "Debt-position removed physically",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
           },
           "400" : {
-            "description" : "Bad request"
+            "description" : "Bad request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
           },
           "404" : {
-            "description" : "Debt-position not found"
+            "description" : "Debt-position not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
           },
           "409" : {
-            "description" : "Conflict"
+            "description" : "Conflict",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
           },
           "500" : {
-            "description" : "Server Error"
+            "description" : "Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
           }
         },
         "security" : [ {
@@ -7266,6 +8619,12 @@
                   "type" : "string",
                   "format" : "binary"
                 }
+              },
+              "application/json" : {
+                "schema" : {
+                  "type" : "string",
+                  "format" : "binary"
+                }
               }
             }
           },
@@ -7274,8 +8633,12 @@
             "content" : {
               "application/octet-stream" : {
                 "schema" : {
-                  "type" : "string",
-                  "format" : "binary"
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -7285,8 +8648,12 @@
             "content" : {
               "application/octet-stream" : {
                 "schema" : {
-                  "type" : "string",
-                  "format" : "binary"
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -7328,6 +8695,12 @@
                   "type" : "string",
                   "format" : "binary"
                 }
+              },
+              "application/json" : {
+                "schema" : {
+                  "type" : "string",
+                  "format" : "binary"
+                }
               }
             }
           },
@@ -7335,6 +8708,12 @@
             "description" : "No Content - No UNPAID or UNPAYABLE installments found",
             "content" : {
               "application/octet-stream" : {
+                "schema" : {
+                  "type" : "string",
+                  "format" : "binary"
+                }
+              },
+              "application/json" : {
                 "schema" : {
                   "type" : "string",
                   "format" : "binary"
@@ -7347,8 +8726,12 @@
             "content" : {
               "application/octet-stream" : {
                 "schema" : {
-                  "type" : "string",
-                  "format" : "binary"
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -7358,8 +8741,12 @@
             "content" : {
               "application/octet-stream" : {
                 "schema" : {
-                  "type" : "string",
-                  "format" : "binary"
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -7369,8 +8756,12 @@
             "content" : {
               "application/octet-stream" : {
                 "schema" : {
-                  "type" : "string",
-                  "format" : "binary"
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -7380,8 +8771,12 @@
             "content" : {
               "application/octet-stream" : {
                 "schema" : {
-                  "type" : "string",
-                  "format" : "binary"
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -7469,7 +8864,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedDebtPositionTypeWithCount"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -7479,7 +8874,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedDebtPositionTypeWithCount"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -7489,7 +8884,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedDebtPositionTypeWithCount"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -7539,7 +8934,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DebtPositionTypeDetailDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -7549,7 +8944,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DebtPositionTypeDetailDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -7559,7 +8954,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DebtPositionTypeDetailDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -7569,7 +8964,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DebtPositionTypeDetailDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -7613,10 +9008,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/DebtPositionType"
-                  }
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -7626,10 +9018,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/DebtPositionType"
-                  }
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -7639,10 +9028,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/DebtPositionType"
-                  }
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -7652,10 +9038,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/DebtPositionType"
-                  }
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -7736,7 +9119,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedDebtPositionTypeOrgOperatorDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -7746,7 +9129,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedDebtPositionTypeOrgOperatorDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -7756,7 +9139,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedDebtPositionTypeOrgOperatorDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -7852,7 +9235,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedDebtPositionTypeOrgWithCount"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -7862,7 +9245,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedDebtPositionTypeOrgWithCount"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -7872,7 +9255,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedDebtPositionTypeOrgWithCount"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -7935,7 +9318,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DebtPositionTypeOrgBalanceCost"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -7945,7 +9328,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DebtPositionTypeOrgBalanceCost"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -7955,7 +9338,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DebtPositionTypeOrgBalanceCost"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -7965,7 +9348,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DebtPositionTypeOrgBalanceCost"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -7975,7 +9358,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DebtPositionTypeOrgBalanceCost"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -8026,10 +9409,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/DebtPositionRegistry"
-                  }
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -8039,10 +9419,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/DebtPositionRegistry"
-                  }
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -8052,10 +9429,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/DebtPositionRegistry"
-                  }
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -8065,10 +9439,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/DebtPositionRegistry"
-                  }
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -8115,7 +9486,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DashboardByIuv"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -8125,7 +9496,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DashboardByIuv"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -8135,7 +9506,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DashboardByIuv"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -8145,7 +9516,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DashboardByIuv"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -8155,7 +9526,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DashboardByIuv"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -8202,7 +9573,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DashboardByIuf"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -8212,7 +9583,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DashboardByIuf"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -8222,7 +9593,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DashboardByIuf"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -8232,7 +9603,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DashboardByIuf"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -8242,7 +9613,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DashboardByIuf"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -8289,7 +9660,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DashboardByFc"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -8299,7 +9670,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DashboardByFc"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -8309,7 +9680,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DashboardByFc"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -8319,7 +9690,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DashboardByFc"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -8329,7 +9700,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DashboardByFc"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -8376,7 +9747,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/ClientDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -8386,7 +9757,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/ClientDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -8396,7 +9767,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/ClientDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -8406,7 +9777,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/ClientDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -8416,7 +9787,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/ClientDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -8450,16 +9821,44 @@
             "description" : "OK"
           },
           "401" : {
-            "description" : "Unauthorized - Missing or invalid token"
+            "description" : "Unauthorized - Missing or invalid token",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
           },
           "403" : {
-            "description" : "Forbidden - Access denied"
+            "description" : "Forbidden - Access denied",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
           },
           "404" : {
-            "description" : "Not Found"
+            "description" : "Not Found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
           },
           "500" : {
-            "description" : "Internal Server Error"
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
           }
         },
         "security" : [ {
@@ -8505,7 +9904,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/ClassificationDetailDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -8515,7 +9914,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/ClassificationDetailDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -8525,7 +9924,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/ClassificationDetailDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -8535,7 +9934,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/ClassificationDetailDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -8868,7 +10267,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedTreasuredClassificationExtendedDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -8878,7 +10277,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedTreasuredClassificationExtendedDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -8888,7 +10287,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedTreasuredClassificationExtendedDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -9019,7 +10418,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedClassificationPaidInstallmentsView"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -9029,7 +10428,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedClassificationPaidInstallmentsView"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -9039,7 +10438,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedClassificationPaidInstallmentsView"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -9049,7 +10448,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedClassificationPaidInstallmentsView"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -9188,7 +10587,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/AssessmentsRowsDetail"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -9198,7 +10597,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/AssessmentsRowsDetail"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -9208,7 +10607,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/AssessmentsRowsDetail"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -9264,7 +10663,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/AssessmentsDetail"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -9274,7 +10673,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/AssessmentsDetail"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -9284,7 +10683,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/AssessmentsDetail"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -9294,7 +10693,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/AssessmentsDetail"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -9335,7 +10734,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/SupersetUrlResponseDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -9345,7 +10744,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/SupersetUrlResponseDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -9355,7 +10754,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/SupersetUrlResponseDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -9365,7 +10764,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/SupersetUrlResponseDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -9406,7 +10805,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DebtPositionType"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -9416,7 +10815,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DebtPositionType"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -9426,7 +10825,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DebtPositionType"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -9436,7 +10835,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DebtPositionType"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -9559,7 +10958,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedOrganizationWithDebtPositionTypeOrgAndOperatorsCount"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -9569,7 +10968,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PagedOrganizationWithDebtPositionTypeOrgAndOperatorsCount"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -9611,7 +11010,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/ConfigFE"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -9621,7 +11020,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/ConfigFE"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -9631,7 +11030,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/ConfigFE"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -9662,7 +11061,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/UserInfoDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -9672,7 +11071,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/UserInfoDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -9682,7 +11081,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/UserInfoDTO"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -9717,10 +11116,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "type" : "string"
-                  }
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -9730,10 +11126,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "type" : "string"
-                  }
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -9789,8 +11182,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -9800,8 +11192,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -9811,8 +11202,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -9822,8 +11212,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -9833,8 +11222,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
+                  "$ref" : "#/components/schemas/ErrorDTO"
                 }
               }
             }
@@ -9874,16 +11262,44 @@
             "description" : "OK"
           },
           "401" : {
-            "description" : "Unauthorized - Missing or invalid token"
+            "description" : "Unauthorized - Missing or invalid token",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
           },
           "403" : {
-            "description" : "Forbidden - Access denied"
+            "description" : "Forbidden - Access denied",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
           },
           "404" : {
-            "description" : "Not Found"
+            "description" : "Not Found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
           },
           "500" : {
-            "description" : "Internal Server Error"
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
           }
         },
         "security" : [ {
@@ -9897,26 +11313,46 @@
       "CategoryEnum" : {
         "type" : "string",
         "description" : "The title describing the error",
-        "enum" : [ "NOT_FOUND", "BAD_REQUEST", "GENERIC_ERROR", "FORBIDDEN", "CONFLICT" ]
+        "enum" : [ "NOT_FOUND", "BAD_REQUEST", "GENERIC_ERROR", "FORBIDDEN", "CONFLICT", "UNAUTHORIZED", "TOO_MANY_REQUESTS" ]
       },
       "ErrorDTO" : {
-        "required" : [ "category", "message" ],
+        "required" : [ "category", "code", "message" ],
         "type" : "object",
         "properties" : {
           "category" : {
             "$ref" : "#/components/schemas/CategoryEnum"
           },
+          "code" : {
+            "type" : "string"
+          },
           "message" : {
             "type" : "string",
             "description" : "Description of the error"
           },
+          "fields" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ErrorFieldDTO"
+            }
+          },
           "traceId" : {
             "type" : "string",
             "nullable" : true
+          }
+        }
+      },
+      "ErrorFieldDTO" : {
+        "required" : [ "error", "field", "message" ],
+        "type" : "object",
+        "properties" : {
+          "field" : {
+            "type" : "string"
           },
-          "code" : {
-            "type" : "string",
-            "nullable" : true
+          "error" : {
+            "type" : "string"
+          },
+          "message" : {
+            "type" : "string"
           }
         }
       },
@@ -11374,6 +12810,127 @@
             "type" : "integer",
             "format" : "int32",
             "nullable" : true
+          }
+        }
+      },
+      "PdndService" : {
+        "required" : [ "clientId", "serviceName", "serviceType" ],
+        "type" : "object",
+        "properties" : {
+          "creationDate" : {
+            "type" : "string",
+            "format" : "date-time",
+            "nullable" : true
+          },
+          "updateDate" : {
+            "type" : "string",
+            "format" : "date-time",
+            "nullable" : true
+          },
+          "updateOperatorExternalId" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "updateTraceId" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "purposeId" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "serviceName" : {
+            "type" : "string"
+          },
+          "serviceType" : {
+            "$ref" : "#/components/schemas/PdndServiceType"
+          },
+          "clientId" : {
+            "type" : "string"
+          },
+          "_links" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "$ref" : "#/components/schemas/Link"
+            },
+            "nullable" : true
+          }
+        }
+      },
+      "PdndServiceType" : {
+        "type" : "string",
+        "enum" : [ "SEND", "ANPR_C003", "ANPR_C030" ]
+      },
+      "PdndServiceRequestDTO" : {
+        "required" : [ "clientId", "purposeId", "serviceName", "serviceType" ],
+        "type" : "object",
+        "properties" : {
+          "purposeId" : {
+            "type" : "string"
+          },
+          "serviceName" : {
+            "type" : "string"
+          },
+          "serviceType" : {
+            "$ref" : "#/components/schemas/PdndServiceType"
+          },
+          "clientId" : {
+            "type" : "string"
+          }
+        }
+      },
+      "PdndClientNoSecretDTO" : {
+        "required" : [ "clientId", "clientName", "kid", "organizationId", "publicKey" ],
+        "type" : "object",
+        "properties" : {
+          "clientId" : {
+            "type" : "string"
+          },
+          "organizationId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "subUnitCode" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "clientName" : {
+            "type" : "string"
+          },
+          "kid" : {
+            "type" : "string"
+          },
+          "publicKey" : {
+            "type" : "string"
+          }
+        }
+      },
+      "PdndClientDTO" : {
+        "required" : [ "clientId", "clientName", "kid", "organizationId", "privateKey", "publicKey" ],
+        "type" : "object",
+        "properties" : {
+          "clientId" : {
+            "type" : "string"
+          },
+          "organizationId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "subUnitCode" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "clientName" : {
+            "type" : "string"
+          },
+          "kid" : {
+            "type" : "string"
+          },
+          "privateKey" : {
+            "type" : "string"
+          },
+          "publicKey" : {
+            "type" : "string"
           }
         }
       },
@@ -13285,6 +14842,27 @@
           }
         }
       },
+      "PdndServiceDTO" : {
+        "required" : [ "clientId", "clientName", "purposeId", "serviceName", "serviceType" ],
+        "type" : "object",
+        "properties" : {
+          "purposeId" : {
+            "type" : "string"
+          },
+          "serviceName" : {
+            "type" : "string"
+          },
+          "serviceType" : {
+            "$ref" : "#/components/schemas/PdndServiceType"
+          },
+          "clientId" : {
+            "type" : "string"
+          },
+          "clientName" : {
+            "type" : "string"
+          }
+        }
+      },
       "PagedPaymentsReportingView" : {
         "required" : [ "content", "number", "size", "totalElements", "totalPages" ],
         "type" : "object",
@@ -13768,6 +15346,83 @@
           "body" : {
             "type" : "string",
             "nullable" : true
+          }
+        }
+      },
+      "PagedOrgSubUnit" : {
+        "required" : [ "content", "number", "size", "totalElements", "totalPages" ],
+        "type" : "object",
+        "properties" : {
+          "content" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/OrgSubUnit"
+            }
+          },
+          "size" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "totalElements" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "totalPages" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "number" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }
+      },
+      "OrgSubUnitOperator" : {
+        "required" : [ "mappedExternalUserId" ],
+        "type" : "object",
+        "properties" : {
+          "mappedExternalUserId" : {
+            "type" : "string"
+          },
+          "firstName" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "lastName" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "fiscalCode" : {
+            "type" : "string",
+            "nullable" : true
+          }
+        }
+      },
+      "PagedOrgSubUnitOperators" : {
+        "required" : [ "content", "number", "size", "totalElements", "totalPages" ],
+        "type" : "object",
+        "properties" : {
+          "content" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/OrgSubUnitOperator"
+            }
+          },
+          "size" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "totalElements" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "totalPages" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "number" : {
+            "type" : "integer",
+            "format" : "int64"
           }
         }
       },

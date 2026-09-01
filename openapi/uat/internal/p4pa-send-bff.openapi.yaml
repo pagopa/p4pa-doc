@@ -56,6 +56,7 @@ paths:
             format: date
         - name: orgSubUnitCode
           in: query
+          description: Filter by a specific sub-unit as sender; takes precedence over senderOrganizationId.
           schema:
             type: string
         - name: campaignName
@@ -66,19 +67,36 @@ paths:
           in: query
           schema:
             type: string
+        - name: fetchAll
+          in: query
+          schema:
+            default: true
+            type: boolean
       responses:
         '200':
           description: Page of campaigns
           content:
             application/json:
               schema:
-                type: 'PagedCampaign'
+                $ref: '#/components/schemas/PagedCampaignDTO'
         '400':
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '401':
           description: Unauthorized - Missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
       x-spring-paginated: true
   /organizations/{organizationId}/campaigns/{campaignId}/name:
     patch:
@@ -109,10 +127,22 @@ paths:
           description: OK
         '403':
           description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '404':
           description: Campaign not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
   /organizations/{organizationId}/campaigns/{campaignId}:
     get:
       tags:
@@ -136,15 +166,31 @@ paths:
           content:
             application/json:
               schema:
-                type: 'Campaign'
+                $ref: '#/components/schemas/CampaignDTO'
         '400':
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '401':
           description: Unauthorized - Missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '404':
           description: Campaign not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
   /organizations/{organizationId}/campaigns/{campaignId}/notifications:
     get:
       tags:
@@ -193,8 +239,16 @@ paths:
                 $ref: '#/components/schemas/PagedSendNotifications'
         "400":
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
       x-spring-paginated: true
   /organizations/{organizationId}/campaigns/{campaignId}/notifications/{notificationId}:
     get:
@@ -227,12 +281,28 @@ paths:
                 type: 'SendNotificationExtendedDTO'
         '400':
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '401':
           description: Unauthorized - Missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '404':
           description: Campaign not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
   /organizations/{organizationId}/campaigns/{campaignId}/notifications/{notificationId}/timeline:
     get:
       tags:
@@ -266,12 +336,28 @@ paths:
                   $ref: '#/components/schemas/SendTimelineElement'
         '400':
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '401':
           description: Unauthorized - Missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '404':
           description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
 components:
   schemas:
     OrganizationSenderDTO:
@@ -307,7 +393,24 @@ components:
           type: string
         message:
           type: string
+        fields:
+          type: array
+          items:
+            $ref: "#/components/schemas/ErrorFieldDTO"
         traceId:
+          type: string
+    ErrorFieldDTO:
+      type: object
+      required:
+        - field
+        - error
+        - message
+      properties:
+        field:
+          type: string
+        error:
+          type: string
+        message:
           type: string
     PagedSendNotifications:
       type: object
@@ -395,4 +498,56 @@ components:
           type: array
           items:
             type: string
-
+    CampaignDTO:
+      type: object
+      required:
+        - campaignId
+        - externalId
+        - organizationId
+        - endDate
+        - startDate
+      properties:
+        campaignId:
+          type: string
+        externalId:
+          type: string
+        campaignName:
+          type: string
+        organizationId:
+          type: integer
+          format: int64
+        orgSubUnitCode:
+          type: string
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        counters:
+          type: 'ExtendedCounters'
+    PagedCampaignDTO:
+      type: object
+      required:
+        - content
+        - size
+        - totalElements
+        - totalPages
+        - number
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/CampaignDTO'
+        size:
+          type: integer
+          format: int64
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int64
+        number:
+          type: integer
+          format: int64
