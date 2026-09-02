@@ -2074,6 +2074,49 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/DebtPositionErrorDTO"
+  /spontaneous-forms/match-or-save:
+    post:
+      tags:
+        - spontaneous-form
+      operationId: matchOrSaveSpontaneousForm
+      description: Match or create a Spontaneous Form by organizationId and code, verifying if the requested structure is the same when its code already exists.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: 'SpontaneousForm'
+      responses:
+        "200":
+          description: Resolved or newly created spontaneous form
+          content:
+            application/json:
+              schema:
+                type: 'SpontaneousForm'
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
+        "409":
+          description: Conflict - same code exists with a different structure
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DebtPositionErrorDTO"
   /spontaneous-forms/{spontaneousFormId}:
     delete:
       tags:
@@ -3543,4 +3586,3 @@ components:
           type: object
           additionalProperties:
             type: boolean
-
