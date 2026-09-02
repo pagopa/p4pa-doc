@@ -171,7 +171,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/CreateNotificationResponse"
+                  "$ref" : "#/components/schemas/PuSilErrorDTO"
                 }
               }
             }
@@ -181,7 +181,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/CreateNotificationResponse"
+                  "$ref" : "#/components/schemas/PuSilErrorDTO"
                 }
               }
             }
@@ -191,7 +191,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/CreateNotificationResponse"
+                  "$ref" : "#/components/schemas/PuSilErrorDTO"
                 }
               }
             }
@@ -548,7 +548,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/SendNotificationDTO"
+                  "$ref" : "#/components/schemas/PuSilErrorDTO"
                 }
               }
             }
@@ -558,7 +558,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/SendNotificationDTO"
+                  "$ref" : "#/components/schemas/PuSilErrorDTO"
                 }
               }
             }
@@ -568,7 +568,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/SendNotificationDTO"
+                  "$ref" : "#/components/schemas/PuSilErrorDTO"
                 }
               }
             }
@@ -578,7 +578,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/SendNotificationDTO"
+                  "$ref" : "#/components/schemas/PuSilErrorDTO"
                 }
               }
             }
@@ -613,13 +613,34 @@
             "description" : "OK"
           },
           "400" : {
-            "description" : "Invalid request"
+            "description" : "Invalid request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PuSilErrorDTO"
+                }
+              }
+            }
           },
           "403" : {
-            "description" : "Forbidden"
+            "description" : "Forbidden",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PuSilErrorDTO"
+                }
+              }
+            }
           },
           "500" : {
-            "description" : "Internal server error"
+            "description" : "Internal server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PuSilErrorDTO"
+                }
+              }
+            }
           }
         },
         "security" : [ {
@@ -667,10 +688,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/LegalFactDTO"
-                  }
+                  "$ref" : "#/components/schemas/PuSilErrorDTO"
                 }
               }
             }
@@ -680,10 +698,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/LegalFactDTO"
-                  }
+                  "$ref" : "#/components/schemas/PuSilErrorDTO"
                 }
               }
             }
@@ -693,10 +708,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/LegalFactDTO"
-                  }
+                  "$ref" : "#/components/schemas/PuSilErrorDTO"
                 }
               }
             }
@@ -706,10 +718,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/LegalFactDTO"
-                  }
+                  "$ref" : "#/components/schemas/PuSilErrorDTO"
                 }
               }
             }
@@ -764,7 +773,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/LegalFactDownloadMetadataDTO"
+                  "$ref" : "#/components/schemas/PuSilErrorDTO"
                 }
               }
             }
@@ -774,7 +783,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/LegalFactDownloadMetadataDTO"
+                  "$ref" : "#/components/schemas/PuSilErrorDTO"
                 }
               }
             }
@@ -784,7 +793,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/LegalFactDownloadMetadataDTO"
+                  "$ref" : "#/components/schemas/PuSilErrorDTO"
                 }
               }
             }
@@ -794,7 +803,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/LegalFactDownloadMetadataDTO"
+                  "$ref" : "#/components/schemas/PuSilErrorDTO"
                 }
               }
             }
@@ -837,6 +846,12 @@
                   "type" : "string",
                   "format" : "binary"
                 }
+              },
+              "application/json" : {
+                "schema" : {
+                  "type" : "string",
+                  "format" : "binary"
+                }
               }
             }
           },
@@ -845,8 +860,12 @@
             "content" : {
               "application/octet-stream" : {
                 "schema" : {
-                  "type" : "string",
-                  "format" : "binary"
+                  "$ref" : "#/components/schemas/PuSilErrorDTO"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PuSilErrorDTO"
                 }
               }
             }
@@ -856,8 +875,12 @@
             "content" : {
               "application/octet-stream" : {
                 "schema" : {
-                  "type" : "string",
-                  "format" : "binary"
+                  "$ref" : "#/components/schemas/PuSilErrorDTO"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PuSilErrorDTO"
                 }
               }
             }
@@ -867,8 +890,12 @@
             "content" : {
               "application/octet-stream" : {
                 "schema" : {
-                  "type" : "string",
-                  "format" : "binary"
+                  "$ref" : "#/components/schemas/PuSilErrorDTO"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PuSilErrorDTO"
                 }
               }
             }
@@ -1639,8 +1666,7 @@
             "type" : "string",
             "nullable" : true
           }
-        },
-        "nullable" : true
+        }
       },
       "PaymentOptionDTO" : {
         "required" : [ "installments", "paymentOptionType", "totalAmountCents" ],
@@ -1751,8 +1777,7 @@
             "type" : "string",
             "nullable" : true
           }
-        },
-        "nullable" : true
+        }
       },
       "PersonEntityType" : {
         "type" : "string",
@@ -2020,8 +2045,7 @@
             "type" : "string",
             "nullable" : true
           }
-        },
-        "nullable" : true
+        }
       },
       "Document" : {
         "type" : "object",
@@ -2053,8 +2077,7 @@
           "metadataAttachment" : {
             "$ref" : "#/components/schemas/Attachment"
           }
-        },
-        "nullable" : true
+        }
       },
       "NotificationDigitalAddress" : {
         "required" : [ "address", "type" ],
@@ -2069,8 +2092,7 @@
             "pattern" : "^(?:[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?|\\[(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?|[a-zA-Z0-9-]*[a-zA-Z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])$",
             "type" : "string"
           }
-        },
-        "nullable" : true
+        }
       },
       "NotificationFeePolicyEnum" : {
         "type" : "string",
@@ -2092,8 +2114,7 @@
           "attachment" : {
             "$ref" : "#/components/schemas/Attachment"
           }
-        },
-        "nullable" : true
+        }
       },
       "Payment" : {
         "type" : "object",
@@ -2449,8 +2470,7 @@
             "format" : "date",
             "nullable" : true
           }
-        },
-        "nullable" : true
+        }
       },
       "NotificationStatus" : {
         "type" : "string",
@@ -2759,8 +2779,7 @@
           "url" : {
             "type" : "string"
           }
-        },
-        "nullable" : true
+        }
       },
       "ImportStatusResponseDTO" : {
         "required" : [ "importId", "status" ],
