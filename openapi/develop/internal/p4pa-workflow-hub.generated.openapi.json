@@ -2130,6 +2130,27 @@
           }
         }
       },
+      "PageMetadata" : {
+        "type" : "object",
+        "properties" : {
+          "size" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "totalElements" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "totalPages" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "number" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }
+      },
       "WfExecutionConfig" : {
         "type" : "object",
         "properties" : {
@@ -2174,27 +2195,6 @@
           },
           "_links" : {
             "$ref" : "#/components/schemas/Links"
-          }
-        }
-      },
-      "PageMetadata" : {
-        "type" : "object",
-        "properties" : {
-          "size" : {
-            "type" : "integer",
-            "format" : "int64"
-          },
-          "totalElements" : {
-            "type" : "integer",
-            "format" : "int64"
-          },
-          "totalPages" : {
-            "type" : "integer",
-            "format" : "int64"
-          },
-          "number" : {
-            "type" : "integer",
-            "format" : "int64"
           }
         }
       },
@@ -2308,8 +2308,7 @@
             "type" : "string",
             "nullable" : true
           }
-        },
-        "nullable" : true
+        }
       },
       "CategoryEnum" : {
         "type" : "string",
@@ -2649,8 +2648,7 @@
             "type" : "string",
             "nullable" : true
           }
-        },
-        "nullable" : true
+        }
       },
       "PaymentOptionDTO" : {
         "required" : [ "installments", "paymentOptionType", "totalAmountCents" ],
