@@ -1835,14 +1835,46 @@
         } ]
       }
     },
-    "/workflowhub/workflow/send-campaign/align-counters" : {
+    "/workflowhub/workflow/send-campaign/align-counters/updated-campaigns" : {
+      "get" : {
+        "tags" : [ "SendCampaign" ],
+        "description" : "Start counter alignment for updated send campaign.",
+        "operationId" : "alignUpdatedSendCampaignCounters",
+        "responses" : {
+          "201" : {
+            "description" : "Align updated send campaign counter workflow created successfully",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/WorkflowCreatedDTO"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/WorkflowErrorDTO"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/workflowhub/workflow/send-campaign/align-counters/all-campaigns" : {
       "get" : {
         "tags" : [ "SendCampaign" ],
         "description" : "Start send campaign counter alignment.",
-        "operationId" : "alignSendCampaignCounters",
+        "operationId" : "alignAllSendCampaignCounters",
         "responses" : {
           "201" : {
-            "description" : "Align send campaign counter workflow created successfully",
+            "description" : "Align active send campaign counter workflow created successfully",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -2051,27 +2083,6 @@
           }
         }
       },
-      "PageMetadata" : {
-        "type" : "object",
-        "properties" : {
-          "size" : {
-            "type" : "integer",
-            "format" : "int64"
-          },
-          "totalElements" : {
-            "type" : "integer",
-            "format" : "int64"
-          },
-          "totalPages" : {
-            "type" : "integer",
-            "format" : "int64"
-          },
-          "number" : {
-            "type" : "integer",
-            "format" : "int64"
-          }
-        }
-      },
       "DebtPositionSyncWfName" : {
         "type" : "string",
         "enum" : [ "fineWf" ]
@@ -2163,6 +2174,27 @@
           },
           "_links" : {
             "$ref" : "#/components/schemas/Links"
+          }
+        }
+      },
+      "PageMetadata" : {
+        "type" : "object",
+        "properties" : {
+          "size" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "totalElements" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "totalPages" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "number" : {
+            "type" : "integer",
+            "format" : "int64"
           }
         }
       },
@@ -2927,51 +2959,16 @@
           }
         }
       },
-      "DebtPositionWorkflowType" : {
-        "required" : [ "debtPositionId", "executionConfig" ],
-        "type" : "object",
-        "properties" : {
-          "creationDate" : {
-            "type" : "string",
-            "format" : "date-time"
-          },
-          "updateDate" : {
-            "type" : "string",
-            "format" : "date-time"
-          },
-          "updateOperatorExternalId" : {
-            "type" : "string"
-          },
-          "updateTraceId" : {
-            "type" : "string"
-          },
-          "debtPositionId" : {
-            "type" : "integer",
-            "format" : "int64"
-          },
-          "workflowTypeOrgId" : {
-            "type" : "integer",
-            "format" : "int64"
-          },
-          "executionConfig" : {
-            "type" : "string",
-            "format" : "byte"
-          },
-          "_links" : {
-            "$ref" : "#/components/schemas/Links"
-          }
-        }
-      },
-      "PagedModelDebtPositionWorkflowType" : {
+      "PagedModelWorkflowTypeOrg" : {
         "type" : "object",
         "properties" : {
           "_embedded" : {
             "type" : "object",
             "properties" : {
-              "debtPositionWorkflowTypes" : {
+              "workflowTypeOrgs" : {
                 "type" : "array",
                 "items" : {
-                  "$ref" : "#/components/schemas/DebtPositionWorkflowType"
+                  "$ref" : "#/components/schemas/WorkflowTypeOrg"
                 }
               }
             }
@@ -3041,16 +3038,51 @@
           }
         }
       },
-      "PagedModelWorkflowTypeOrg" : {
+      "DebtPositionWorkflowType" : {
+        "required" : [ "debtPositionId", "executionConfig" ],
+        "type" : "object",
+        "properties" : {
+          "creationDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "updateDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "updateOperatorExternalId" : {
+            "type" : "string"
+          },
+          "updateTraceId" : {
+            "type" : "string"
+          },
+          "debtPositionId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "workflowTypeOrgId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "executionConfig" : {
+            "type" : "string",
+            "format" : "byte"
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          }
+        }
+      },
+      "PagedModelDebtPositionWorkflowType" : {
         "type" : "object",
         "properties" : {
           "_embedded" : {
             "type" : "object",
             "properties" : {
-              "workflowTypeOrgs" : {
+              "debtPositionWorkflowTypes" : {
                 "type" : "array",
                 "items" : {
-                  "$ref" : "#/components/schemas/WorkflowTypeOrg"
+                  "$ref" : "#/components/schemas/DebtPositionWorkflowType"
                 }
               }
             }
