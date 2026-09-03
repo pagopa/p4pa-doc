@@ -6107,7 +6107,105 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
+  /organization/{organizationId}/pdnd/clients/{clientId}/services:
+    get:
+      tags:
+        - PdndService
+      operationId: getPdndClientServices
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: clientId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: serviceType
+          in: query
+          required: false
+          schema:
+            type: 'PdndServiceType'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: 'PdndService'
+        '401':
+          description: Unauthorized - Missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
   /organization/{organizationId}/pdnd/services:
+    get:
+      tags:
+        - PdndService
+      summary: get PdndServices
+      operationId: getPdndServices
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: subUnitCode
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: serviceType
+          in: query
+          required: false
+          schema:
+            type: 'PdndServiceType'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: 'PdndServiceDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
     post:
       tags:
         - PdndService
@@ -6192,6 +6290,55 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
+        '401':
+          description: Unauthorized - Missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+    delete:
+      tags:
+        - PdndService
+      summary: Deletes a PdndService
+      operationId: deletePdndService
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: purposeId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: subUnitCode
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
         '401':
           description: Unauthorized - Missing or invalid token
           content:
@@ -7276,7 +7423,6 @@ components:
         - debtPositionTypeId
         - description
         - organizationId
-        - debtPositionTypeOrgBalanceCosts
       properties:
         debtPositionTypeOrgId:
           type: integer
