@@ -684,15 +684,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/WorkflowErrorDTO'
-  /workflow/send-campaign/align-counters:
+  /workflow/send-campaign/align-counters/all-campaigns:
     get:
       tags:
         - SendCampaign
-      operationId: alignSendCampaignCounters
+      operationId: alignAllSendCampaignCounters
       description: Start send campaign counter alignment.
       responses:
         '201':
-          description: "Align send campaign counter workflow created successfully"
+          description: "Align active send campaign counter workflow created successfully"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkflowCreatedDTO'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkflowErrorDTO'
+  /workflow/send-campaign/align-counters/updated-campaigns:
+    get:
+      tags:
+        - SendCampaign
+      operationId: alignUpdatedSendCampaignCounters
+      description: Start counter alignment for updated send campaign.
+      responses:
+        '201':
+          description: "Align updated send campaign counter workflow created successfully"
           content:
             application/json:
               schema:
