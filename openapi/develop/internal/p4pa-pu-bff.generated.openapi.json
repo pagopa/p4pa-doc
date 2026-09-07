@@ -12040,7 +12040,7 @@
         }
       },
       "OrgSubUnit" : {
-        "required" : [ "organizationId", "status", "subUnitCode" ],
+        "required" : [ "organizationId", "status", "subUnitCode", "subUnitName" ],
         "type" : "object",
         "properties" : {
           "creationDate" : {
@@ -12070,6 +12070,9 @@
           },
           "subUnitType" : {
             "$ref" : "#/components/schemas/SubUnitType"
+          },
+          "subUnitName" : {
+            "type" : "string"
           },
           "status" : {
             "$ref" : "#/components/schemas/OrgSubUnitStatus"
@@ -12093,7 +12096,7 @@
         "enum" : [ "AOO", "UO" ]
       },
       "OrgSubUnitRequestBody" : {
-        "required" : [ "organizationId", "status", "subUnitCode" ],
+        "required" : [ "organizationId", "status", "subUnitCode", "subUnitName" ],
         "type" : "object",
         "properties" : {
           "creationDate" : {
@@ -12123,6 +12126,9 @@
           },
           "subUnitType" : {
             "$ref" : "#/components/schemas/SubUnitType"
+          },
+          "subUnitName" : {
+            "type" : "string"
           },
           "status" : {
             "$ref" : "#/components/schemas/OrgSubUnitStatus"
