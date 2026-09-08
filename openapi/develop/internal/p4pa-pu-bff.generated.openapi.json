@@ -206,7 +206,7 @@
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "#/components/schemas/OrganizationDetailDTO"
+                "$ref" : "#/components/schemas/OrganizationUpdateDTO"
               }
             }
           },
@@ -11591,7 +11591,11 @@
         "type" : "string",
         "enum" : [ "EN", "FR", "DE" ]
       },
-      "OrganizationDetailDTO" : {
+      "OrganizationStatus" : {
+        "type" : "string",
+        "enum" : [ "ACTIVE", "CANCELLED", "DRAFT" ]
+      },
+      "OrganizationUpdateDTO" : {
         "required" : [ "flagNotifyIo", "flagNotifyOutcomePush", "flagPaymentNotification", "flagTreasury", "ipaCode", "orgFiscalCode", "orgName", "organizationId", "pdndEnabled", "status" ],
         "type" : "object",
         "properties" : {
@@ -11713,10 +11717,6 @@
             "nullable" : true
           }
         }
-      },
-      "OrganizationStatus" : {
-        "type" : "string",
-        "enum" : [ "ACTIVE", "CANCELLED", "DRAFT" ]
       },
       "Link" : {
         "type" : "object",
@@ -14201,6 +14201,15 @@
           "operatorsCount" : {
             "type" : "integer",
             "format" : "int32",
+            "nullable" : true
+          },
+          "orgSubUnitCount" : {
+            "type" : "integer",
+            "format" : "int64",
+            "nullable" : true
+          },
+          "orgTypeDescription" : {
+            "type" : "string",
             "nullable" : true
           }
         }

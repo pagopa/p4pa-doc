@@ -149,7 +149,7 @@ paths:
         content:
           application/json:
             schema:
-              type: 'Organization'
+              type: 'OrganizationUpdateDTO'
       responses:
         '200':
           description: OK
@@ -7889,6 +7889,11 @@ components:
         operatorsCount:
           type: integer
           format: int32
+        orgSubUnitCount:
+          type: integer
+          format: int64
+        orgTypeDescription:
+          type: string
     PagedTreasuredClassificationExtendedDTO:
       type: object
       required:
