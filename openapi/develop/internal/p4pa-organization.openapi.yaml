@@ -1027,6 +1027,52 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OrganizationErrorDTO'
+  /organization/{organizationId}/operators/{mappedExternalUserId}/org-sub-units:
+    post:
+      tags:
+        - OrgSubUnitOperators
+      operationId: addOrgSubUnitsToOperator
+      summary: Add organization sub units to an operator
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: mappedExternalUserId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: orgSubUnitCodes
+          in: query
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
 components:
   schemas:
     BrokerApiKeys:
