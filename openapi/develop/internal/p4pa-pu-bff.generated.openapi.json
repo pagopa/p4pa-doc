@@ -1860,7 +1860,7 @@
                 "schema" : {
                   "type" : "array",
                   "items" : {
-                    "$ref" : "#/components/schemas/PdndServiceDTO"
+                    "$ref" : "#/components/schemas/PdndServiceView"
                   }
                 }
               }
@@ -6153,7 +6153,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PdndServiceDTO"
+                  "$ref" : "#/components/schemas/PdndServiceView"
                 }
               }
             }
@@ -15084,12 +15084,13 @@
           }
         }
       },
-      "PdndServiceDTO" : {
-        "required" : [ "clientId", "clientName", "purposeId", "serviceName", "serviceType" ],
+      "PdndServiceView" : {
+        "required" : [ "clientId", "clientName", "serviceName", "serviceType" ],
         "type" : "object",
         "properties" : {
           "purposeId" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "serviceName" : {
             "type" : "string"
@@ -15102,6 +15103,21 @@
           },
           "clientName" : {
             "type" : "string"
+          },
+          "subUnitCode" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "subUnitName" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "_links" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "$ref" : "#/components/schemas/Link"
+            },
+            "nullable" : true
           }
         }
       },
