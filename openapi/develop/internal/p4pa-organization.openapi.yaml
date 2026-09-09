@@ -873,7 +873,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/PdndServiceDTO'
+                  type: 'PdndServiceView'
         '400':
           description: Bad Request
           content:
@@ -964,18 +964,13 @@ paths:
           required: true
           schema:
             type: string
-        - name: subUnitCode
-          in: query
-          required: false
-          schema:
-            type: string
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PdndServiceDTO'
+                type: 'PdndServiceView'
         '400':
           description: Bad Request
           content:
@@ -1009,11 +1004,6 @@ paths:
         - name: purposeId
           in: path
           required: true
-          schema:
-            type: string
-        - name: subUnitCode
-          in: query
-          required: false
           schema:
             type: string
       responses:
@@ -1371,24 +1361,5 @@ components:
         serviceType:
           type: 'PdndServiceType'
         clientId:
-          type: string
-    PdndServiceDTO:
-      type: object
-      required:
-        - purposeId
-        - serviceName
-        - serviceType
-        - clientId
-        - clientName
-      properties:
-        purposeId:
-          type: string
-        serviceName:
-          type: string
-        serviceType:
-          type: 'PdndServiceType'
-        clientId:
-          type: string
-        clientName:
           type: string
 
