@@ -2130,6 +2130,17 @@
           }
         }
       },
+      "WfExecutionConfig" : {
+        "type" : "object",
+        "properties" : {
+          "workflowTypeName" : {
+            "$ref" : "#/components/schemas/DebtPositionSyncWfName"
+          }
+        },
+        "discriminator" : {
+          "propertyName" : "workflowTypeName"
+        }
+      },
       "PageMetadata" : {
         "type" : "object",
         "properties" : {
@@ -2149,17 +2160,6 @@
             "type" : "integer",
             "format" : "int64"
           }
-        }
-      },
-      "WfExecutionConfig" : {
-        "type" : "object",
-        "properties" : {
-          "workflowTypeName" : {
-            "$ref" : "#/components/schemas/DebtPositionSyncWfName"
-          }
-        },
-        "discriminator" : {
-          "propertyName" : "workflowTypeName"
         }
       },
       "WorkflowTypeOrg" : {
@@ -2369,7 +2369,7 @@
       "IngestionFlowFileTypeEnum" : {
         "type" : "string",
         "nullable" : true,
-        "enum" : [ "RECEIPT", "RECEIPT_PAGOPA", "PAYMENTS_REPORTING", "PAYMENTS_REPORTING_PAGOPA", "TREASURY_OPI", "TREASURY_CSV", "TREASURY_XLS", "TREASURY_POSTE", "TREASURY_CSV_COMPLETE", "DP_INSTALLMENTS", "PAYMENT_NOTIFICATION", "ORGANIZATIONS", "ORGANIZATIONS_SIL_SERVICE", "DEBT_POSITIONS_TYPE", "DEBT_POSITIONS_TYPE_ORG", "DEBT_POSITIONS_TYPE_ORG_OPERATORS", "ASSESSMENTS", "ASSESSMENTS_REGISTRY", "SEND_NOTIFICATION" ]
+        "enum" : [ "RECEIPT", "RECEIPT_PAGOPA", "PAYMENTS_REPORTING", "PAYMENTS_REPORTING_PAGOPA", "TREASURY_OPI", "TREASURY_CSV", "TREASURY_XLS", "TREASURY_POSTE", "TREASURY_CSV_COMPLETE", "DP_INSTALLMENTS", "PAYMENT_NOTIFICATION", "ORGANIZATIONS", "ORGANIZATIONS_SIL_SERVICE", "DEBT_POSITIONS_TYPE", "DEBT_POSITIONS_TYPE_ORG", "ASSESSMENTS", "ASSESSMENTS_REGISTRY", "SEND_NOTIFICATION" ]
       },
       "ExportFileTypeEnum" : {
         "type" : "string",
@@ -2957,28 +2957,6 @@
           }
         }
       },
-      "PagedModelWorkflowTypeOrg" : {
-        "type" : "object",
-        "properties" : {
-          "_embedded" : {
-            "type" : "object",
-            "properties" : {
-              "workflowTypeOrgs" : {
-                "type" : "array",
-                "items" : {
-                  "$ref" : "#/components/schemas/WorkflowTypeOrg"
-                }
-              }
-            }
-          },
-          "_links" : {
-            "$ref" : "#/components/schemas/Links"
-          },
-          "page" : {
-            "$ref" : "#/components/schemas/PageMetadata"
-          }
-        }
-      },
       "WorkflowType" : {
         "required" : [ "defaultExecutionConfig", "description" ],
         "type" : "object",
@@ -3024,6 +3002,28 @@
                 "type" : "array",
                 "items" : {
                   "$ref" : "#/components/schemas/WorkflowType"
+                }
+              }
+            }
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          },
+          "page" : {
+            "$ref" : "#/components/schemas/PageMetadata"
+          }
+        }
+      },
+      "PagedModelWorkflowTypeOrg" : {
+        "type" : "object",
+        "properties" : {
+          "_embedded" : {
+            "type" : "object",
+            "properties" : {
+              "workflowTypeOrgs" : {
+                "type" : "array",
+                "items" : {
+                  "$ref" : "#/components/schemas/WorkflowTypeOrg"
                 }
               }
             }
