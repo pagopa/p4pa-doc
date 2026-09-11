@@ -387,6 +387,45 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OrganizationErrorDTO'
+  /organization/{organizationId}/org-sub-units/with-no-service-type/{pdndServiceType}:
+    get:
+      tags:
+        - OrgSubUnit
+      summary: Retrieve Organization and OrgSubUnit without PDND service type
+      operationId: getOrgSubUnitWithNoServiceType
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: pdndServiceType
+          in: path
+          required: true
+          schema:
+            type: 'PdndServiceType'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: 'OrgAndSubUnitDTO'
+        '404':
+          description: Sub Unit Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
   /broker:
     post:
       tags:
