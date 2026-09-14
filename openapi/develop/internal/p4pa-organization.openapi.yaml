@@ -293,6 +293,44 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OrganizationErrorDTO'
+  /organization/{organizationId}/apiKeys:
+    get:
+      tags:
+        - Organization
+      summary: Get active API keys by key type
+      operationId: getOrganizationApiKeys
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: subUnitCode
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrganizationApiKey'
+        '404':
+          description: Organization Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
   /organization-sil-service:
     post:
       tags:
@@ -1447,4 +1485,13 @@ components:
           type: 'PdndServiceType'
         clientId:
           type: string
+    OrganizationApiKey:
+      type: object
+      required:
+        - keyType
+      properties:
+        keyType:
+          $ref: '#/components/schemas/OrganizationApiKeyType'
+        flagActive:
+          type: boolean
 
