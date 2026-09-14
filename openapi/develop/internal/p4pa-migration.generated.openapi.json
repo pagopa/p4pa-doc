@@ -23,6 +23,70 @@
     "description" : "the Workflow API"
   } ],
   "paths" : {
+    "/organization/{organizationId}/debt-position-type-orgs/consume" : {
+      "put" : {
+        "tags" : [ "debt-position-type-org-operators" ],
+        "summary" : "Consume DebtPositionTypeOrgOperators",
+        "description" : "Consume DebtPositionTypeOrgs for the operator",
+        "operationId" : "consumeDebtPositionTypeOrgOperators",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ConsumeDebtPositionTypeOrgOperatorsDTO"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "401" : {
+            "description" : "Unauthorized - Missing or invalid token",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
     "/migration/organization/{orgIpaCode}/{migrationFileType}" : {
       "post" : {
         "tags" : [ "migration-file" ],
@@ -136,7 +200,7 @@
             }
           },
           "403" : {
-            "description" : "Forbidden - No upload in error state",
+            "description" : "Forbidden",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -146,7 +210,7 @@
             }
           },
           "500" : {
-            "description" : "Internal Server Error - Error during errors processing",
+            "description" : "Internal Server Error",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -554,22 +618,6 @@
   },
   "components" : {
     "schemas" : {
-      "UploadMigrationFileResponseDTO" : {
-        "required" : [ "runId", "uploadId", "workflowId" ],
-        "type" : "object",
-        "properties" : {
-          "uploadId" : {
-            "type" : "integer",
-            "format" : "int64"
-          },
-          "workflowId" : {
-            "type" : "string"
-          },
-          "runId" : {
-            "type" : "string"
-          }
-        }
-      },
       "CategoryEnum" : {
         "type" : "string",
         "enum" : [ "NOT_FOUND", "BAD_REQUEST", "GENERIC_ERROR", "FILE_UPLOAD_ERROR", "INVALID_FILE", "FORBIDDEN", "CONFLICT", "UNAUTHORIZED", "TOO_MANY_REQUESTS" ]
@@ -610,6 +658,38 @@
             "type" : "string"
           },
           "message" : {
+            "type" : "string"
+          }
+        }
+      },
+      "ConsumeDebtPositionTypeOrgOperatorsDTO" : {
+        "required" : [ "debtPositionTypeOrgIds", "fiscalCode" ],
+        "type" : "object",
+        "properties" : {
+          "debtPositionTypeOrgIds" : {
+            "type" : "array",
+            "items" : {
+              "type" : "integer",
+              "format" : "int64"
+            }
+          },
+          "fiscalCode" : {
+            "type" : "string"
+          }
+        }
+      },
+      "UploadMigrationFileResponseDTO" : {
+        "required" : [ "runId", "uploadId", "workflowId" ],
+        "type" : "object",
+        "properties" : {
+          "uploadId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "workflowId" : {
+            "type" : "string"
+          },
+          "runId" : {
             "type" : "string"
           }
         }
