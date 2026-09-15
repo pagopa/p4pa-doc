@@ -1150,6 +1150,38 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OrganizationErrorDTO'
+  /organization/{organizationId}/operators/{mappedExternalUserId}/org-sub-units/{subUnitCode}:
+    delete:
+      tags:
+        - OrgSubUnitOperators
+      operationId: deleteOrgSubUnitFromOperator
+      summary: Remove an organization sub unit from an operator
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: mappedExternalUserId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: subUnitCode
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
 components:
   schemas:
     BrokerApiKeys:
