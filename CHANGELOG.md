@@ -15,8 +15,6 @@ Tutte le componenti presentano in aggiunta anche il tag `PU_v1.0.0`.
 |------|----------------------------------------------------------|----------|-----------------|---------------------------------------------------------------|
 | -    | [p4pa-db](https://github.com/pagopa/p4pa-db/tree/v1.0.0) | v1.0.0   | -               | [link](https://github.com/pagopa/p4pa-db/releases/tag/v1.0.0) |
 
----
-
 #### 📍 Core
 
 | Tier                 | Repository                                                                               | Versione | Container Image                                                                                                                                                | Release Notes                                                                 |
@@ -41,8 +39,6 @@ Tutte le componenti presentano in aggiunta anche il tag `PU_v1.0.0`.
 | BE: batch            | [p4pa-workflow-hub](https://github.com/pagopa/p4pa-workflow-hub/tree/v1.0.0)             | v1.0.0   | [ghcr.io/pagopa/p4pa-workflow-hub:v1.0.0]( - )                                                                                                                 | [link](https://github.com/pagopa/p4pa-workflow-hub/releases/tag/v1.0.0)       |
 | BE: batch            | [p4pa-workflow-worker](https://github.com/pagopa/p4pa-workflow-worker/tree/v1.0.0)       | v1.0.0   | [ghcr.io/pagopa/p4pa-workflow-worker:v1.0.0]( - )                                                                                                              | [link](https://github.com/pagopa/p4pa-workflow-worker/releases/tag/v1.0.0)    |
 
----
-
 #### 📍 Analytics
 
 | Tier        | Repository                                                                                             | Versione | Container Image                                                                                                                                                                     | Release Notes                                                                        |
@@ -51,11 +47,11 @@ Tutte le componenti presentano in aggiunta anche il tag `PU_v1.0.0`.
 | BE: batch   | [p4pa-analytics-data-ingestion](https://github.com/pagopa/p4pa-analytics-data-ingestion/tree/v1.0.0)   | v1.0.0   | [ghcr.io/pagopa/p4pa-analytics-data-ingestion:v1.0.0](https://github.com/pagopa/p4pa-analytics-data-ingestion/pkgs/container/p4pa-analytics-data-ingestion/850201230?tag=v1.0.0)    | [link](https://github.com/pagopa/p4pa-analytics-data-ingestion/releases/tag/v1.0.0)  |
 | BE: batch   | [p4pa-analytics-data-processing](https://github.com/pagopa/p4pa-analytics-data-processing/tree/v1.0.0) | v1.0.0   | [ghcr.io/pagopa/p4pa-analytics-data-processing:v1.0.0](https://github.com/pagopa/p4pa-analytics-data-processing/pkgs/container/p4pa-analytics-data-processing/850172972?tag=v1.0.0) | [link](https://github.com/pagopa/p4pa-analytics-data-processing/releases/tag/v1.0.0) |
 
----
-
 #### 📍 Cittadino
 
 | Tier        | Repository                                               | Versione | Container Image                                                                                                | Release Notes                                                 |
 |-------------|----------------------------------------------------------|----------|----------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------|
 | FE          | [arpu-fe](https://github.com/pagopa/arpu-fe/tree/v1.5.0) | v1.5.0   | -                                                                                                              | [link](https://github.com/pagopa/arpu-fe/releases/tag/v1.5.0) |
 | BE: inbound | [arpu-be](https://github.com/pagopa/arpu-be/tree/v1.7.0) | v1.7.0   | [ghcr.io/pagopa/arpu-be:v1.7.0](https://github.com/pagopa/arpu-be/pkgs/container/arpu-be/832756257?tag=v1.7.0) | [link](https://github.com/pagopa/arpu-be/releases/tag/v1.7.0) |
+
+---
