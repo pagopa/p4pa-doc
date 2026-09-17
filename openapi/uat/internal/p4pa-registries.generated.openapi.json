@@ -1128,12 +1128,12 @@
         }
       }
     },
-    "/crud/send-timeline-registries/search/findByNotificationRequestId" : {
+    "/crud/send-timeline-registries/search/findBySendNotificationId" : {
       "get" : {
         "tags" : [ "send-timeline-registry-search-controller" ],
-        "operationId" : "crud-send-timeline-registries-findByNotificationRequestId",
+        "operationId" : "crud-send-timeline-registries-findBySendNotificationId",
         "parameters" : [ {
-          "name" : "notificationRequestId",
+          "name" : "sendNotificationId",
           "in" : "query",
           "schema" : {
             "type" : "string"
@@ -1668,12 +1668,12 @@
         } ]
       }
     },
-    "/send-timeline-registries/{notificationRequestId}" : {
+    "/send-timeline-registries/{sendNotificationId}" : {
       "get" : {
         "tags" : [ "sendTimelineRegistry" ],
         "operationId" : "getSendTimelineRegistries",
         "parameters" : [ {
-          "name" : "notificationRequestId",
+          "name" : "sendNotificationId",
           "in" : "path",
           "required" : true,
           "schema" : {
@@ -1730,12 +1730,12 @@
         } ]
       }
     },
-    "/send-timeline-registries/{notificationRequestId}/extended" : {
+    "/send-timeline-registries/{sendNotificationId}/extended" : {
       "get" : {
         "tags" : [ "sendTimelineRegistry" ],
         "operationId" : "getExtendedSendTimelineRegistries",
         "parameters" : [ {
-          "name" : "notificationRequestId",
+          "name" : "sendNotificationId",
           "in" : "path",
           "required" : true,
           "schema" : {
@@ -1928,9 +1928,21 @@
           }
         }
       },
-      "PaymentEventType" : {
+      "RegistryEventCategory" : {
         "type" : "string",
-        "enum" : [ "DP_CREATED", "DP_UPDATED", "DP_CANCELLED", "DPI_ADDED", "DPI_UPDATED", "DPI_CANCELLED", "DPI_EXPIRED", "DPI_REPORTED", "RT_RECEIVED", "SYNC_ERROR", "IO_NOTIFIED", "SEND_NOTIFICATION_CREATED", "SEND_NOTIFICATION_ERROR", "SEND_NOTIFICATION_DATE" ]
+        "enum" : [ "INTERNO", "INTERFACCIA" ]
+      },
+      "RegistryEventSubType" : {
+        "type" : "string",
+        "enum" : [ "REQ", "RESP" ]
+      },
+      "RegistryOutcome" : {
+        "type" : "string",
+        "enum" : [ "OK", "KO" ]
+      },
+      "RegistryPagoPaEventType" : {
+        "type" : "string",
+        "enum" : [ "PaForNode_paVerifyPaymentNotice", "PaForNode_paGetPaymentV2", "PaForNode_paSendRTV2", "PaForNode_paDemandPaymentNotice", "ACA_newDebtPosition", "ACA_createPosition", "ACA_updatePosition", "ACA_deletePosition", "GPD_createPosition", "GPD_updatePosition", "GPD_deletePosition", "NodeForPa_fetchPaymentReporting" ]
       },
       "PageMetadata" : {
         "type" : "object",
@@ -1953,25 +1965,13 @@
           }
         }
       },
-      "RegistryEventSubType" : {
-        "type" : "string",
-        "enum" : [ "REQ", "RESP" ]
-      },
-      "RegistryOutcome" : {
-        "type" : "string",
-        "enum" : [ "OK", "KO" ]
-      },
-      "RegistryEventCategory" : {
-        "type" : "string",
-        "enum" : [ "INTERNO", "INTERFACCIA" ]
-      },
-      "RegistryPagoPaEventType" : {
-        "type" : "string",
-        "enum" : [ "PaForNode_paVerifyPaymentNotice", "PaForNode_paGetPaymentV2", "PaForNode_paSendRTV2", "PaForNode_paDemandPaymentNotice", "ACA_newDebtPosition", "ACA_createPosition", "ACA_updatePosition", "ACA_deletePosition", "GPD_createPosition", "GPD_updatePosition", "GPD_deletePosition", "NodeForPa_fetchPaymentReporting" ]
-      },
       "RegistrySilEventType" : {
         "type" : "string",
         "enum" : [ "PTDP_paaSILAutorizzaImportFlusso", "PTDP_paaSILImportaDovuto", "PTDP_paaSILInviaDovuti", "PTDP_paaSILInviaCarrelloDovuti", "PTDP_paaSILVerificaAvviso", "PTPR_pivotSILAutorizzaImportFlussoTesoreria", "PTPR_pivotSILAutorizzaImportFlusso", "SIL_attualizzazioneImporti", "SIL_notificaPagamento" ]
+      },
+      "PaymentEventType" : {
+        "type" : "string",
+        "enum" : [ "DP_CREATED", "DP_UPDATED", "DP_CANCELLED", "DPI_ADDED", "DPI_UPDATED", "DPI_CANCELLED", "DPI_EXPIRED", "DPI_REPORTED", "RT_RECEIVED", "SYNC_ERROR", "IO_NOTIFIED", "SEND_NOTIFICATION_CREATED", "SEND_NOTIFICATION_ERROR", "SEND_NOTIFICATION_DATE" ]
       },
       "DebtPositionRegistryRequestBody" : {
         "type" : "object",
@@ -2148,7 +2148,7 @@
         }
       },
       "SendTimelineRegistryRequestBody" : {
-        "required" : [ "dateTime", "eventId", "eventSubType", "eventType", "grantorId", "notificationRequestId", "organizationId", "outcome", "registryId", "registryOrigin", "requestorId", "streamId", "traceId" ],
+        "required" : [ "campaignId", "dateTime", "eventId", "eventSubType", "eventType", "grantorId", "notificationRequestId", "organizationId", "outcome", "registryId", "registryOrigin", "requestorId", "sendNotificationId", "streamId", "traceId" ],
         "type" : "object",
         "properties" : {
           "creationDate" : {
@@ -2194,10 +2194,16 @@
           "streamId" : {
             "type" : "string"
           },
+          "campaignId" : {
+            "type" : "string"
+          },
           "eventId" : {
             "type" : "string"
           },
           "eventType" : {
+            "type" : "string"
+          },
+          "sendNotificationId" : {
             "type" : "string"
           },
           "notificationRequestId" : {
@@ -2391,7 +2397,7 @@
         }
       },
       "SendTimelineRegistryDTO" : {
-        "required" : [ "dateTime", "eventId", "eventSubType", "eventType", "grantorId", "notificationRequestId", "organizationId", "outcome", "registryId", "requestorId", "streamId", "traceId" ],
+        "required" : [ "campaignId", "dateTime", "eventId", "eventSubType", "eventType", "grantorId", "notificationRequestId", "organizationId", "outcome", "registryId", "requestorId", "sendNotificationId", "streamId", "traceId" ],
         "type" : "object",
         "properties" : {
           "registryId" : {
@@ -2420,10 +2426,16 @@
           "streamId" : {
             "type" : "string"
           },
+          "campaignId" : {
+            "type" : "string"
+          },
           "eventId" : {
             "type" : "string"
           },
           "eventType" : {
+            "type" : "string"
+          },
+          "sendNotificationId" : {
             "type" : "string"
           },
           "notificationRequestId" : {
@@ -2455,7 +2467,7 @@
         }
       },
       "SendTimelineRegistryExtendedDTO" : {
-        "required" : [ "dateTime", "eventId", "eventSubType", "eventType", "grantorId", "notificationRequestId", "organizationId", "outcome", "registryId", "requestorId", "streamId", "traceId" ],
+        "required" : [ "campaignId", "dateTime", "eventId", "eventSubType", "eventType", "grantorId", "notificationRequestId", "organizationId", "outcome", "registryId", "requestorId", "sendNotificationId", "streamId", "traceId" ],
         "type" : "object",
         "properties" : {
           "registryId" : {
@@ -2484,10 +2496,16 @@
           "streamId" : {
             "type" : "string"
           },
+          "campaignId" : {
+            "type" : "string"
+          },
           "eventId" : {
             "type" : "string"
           },
           "eventType" : {
+            "type" : "string"
+          },
+          "sendNotificationId" : {
             "type" : "string"
           },
           "notificationRequestId" : {
@@ -2587,228 +2605,6 @@
           "body" : {
             "type" : "string",
             "nullable" : true
-          }
-        }
-      },
-      "InstallmentRegistry" : {
-        "type" : "object",
-        "properties" : {
-          "creationDate" : {
-            "type" : "string",
-            "format" : "date-time"
-          },
-          "updateDate" : {
-            "type" : "string",
-            "format" : "date-time"
-          },
-          "updateOperatorExternalId" : {
-            "type" : "string"
-          },
-          "updateTraceId" : {
-            "type" : "string"
-          },
-          "eventId" : {
-            "type" : "string"
-          },
-          "eventType" : {
-            "$ref" : "#/components/schemas/PaymentEventType"
-          },
-          "eventDateTime" : {
-            "type" : "string",
-            "format" : "date-time"
-          },
-          "eventDescription" : {
-            "type" : "string"
-          },
-          "operatorExternalUserId" : {
-            "type" : "string"
-          },
-          "traceId" : {
-            "type" : "string"
-          },
-          "debtPositionId" : {
-            "type" : "integer",
-            "format" : "int64"
-          },
-          "organizationId" : {
-            "type" : "integer",
-            "format" : "int64"
-          },
-          "nav" : {
-            "type" : "string"
-          },
-          "_links" : {
-            "$ref" : "#/components/schemas/Links"
-          }
-        }
-      },
-      "PagedModelInstallmentRegistry" : {
-        "type" : "object",
-        "properties" : {
-          "_embedded" : {
-            "type" : "object",
-            "properties" : {
-              "installmentRegistries" : {
-                "type" : "array",
-                "items" : {
-                  "$ref" : "#/components/schemas/InstallmentRegistry"
-                }
-              }
-            }
-          },
-          "_links" : {
-            "$ref" : "#/components/schemas/Links"
-          },
-          "page" : {
-            "$ref" : "#/components/schemas/PageMetadata"
-          }
-        }
-      },
-      "CollectionModelInstallmentRegistry" : {
-        "type" : "object",
-        "properties" : {
-          "_embedded" : {
-            "type" : "object",
-            "properties" : {
-              "installmentRegistries" : {
-                "type" : "array",
-                "items" : {
-                  "$ref" : "#/components/schemas/InstallmentRegistry"
-                }
-              }
-            }
-          },
-          "_links" : {
-            "$ref" : "#/components/schemas/Links"
-          }
-        }
-      },
-      "SendTimelineRegistry" : {
-        "required" : [ "dateTime", "eventId", "eventSubType", "eventType", "grantorId", "notificationRequestId", "organizationId", "outcome", "registryId", "registryOrigin", "requestorId", "streamId", "traceId" ],
-        "type" : "object",
-        "properties" : {
-          "creationDate" : {
-            "type" : "string",
-            "format" : "date-time"
-          },
-          "updateDate" : {
-            "type" : "string",
-            "format" : "date-time"
-          },
-          "updateOperatorExternalId" : {
-            "type" : "string"
-          },
-          "updateTraceId" : {
-            "type" : "string"
-          },
-          "registryId" : {
-            "type" : "string"
-          },
-          "registryOrigin" : {
-            "type" : "string"
-          },
-          "dateTime" : {
-            "type" : "string",
-            "format" : "date-time"
-          },
-          "traceId" : {
-            "type" : "string"
-          },
-          "eventSubType" : {
-            "$ref" : "#/components/schemas/RegistryEventSubType"
-          },
-          "requestorId" : {
-            "type" : "string"
-          },
-          "grantorId" : {
-            "type" : "string"
-          },
-          "organizationId" : {
-            "type" : "integer",
-            "format" : "int64"
-          },
-          "streamId" : {
-            "type" : "string"
-          },
-          "eventId" : {
-            "type" : "string"
-          },
-          "eventType" : {
-            "type" : "string"
-          },
-          "notificationRequestId" : {
-            "type" : "string"
-          },
-          "iun" : {
-            "type" : "string"
-          },
-          "recipientIndex" : {
-            "type" : "integer",
-            "format" : "int32"
-          },
-          "newStatus" : {
-            "type" : "string"
-          },
-          "eventTimestamp" : {
-            "type" : "string",
-            "format" : "date-time"
-          },
-          "legalFactIds" : {
-            "type" : "array",
-            "items" : {
-              "type" : "string"
-            }
-          },
-          "outcome" : {
-            "$ref" : "#/components/schemas/RegistryOutcome"
-          },
-          "bodyCiphered" : {
-            "type" : "string",
-            "format" : "byte"
-          },
-          "_links" : {
-            "$ref" : "#/components/schemas/Links"
-          }
-        }
-      },
-      "PagedModelSendTimelineRegistry" : {
-        "type" : "object",
-        "properties" : {
-          "_embedded" : {
-            "type" : "object",
-            "properties" : {
-              "sendTimelineRegistries" : {
-                "type" : "array",
-                "items" : {
-                  "$ref" : "#/components/schemas/SendTimelineRegistry"
-                }
-              }
-            }
-          },
-          "_links" : {
-            "$ref" : "#/components/schemas/Links"
-          },
-          "page" : {
-            "$ref" : "#/components/schemas/PageMetadata"
-          }
-        }
-      },
-      "CollectionModelSendTimelineRegistry" : {
-        "type" : "object",
-        "properties" : {
-          "_embedded" : {
-            "type" : "object",
-            "properties" : {
-              "sendTimelineRegistries" : {
-                "type" : "array",
-                "items" : {
-                  "$ref" : "#/components/schemas/SendTimelineRegistry"
-                }
-              }
-            }
-          },
-          "_links" : {
-            "$ref" : "#/components/schemas/Links"
           }
         }
       },
@@ -2913,6 +2709,141 @@
           },
           "page" : {
             "$ref" : "#/components/schemas/PageMetadata"
+          }
+        }
+      },
+      "SendTimelineRegistry" : {
+        "required" : [ "campaignId", "dateTime", "eventId", "eventSubType", "eventType", "grantorId", "notificationRequestId", "organizationId", "outcome", "registryId", "registryOrigin", "requestorId", "sendNotificationId", "streamId", "traceId" ],
+        "type" : "object",
+        "properties" : {
+          "creationDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "updateDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "updateOperatorExternalId" : {
+            "type" : "string"
+          },
+          "updateTraceId" : {
+            "type" : "string"
+          },
+          "registryId" : {
+            "type" : "string"
+          },
+          "registryOrigin" : {
+            "type" : "string"
+          },
+          "dateTime" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "traceId" : {
+            "type" : "string"
+          },
+          "eventSubType" : {
+            "$ref" : "#/components/schemas/RegistryEventSubType"
+          },
+          "requestorId" : {
+            "type" : "string"
+          },
+          "grantorId" : {
+            "type" : "string"
+          },
+          "organizationId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "streamId" : {
+            "type" : "string"
+          },
+          "campaignId" : {
+            "type" : "string"
+          },
+          "eventId" : {
+            "type" : "string"
+          },
+          "eventType" : {
+            "type" : "string"
+          },
+          "sendNotificationId" : {
+            "type" : "string"
+          },
+          "notificationRequestId" : {
+            "type" : "string"
+          },
+          "iun" : {
+            "type" : "string"
+          },
+          "recipientIndex" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "newStatus" : {
+            "type" : "string"
+          },
+          "eventTimestamp" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "legalFactIds" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "outcome" : {
+            "$ref" : "#/components/schemas/RegistryOutcome"
+          },
+          "bodyCiphered" : {
+            "type" : "string",
+            "format" : "byte"
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          }
+        }
+      },
+      "PagedModelSendTimelineRegistry" : {
+        "type" : "object",
+        "properties" : {
+          "_embedded" : {
+            "type" : "object",
+            "properties" : {
+              "sendTimelineRegistries" : {
+                "type" : "array",
+                "items" : {
+                  "$ref" : "#/components/schemas/SendTimelineRegistry"
+                }
+              }
+            }
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          },
+          "page" : {
+            "$ref" : "#/components/schemas/PageMetadata"
+          }
+        }
+      },
+      "CollectionModelSendTimelineRegistry" : {
+        "type" : "object",
+        "properties" : {
+          "_embedded" : {
+            "type" : "object",
+            "properties" : {
+              "sendTimelineRegistries" : {
+                "type" : "array",
+                "items" : {
+                  "$ref" : "#/components/schemas/SendTimelineRegistry"
+                }
+              }
+            }
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
           }
         }
       },
@@ -3086,6 +3017,99 @@
                 "type" : "array",
                 "items" : {
                   "$ref" : "#/components/schemas/DebtPositionRegistry"
+                }
+              }
+            }
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          }
+        }
+      },
+      "InstallmentRegistry" : {
+        "type" : "object",
+        "properties" : {
+          "creationDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "updateDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "updateOperatorExternalId" : {
+            "type" : "string"
+          },
+          "updateTraceId" : {
+            "type" : "string"
+          },
+          "eventId" : {
+            "type" : "string"
+          },
+          "eventType" : {
+            "$ref" : "#/components/schemas/PaymentEventType"
+          },
+          "eventDateTime" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "eventDescription" : {
+            "type" : "string"
+          },
+          "operatorExternalUserId" : {
+            "type" : "string"
+          },
+          "traceId" : {
+            "type" : "string"
+          },
+          "debtPositionId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "organizationId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "nav" : {
+            "type" : "string"
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          }
+        }
+      },
+      "PagedModelInstallmentRegistry" : {
+        "type" : "object",
+        "properties" : {
+          "_embedded" : {
+            "type" : "object",
+            "properties" : {
+              "installmentRegistries" : {
+                "type" : "array",
+                "items" : {
+                  "$ref" : "#/components/schemas/InstallmentRegistry"
+                }
+              }
+            }
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          },
+          "page" : {
+            "$ref" : "#/components/schemas/PageMetadata"
+          }
+        }
+      },
+      "CollectionModelInstallmentRegistry" : {
+        "type" : "object",
+        "properties" : {
+          "_embedded" : {
+            "type" : "object",
+            "properties" : {
+              "installmentRegistries" : {
+                "type" : "array",
+                "items" : {
+                  "$ref" : "#/components/schemas/InstallmentRegistry"
                 }
               }
             }
