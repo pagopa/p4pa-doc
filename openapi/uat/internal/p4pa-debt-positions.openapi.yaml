@@ -1820,23 +1820,17 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/DebtPositionErrorDTO"
-  /debt-position-type-org-operators/default-technical:
+  /debt-position-type-org-operators/default:
     post:
       tags:
         - debt-position-type-org-operators
-      operationId: saveDefaultTechnicalDebtPositionTypeOrgOperatorsForOperator
-      parameters:
-        - name: operatorExternalUserId
-          in: query
-          required: true
-          schema:
-            type: string
-        - name: organizationId
-          in: query
-          required: true
-          schema:
-            type: integer
-            format: int64
+      operationId: relateUserToDefaultDPTypeOrg
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RelateUserToDefaultDPTypeOrgDTO"
+        required: true
       responses:
         '201':
           description: Created
@@ -3416,6 +3410,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/DebtPositionTypeOrgBalanceCostDTO'
+        deleteDebtPositionTypeOrgBalanceCostList:
+          type: array
+          items:
+            $ref: '#/components/schemas/DebtPositionTypeOrgBalanceCostDTO'
     DebtPositionTypeOrgBalanceCostDTO:
       type: object
       required:
@@ -3586,3 +3584,16 @@ components:
           type: object
           additionalProperties:
             type: boolean
+    RelateUserToDefaultDPTypeOrgDTO:
+      type: object
+      required:
+        - operatorExternalUserId
+        - organizationId
+      properties:
+        operatorExternalUserId:
+          type: string
+        organizationId:
+          type: integer
+          format: int64
+        fiscalCode:
+          type: string
