@@ -79,13 +79,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
-  /send-timeline-registries/{notificationRequestId}:
+  /send-timeline-registries/{sendNotificationId}:
     get:
       tags:
         - sendTimelineRegistry
       operationId: getSendTimelineRegistries
       parameters:
-        - name: notificationRequestId
+        - name: sendNotificationId
           in: path
           required: true
           schema:
@@ -117,13 +117,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
-  /send-timeline-registries/{notificationRequestId}/extended:
+  /send-timeline-registries/{sendNotificationId}/extended:
     get:
       tags:
         - sendTimelineRegistry
       operationId: getExtendedSendTimelineRegistries
       parameters:
-        - name: notificationRequestId
+        - name: sendNotificationId
           in: path
           required: true
           schema:
