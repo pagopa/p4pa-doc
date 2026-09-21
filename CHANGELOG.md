@@ -7,7 +7,9 @@ Prima versione dell'applicativo rilasciata in produzione.
 
 ### 📋 Release Manifest
 
-Tutte le componenti presentano in aggiunta anche il tag `PU_v1.0.0`.
+ℹ️ Tutti i componenti inclusi nella release sono versionati, oltre che tramite il proprio tag applicativo,
+anche tramite il tag di piattaforma `PU_v1.0.0`,
+utilizzabile per identificare la release di appartenenza e per reperire le corrispondenti immagini Docker.
 
 #### 📍 DB Schema
 
@@ -23,7 +25,7 @@ Tutte le componenti presentano in aggiunta anche il tag `PU_v1.0.0`.
 | BE: inbound          | [p4pa-pu-bff](https://github.com/pagopa/p4pa-pu-bff/tree/v1.0.0)                         | v1.0.0   | [ghcr.io/pagopa/p4pa-pu-bff:v1.0.0](https://github.com/pagopa/p4pa-pu-bff/pkgs/container/p4pa-pu-bff/832019517?tag=v1.0.0)                                     | [link](https://github.com/pagopa/p4pa-pu-bff/releases/tag/v1.0.0)             |
 | BE: inbound          | [p4pa-migration](https://github.com/pagopa/p4pa-migration/tree/v1.0.0)                   | v1.0.0   | [ghcr.io/pagopa/p4pa-migration:v1.0.0](https://github.com/pagopa/p4pa-migration/pkgs/container/p4pa-migration/831985786?tag=v1.0.0)                            | [link](https://github.com/pagopa/p4pa-migration/releases/tag/v1.0.0)          |
 | BE: inbound/outbound | [p4pa-pu-sil](https://github.com/pagopa/p4pa-pu-sil/tree/v1.0.0)                         | v1.0.0   | [ghcr.io/pagopa/p4pa-pu-sil:v1.0.0](https://github.com/pagopa/p4pa-pu-sil/pkgs/container/p4pa-pu-sil/832004523?tag=v1.0.0)                                     | [link](https://github.com/pagopa/p4pa-pu-sil/releases/tag/v1.0.0)             |
-| BE: inbound/outbound | [p4pa-auth](https://github.com/pagopa/p4pa-auth/tree/v1.1.0)                             | v1.1.0   | [ghcr.io/pagopa/p4pa-auth:v1.1.0](https://github.com/pagopa/p4pa-auth/pkgs/container/p4pa-auth/831898243?tag=v1.1.0)                                           | [link](https://github.com/pagopa/p4pa-auth/releases/tag/v1.1.0)               |
+| BE: inbound/outbound | [p4pa-auth](https://github.com/pagopa/p4pa-auth/tree/v1.1.0)                             | v1.0.0   | [ghcr.io/pagopa/p4pa-auth:v1.1.0](https://github.com/pagopa/p4pa-auth/pkgs/container/p4pa-auth/831898243?tag=v1.1.0)                                           | [link](https://github.com/pagopa/p4pa-auth/releases/tag/v1.1.0)               |
 | BE: inbound/outbound | [p4pa-fileshare](https://github.com/pagopa/p4pa-fileshare/tree/v1.0.0)                   | v1.0.0   | [ghcr.io/pagopa/p4pa-fileshare:v1.0.0](https://github.com/pagopa/p4pa-fileshare/pkgs/container/p4pa-fileshare/831958528?tag=v1.0.0)                            | [link](https://github.com/pagopa/p4pa-fileshare/releases/tag/v1.0.0)          |
 | BE: inbound/outbound | [p4pa-citizen](https://github.com/pagopa/p4pa-citizen/tree/v1.0.0)                       | v1.0.0   | [ghcr.io/pagopa/p4pa-citizen:v1.0.0](https://github.com/pagopa/p4pa-citizen/pkgs/container/p4pa-citizen/831989641?tag=v1.0.0)                                  | [link](https://github.com/pagopa/p4pa-citizen/releases/tag/v1.0.0)            |
 | BE: inbound/outbound | [p4pa-pagopa-payments](https://github.com/pagopa/p4pa-pagopa-payments/tree/v1.0.0)       | v1.0.0   | [ghcr.io/pagopa/p4pa-pagopa-payments:v1.0.0](https://github.com/pagopa/p4pa-pagopa-payments/pkgs/container/p4pa-pagopa-payments/831953408?tag=v1.0.0)          | [link](https://github.com/pagopa/p4pa-pagopa-payments/releases/tag/v1.0.0)    |
