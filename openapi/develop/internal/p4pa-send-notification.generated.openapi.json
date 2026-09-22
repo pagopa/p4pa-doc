@@ -2485,7 +2485,7 @@
         }
       },
       "CreateNotificationRequest" : {
-        "required" : [ "externalCampaignId", "notificationFeePolicy", "organizationId", "paProtocolNumber", "physicalCommunicationType", "recipients" ],
+        "required" : [ "externalCampaignId", "notificationFeePolicy", "organizationId", "paProtocolNumber", "physicalCommunicationType", "recipients", "subject" ],
         "type" : "object",
         "properties" : {
           "organizationId" : {
@@ -2512,6 +2512,9 @@
           },
           "physicalCommunicationType" : {
             "$ref" : "#/components/schemas/PhysicalCommunicationTypeEnum"
+          },
+          "subject" : {
+            "type" : "string"
           },
           "senderDenomination" : {
             "type" : "string",
@@ -2726,7 +2729,7 @@
         }
       },
       "SendNotificationDTO" : {
-        "required" : [ "campaignId", "organizationId", "payments", "sendNotificationId", "status" ],
+        "required" : [ "campaignId", "organizationId", "payments", "sendNotificationId", "status", "subject" ],
         "type" : "object",
         "properties" : {
           "sendNotificationId" : {
@@ -2748,6 +2751,9 @@
             "items" : {
               "$ref" : "#/components/schemas/SendNotificationPaymentsDTO"
             }
+          },
+          "subject" : {
+            "type" : "string"
           },
           "status" : {
             "$ref" : "#/components/schemas/NotificationStatus"
@@ -3656,6 +3662,9 @@
           "physicalCommunicationType" : {
             "type" : "string"
           },
+          "subject" : {
+            "type" : "string"
+          },
           "senderDenomination" : {
             "type" : "string"
           },
@@ -3934,6 +3943,9 @@
             "type" : "string"
           },
           "physicalCommunicationType" : {
+            "type" : "string"
+          },
+          "subject" : {
             "type" : "string"
           },
           "senderDenomination" : {
