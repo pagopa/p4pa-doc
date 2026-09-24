@@ -880,10 +880,13 @@
         }
       },
       "SendNotification" : {
-        "required" : [ "creationDate", "sendNotificationId" ],
+        "required" : [ "creationDate", "sendNotificationId", "subject" ],
         "type" : "object",
         "properties" : {
           "sendNotificationId" : {
+            "type" : "string"
+          },
+          "subject" : {
             "type" : "string"
           },
           "creationDate" : {
@@ -1238,6 +1241,9 @@
             "type" : "string"
           },
           "physicalCommunicationType" : {
+            "type" : "string"
+          },
+          "subject" : {
             "type" : "string"
           },
           "senderDenomination" : {
