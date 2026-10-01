@@ -209,6 +209,114 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
+    post:
+      tags:
+        - Organizations
+      summary: Save encrypted API keys
+      operationId: encryptAndSaveApiKey
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: subUnitCode
+          in: query
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: 'OrganizationApiKeys'
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Organization Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+  /organization/{organizationId}/apiKey/{keyType}:
+    get:
+      tags:
+        - Organizations
+      summary: Get API keys for IO or SEND
+      operationId: getOrganizationApiKey
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: keyType
+          in: path
+          required: true
+          schema:
+            type: 'OrganizationApiKeyType'
+        - name: subUnitCode
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: 'OrganizationApiKeys'
+        '404':
+          description: Organization Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+    delete:
+      tags:
+        - Organizations
+      summary: Delete API key
+      operationId: deleteOrganizationApiKey
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: keyType
+          in: path
+          required: true
+          schema:
+            type: 'OrganizationApiKeyType'
+        - name: subUnitCode
+          in: query
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No Content - Key deleted successfully
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
   /brokers/config:
     get:
       tags:
@@ -6064,6 +6172,26 @@ paths:
           required: true
           schema:
             type: string
+        - name: mappedExternalUserId
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: fiscalCode
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: firstName
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: lastName
+          in: query
+          required: false
+          schema:
+            type: string
       responses:
         '200':
           description: OK
@@ -6090,6 +6218,108 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
       x-spring-paginated: true
+    post:
+      tags:
+        - OrgSubUnitOperators
+      operationId: addOperatorsToOrgSubUnit
+      summary: Add operators to an org sub unit
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: subUnitCode
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: mappedExternalUserIds
+          in: query
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '401':
+          description: Unauthorized - Missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '403':
+          description: Forbidden - Access denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+    delete:
+      tags:
+        - OrgSubUnitOperators
+      operationId: deleteOperatorsFromOrgSubUnit
+      summary: Delete operators from an organization sub unit
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: subUnitCode
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: mappedExternalUserIds
+          in: query
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '401':
+          description: Unauthorized - Missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
   /organization/{organizationId}/pdnd/clients:
     get:
       tags:
