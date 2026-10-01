@@ -190,6 +190,59 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
+  /migration/organization/{orgIpaCode}/migrations/{uploadId}/file:
+    get:
+      tags:
+        - migration-file
+      summary: getMigrationFile
+      description: Service to retrieve the file of an upload request
+      operationId: getMigrationFile
+      parameters:
+        - name: orgIpaCode
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: uploadId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: ZIP file containing error files
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '204':
+          description: No Content - No Errors Found
+        '401':
+          description: Unauthorized - Missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '403':
+          description: Forbidden - No upload in error state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: Not Found - Upload not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Internal Server Error - Error during errors processing
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
   /migration/organization/{orgIpaCode}/migrations/{uploadId}/errors:
     get:
       tags:
