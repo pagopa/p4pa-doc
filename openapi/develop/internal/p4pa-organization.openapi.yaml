@@ -1053,6 +1053,49 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OrganizationErrorDTO'
+  /organization/{organizationId}/pdnd/org-sub-units-services:
+    get:
+      tags:
+        - PdndService
+      summary: get org-sub-units-services
+      operationId: getOrgSubUnitsPdndServices
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: subUnitCode
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: subUnitName
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PagedPdndServiceView"
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
+      x-spring-paginated: true
   /organization/{organizationId}/pdnd/services/{purposeId}:
     get:
       tags:
@@ -1638,4 +1681,28 @@ components:
           $ref: '#/components/schemas/OrganizationApiKeyType'
         flagActive:
           type: boolean
-
+    PagedPdndServiceView:
+      type: object
+      required:
+        - content
+        - size
+        - totalElements
+        - totalPages
+        - number
+      properties:
+        content:
+          type: array
+          items:
+            type: 'PdndServiceView'
+        size:
+          type: integer
+          format: int64
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int64
+        number:
+          type: integer
+          format: int64
