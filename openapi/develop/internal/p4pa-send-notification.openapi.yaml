@@ -435,6 +435,48 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SendNotificationErrorDTO'
+  /payments/organization/{organizationId}/nav/{nav}:
+    put:
+      tags:
+        - Payments
+      operationId: notifyPayment
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: nav
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationDTO'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
+        '404':
+          description: Notification not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendNotificationErrorDTO'
   /notification-request/{notificationRequestId}/legal-facts:
     post:
       tags:
@@ -1600,6 +1642,10 @@ components:
           type: string
         status:
           type: 'NotificationStatus'
+        history:
+          type: array
+          items:
+            $ref: '#/components/schemas/StreamEventSummaryDTO'
         errors:
           type: array
           items:

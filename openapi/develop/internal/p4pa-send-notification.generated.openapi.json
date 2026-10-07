@@ -22,6 +22,9 @@
     "name" : "Streams",
     "description" : "the Streams API"
   }, {
+    "name" : "Payments",
+    "description" : "the Payments API"
+  }, {
     "name" : "Campaign",
     "description" : "the Campaign API"
   } ],
@@ -203,6 +206,73 @@
           },
           "403" : {
             "description" : "Forbidden",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendNotificationErrorDTO"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendNotificationErrorDTO"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/p4pasend/payments/organization/{organizationId}/nav/{nav}" : {
+      "put" : {
+        "tags" : [ "Payments" ],
+        "operationId" : "notifyPayment",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }, {
+          "name" : "nav",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendNotificationDTO"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendNotificationErrorDTO"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Notification not found",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -2409,7 +2479,7 @@
       },
       "NotificationStatusV26DTO" : {
         "type" : "string",
-        "enum" : [ "IN_VALIDATION", "ACCEPTED", "REFUSED", "DELIVERING", "DELIVERED", "VIEWED", "EFFECTIVE_DATE", "PAID", "UNREACHABLE", "CANCELLED", "RETURNED_TO_SENDER" ]
+        "enum" : [ "IN_VALIDATION", "ACCEPTED", "REFUSED", "DELIVERING", "DELIVERED", "VIEWED", "EFFECTIVE_DATE", "PAID", "UNREACHABLE", "CANCELLED", "RETURNED_TO_SENDER", "PU_PAID" ]
       },
       "StreamEventSummaryDTO" : {
         "type" : "object",
@@ -2424,11 +2494,77 @@
       },
       "TimelineElementCategoryV27DTO" : {
         "type" : "string",
-        "enum" : [ "SENDER_ACK_CREATION_REQUEST", "VALIDATE_NORMALIZE_ADDRESSES_REQUEST", "NORMALIZED_ADDRESS", "REQUEST_ACCEPTED", "SEND_COURTESY_MESSAGE", "GET_ADDRESS", "PUBLIC_REGISTRY_CALL", "PUBLIC_REGISTRY_RESPONSE", "SCHEDULE_ANALOG_WORKFLOW", "SCHEDULE_DIGITAL_WORKFLOW", "PREPARE_DIGITAL_DOMICILE", "SEND_DIGITAL_DOMICILE", "SEND_DIGITAL_PROGRESS", "SEND_DIGITAL_FEEDBACK", "REFINEMENT", "SCHEDULE_REFINEMENT", "DIGITAL_DELIVERY_CREATION_REQUEST", "DIGITAL_SUCCESS_WORKFLOW", "DIGITAL_FAILURE_WORKFLOW", "ANALOG_SUCCESS_WORKFLOW", "ANALOG_FAILURE_WORKFLOW", "PREPARE_SIMPLE_REGISTERED_LETTER", "SEND_SIMPLE_REGISTERED_LETTER", "SEND_SIMPLE_REGISTERED_LETTER_PROGRESS", "NOTIFICATION_VIEWED_CREATION_REQUEST", "NOTIFICATION_VIEWED", "PREPARE_ANALOG_DOMICILE", "SEND_ANALOG_DOMICILE", "SEND_ANALOG_PROGRESS", "SEND_ANALOG_FEEDBACK", "PAYMENT", "COMPLETELY_UNREACHABLE", "COMPLETELY_UNREACHABLE_CREATION_REQUEST", "REQUEST_REFUSED", "AAR_CREATION_REQUEST", "AAR_GENERATION", "NOT_HANDLED", "PROBABLE_SCHEDULING_ANALOG_DATE", "NOTIFICATION_CANCELLATION_REQUEST", "NOTIFICATION_CANCELLED", "PREPARE_ANALOG_DOMICILE_FAILURE", "NOTIFICATION_RADD_RETRIEVED", "ANALOG_WORKFLOW_RECIPIENT_DECEASED", "PUBLIC_REGISTRY_VALIDATION_CALL", "PUBLIC_REGISTRY_VALIDATION_RESPONSE" ]
+        "enum" : [ "SENDER_ACK_CREATION_REQUEST", "VALIDATE_NORMALIZE_ADDRESSES_REQUEST", "NORMALIZED_ADDRESS", "REQUEST_ACCEPTED", "SEND_COURTESY_MESSAGE", "GET_ADDRESS", "PUBLIC_REGISTRY_CALL", "PUBLIC_REGISTRY_RESPONSE", "SCHEDULE_ANALOG_WORKFLOW", "SCHEDULE_DIGITAL_WORKFLOW", "PREPARE_DIGITAL_DOMICILE", "SEND_DIGITAL_DOMICILE", "SEND_DIGITAL_PROGRESS", "SEND_DIGITAL_FEEDBACK", "REFINEMENT", "SCHEDULE_REFINEMENT", "DIGITAL_DELIVERY_CREATION_REQUEST", "DIGITAL_SUCCESS_WORKFLOW", "DIGITAL_FAILURE_WORKFLOW", "ANALOG_SUCCESS_WORKFLOW", "ANALOG_FAILURE_WORKFLOW", "PREPARE_SIMPLE_REGISTERED_LETTER", "SEND_SIMPLE_REGISTERED_LETTER", "SEND_SIMPLE_REGISTERED_LETTER_PROGRESS", "NOTIFICATION_VIEWED_CREATION_REQUEST", "NOTIFICATION_VIEWED", "PREPARE_ANALOG_DOMICILE", "SEND_ANALOG_DOMICILE", "SEND_ANALOG_PROGRESS", "SEND_ANALOG_FEEDBACK", "PAYMENT", "COMPLETELY_UNREACHABLE", "COMPLETELY_UNREACHABLE_CREATION_REQUEST", "REQUEST_REFUSED", "AAR_CREATION_REQUEST", "AAR_GENERATION", "NOT_HANDLED", "PROBABLE_SCHEDULING_ANALOG_DATE", "NOTIFICATION_CANCELLATION_REQUEST", "NOTIFICATION_CANCELLED", "PREPARE_ANALOG_DOMICILE_FAILURE", "NOTIFICATION_RADD_RETRIEVED", "ANALOG_WORKFLOW_RECIPIENT_DECEASED", "PUBLIC_REGISTRY_VALIDATION_CALL", "PUBLIC_REGISTRY_VALIDATION_RESPONSE", "PU_PAYMENT" ]
       },
       "NotificationStatus" : {
         "type" : "string",
         "enum" : [ "WAITING_FILE", "SENDING", "REGISTERED", "UPLOADED", "IN_VALIDATION", "ACCEPTED", "REFUSED", "DELIVERING", "DELIVERED", "VIEWED", "EFFECTIVE_DATE", "PAID", "UNREACHABLE", "CANCELLED", "RETURNED_TO_SENDER" ]
+      },
+      "SendNotificationDTO" : {
+        "required" : [ "campaignId", "organizationId", "payments", "sendNotificationId", "status", "subject" ],
+        "type" : "object",
+        "properties" : {
+          "sendNotificationId" : {
+            "type" : "string"
+          },
+          "campaignId" : {
+            "type" : "string"
+          },
+          "organizationId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "iun" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "payments" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/SendNotificationPaymentsDTO"
+            }
+          },
+          "subject" : {
+            "type" : "string"
+          },
+          "status" : {
+            "$ref" : "#/components/schemas/NotificationStatus"
+          },
+          "history" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/StreamEventSummaryDTO"
+            }
+          },
+          "errors" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        }
+      },
+      "SendNotificationPaymentsDTO" : {
+        "required" : [ "navList" ],
+        "type" : "object",
+        "properties" : {
+          "debtPositionId" : {
+            "type" : "integer",
+            "format" : "int64",
+            "nullable" : true
+          },
+          "navList" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "notificationDate" : {
+            "type" : "string",
+            "format" : "date-time",
+            "nullable" : true
+          }
+        }
       },
       "CreateNotificationResponse" : {
         "type" : "object",
@@ -2725,66 +2861,6 @@
             "maxLength" : 2147483647,
             "minLength" : 1,
             "type" : "string"
-          }
-        }
-      },
-      "SendNotificationDTO" : {
-        "required" : [ "campaignId", "organizationId", "payments", "sendNotificationId", "status", "subject" ],
-        "type" : "object",
-        "properties" : {
-          "sendNotificationId" : {
-            "type" : "string"
-          },
-          "campaignId" : {
-            "type" : "string"
-          },
-          "organizationId" : {
-            "type" : "integer",
-            "format" : "int64"
-          },
-          "iun" : {
-            "type" : "string",
-            "nullable" : true
-          },
-          "payments" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/SendNotificationPaymentsDTO"
-            }
-          },
-          "subject" : {
-            "type" : "string"
-          },
-          "status" : {
-            "$ref" : "#/components/schemas/NotificationStatus"
-          },
-          "errors" : {
-            "type" : "array",
-            "items" : {
-              "type" : "string"
-            }
-          }
-        }
-      },
-      "SendNotificationPaymentsDTO" : {
-        "required" : [ "navList" ],
-        "type" : "object",
-        "properties" : {
-          "debtPositionId" : {
-            "type" : "integer",
-            "format" : "int64",
-            "nullable" : true
-          },
-          "navList" : {
-            "type" : "array",
-            "items" : {
-              "type" : "string"
-            }
-          },
-          "notificationDate" : {
-            "type" : "string",
-            "format" : "date-time",
-            "nullable" : true
           }
         }
       },
@@ -3592,6 +3668,10 @@
           }
         }
       },
+      "InstallmentStatus" : {
+        "type" : "string",
+        "enum" : [ "TO_SYNC", "REPORTED", "PAID", "CANCELLED", "INVALID", "EXPIRED", "UNPAID", "UNPAYABLE", "DRAFT" ]
+      },
       "PuPayment" : {
         "type" : "object",
         "properties" : {
@@ -3605,6 +3685,9 @@
           "notificationDate" : {
             "type" : "string",
             "format" : "date-time"
+          },
+          "status" : {
+            "$ref" : "#/components/schemas/InstallmentStatus"
           }
         }
       },
