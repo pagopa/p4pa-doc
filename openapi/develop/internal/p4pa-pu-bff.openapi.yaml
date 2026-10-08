@@ -6100,6 +6100,58 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
+  /organization/{organizationId}/operators/{mappedExternalUserId}/assignable-org-sub-units:
+    get:
+      tags:
+        - OrgSubUnits
+      summary: get active organization sub-units not already assigned to the operator
+      operationId: getOperatorAssignableOrgSubUnits
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: mappedExternalUserId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: subUnitCode
+          in: query
+          schema:
+            type: string
+        - name: subUnitName
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagedOrgSubUnit'
+        '401':
+          description: Unauthorized - Missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '403':
+          description: Forbidden - Access denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+      x-spring-paginated: true
   /organization/{organizationId}/org-sub-units/{subUnitCode}/status:
     patch:
       tags:
