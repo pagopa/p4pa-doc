@@ -808,6 +808,11 @@
             "format" : "int64",
             "nullable" : true
           },
+          "paid" : {
+            "type" : "integer",
+            "format" : "int64",
+            "nullable" : true
+          },
           "fullRecalculationDate" : {
             "type" : "string",
             "format" : "date-time",
@@ -904,7 +909,6 @@
       },
       "SendNotificationStatus" : {
         "type" : "string",
-        "nullable" : true,
         "enum" : [ "COMPLETED", "IN_PROGRESS", "CANCELLED", "REFUSED", "UNSUCCESSFUL" ]
       },
       "Address" : {
@@ -1054,10 +1058,6 @@
             "type" : "string"
           }
         }
-      },
-      "NotificationStatus" : {
-        "type" : "string",
-        "enum" : [ "WAITING_FILE", "SENDING", "REGISTERED", "UPLOADED", "IN_VALIDATION", "ACCEPTED", "REFUSED", "DELIVERING", "DELIVERED", "VIEWED", "EFFECTIVE_DATE", "PAID", "UNREACHABLE", "CANCELLED", "RETURNED_TO_SENDER" ]
       },
       "PagoPa" : {
         "required" : [ "applyCost", "creditorTaxId", "noticeCode" ],
@@ -1240,7 +1240,7 @@
             }
           },
           "status" : {
-            "$ref" : "#/components/schemas/NotificationStatus"
+            "$ref" : "#/components/schemas/SendNotificationStatus"
           },
           "notificationRequestId" : {
             "type" : "string"
