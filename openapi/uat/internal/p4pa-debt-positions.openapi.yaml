@@ -1989,6 +1989,33 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/DebtPositionErrorDTO"
+  /organizations/{organizationId}/debt-positions/migrated/acquire-ownership:
+    post:
+      tags:
+        - debt-position
+      operationId: acquireMigratedDebtPositionsOwnership
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Ok
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionErrorDTO'
   /spontaneous-forms:
     post:
       tags:
@@ -3099,6 +3126,8 @@ components:
         draft:
           type: boolean
         iupdOrg:
+          type: string
+        iupdPagopa:
           type: string
         description:
           type: string
