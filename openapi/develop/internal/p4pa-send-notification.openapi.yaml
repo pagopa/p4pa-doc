@@ -1464,11 +1464,9 @@ components:
           items:
             $ref: '#/components/schemas/Document'
         notificationFeePolicy:
-          type: string
-          enum: [ FLAT_RATE, DELIVERY_MODE ]
+            type: 'NotificationFeePolicyDTO'
         physicalCommunicationType:
-          type: string
-          enum: [ AR_REGISTERED_LETTER, REGISTERED_LETTER_890 ]
+            type: 'PhysicalCommunicationTypeEnum'
         subject:
           type: string
         senderDenomination:
