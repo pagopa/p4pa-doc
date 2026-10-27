@@ -473,9 +473,34 @@ paths:
       tags:
         - Authentication
       operationId: logout
+      parameters:
+        - name: token
+          in: query
+          required: false
+          schema:
+            type: string
+          description: access or refresh token from the client
       responses:
         '200':
           description: OK
+        '401':
+          description: Unauthorized - Missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '403':
+          description: Forbidden - Access denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
   /generatesuperseturl:
     get:
       tags:
