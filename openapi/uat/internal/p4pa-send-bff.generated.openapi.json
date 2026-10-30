@@ -1059,6 +1059,10 @@
           }
         }
       },
+      "NotificationFeePolicyDTO" : {
+        "type" : "string",
+        "enum" : [ "FLAT_RATE", "DELIVERY_MODE" ]
+      },
       "PagoPa" : {
         "required" : [ "applyCost", "creditorTaxId", "noticeCode" ],
         "type" : "object",
@@ -1098,6 +1102,10 @@
             "$ref" : "#/components/schemas/F24Payment"
           }
         }
+      },
+      "PhysicalCommunicationTypeEnum" : {
+        "type" : "string",
+        "enum" : [ "AR_REGISTERED_LETTER", "REGISTERED_LETTER_890" ]
       },
       "PuPagoPa" : {
         "required" : [ "applyCost", "creditorTaxId", "noticeCode" ],
@@ -1249,10 +1257,10 @@
             "type" : "string"
           },
           "notificationFeePolicy" : {
-            "type" : "string"
+            "$ref" : "#/components/schemas/NotificationFeePolicyDTO"
           },
           "physicalCommunicationType" : {
-            "type" : "string"
+            "$ref" : "#/components/schemas/PhysicalCommunicationTypeEnum"
           },
           "subject" : {
             "type" : "string"
