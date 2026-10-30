@@ -2648,7 +2648,7 @@
             }
           },
           "notificationFeePolicy" : {
-            "$ref" : "#/components/schemas/NotificationFeePolicyEnum"
+            "$ref" : "#/components/schemas/NotificationFeePolicyDTO"
           },
           "physicalCommunicationType" : {
             "$ref" : "#/components/schemas/PhysicalCommunicationTypeEnum"
@@ -2756,7 +2756,7 @@
           }
         }
       },
-      "NotificationFeePolicyEnum" : {
+      "NotificationFeePolicyDTO" : {
         "type" : "string",
         "enum" : [ "FLAT_RATE", "DELIVERY_MODE" ]
       },
@@ -3744,10 +3744,10 @@
             "type" : "string"
           },
           "notificationFeePolicy" : {
-            "type" : "string"
+            "$ref" : "#/components/schemas/NotificationFeePolicyDTO"
           },
           "physicalCommunicationType" : {
-            "type" : "string"
+            "$ref" : "#/components/schemas/PhysicalCommunicationTypeEnum"
           },
           "subject" : {
             "type" : "string"
@@ -3929,6 +3929,30 @@
           }
         }
       },
+      "NotificationRequestRefusedProblemErrorDTO" : {
+        "required" : [ "code" ],
+        "type" : "object",
+        "properties" : {
+          "code" : {
+            "type" : "string"
+          },
+          "element" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "detail" : {
+            "maxLength" : 1024,
+            "minLength" : 0,
+            "type" : "string",
+            "nullable" : true
+          },
+          "recIndex" : {
+            "type" : "integer",
+            "format" : "int32",
+            "nullable" : true
+          }
+        }
+      },
       "PagedSendNotifications" : {
         "required" : [ "content", "number", "size", "totalElements", "totalPages" ],
         "type" : "object",
@@ -4034,10 +4058,10 @@
             "type" : "string"
           },
           "notificationFeePolicy" : {
-            "type" : "string"
+            "$ref" : "#/components/schemas/NotificationFeePolicyDTO"
           },
           "physicalCommunicationType" : {
-            "type" : "string"
+            "$ref" : "#/components/schemas/PhysicalCommunicationTypeEnum"
           },
           "subject" : {
             "type" : "string"
@@ -4073,6 +4097,12 @@
             "type" : "array",
             "items" : {
               "$ref" : "#/components/schemas/LegalFactDTO"
+            }
+          },
+          "errors" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/NotificationRequestRefusedProblemErrorDTO"
             }
           },
           "personalDataId" : {
