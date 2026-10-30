@@ -243,7 +243,6 @@ paths:
       tags:
         - authn
       operationId: logout
-      security: []
       parameters:
         - name: client_id
           in: query
@@ -254,9 +253,9 @@ paths:
             ]
             type: string
         - name: token
-          description: "Access Token"
+          description: "Access or Refresh Token"
           in: query
-          required: true
+          required: false
           schema:
             type: string
       responses:
