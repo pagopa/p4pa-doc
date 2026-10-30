@@ -297,41 +297,6 @@
         } ]
       }
     },
-    "/p4pasend/notification/refusal-reasons" : {
-      "put" : {
-        "tags" : [ "Notification" ],
-        "operationId" : "updateNotificationRefusalReasons",
-        "parameters" : [ {
-          "name" : "notificationRequestId",
-          "in" : "query",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "requestBody" : {
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "type" : "array",
-                "items" : {
-                  "$ref" : "#/components/schemas/NotificationRefusedErrorV27DTO"
-                }
-              }
-            }
-          },
-          "required" : true
-        },
-        "responses" : {
-          "200" : {
-            "description" : "OK"
-          }
-        },
-        "security" : [ {
-          "BearerAuth" : [ ]
-        } ]
-      }
-    },
     "/p4pasend/notification/by-notificationRequestId-status" : {
       "put" : {
         "tags" : [ "Notification" ],
@@ -2605,28 +2570,6 @@
           }
         }
       },
-      "NotificationRefusedErrorV27DTO" : {
-        "type" : "object",
-        "properties" : {
-          "errorCode" : {
-            "maxLength" : 128,
-            "minLength" : 0,
-            "type" : "string",
-            "nullable" : true
-          },
-          "detail" : {
-            "maxLength" : 2048,
-            "minLength" : 0,
-            "type" : "string",
-            "nullable" : true
-          },
-          "recIndex" : {
-            "type" : "integer",
-            "format" : "int32",
-            "nullable" : true
-          }
-        }
-      },
       "CreateNotificationResponse" : {
         "type" : "object",
         "properties" : {
@@ -3121,6 +3064,28 @@
           },
           "category" : {
             "type" : "string"
+          }
+        }
+      },
+      "NotificationRefusedErrorV27DTO" : {
+        "type" : "object",
+        "properties" : {
+          "errorCode" : {
+            "maxLength" : 128,
+            "minLength" : 0,
+            "type" : "string",
+            "nullable" : true
+          },
+          "detail" : {
+            "maxLength" : 2048,
+            "minLength" : 0,
+            "type" : "string",
+            "nullable" : true
+          },
+          "recIndex" : {
+            "type" : "integer",
+            "format" : "int32",
+            "nullable" : true
           }
         }
       },
@@ -3964,6 +3929,30 @@
           }
         }
       },
+      "NotificationRequestRefusedProblemErrorDTO" : {
+        "required" : [ "code" ],
+        "type" : "object",
+        "properties" : {
+          "code" : {
+            "type" : "string"
+          },
+          "element" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "detail" : {
+            "maxLength" : 1024,
+            "minLength" : 0,
+            "type" : "string",
+            "nullable" : true
+          },
+          "recIndex" : {
+            "type" : "integer",
+            "format" : "int32",
+            "nullable" : true
+          }
+        }
+      },
       "PagedSendNotifications" : {
         "required" : [ "content", "number", "size", "totalElements", "totalPages" ],
         "type" : "object",
@@ -4110,10 +4099,10 @@
               "$ref" : "#/components/schemas/LegalFactDTO"
             }
           },
-          "refusalReasons" : {
+          "errors" : {
             "type" : "array",
             "items" : {
-              "$ref" : "#/components/schemas/NotificationRefusedErrorV27DTO"
+              "$ref" : "#/components/schemas/NotificationRequestRefusedProblemErrorDTO"
             }
           },
           "personalDataId" : {
