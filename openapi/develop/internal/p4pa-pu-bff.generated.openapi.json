@@ -465,6 +465,285 @@
         } ]
       }
     },
+    "/bff/organization/{organizationId}/pdnd/services/{purposeId}" : {
+      "get" : {
+        "tags" : [ "PdndService" ],
+        "summary" : "Retrieves PdndService detail",
+        "operationId" : "getPdndService",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }, {
+          "name" : "purposeId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "subUnitCode",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "nullable" : true
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PdndServiceView"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized - Missing or invalid token",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Not Found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      },
+      "put" : {
+        "tags" : [ "PdndService" ],
+        "summary" : "Updates a PdndService",
+        "operationId" : "updatePdndService",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }, {
+          "name" : "purposeId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/PdndServiceUpdateDTO"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PdndService"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized - Missing or invalid token",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Not Found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          },
+          "409" : {
+            "description" : "Conflict",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      },
+      "delete" : {
+        "tags" : [ "PdndService" ],
+        "summary" : "Deletes a PdndService",
+        "operationId" : "deletePdndService",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }, {
+          "name" : "purposeId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "subUnitCode",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "nullable" : true
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "401" : {
+            "description" : "Unauthorized - Missing or invalid token",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Not Found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDTO"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    },
     "/bff/organization/{organizationId}/org-sub-units/{subUnitCode}" : {
       "get" : {
         "tags" : [ "OrgSubUnits" ],
@@ -6716,179 +6995,6 @@
         } ]
       }
     },
-    "/bff/organization/{organizationId}/pdnd/services/{purposeId}" : {
-      "get" : {
-        "tags" : [ "PdndService" ],
-        "summary" : "Retrieves PdndService detail",
-        "operationId" : "getPdndService",
-        "parameters" : [ {
-          "name" : "organizationId",
-          "in" : "path",
-          "required" : true,
-          "schema" : {
-            "type" : "integer",
-            "format" : "int64"
-          }
-        }, {
-          "name" : "purposeId",
-          "in" : "path",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "subUnitCode",
-          "in" : "query",
-          "required" : false,
-          "schema" : {
-            "type" : "string",
-            "nullable" : true
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/PdndServiceView"
-                }
-              }
-            }
-          },
-          "400" : {
-            "description" : "Bad Request",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorDTO"
-                }
-              }
-            }
-          },
-          "401" : {
-            "description" : "Unauthorized - Missing or invalid token",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorDTO"
-                }
-              }
-            }
-          },
-          "403" : {
-            "description" : "Forbidden",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorDTO"
-                }
-              }
-            }
-          },
-          "404" : {
-            "description" : "Not Found",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorDTO"
-                }
-              }
-            }
-          },
-          "500" : {
-            "description" : "Internal Server Error",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorDTO"
-                }
-              }
-            }
-          }
-        },
-        "security" : [ {
-          "BearerAuth" : [ ]
-        } ]
-      },
-      "delete" : {
-        "tags" : [ "PdndService" ],
-        "summary" : "Deletes a PdndService",
-        "operationId" : "deletePdndService",
-        "parameters" : [ {
-          "name" : "organizationId",
-          "in" : "path",
-          "required" : true,
-          "schema" : {
-            "type" : "integer",
-            "format" : "int64"
-          }
-        }, {
-          "name" : "purposeId",
-          "in" : "path",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "subUnitCode",
-          "in" : "query",
-          "required" : false,
-          "schema" : {
-            "type" : "string",
-            "nullable" : true
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "OK"
-          },
-          "401" : {
-            "description" : "Unauthorized - Missing or invalid token",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorDTO"
-                }
-              }
-            }
-          },
-          "403" : {
-            "description" : "Forbidden",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorDTO"
-                }
-              }
-            }
-          },
-          "404" : {
-            "description" : "Not Found",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorDTO"
-                }
-              }
-            }
-          },
-          "500" : {
-            "description" : "Internal Server Error",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorDTO"
-                }
-              }
-            }
-          }
-        },
-        "security" : [ {
-          "BearerAuth" : [ ]
-        } ]
-      }
-    },
     "/bff/organization/{organizationId}/pdnd/org-sub-units-services" : {
       "get" : {
         "tags" : [ "PdndService" ],
@@ -13124,6 +13230,66 @@
           }
         }
       },
+      "PdndService" : {
+        "required" : [ "clientId", "serviceName", "serviceType" ],
+        "type" : "object",
+        "properties" : {
+          "creationDate" : {
+            "type" : "string",
+            "format" : "date-time",
+            "nullable" : true
+          },
+          "updateDate" : {
+            "type" : "string",
+            "format" : "date-time",
+            "nullable" : true
+          },
+          "updateOperatorExternalId" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "updateTraceId" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "purposeId" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "serviceName" : {
+            "type" : "string"
+          },
+          "serviceType" : {
+            "$ref" : "#/components/schemas/PdndServiceType"
+          },
+          "clientId" : {
+            "type" : "string"
+          },
+          "_links" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "$ref" : "#/components/schemas/Link"
+            },
+            "nullable" : true
+          }
+        }
+      },
+      "PdndServiceType" : {
+        "type" : "string",
+        "enum" : [ "SEND", "ANPR_C003", "ANPR_C030" ]
+      },
+      "PdndServiceUpdateDTO" : {
+        "required" : [ "clientId", "serviceName" ],
+        "type" : "object",
+        "properties" : {
+          "serviceName" : {
+            "type" : "string"
+          },
+          "clientId" : {
+            "type" : "string"
+          }
+        }
+      },
       "OrgSubUnit" : {
         "required" : [ "organizationId", "status", "subUnitCode", "subUnitName" ],
         "type" : "object",
@@ -14137,54 +14303,6 @@
             "nullable" : true
           }
         }
-      },
-      "PdndService" : {
-        "required" : [ "clientId", "serviceName", "serviceType" ],
-        "type" : "object",
-        "properties" : {
-          "creationDate" : {
-            "type" : "string",
-            "format" : "date-time",
-            "nullable" : true
-          },
-          "updateDate" : {
-            "type" : "string",
-            "format" : "date-time",
-            "nullable" : true
-          },
-          "updateOperatorExternalId" : {
-            "type" : "string",
-            "nullable" : true
-          },
-          "updateTraceId" : {
-            "type" : "string",
-            "nullable" : true
-          },
-          "purposeId" : {
-            "type" : "string",
-            "nullable" : true
-          },
-          "serviceName" : {
-            "type" : "string"
-          },
-          "serviceType" : {
-            "$ref" : "#/components/schemas/PdndServiceType"
-          },
-          "clientId" : {
-            "type" : "string"
-          },
-          "_links" : {
-            "type" : "object",
-            "additionalProperties" : {
-              "$ref" : "#/components/schemas/Link"
-            },
-            "nullable" : true
-          }
-        }
-      },
-      "PdndServiceType" : {
-        "type" : "string",
-        "enum" : [ "SEND", "ANPR_C003", "ANPR_C030" ]
       },
       "PdndServiceRequestDTO" : {
         "required" : [ "clientId", "purposeId", "serviceName", "serviceType" ],
