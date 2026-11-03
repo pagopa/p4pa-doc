@@ -1377,6 +1377,55 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OrganizationErrorDTO'
+  /pdnd-services/{purposeId}:
+    put:
+      tags:
+        - PdndService
+      summary: Updates a PdndService
+      operationId: updatePdndService
+      parameters:
+        - name: purposeId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PdndServiceUpdateDTO'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: 'PdndService'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationErrorDTO'
 components:
   schemas:
     BrokerApiKeys:
@@ -1713,6 +1762,16 @@ components:
           type: string
         serviceType:
           type: 'PdndServiceType'
+        clientId:
+          type: string
+    PdndServiceUpdateDTO:
+      type: object
+      required:
+        - serviceName
+        - clientId
+      properties:
+        serviceName:
+          type: string
         clientId:
           type: string
     OrganizationApiKey:
