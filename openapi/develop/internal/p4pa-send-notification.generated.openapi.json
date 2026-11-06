@@ -2692,6 +2692,9 @@
             "format" : "int32",
             "nullable" : true
           },
+          "pagoPaIntMode" : {
+            "$ref" : "#/components/schemas/PagoPaIntModeEnum"
+          },
           "externalCampaignId" : {
             "maxLength" : 32,
             "minLength" : 0,
@@ -2778,6 +2781,10 @@
             "$ref" : "#/components/schemas/Attachment"
           }
         }
+      },
+      "PagoPaIntModeEnum" : {
+        "type" : "string",
+        "enum" : [ "NONE", "SYNC", "ASYNC" ]
       },
       "Payment" : {
         "type" : "object",
