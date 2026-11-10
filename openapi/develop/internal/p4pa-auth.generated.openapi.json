@@ -6,16 +6,13 @@
     "version" : "0.1.0"
   },
   "servers" : [ {
-    "url" : "http://localhost",
+    "url" : "https://${hostname}/payhub",
     "description" : "Generated server url"
   } ],
   "security" : [ {
     "BearerAuth" : [ ]
   } ],
   "tags" : [ {
-    "name" : "wellKnown",
-    "description" : "the wellKnown API"
-  }, {
     "name" : "authz",
     "description" : "the authz API"
   }, {
@@ -23,7 +20,7 @@
     "description" : "the authn API"
   } ],
   "paths" : {
-    "/payhub/oauth/token" : {
+    "/oauth/token" : {
       "post" : {
         "tags" : [ "authn" ],
         "operationId" : "postToken",
@@ -146,7 +143,7 @@
         }
       }
     },
-    "/payhub/oauth/token/limited" : {
+    "/oauth/token/limited" : {
       "post" : {
         "tags" : [ "authn" ],
         "operationId" : "postLimitedToken",
@@ -237,7 +234,7 @@
         } ]
       }
     },
-    "/payhub/oauth/revoke" : {
+    "/oauth/revoke" : {
       "post" : {
         "tags" : [ "authn" ],
         "operationId" : "logout",
@@ -298,7 +295,7 @@
         } ]
       }
     },
-    "/payhub/oauth/clients/{organizationIpaCode}" : {
+    "/oauth/clients/{organizationIpaCode}" : {
       "get" : {
         "tags" : [ "authz" ],
         "operationId" : "getClients",
@@ -487,7 +484,7 @@
         } ]
       }
     },
-    "/payhub/oauth/clients/{organizationIpaCode}/{clientId}/generate" : {
+    "/oauth/clients/{organizationIpaCode}/{clientId}/generate" : {
       "post" : {
         "tags" : [ "authz" ],
         "operationId" : "generateClientSecret",
@@ -593,7 +590,7 @@
         } ]
       }
     },
-    "/payhub/am/users" : {
+    "/am/users" : {
       "post" : {
         "tags" : [ "authz" ],
         "operationId" : "createUser",
@@ -674,7 +671,7 @@
         } ]
       }
     },
-    "/payhub/am/operators/{organizationIpaCode}" : {
+    "/am/operators/{organizationIpaCode}" : {
       "get" : {
         "tags" : [ "authz" ],
         "operationId" : "getOrganizationOperators",
@@ -908,7 +905,7 @@
         } ]
       }
     },
-    "/payhub/oauth/userinfo" : {
+    "/oauth/userinfo" : {
       "get" : {
         "tags" : [ "authn" ],
         "operationId" : "getUserInfo",
@@ -969,7 +966,7 @@
         } ]
       }
     },
-    "/payhub/oauth/userinfo/{mappedExternalUserId}" : {
+    "/oauth/userinfo/{mappedExternalUserId}" : {
       "get" : {
         "tags" : [ "authz" ],
         "operationId" : "getUserInfoFromMappedExternaUserId",
@@ -1038,7 +1035,7 @@
         } ]
       }
     },
-    "/payhub/oauth/clients/{organizationIpaCode}/{clientId}" : {
+    "/oauth/clients/{organizationIpaCode}/{clientId}" : {
       "get" : {
         "tags" : [ "authz" ],
         "operationId" : "getClient",
@@ -1231,7 +1228,7 @@
         } ]
       }
     },
-    "/payhub/oauth/clients/search" : {
+    "/oauth/clients/search" : {
       "get" : {
         "tags" : [ "authz" ],
         "operationId" : "getClientsSearch",
@@ -1367,7 +1364,7 @@
         } ]
       }
     },
-    "/payhub/am/operators/{organizationIpaCode}/{mappedExternalUserId}" : {
+    "/am/operators/{organizationIpaCode}/{mappedExternalUserId}" : {
       "get" : {
         "tags" : [ "authz" ],
         "operationId" : "getOrganizationOperator",
@@ -1560,25 +1557,7 @@
         } ]
       }
     },
-    "/payhub/.well-known/jwks.json" : {
-      "get" : {
-        "tags" : [ "wellKnown" ],
-        "operationId" : "jwks",
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "type" : "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/payhub/am/operators/{organizationIpaCode}/byExternalUserId" : {
+    "/am/operators/{organizationIpaCode}/byExternalUserId" : {
       "delete" : {
         "tags" : [ "authz" ],
         "operationId" : "deleteOrganizationOperatorByExternalUserId",
