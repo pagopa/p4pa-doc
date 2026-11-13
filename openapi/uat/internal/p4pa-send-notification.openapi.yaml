@@ -1473,21 +1473,25 @@ components:
           type: string
         senderTaxId:
           type: string
-        amount:
-          type: number
+        amountCents:
+          type: integer
+          format: int32
         paymentExpirationDate:
           type: string
           format: date
         taxonomyCode:
           type: string
-        paFee:
+        paFeeCents:
           type: integer
+          format: int32
           minimum: 0
           maximum: 100
         vat:
           type: integer
           minimum: 0
           maximum: 100
+        pagoPaIntMode:
+          type: 'PagoPaIntModeEnum'
         externalCampaignId:
           type: string
           maxLength: 32
