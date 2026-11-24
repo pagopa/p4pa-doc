@@ -2651,6 +2651,10 @@ components:
           $ref: "#/components/schemas/PersonDTO"
         payer:
           $ref: "#/components/schemas/PersonDTO"
+        metadata:
+          type: object
+          additionalProperties:
+            type: string
         creationDate:
           type: string
           format: date-time
@@ -2858,10 +2862,6 @@ components:
               minItems: 1
               items:
                 $ref: "#/components/schemas/ReceiptTransferDTO"
-            metadata:
-              type: object
-              additionalProperties:
-                type: string
             sourceFlowName:
               type: string
             iud:
