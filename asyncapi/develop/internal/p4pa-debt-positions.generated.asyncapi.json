@@ -1,5 +1,5 @@
 {
-  "asyncapi": "3.0.0",
+  "asyncapi": "3.1.0",
   "info": {
     "title": "p4pa-debt-positions",
     "version": "0.0.1",
@@ -95,6 +95,7 @@
             "format": "int64"
           },
           "paymentOptions": {
+            "title": "List",
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/PaymentOptionDTO"
@@ -465,6 +466,7 @@
             "$ref": "#/components/schemas/InstallmentSyncStatus"
           },
           "transfers": {
+            "title": "List",
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/TransferDTO"
@@ -800,6 +802,7 @@
             ]
           },
           "installments": {
+            "title": "List",
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/InstallmentDTO"
@@ -1212,7 +1215,7 @@
           "$ref": "#/components/schemas/HeadersNotDocumented"
         },
         "payload": {
-          "schemaFormat": "application/vnd.aai.asyncapi+json;version=3.0.0",
+          "schemaFormat": "application/vnd.aai.asyncapi+json;version=3.1.0",
           "schema": {
             "$ref": "#/components/schemas/PaymentEventDTO"
           }
