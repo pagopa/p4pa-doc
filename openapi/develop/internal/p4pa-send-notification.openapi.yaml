@@ -904,6 +904,10 @@ paths:
           schema:
             type: integer
             format: int64
+        - name: subUnitCode
+          in: query
+          schema:
+            type: string
         - name: streamId
           in: query
           schema:
@@ -1817,6 +1821,8 @@ components:
         eventType:
           type: string
         lastEventId:
+          type: string
+        orgSubUnitCode:
           type: string
     StreamEventsResponse:
       type: array
