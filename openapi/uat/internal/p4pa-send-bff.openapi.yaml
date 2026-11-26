@@ -358,6 +358,83 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
+  /organizations/{organizationId}/notifications:
+    get:
+      tags:
+        - SendNotification
+      operationId: getSendNotifications
+      summary: "Returns the page of send notifications"
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: orgSubUnitCode
+          in: query
+          schema:
+            type: string
+        - name: fetchAll
+          in: query
+          description: When orgSubUnitCode is not set, true returns notifications of the organization and of every sub-unit accessible to the operator, false only the ones of the organization.
+          schema:
+            default: true
+            type: boolean
+        - name: iun
+          in: query
+          schema:
+            type: string
+        - name: fiscalCode
+          in: query
+          schema:
+            type: string
+        - name: dateFrom
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: dateTo
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: status
+          in: query
+          schema:
+            $ref: '#/components/schemas/SendNotificationStatus'
+      responses:
+        '200':
+          description: Page of Notifications
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagedSendNotificationAndCampaignViewDTO'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '401':
+          description: Unauthorized - Missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+      x-spring-paginated: true
 components:
   schemas:
     OrganizationSenderDTO:
@@ -371,6 +448,8 @@ components:
         subUnitCode:
           type: string
         orgName:
+          type: string
+        subUnitName:
           type: string
     ErrorDTO:
       type: object
@@ -554,3 +633,65 @@ components:
         number:
           type: integer
           format: int64
+    PagedSendNotificationAndCampaignViewDTO:
+      type: object
+      required:
+        - content
+        - size
+        - totalElements
+        - totalPages
+        - number
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/SendNotificationAndCampaignViewDTO'
+        size:
+          type: integer
+          format: int64
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int64
+        number:
+          type: integer
+          format: int64
+    SendNotificationAndCampaignViewDTO:
+      type: object
+      required:
+        - sendNotificationId
+        - organizationId
+        - campaignId
+        - externalCampaignId
+        - subject
+        - status
+        - creationDate
+      properties:
+        sendNotificationId:
+          type: string
+        organizationId:
+          type: integer
+          format: int64
+        orgName:
+          type: string
+        orgSubUnitCode:
+          type: string
+        orgSubUnitName:
+          type: string
+        campaignId:
+          type: string
+        campaignName:
+          type: string
+        externalCampaignId:
+          type: string
+        iun:
+          type: string
+        subject:
+          type: string
+        status:
+          $ref: '#/components/schemas/SendNotificationStatus'
+        creationDate:
+          type: string
+          format: date

@@ -558,6 +558,161 @@
       }
     },
     "/p4pasend/notification" : {
+      "get" : {
+        "tags" : [ "Notification" ],
+        "summary" : "Retrieve send notifications",
+        "description" : "Retrieve send notifications",
+        "operationId" : "getSendNotifications",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }, {
+          "name" : "orgSubUnitCodes",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "array",
+            "nullable" : true,
+            "items" : {
+              "type" : "string"
+            }
+          }
+        }, {
+          "name" : "fetchAll",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "boolean",
+            "nullable" : true
+          }
+        }, {
+          "name" : "iun",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "nullable" : true
+          }
+        }, {
+          "name" : "fiscalCode",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "nullable" : true
+          }
+        }, {
+          "name" : "dateFrom",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "format" : "date",
+            "nullable" : true
+          }
+        }, {
+          "name" : "dateTo",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "format" : "date",
+            "nullable" : true
+          }
+        }, {
+          "name" : "statuses",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "array",
+            "nullable" : true,
+            "items" : {
+              "$ref" : "#/components/schemas/NotificationStatus"
+            }
+          }
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "Zero-based page index (0..N)",
+          "required" : false,
+          "schema" : {
+            "minimum" : 0,
+            "type" : "integer",
+            "default" : 0
+          }
+        }, {
+          "name" : "size",
+          "in" : "query",
+          "description" : "The size of the page to be returned",
+          "required" : false,
+          "schema" : {
+            "minimum" : 1,
+            "type" : "integer",
+            "default" : 20
+          }
+        }, {
+          "name" : "sort",
+          "in" : "query",
+          "description" : "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+          "required" : false,
+          "schema" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PagedSendNotificationAndCampaignViewDTO"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendNotificationErrorDTO"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendNotificationErrorDTO"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendNotificationErrorDTO"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      },
       "post" : {
         "tags" : [ "Notification" ],
         "summary" : "Create notification",
@@ -1240,6 +1395,14 @@
           "schema" : {
             "type" : "integer",
             "format" : "int64"
+          }
+        }, {
+          "name" : "subUnitCode",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "nullable" : true
           }
         }, {
           "name" : "streamId",
@@ -2955,6 +3118,10 @@
           "lastEventId" : {
             "type" : "string",
             "nullable" : true
+          },
+          "orgSubUnitCode" : {
+            "type" : "string",
+            "nullable" : true
           }
         },
         "description" : "stream related to a SEND notification"
@@ -3616,6 +3783,75 @@
           }
         }
       },
+      "PagedSendNotificationAndCampaignViewDTO" : {
+        "required" : [ "content", "number", "size", "totalElements", "totalPages" ],
+        "type" : "object",
+        "properties" : {
+          "content" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/SendNotificationAndCampaignViewDTO"
+            }
+          },
+          "size" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "totalElements" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "totalPages" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "number" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }
+      },
+      "SendNotificationAndCampaignViewDTO" : {
+        "required" : [ "campaignId", "creationDate", "externalCampaignId", "organizationId", "sendNotificationId", "status", "subject" ],
+        "type" : "object",
+        "properties" : {
+          "sendNotificationId" : {
+            "type" : "string"
+          },
+          "organizationId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "orgSubUnitCode" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "campaignId" : {
+            "type" : "string"
+          },
+          "campaignName" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "externalCampaignId" : {
+            "type" : "string"
+          },
+          "iun" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "subject" : {
+            "type" : "string"
+          },
+          "status" : {
+            "$ref" : "#/components/schemas/NotificationStatus"
+          },
+          "creationDate" : {
+            "type" : "string",
+            "format" : "date"
+          }
+        }
+      },
       "FileStatus" : {
         "type" : "string",
         "enum" : [ "WAITING", "READY", "UPLOADED", "EXPIRED" ]
@@ -3891,6 +4127,58 @@
             "type" : "integer",
             "format" : "int64"
           },
+          "failedFileNotFound" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "failedFileGone" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "failedFileShaError" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "failedFilePdfInvalidError" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "failedFilePdfTooBigError" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "failedF24MetadataNotValid" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "failedTaxIdNotValid" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "failedRecipientIdNotValid" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "failedNotValidAddress" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "failedPaymentNotValid" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "failedServiceUnavailable" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "failedAddressNotFound" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "failedAddressSearchFailed" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
           "deceasedRecipient" : {
             "type" : "integer",
             "format" : "int64"
@@ -3985,7 +4273,7 @@
           },
           "number" : {
             "type" : "integer",
-            "format" : "int32"
+            "format" : "int64"
           }
         }
       },
